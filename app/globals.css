@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Andreas Hotel – Desert Luxury Palette */
+    --background: 40 28% 96%;          /* warm cream */
+    --foreground: 25 18% 15%;          /* deep charcoal */
+    --card: 40 28% 96%;
+    --card-foreground: 25 18% 15%;
+    --popover: 40 28% 96%;
+    --popover-foreground: 25 18% 15%;
+    --primary: 25 18% 15%;             /* deep charcoal */
+    --primary-foreground: 40 28% 96%;
+    --secondary: 38 22% 90%;           /* warm sand */
+    --secondary-foreground: 25 18% 15%;
+    --muted: 38 22% 90%;
+    --muted-foreground: 25 10% 40%;
+    --accent: 30 45% 52%;              /* terracotta / warm gold */
+    --accent-foreground: 40 28% 96%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 35 18% 82%;
+    --input: 35 18% 82%;
+    --ring: 30 45% 52%;
+    --radius: 0rem;
+
+    /* Custom tokens */
+    --hotel-cream: #f5f0e8;
+    --hotel-sand: #e8ddd0;
+    --hotel-charcoal: #2a2118;
+    --hotel-terracotta: #b8743d;
+    --hotel-gold: #c9a96e;
+    --hotel-olive: #7a7a5a;
+    --hotel-forest: #2d4a3e;
+    --hotel-forest-light: #3a5f50;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    background-color: var(--hotel-cream);
+    color: var(--hotel-charcoal);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+/* Typography utilities */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.text-hotel-charcoal { color: var(--hotel-charcoal); }
+.text-hotel-terracotta { color: var(--hotel-terracotta); }
+.text-hotel-gold { color: var(--hotel-gold); }
+.text-hotel-cream { color: var(--hotel-cream); }
+.bg-hotel-cream { background-color: var(--hotel-cream); }
+.bg-hotel-sand { background-color: var(--hotel-sand); }
+.bg-hotel-charcoal { background-color: var(--hotel-charcoal); }
+.bg-hotel-terracotta { background-color: var(--hotel-terracotta); }
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Ken Burns cinematic animations */
+@keyframes kenBurns1 {
+  0%   { transform: scale(1.0) translate(0%, 0%); }
+  100% { transform: scale(1.12) translate(-2%, -1.5%); }
+}
+@keyframes kenBurns2 {
+  0%   { transform: scale(1.08) translate(2%, 1%); }
+  100% { transform: scale(1.0) translate(-1%, -2%); }
+}
+@keyframes kenBurns3 {
+  0%   { transform: scale(1.0) translate(-1.5%, 1%); }
+  100% { transform: scale(1.1) translate(2%, -1%); }
+}
+
+.kb-1 { animation: kenBurns1 8s ease-in-out forwards; }
+.kb-2 { animation: kenBurns2 8s ease-in-out forwards; }
+.kb-3 { animation: kenBurns3 8s ease-in-out forwards; }
+
+/* Inline-style Ken Burns (by index) */
+@keyframes kenburns-0 {
+  0%   { transform: scale(1.08) translate(0%, 0%); }
+  100% { transform: scale(1.18) translate(-2.5%, -1.5%); }
+}
+@keyframes kenburns-1 {
+  0%   { transform: scale(1.1) translate(2%, 1%); }
+  100% { transform: scale(1.0) translate(-1.5%, -2%); }
+}
+@keyframes kenburns-2 {
+  0%   { transform: scale(1.08) translate(-1.5%, 1%); }
+  100% { transform: scale(1.16) translate(2%, -1.5%); }
+}
+
+/* Film grain overlay */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10%       { transform: translate(-2%, -3%); }
+  30%       { transform: translate(3%, 2%); }
+  50%       { transform: translate(-1%, 4%); }
+  70%       { transform: translate(2%, -2%); }
+  90%       { transform: translate(-3%, 1%); }
+}
+
+.film-grain::after {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  animation: grain 0.4s steps(1) infinite;
+  z-index: 10;
+}
+
+/* Hero progress bar */
+@keyframes heroProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+/* Card lift hover effect */
+.card-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+
+/* Masonry gallery */
+.masonry-grid {
+  columns: 3;
+  column-gap: 12px;
+}
+.masonry-grid > * {
+  break-inside: avoid;
+  margin-bottom: 12px;
+}
+@media (max-width: 768px) {
+  .masonry-grid { columns: 2; }
+}
+
+/* Horizontal scroll */
+.scroll-x {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar { display: none; }
+
+/* Decorative divider */
+.divider-gold {
+  width: 40px;
+  height: 1px;
+  background: var(--hotel-gold);
+  margin: 16px auto;
+}
+
+/* Stats counter style */
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--hotel-charcoal);
+  line-height: 1;
+}
+
+/* Hide Next.js badge and error messages */
+body nextjs-portal {
+  display: none;
+}
