@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   title: "The Andreas Hotel & Spa – Palm Springs, CA",
   description:
     "Ideally located in the heart of downtown Palm Springs, the Andreas Hotel & Spa brings modern style to a classic setting. Originally built in 1935, enjoy 25 luxurious guest rooms and suites, a full-service spa, and stunning pool courtyard.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
