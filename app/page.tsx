@@ -119,8 +119,6 @@ export default function HomePage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
 
-  console.log("Andreas Hotel homepage rendered — new template");
-
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">
       <Nav />
