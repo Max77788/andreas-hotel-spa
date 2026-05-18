@@ -621,7 +621,7 @@ export default function HomePage() {
             Your Desert Escape Awaits
           </h2>
           <p className="font-body text-white/50 text-sm tracking-widest mb-2">
-            Contact us at +1 (747) 494-9881 · stay@andreashotel.com
+            {/* Contact us at +1 (747) 494-9881 ·  */}stay@andreashotel.com
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a

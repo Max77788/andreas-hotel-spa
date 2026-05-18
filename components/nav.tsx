@@ -24,8 +24,8 @@ export default function Nav() {
 
   return (
     <>
-      {/* Phone top bar — always dark */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-[var(--hotel-charcoal)] border-b border-[var(--hotel-gold)]/10 px-6 md:px-10 py-[7px] flex items-center justify-center gap-3">
+      {/* Phone top bar — hidden for now */}
+      {/* <div className="fixed top-0 left-0 right-0 z-50 bg-[var(--hotel-charcoal)] border-b border-[var(--hotel-gold)]/10 px-6 md:px-10 py-[7px] flex items-center justify-center gap-3">
         <a
           href="tel:+17474949881"
           className="font-body text-[var(--hotel-gold)] text-[10px] md:text-[11px] tracking-[0.3em] uppercase hover:text-white transition-colors duration-200"
@@ -36,14 +36,14 @@ export default function Nav() {
         <span className="font-body text-[var(--hotel-gold)]/70 text-[9px] tracking-[0.25em] uppercase">
           Calls Accepted 24/7
         </span>
-      </div>
+      </div> */}
 
       {/* Main nav */}
       <header
         className={`fixed left-0 right-0 z-40 transition-all duration-500 ${
           scrolled ? "bg-[var(--hotel-cream)]/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
         }`}
-        style={{ top: "32px" }}
+        style={{ top: 0 }}
       >
         <div className="flex items-center justify-between px-6 md:px-10 py-4">
 
@@ -145,9 +145,9 @@ export default function Nav() {
           <p className="font-body text-[var(--hotel-sand)]/60 text-xs tracking-widest">
             277 N. Indian Canyon Drive, Palm Springs, CA 92262
           </p>
-          <p className="font-body text-[var(--hotel-gold)] text-xs tracking-widest mt-1">
+          {/* <p className="font-body text-[var(--hotel-gold)] text-xs tracking-widest mt-1">
             +1 (747) 494-9881 · stay@andreashotel.com
-          </p>
+          </p> */}
         </div>
       </div>
     </>
