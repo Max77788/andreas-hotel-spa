@@ -126,7 +126,13 @@ export default function HomePage() {
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section className="relative h-screen overflow-hidden">
         {/* Video background */}
-        <div className="absolute inset-0 w-full h-full">
+        <div
+          className="absolute inset-0 w-full h-full bg-cover bg-center"
+          style={{
+            backgroundImage:
+              "url(https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1920)",
+          }}
+        >
           <div
             style={{
               position: "absolute",
