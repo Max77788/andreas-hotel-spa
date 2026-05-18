@@ -133,7 +133,12 @@ export default function HomePage() {
               "url(https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1920)",
           }}
         >
-          <div
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster="https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1920"
             style={{
               position: "absolute",
               top: "50%",
@@ -143,23 +148,12 @@ export default function HomePage() {
               height: "56.25vw",
               minHeight: "100vh",
               minWidth: "177.77vh",
+              objectFit: "cover",
               pointerEvents: "none",
             }}
           >
-            <iframe
-              src="https://www.youtube.com/embed/8mlcWJjuvks?autoplay=1&mute=1&loop=1&controls=0&showinfo=0&rel=0&playlist=8mlcWJjuvks&playsinline=1&disablekb=1&modestbranding=1&iv_load_policy=3&fs=0"
-              allow="autoplay; fullscreen"
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                border: "none",
-              }}
-              title="Palm Springs California aerial video"
-            />
-          </div>
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
         </div>
 
         {/* Gradient overlay */}
