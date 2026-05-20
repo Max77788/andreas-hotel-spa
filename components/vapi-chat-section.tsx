@@ -33,7 +33,7 @@ export default function VapiChatSection() {
             href="https://us01.iqwebbook.com/AHSCA115/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block border border-[var(--hotel-gold)] text-[var(--hotel-gold)] font-body text-xs tracking-[0.3em] uppercase px-6 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300 self-start md:self-auto"
+            className="inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-xs tracking-[0.3em] uppercase px-6 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300 self-start md:self-auto"
           >
             Book Directly
           </a>

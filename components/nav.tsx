@@ -84,7 +84,7 @@ export default function Nav() {
               href="https://us01.iqwebbook.com/AHSCA115/"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden md:inline-block border border-[var(--hotel-gold)] text-[var(--hotel-gold)] font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
+              className="hidden md:inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
             </a>
@@ -137,7 +137,7 @@ export default function Nav() {
             href="https://us01.iqwebbook.com/AHSCA115/"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-4 border border-[var(--hotel-gold)] text-[var(--hotel-gold)] font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
+            className="mt-4 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Book a Room
           </a>

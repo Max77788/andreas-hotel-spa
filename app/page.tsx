@@ -400,7 +400,7 @@ export default function HomePage() {
                       href="https://us01.iqwebbook.com/AHSCA115/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-body text-[9px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] border border-[var(--hotel-terracotta)] px-4 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+                      className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[var(--hotel-charcoal)] transition-all duration-300"
                     >
                       Book Now →
                     </a>
@@ -413,7 +413,7 @@ export default function HomePage() {
           <div className="text-center mt-12">
             <Link
               href="/rooms"
-              className="font-body text-[10px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)] border border-[var(--hotel-charcoal)] px-8 py-3 hover:bg-[var(--hotel-charcoal)] hover:text-[var(--hotel-cream)] transition-all duration-300"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
             >
               View All Rooms
             </Link>
@@ -509,7 +509,7 @@ export default function HomePage() {
 
           <a
             href="tel:+17474949881"
-            className="inline-block border border-[var(--hotel-gold)] text-[var(--hotel-gold)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
+            className="inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Reserve a Table
           </a>
@@ -608,13 +608,13 @@ export default function HomePage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/75" />
+        <div className="absolute inset-0 bg-[var(--hotel-cream)]/85" />
         <div className="relative text-center px-6">
-          <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-4">Now</p>
-          <h2 className="font-display text-[var(--hotel-cream)] font-light mb-4" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
+          <p className="font-body text-[var(--hotel-charcoal)] text-[10px] tracking-[0.6em] uppercase mb-4">Now</p>
+          <h2 className="font-display text-[var(--hotel-charcoal)] font-light mb-4" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
             Your Desert Escape Awaits
           </h2>
-          <p className="font-body text-white/75 text-sm tracking-widest mb-2">
+          <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm tracking-widest mb-2">
             {/* Contact us at +1 (747) 494-9881 ·  */}stay@andreashotel.com
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
@@ -622,13 +622,13 @@ export default function HomePage() {
               href="https://us01.iqwebbook.com/AHSCA115/"
               target="_blank"
               rel="noopener noreferrer"
-              className="border border-[var(--hotel-gold)] text-[var(--hotel-gold)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
+              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Your Stay
             </a>
             <a
               href="tel:+17474949881"
-              className="border border-white/40 text-white font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-white/10 transition-all duration-300"
+              className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-black hover:text-white transition-all duration-300"
             >
               Call Us
             </a>
