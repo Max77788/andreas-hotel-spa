@@ -476,7 +476,7 @@ export default function HomePage() {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/75" />
+        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/80" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-10 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
             Savor &amp; Celebrate
@@ -488,7 +488,7 @@ export default function HomePage() {
             The Andreas
           </h2>
           <div className="divider-gold" />
-          <p className="font-body text-white/55 text-sm leading-relaxed max-w-xl mx-auto mt-4 mb-14">
+          <p className="font-body text-white/75 text-sm leading-relaxed max-w-xl mx-auto mt-4 mb-14">
             Every meal at The Andreas is a celebration of California's finest seasonal ingredients, prepared with passion and served in our idyllic outdoor settings.
           </p>
 
@@ -499,10 +499,10 @@ export default function HomePage() {
               { icon: "◈", title: "Poolside Bar", desc: "Handcrafted cocktails, wines, and seasonal bites daily from noon" },
               { icon: "◐", title: "The Terrace Lounge", desc: "Intimate evening dining with live acoustic music on weekends" },
             ].map((v) => (
-              <div key={v.title} className="border border-white/15 bg-white/5 backdrop-blur-sm px-6 py-7 text-left hover:bg-white/10 transition-colors duration-300">
+              <div key={v.title} className="border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-7 text-left hover:bg-white/15 transition-colors duration-300">
                 <span className="text-[var(--hotel-gold)] text-xl block mb-4">{v.icon}</span>
                 <h3 className="font-display text-[var(--hotel-cream)] text-xl font-light mb-2">{v.title}</h3>
-                <p className="font-body text-white/50 text-xs leading-relaxed">{v.desc}</p>
+                <p className="font-body text-white/65 text-xs leading-relaxed">{v.desc}</p>
               </div>
             ))}
           </div>
@@ -608,13 +608,13 @@ export default function HomePage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/65" />
+        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/75" />
         <div className="relative text-center px-6">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-4">Now</p>
           <h2 className="font-display text-[var(--hotel-cream)] font-light mb-4" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
             Your Desert Escape Awaits
           </h2>
-          <p className="font-body text-white/50 text-sm tracking-widest mb-2">
+          <p className="font-body text-white/75 text-sm tracking-widest mb-2">
             {/* Contact us at +1 (747) 494-9881 ·  */}stay@andreashotel.com
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
