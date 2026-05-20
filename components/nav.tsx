@@ -41,7 +41,9 @@ export default function Nav() {
       {/* Main nav */}
       <header
         className={`fixed left-0 right-0 z-40 transition-all duration-500 ${
-          scrolled ? "bg-[var(--hotel-cream)]/95 backdrop-blur-sm shadow-sm" : "bg-transparent"
+          scrolled
+            ? "bg-[var(--hotel-cream)]/95 backdrop-blur-sm shadow-sm"
+            : "bg-black/30 backdrop-blur-sm"
         }`}
         style={{ top: 0 }}
       >
