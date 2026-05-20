@@ -499,7 +499,7 @@ export default function HomePage() {
               { icon: "◈", title: "Poolside Bar", desc: "Handcrafted cocktails, wines, and seasonal bites daily from noon" },
               { icon: "◐", title: "The Terrace Lounge", desc: "Intimate evening dining with live acoustic music on weekends" },
             ].map((v) => (
-              <div key={v.title} className="border border-white/20 bg-white/10 backdrop-blur-sm px-6 py-7 text-left hover:bg-white/15 transition-colors duration-300">
+              <div key={v.title} className="border border-white/20 bg-black/60 px-6 py-7 text-left hover:bg-black/70 transition-colors duration-300">
                 <span className="text-[var(--hotel-gold)] text-xl block mb-4">{v.icon}</span>
                 <h3 className="font-display text-[var(--hotel-cream)] text-xl font-light mb-2">{v.title}</h3>
                 <p className="font-body text-white/65 text-xs leading-relaxed">{v.desc}</p>
@@ -520,7 +520,7 @@ export default function HomePage() {
       <section id="amenities" className="py-24 md:py-32 bg-[var(--hotel-forest)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="mb-14">
-            <p className="font-body text-[var(--hotel-gold)]/70 text-[10px] tracking-[0.5em] uppercase mb-3">What We Offer</p>
+            <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-3">What We Offer</p>
             <h2 className="font-display text-[var(--hotel-cream)] font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
               Hotel Amenities
             </h2>
@@ -534,7 +534,7 @@ export default function HomePage() {
                 <div key={a.title} className="border border-[var(--hotel-cream)]/10 p-6 hover:border-[var(--hotel-gold)]/40 transition-colors duration-300">
                   <span className="text-[var(--hotel-gold)] text-xl block mb-4">{a.icon}</span>
                   <h3 className="font-display text-[var(--hotel-cream)] text-lg font-light mb-2">{a.title}</h3>
-                  <p className="font-body text-[var(--hotel-cream)]/50 text-xs leading-relaxed">{a.desc}</p>
+                  <p className="font-body text-white/80 text-xs leading-relaxed">{a.desc}</p>
                 </div>
               ))}
             </div>
