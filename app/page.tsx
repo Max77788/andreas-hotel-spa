@@ -476,7 +476,7 @@ export default function HomePage() {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/90" />
+        <div className="absolute inset-0 bg-black/80" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-10 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
             Savor &amp; Celebrate
