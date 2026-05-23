@@ -32,7 +32,7 @@ const rooms = [
     badge: "VILLA",
     name: "Andreas Villa Suite",
     href: "/rooms/andreas-villa-suite",
-    img: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-93-400x400.jpg",
+    img: "https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
     description: "Our most prestigious suite featuring Italian Villa design with panoramic desert views and private courtyard.",
     bed: "King Bed",
     guests: "4 Guests",
@@ -43,7 +43,7 @@ const rooms = [
     badge: "SUITE",
     name: "1 Bedroom Suite",
     href: "/rooms/1-bedroom-suite",
-    img: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-95-400x400.jpg",
+    img: "https://images.pexels.com/photos/6187418/pexels-photo-6187418.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
     description: "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings.",
     bed: "King Bed",
     guests: "2 Guests",
@@ -54,7 +54,7 @@ const rooms = [
     badge: "DELUXE",
     name: "Deluxe Room",
     href: "/rooms/deluxe-room",
-    img: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-96-400x400.jpg",
+    img: "https://images.pexels.com/photos/5547675/pexels-photo-5547675.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
     description: "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor.",
     bed: "Queen Bed",
     guests: "2 Guests",
@@ -104,14 +104,14 @@ const amenities = [
 ];
 
 const galleryImages = [
-  { src: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-93-400x400.jpg", alt: "Villa Suite" },
-  { src: "https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&h=600&w=600", alt: "Sunset pool" },
-  { src: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-95-400x400.jpg", alt: "Guest room" },
-  { src: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-92-400x400.jpg", alt: "Pool area" },
-  { src: "https://images.pexels.com/photos/6187418/pexels-photo-6187418.jpeg?auto=compress&cs=tinysrgb&h=600&w=600", alt: "Spa treatment" },
-  { src: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-94-400x400.jpg", alt: "Living area" },
-  { src: "https://images.pexels.com/photos/5547675/pexels-photo-5547675.jpeg?auto=compress&cs=tinysrgb&h=600&w=600", alt: "Desert palms" },
-  { src: "https://andreashotel.com/wp-content/uploads/2015/03/andreas-98-400x400.jpg", alt: "Executive room" },
+  { src: "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Villa Suite" },
+  { src: "https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Sunset pool" },
+  { src: "https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Guest room" },
+  { src: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Pool area" },
+  { src: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Spa treatment" },
+  { src: "https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Living area" },
+  { src: "https://images.pexels.com/photos/1893330/pexels-photo-1893330.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Desert palms" },
+  { src: "https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Executive room" },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -476,19 +476,19 @@ export default function HomePage() {
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/80" />
+        <div className="absolute inset-0 bg-[var(--hotel-charcoal)]/90" />
         <div className="relative max-w-7xl mx-auto px-6 md:px-10 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
             Savor &amp; Celebrate
           </p>
-          <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight mb-3" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}>
+          <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight mb-3" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
             Dining at
           </h2>
-          <h2 className="font-display text-[var(--hotel-cream)] italic font-light leading-tight mb-4" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)" }}>
+          <h2 className="font-display text-[var(--hotel-cream)] italic font-light leading-tight mb-4" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
             The Andreas
           </h2>
           <div className="divider-gold" />
-          <p className="font-body text-white/75 text-sm leading-relaxed max-w-xl mx-auto mt-4 mb-14">
+          <p className="font-body text-white/90 text-sm leading-relaxed max-w-xl mx-auto mt-4 mb-14">
             Every meal at The Andreas is a celebration of California's finest seasonal ingredients, prepared with passion and served in our idyllic outdoor settings.
           </p>
 
@@ -499,10 +499,10 @@ export default function HomePage() {
               { icon: "◈", title: "Poolside Bar", desc: "Handcrafted cocktails, wines, and seasonal bites daily from noon" },
               { icon: "◐", title: "The Terrace Lounge", desc: "Intimate evening dining with live acoustic music on weekends" },
             ].map((v) => (
-              <div key={v.title} className="border border-white/20 bg-black/60 px-6 py-7 text-left hover:bg-black/70 transition-colors duration-300">
+              <div key={v.title} className="border border-white/20 bg-black/75 px-6 py-7 text-left hover:bg-black/85 transition-colors duration-300">
                 <span className="text-[var(--hotel-gold)] text-xl block mb-4">{v.icon}</span>
                 <h3 className="font-display text-[var(--hotel-cream)] text-xl font-light mb-2">{v.title}</h3>
-                <p className="font-body text-white/65 text-xs leading-relaxed">{v.desc}</p>
+                <p className="font-body text-white/80 text-xs leading-relaxed">{v.desc}</p>
               </div>
             ))}
           </div>
