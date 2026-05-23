@@ -40,10 +40,8 @@ export default function Nav() {
 
       {/* Main nav */}
       <header
-        className={`fixed left-0 right-0 z-40 transition-all duration-500 ${
-          scrolled
-            ? "bg-[var(--hotel-cream)]/95 backdrop-blur-sm shadow-sm"
-            : "bg-black/60 backdrop-blur-sm"
+        className={`fixed left-0 right-0 z-40 transition-all duration-500 bg-black/80 backdrop-blur-sm ${
+          scrolled ? "shadow-sm" : ""
         }`}
         style={{ top: 0 }}
       >
@@ -52,10 +50,10 @@ export default function Nav() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <div>
-              <div className={`font-display text-lg font-light tracking-[0.25em] uppercase transition-colors ${scrolled ? "text-[var(--hotel-charcoal)]" : "text-[var(--hotel-cream)]"}`}>
+              <div className="font-display text-lg font-light tracking-[0.25em] uppercase transition-colors text-[var(--hotel-cream)]">
                 The Andreas
               </div>
-              <div className={`font-body text-[8px] tracking-[0.45em] uppercase -mt-0.5 ${scrolled ? "text-[var(--hotel-gold)]" : "text-[var(--hotel-gold)]"}`}>
+              <div className="font-body text-[8px] tracking-[0.45em] uppercase -mt-0.5 text-[var(--hotel-gold)]">
                 Hotel & Spa · Palm Springs
               </div>
             </div>
@@ -67,11 +65,7 @@ export default function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 ${
-                  scrolled
-                    ? "text-[var(--hotel-charcoal)]/70 hover:text-[var(--hotel-charcoal)]"
-                    : "text-white hover:text-white"
-                }`}
+                className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
               >
                 {link.label}
               </Link>
