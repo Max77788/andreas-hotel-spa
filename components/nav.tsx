@@ -43,7 +43,7 @@ export default function Nav() {
         className={`fixed left-0 right-0 z-40 transition-all duration-500 ${
           scrolled
             ? "bg-[var(--hotel-cream)]/95 backdrop-blur-sm shadow-sm"
-            : "bg-black/30 backdrop-blur-sm"
+            : "bg-black/60 backdrop-blur-sm"
         }`}
         style={{ top: 0 }}
       >
@@ -55,7 +55,7 @@ export default function Nav() {
               <div className={`font-display text-lg font-light tracking-[0.25em] uppercase transition-colors ${scrolled ? "text-[var(--hotel-charcoal)]" : "text-[var(--hotel-cream)]"}`}>
                 The Andreas
               </div>
-              <div className="font-body text-[var(--hotel-gold)] text-[8px] tracking-[0.45em] uppercase -mt-0.5">
+              <div className={`font-body text-[8px] tracking-[0.45em] uppercase -mt-0.5 ${scrolled ? "text-[var(--hotel-gold)]" : "text-[var(--hotel-gold)]"}`}>
                 Hotel & Spa · Palm Springs
               </div>
             </div>
@@ -70,7 +70,7 @@ export default function Nav() {
                 className={`font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 ${
                   scrolled
                     ? "text-[var(--hotel-charcoal)]/70 hover:text-[var(--hotel-charcoal)]"
-                    : "text-white/70 hover:text-white"
+                    : "text-white hover:text-white"
                 }`}
               >
                 {link.label}
@@ -88,15 +88,15 @@ export default function Nav() {
             >
               Book Now
             </a>
-            {/* Mobile hamburger */}
+            {/* Mobile hamburger — solid dark button so lines are always visible */}
             <button
               onClick={() => setMenuOpen(true)}
-              className="md:hidden flex flex-col gap-[5px] cursor-pointer"
+              className="md:hidden flex flex-col items-center justify-center w-10 h-10 bg-black/50 rounded-sm gap-[5px] cursor-pointer"
               aria-label="Open menu"
             >
-              <span className={`block w-6 h-[1.5px] transition-colors ${scrolled ? "bg-[var(--hotel-charcoal)]" : "bg-[var(--hotel-cream)]"}`} />
-              <span className={`block w-6 h-[1.5px] transition-colors ${scrolled ? "bg-[var(--hotel-charcoal)]" : "bg-[var(--hotel-cream)]"}`} />
-              <span className={`block w-6 h-[1.5px] transition-colors ${scrolled ? "bg-[var(--hotel-charcoal)]" : "bg-[var(--hotel-cream)]"}`} />
+              <span className="block w-5 h-[2px] bg-white transition-colors" />
+              <span className="block w-5 h-[2px] bg-white transition-colors" />
+              <span className="block w-5 h-[2px] bg-white transition-colors" />
             </button>
           </div>
         </div>
