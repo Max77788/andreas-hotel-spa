@@ -466,7 +466,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SEASONAL OFFERS ─────────────────────────────────────────────────── */}
+      {/* ── OFFERS ──────────────────────────────────────────────────────────── */}
       <section
         className="relative py-32 md:py-40 overflow-hidden"
         style={{
@@ -480,84 +480,97 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center mb-16">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
-              Seasonal Offers
+              Offers
             </p>
-            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight mb-2" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
-              Exclusive Packages
+            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+              Andreas Hotel &amp; Spa
             </h2>
-            <p className="font-body text-[var(--hotel-cream)] italic font-light text-lg md:text-xl" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
-              at The Andreas
-            </p>
             <div className="divider-gold" />
-            <p className="font-body text-white/80 text-sm leading-relaxed max-w-xl mx-auto mt-4">
-              Curated experiences designed for the perfect Palm Springs escape — from sun-drenched summer days to cozy winter evenings by the fire.
-            </p>
           </div>
 
-          {/* Offer cards */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12">
-            {[
-              {
-                tag: "Summer",
-                title: "Summer Escape",
-                price: "From $135 / night",
-                desc: "Make the most of Palm Springs sunshine with poolside relaxation, handcrafted cocktails at our bar, and complimentary continental breakfast each morning.",
-                features: ["Poolside bar & happy hour", "Continental breakfast daily", "Heated outdoor pool", "Adults-only tranquility"],
-              },
-              {
-                tag: "Wellness",
-                title: "Spa Retreat",
-                price: "From $199 / night",
-                desc: "Rejuvenate body and mind with a signature spa treatment, access to our sauna and Jacuzzi, and a tranquil courtyard setting.",
-                features: ["50-minute spa treatment", "Sauna & Jacuzzi access", "Couples massage available", "Poolside relaxation"],
-              },
-              {
-                tag: "Getaway",
-                title: "Weekend Getaway",
-                price: "From $329 / 2 nights",
-                desc: "The ultimate Palm Springs weekend. Two nights of boutique luxury, evenings by the outdoor fireplaces, and late Sunday checkout.",
-                features: ["2-night weekend stay", "Late checkout Sunday", "Outdoor fireplaces", "Downtown steps away"],
-              },
-              {
-                tag: "Romance",
-                title: "Romance Package",
-                price: "From $259 / night",
-                desc: "An intimate escape in our One-Bedroom Suite with a cozy fireplace, oversized Jacuzzi tub, rain shower, and private patio.",
-                features: ["One-Bedroom Suite", "Fireplace & Jacuzzi tub", "Private patio or balcony", "Chilled sparkling wine"],
-              },
-            ].map((offer) => (
-              <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300">
-                <span className="font-body text-[8px] tracking-[0.4em] uppercase bg-[var(--hotel-gold)]/20 text-[var(--hotel-gold)] px-3 py-1 mb-5 inline-block">
-                  {offer.tag}
-                </span>
-                <h3 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-1">{offer.title}</h3>
-                <p className="font-body text-[var(--hotel-gold)] text-sm tracking-wide mb-4">{offer.price}</p>
-                <p className="font-body text-white/70 text-sm leading-relaxed mb-5">{offer.desc}</p>
-                <ul className="space-y-2">
-                  {offer.features.map((f) => (
-                    <li key={f} className="font-body text-white/60 text-xs flex items-center gap-2">
-                      <span className="text-[var(--hotel-gold)] text-[10px]">✦</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          {/* 1 Night Stay */}
+          <div className="mb-14">
+            <h3 className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase text-center mb-8">
+              &ldquo;1 Night Stay&rdquo; Packages
+            </h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                {
+                  title: "The Escape",
+                  desc: "Includes the Andreas signature scrub, 60 min Deep Tissue, 60 minute Aroma Therapy massage, and the Vital C Facial.",
+                  duration: "4 hours of pure Heaven!",
+                  price: "$525",
+                },
+                {
+                  title: "The Rejuvenate",
+                  desc: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen&rsquo;s Facial and two 60 minute Therapeutic massages.",
+                  duration: "4.5 hours of restful bliss!",
+                  price: "$550",
+                },
+              ].map((offer) => (
+                <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
+                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
+                  <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
+                  <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
+                  <div className="mt-auto flex items-end justify-between">
+                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
+                    <a
+                      href="https://us01.iqwebbook.com/AHSCA115/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+                    >
+                      Book Now
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="text-center">
-            <a
-              href="https://us01.iqwebbook.com/AHSCA115/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
-            >
-              View All Offers
-            </a>
-            <p className="font-body text-white/20 text-[10px] tracking-widest text-center mt-6 uppercase">
-              ✦ Call (760) 327-5701 for custom packages ✦
-            </p>
+          {/* 2 Night Stay */}
+          <div className="mb-12">
+            <h3 className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase text-center mb-8">
+              &ldquo;2 Night Stay&rdquo; Packages
+            </h3>
+            <div className="grid md:grid-cols-2 gap-6">
+              {[
+                {
+                  title: "The Oasis",
+                  desc: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 60 minute Swedish massage, and a 60 Minute Aromatherapy massage.",
+                  duration: "4 hours of pampering treatments!",
+                  price: "$599",
+                },
+                {
+                  title: "The Andreas Renewal",
+                  desc: "Includes: 30 min. Mineral Soak, Enzyme Facial, and Botanical Body Wrap; 60 min. Deep Tissue &amp; therapeutic massage.",
+                  duration: "4.5 hours of complete renewal!",
+                  price: "$650",
+                },
+              ].map((offer) => (
+                <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
+                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
+                  <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
+                  <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
+                  <div className="mt-auto flex items-end justify-between">
+                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
+                    <a
+                      href="https://us01.iqwebbook.com/AHSCA115/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+                    >
+                      Book Now
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+
+          <p className="font-body text-white/20 text-[10px] tracking-widest text-center uppercase">
+            ✦ Call (760) 327-5701 for custom packages ✦
+          </p>
         </div>
       </section>
 
