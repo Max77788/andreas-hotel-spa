@@ -11,7 +11,7 @@ import VapiChatSection from "@/components/vapi-chat-section";
 const STORY_IMG = "https://images.pexels.com/photos/5029310/pexels-photo-5029310.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900";
 const PHILOSOPHY_IMG = "https://images.pexels.com/photos/35023213/pexels-photo-35023213.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900";
 
-const DINING_BG = "https://images.pexels.com/photos/18823962/pexels-photo-18823962.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1000&w=1800";
+const OFFERS_BG = "https://images.pexels.com/photos/18823962/pexels-photo-18823962.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1000&w=1800";
 const AMENITIES_POOL = "https://images.pexels.com/photos/24913567/pexels-photo-24913567.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=800";
 const AMENITIES_SPA = "https://images.pexels.com/photos/6187418/pexels-photo-6187418.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=800";
 
@@ -466,53 +466,98 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── DINING ──────────────────────────────────────────────────────────── */}
+      {/* ── SEASONAL OFFERS ─────────────────────────────────────────────────── */}
       <section
         className="relative py-32 md:py-40 overflow-hidden"
         style={{
-          backgroundImage: `url(${DINING_BG})`,
+          backgroundImage: `url(${OFFERS_BG})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
         }}
       >
         <div className="absolute inset-0 bg-black/80" />
-        <div className="relative max-w-7xl mx-auto px-6 md:px-10 text-center">
-          <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
-            Savor &amp; Celebrate
-          </p>
-          <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight mb-3" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
-            Dining at
-          </h2>
-          <h2 className="font-display text-[var(--hotel-cream)] italic font-light leading-tight mb-4" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
-            The Andreas
-          </h2>
-          <div className="divider-gold" />
-          <p className="font-body text-white/90 text-sm leading-relaxed max-w-xl mx-auto mt-4 mb-14">
-            Every meal at The Andreas is a celebration of California's finest seasonal ingredients, prepared with passion and served in our idyllic outdoor settings.
-          </p>
+        <div className="relative max-w-7xl mx-auto px-6 md:px-10">
+          <div className="text-center mb-16">
+            <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
+              Seasonal Offers
+            </p>
+            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight mb-2" style={{ fontSize: "clamp(2.5rem, 5vw, 4.5rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+              Exclusive Packages
+            </h2>
+            <p className="font-body text-[var(--hotel-cream)] italic font-light text-lg md:text-xl" style={{ textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+              at The Andreas
+            </p>
+            <div className="divider-gold" />
+            <p className="font-body text-white/80 text-sm leading-relaxed max-w-xl mx-auto mt-4">
+              Curated experiences designed for the perfect Palm Springs escape — from sun-drenched summer days to cozy winter evenings by the fire.
+            </p>
+          </div>
 
-          {/* Venue cards */}
-          <div className="grid md:grid-cols-3 gap-4 mb-12">
+          {/* Offer cards */}
+          <div className="grid md:grid-cols-2 gap-6 mb-12">
             {[
-              { icon: "⊟", title: "The Courtyard Kitchen", desc: "Farm-to-table California cuisine served in our sun-drenched courtyard" },
-              { icon: "◈", title: "Poolside Bar", desc: "Handcrafted cocktails, wines, and seasonal bites daily from noon" },
-              { icon: "◐", title: "The Terrace Lounge", desc: "Intimate evening dining with live acoustic music on weekends" },
-            ].map((v) => (
-              <div key={v.title} className="border border-white/20 bg-black/75 px-6 py-7 text-left hover:bg-black/85 transition-colors duration-300">
-                <span className="text-[var(--hotel-gold)] text-xl block mb-4">{v.icon}</span>
-                <h3 className="font-display text-[var(--hotel-cream)] text-xl font-light mb-2">{v.title}</h3>
-                <p className="font-body text-white/80 text-xs leading-relaxed">{v.desc}</p>
+              {
+                tag: "Summer",
+                title: "Summer Escape",
+                price: "From $135 / night",
+                desc: "Make the most of Palm Springs sunshine with poolside relaxation, handcrafted cocktails at our bar, and complimentary continental breakfast each morning.",
+                features: ["Poolside bar & happy hour", "Continental breakfast daily", "Heated outdoor pool", "Adults-only tranquility"],
+              },
+              {
+                tag: "Wellness",
+                title: "Spa Retreat",
+                price: "From $199 / night",
+                desc: "Rejuvenate body and mind with a signature spa treatment, access to our sauna and Jacuzzi, and a tranquil courtyard setting.",
+                features: ["50-minute spa treatment", "Sauna & Jacuzzi access", "Couples massage available", "Poolside relaxation"],
+              },
+              {
+                tag: "Getaway",
+                title: "Weekend Getaway",
+                price: "From $329 / 2 nights",
+                desc: "The ultimate Palm Springs weekend. Two nights of boutique luxury, evenings by the outdoor fireplaces, and late Sunday checkout.",
+                features: ["2-night weekend stay", "Late checkout Sunday", "Outdoor fireplaces", "Downtown steps away"],
+              },
+              {
+                tag: "Romance",
+                title: "Romance Package",
+                price: "From $259 / night",
+                desc: "An intimate escape in our One-Bedroom Suite with a cozy fireplace, oversized Jacuzzi tub, rain shower, and private patio.",
+                features: ["One-Bedroom Suite", "Fireplace & Jacuzzi tub", "Private patio or balcony", "Chilled sparkling wine"],
+              },
+            ].map((offer) => (
+              <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300">
+                <span className="font-body text-[8px] tracking-[0.4em] uppercase bg-[var(--hotel-gold)]/20 text-[var(--hotel-gold)] px-3 py-1 mb-5 inline-block">
+                  {offer.tag}
+                </span>
+                <h3 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-1">{offer.title}</h3>
+                <p className="font-body text-[var(--hotel-gold)] text-sm tracking-wide mb-4">{offer.price}</p>
+                <p className="font-body text-white/70 text-sm leading-relaxed mb-5">{offer.desc}</p>
+                <ul className="space-y-2">
+                  {offer.features.map((f) => (
+                    <li key={f} className="font-body text-white/60 text-xs flex items-center gap-2">
+                      <span className="text-[var(--hotel-gold)] text-[10px]">✦</span>
+                      {f}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
           </div>
 
-          <a
-            href="tel:+17474949881"
-            className="inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
-          >
-            Reserve a Table
-          </a>
+          <div className="text-center">
+            <a
+              href="https://us01.iqwebbook.com/AHSCA115/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+            >
+              View All Offers
+            </a>
+            <p className="font-body text-white/20 text-[10px] tracking-widest text-center mt-6 uppercase">
+              ✦ Call (760) 327-5701 for custom packages ✦
+            </p>
+          </div>
         </div>
       </section>
 
