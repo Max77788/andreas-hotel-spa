@@ -30,9 +30,7 @@ export default function VapiChatSection() {
             </p>
           </div>
           <a
-            href="https://us01.iqwebbook.com/AHSCA115/"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/book"
             className="inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-xs tracking-[0.3em] uppercase px-6 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300 self-start md:self-auto"
           >
             Book Directly

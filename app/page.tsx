@@ -197,10 +197,8 @@ export default function HomePage() {
               Explore Rooms
             </Link>
             <a
-              href="https://us01.iqwebbook.com/AHSCA115/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              href="/book"
+  className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
             </a>
@@ -251,7 +249,7 @@ export default function HomePage() {
             />
           </div>
           <a
-            href="https://us01.iqwebbook.com/AHSCA115/"
+            href="/book"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full md:w-auto flex-shrink-0 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-8 py-3 text-center hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
@@ -397,7 +395,7 @@ export default function HomePage() {
                       <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 ml-1">/ night</span>
                     </div>
                     <a
-                      href="https://us01.iqwebbook.com/AHSCA115/"
+                      href="/book"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[var(--hotel-charcoal)] transition-all duration-300"
@@ -515,7 +513,7 @@ export default function HomePage() {
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
                     <a
-                      href="https://us01.iqwebbook.com/AHSCA115/"
+                      href="/book"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
@@ -555,7 +553,7 @@ export default function HomePage() {
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
                     <a
-                      href="https://us01.iqwebbook.com/AHSCA115/"
+                      href="/book"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
@@ -613,7 +611,7 @@ export default function HomePage() {
                   <p className="font-body text-white/70 text-[10px] tracking-widest uppercase mt-1">All amenities included</p>
                 </div>
                 <a
-                  href="https://us01.iqwebbook.com/AHSCA115/"
+                  href="/book"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-4 py-2 hover:bg-[var(--hotel-cream)] transition-colors duration-300"
@@ -677,10 +675,8 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a
-              href="https://us01.iqwebbook.com/AHSCA115/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              href="/book"
+  className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Your Stay
             </a>
