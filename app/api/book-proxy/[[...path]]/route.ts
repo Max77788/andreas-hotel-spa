@@ -6,10 +6,9 @@ export const dynamic = "force-dynamic";
 
 async function proxyRequest(request: NextRequest) {
   let pathParts = request.nextUrl.pathname.replace("/api/book-proxy", "");
-  // Ensure path starts with / if non-empty
-  if (pathParts && !pathParts.startsWith("/")) {
-    pathParts = "/" + pathParts;
-  }
+  // Clean and normalize path
+  if (!pathParts) pathParts = "/";
+  if (!pathParts.startsWith("/")) pathParts = "/" + pathParts;
   const query = request.nextUrl.search;
   const targetUrl = `${BOOKING_BASE}${pathParts}${query}`;
 
