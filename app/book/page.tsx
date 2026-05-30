@@ -22,7 +22,7 @@ export default function BookPage() {
           </div>
         </div>
         <iframe
-          src="https://us01.iqwebbook.com/AHSCA115/"
+          src="/api/book-proxy/"
           title="Book a Room at The Andreas Hotel & Spa"
           className="w-full border-0"
           style={{ height: "calc(100vh - 200px)", minHeight: "800px" }}
