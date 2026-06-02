@@ -110,7 +110,7 @@ const galleryImages = [
   { src: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Pool area" },
   { src: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Spa treatment" },
   { src: "https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Living area" },
-  { src: "https://images.pexels.com/photos/1893330/pexels-photo-1893330.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Desert palms" },
+  { src: "https://images.pexels.com/photos/3272589/pexels-photo-3272589.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Desert palms" },
   { src: "https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Executive room" },
 ];
 
