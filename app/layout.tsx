@@ -9,6 +9,14 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.svg",
   },
+  openGraph: {
+    title: "The Andreas Hotel & Spa – Palm Springs, CA",
+    description:
+      "A boutique adults-only hotel in downtown Palm Springs featuring 25 luxurious rooms, a full-service spa, heated pool, and courtyard fireplaces. Established 1935.",
+    url: "https://andreashotel.com",
+    siteName: "The Andreas Hotel & Spa",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

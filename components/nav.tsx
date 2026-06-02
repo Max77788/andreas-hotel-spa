@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 
 const navLinks = [
@@ -14,35 +14,12 @@ const navLinks = [
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <>
-      {/* Phone top bar — hidden for now */}
-      {/* <div className="fixed top-0 left-0 right-0 z-50 bg-[var(--hotel-charcoal)] border-b border-[var(--hotel-gold)]/10 px-6 md:px-10 py-[7px] flex items-center justify-center gap-3">
-        <a
-          href="tel:+17474949881"
-          className="font-body text-[var(--hotel-gold)] text-[10px] md:text-[11px] tracking-[0.3em] uppercase hover:text-white transition-colors duration-200"
-        >
-          +1 (747) 494-9881
-        </a>
-        <span className="font-body text-[var(--hotel-gold)]/30 text-[9px]">·</span>
-        <span className="font-body text-[var(--hotel-gold)]/70 text-[9px] tracking-[0.25em] uppercase">
-          Calls Accepted 24/7
-        </span>
-      </div> */}
-
       {/* Main nav */}
       <header
-        className={`fixed left-0 right-0 z-40 transition-all duration-500 bg-black/80 backdrop-blur-sm ${
-          scrolled ? "shadow-sm" : ""
-        }`}
+        className="fixed left-0 right-0 z-40 bg-black/80 backdrop-blur-sm shadow-sm"
         style={{ top: 0 }}
       >
         <div className="flex items-center justify-between px-6 md:px-10 py-4">
@@ -75,7 +52,7 @@ export default function Nav() {
           {/* Right: Book Now + mobile hamburger */}
           <div className="flex items-center gap-4">
             <a
-              href="/book"
+              href="https://us01.iqwebbook.com/AHSCA115/" target="_blank" rel="noopener noreferrer"
               className="hidden md:inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
@@ -126,7 +103,7 @@ export default function Nav() {
             </Link>
           ))}
           <a
-            href="/book"
+            href="https://us01.iqwebbook.com/AHSCA115/" target="_blank" rel="noopener noreferrer"
             className="mt-4 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Book a Room
@@ -137,9 +114,6 @@ export default function Nav() {
           <p className="font-body text-[var(--hotel-sand)]/60 text-xs tracking-widest">
             277 N. Indian Canyon Drive, Palm Springs, CA 92262
           </p>
-          {/* <p className="font-body text-[var(--hotel-gold)] text-xs tracking-widest mt-1">
-            +1 (747) 494-9881 · stay@andreashotel.com
-          </p> */}
         </div>
       </div>
     </>
