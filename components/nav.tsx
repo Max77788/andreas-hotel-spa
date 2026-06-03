@@ -26,14 +26,11 @@ export default function Nav() {
 
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
-            <div>
-              <div className="font-display text-lg font-light tracking-[0.25em] uppercase transition-colors text-[var(--hotel-cream)]">
-                The Andreas
-              </div>
-              <div className="font-body text-[8px] tracking-[0.45em] uppercase -mt-0.5 text-[var(--hotel-gold)]">
-                Hotel & Spa · Palm Springs
-              </div>
-            </div>
+            <img
+              src="/andreas_logo.png"
+              alt="The Andreas Hotel & Spa"
+              className="h-10 md:h-12 w-auto block"
+            />
           </Link>
 
           {/* Desktop nav links */}
