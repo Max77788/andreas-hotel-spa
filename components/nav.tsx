@@ -25,9 +25,9 @@ export default function Nav() {
         <div className="flex items-center justify-between px-6 md:px-10 py-4">
 
           {/* Logo */}
-          <Link href="/" className="flex-shrink-0 bg-[var(--hotel-cream)] rounded-sm px-3 py-1.5">
+          <Link href="/" className="flex-shrink-0">
             <img
-              src="/andreas_logo.png"
+              src="/andreas_logo_white.png"
               alt="The Andreas Hotel & Spa"
               className="h-8 md:h-9 w-auto block"
             />

@@ -15,9 +15,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
           {/* Brand */}
           <div>
-            <Link href="/" className="inline-block bg-[var(--hotel-cream)] rounded-sm px-3 py-1.5 mb-4">
+            <Link href="/" className="inline-block mb-4">
               <img
-                src="/andreas_logo.png"
+                src="/andreas_logo_white.png"
                 alt="The Andreas Hotel & Spa"
                 className="h-9 md:h-10 w-auto block"
               />
