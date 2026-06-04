@@ -15,10 +15,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-white/10">
           {/* Brand */}
           <div>
-            <div className="font-display text-3xl font-light tracking-[0.2em] uppercase mb-1">
-              Andreas
-            </div>
-            <div className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-5">
+            <Link href="/" className="inline-block bg-[var(--hotel-cream)] rounded-sm px-3 py-1.5 mb-4">
+              <img
+                src="/andreas_logo.png"
+                alt="The Andreas Hotel & Spa"
+                className="h-9 md:h-10 w-auto block"
+              />
+            </Link>
+            <div className="font-body text-white text-[10px] tracking-[0.5em] uppercase mb-5">
               Hotel & Spa · Palm Springs
             </div>
             <p className="font-body text-sm text-white/50 leading-relaxed max-w-xs">
