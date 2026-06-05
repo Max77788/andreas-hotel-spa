@@ -211,8 +211,8 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/60">
+        {/* Scroll hint — hidden on mobile */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-white/60">
           <span className="font-body text-[8px] tracking-[0.5em] uppercase">Scroll</span>
           <div className="w-px h-8 bg-white/20 animate-pulse" />
         </div>
