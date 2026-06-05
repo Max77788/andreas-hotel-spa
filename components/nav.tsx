@@ -20,7 +20,7 @@ export default function Nav() {
     <>
       {/* Main nav */}
       <header
-        className="fixed left-0 right-0 z-40 bg-black/80 backdrop-blur-sm shadow-sm"
+        className="fixed left-0 right-0 z-40 bg-black/90 backdrop-blur-sm shadow-sm"
         style={{ top: 0 }}
       >
         <div className="flex items-center justify-between px-6 md:px-10 py-4">
@@ -64,7 +64,7 @@ export default function Nav() {
             <ThemeToggle />
             <a
               href="https://s005948.officialbookings.com/" target="_blank" rel="noopener noreferrer"
-              className="hidden md:inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              className="hidden md:inline-block bg-[var(--hotel-gold)] text-black font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
             </a>
@@ -84,14 +84,14 @@ export default function Nav() {
 
       {/* Mobile fullscreen overlay */}
       <div
-        className={`fixed inset-0 z-[100] bg-[#1a1a1a] flex flex-col transition-all duration-500 ${
+        className={`fixed inset-0 z-[100] bg-[#0d0d0d] flex flex-col transition-all duration-500 ${
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >
         <div className="flex items-center justify-between px-6 py-5">
           <button
             onClick={() => setMenuOpen(false)}
-            className="text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase flex items-center gap-2"
+            className="text-white font-body text-xs tracking-[0.3em] uppercase flex items-center gap-2"
             aria-label="Close menu"
           >
             <span className="text-lg leading-none">×</span>
@@ -111,7 +111,7 @@ export default function Nav() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
-                className="font-display text-[var(--hotel-cream)] text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
+                className="font-display text-white text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
               >
                 {link.label}
               </a>
@@ -120,7 +120,7 @@ export default function Nav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="font-display text-[var(--hotel-cream)] text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
+                className="font-display text-white text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
               >
                 {link.label}
               </Link>
@@ -128,14 +128,14 @@ export default function Nav() {
           )}
           <a
             href="https://s005948.officialbookings.com/" target="_blank" rel="noopener noreferrer"
-            className="mt-4 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+            className="mt-4 bg-[var(--hotel-gold)] text-black font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Book a Room
           </a>
         </nav>
 
         <div className="pb-10 text-center">
-          <p className="font-body text-[var(--hotel-sand)]/60 text-xs tracking-widest">
+          <p className="font-body text-white/50 text-xs tracking-widest">
             277 N. Indian Canyon Drive, Palm Springs, CA 92262
           </p>
         </div>

@@ -31,7 +31,7 @@
       }
     </script>
     <!-- is_embedded: False; context:  -->
-    <!-- navbar https://archive.org/web/navbar.php 0.04387s -->
+    <!-- navbar https://archive.org/web/navbar.php 0.04562s -->
     <!-- navbar script -->
     <script src="//archive.org/includes/athena.js?v=0e323d9e" type="text/javascript"></script>
     <script src="//archive.org/includes/apollo.js?v=0e323d9e" type="text/javascript"></script>
@@ -45,7 +45,7 @@
     <meta property="mediatype" content="">
     <meta property="primary_collection" content="">
     <!-- navbar end -->
-    <script type="text/javascript">if('archive_analytics' in window){var v=archive_analytics.values;v.path='/web';v.service='wb';v.server_name='wwwb-app246.us.archive.org';v.server_ms=1749;archive_analytics.send_pageview_on_load()}</script>
+    <script type="text/javascript">if('archive_analytics' in window){var v=archive_analytics.values;v.path='/web';v.service='wb';v.server_name='wwwb-app233.us.archive.org';v.server_ms=3044;archive_analytics.send_pageview_on_load()}</script>
     <link href="https://web-static.archive.org/_static/images/archive.ico" rel="shortcut icon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
@@ -2669,20 +2669,16 @@ if (window!=window.top) {
       <div id="positionHome">
 	<div id="searchHome">
 	  <form name="form1" method="get" action="/web/submit">
-      <input class="form-control" type="text" name="url" value="http://andreashotel.com/wp-content/uploads/andreas-amenities-1.jpg" size="40" onfocus="javascript:this.focus();this.select();" >
+      <input class="form-control" type="text" name="url" value="http://andreashotel.com/wp-content/uploads/2015/03/andreas-94.jpg" size="40" onfocus="javascript:this.focus();this.select();" >
 	    <button class="btn btn-default" type="submit" name="type" value="replay">Latest</button>
 	    <button class="btn btn-default" type="submit" name="type" value="urlquery">Show All</button>
 	  </form>
 	</div>
 <div id="error">
     <div class="error-text">The Wayback Machine has not archived that URL.</div>
-    <div id="livewebInfo" class="error-help unavailable error-help-stop">
-      <p>This page is unavailable for archiving, because:</p>
-      <p>page does not exist (404).</p>
-    </div>
-    <div class="error-help error-help-proceed">
+      <div class="error-help error-help-proceed">
       <p>Click here to search for all archived pages under
-        <a href="https://web.archive.org/web/*/http://andreashotel.com/wp-content/uploads/*">http://andreashotel.com/wp-content/uploads/</a>.
+        <a href="https://web.archive.org/web/*/http://andreashotel.com/wp-content/uploads/2015/03/*">http://andreashotel.com/wp-content/uploads/2015/03/</a>.
       </p>
     </div></div>
       </div>
