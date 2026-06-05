@@ -184,7 +184,7 @@ export default function HomePage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-5">
               Palm Springs, California
             </p>
-            <h1 className="font-display text-[var(--hotel-cream)] font-light leading-none mb-3" style={{ fontSize: "clamp(4rem, 12vw, 9rem)" }}>
+            <h1 className="font-display text-white font-light leading-none mb-3" style={{ fontSize: "clamp(4rem, 12vw, 9rem)" }}>
               The Andreas
             </h1>
             <p className="font-display text-white italic font-light mb-3" style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}>
@@ -328,7 +328,7 @@ export default function HomePage() {
               />
               {/* Location badge */}
               <div className="absolute bottom-6 left-6 bg-[var(--hotel-charcoal)]/90 backdrop-blur-sm px-5 py-3">
-                <div className="font-display text-[var(--hotel-cream)] text-lg font-light">Palm Springs</div>
+                <div className="font-display text-white text-lg font-light">Palm Springs</div>
                 <div className="font-body text-[var(--hotel-gold)] text-[9px] tracking-widest uppercase mt-0.5">277 N. Indian Canyon Drive</div>
               </div>
             </div>
@@ -435,7 +435,7 @@ export default function HomePage() {
           <div className="text-center mt-12">
             <Link
               href="/rooms"
-              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:hover:text-black transition-all duration-300"
             >
               View All Rooms
             </Link>
@@ -504,7 +504,7 @@ export default function HomePage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
               Offers
             </p>
-            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+            <h2 className="font-display text-white font-light leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
               Andreas Hotel &amp; Spa
             </h2>
             <div className="divider-gold" />
@@ -531,11 +531,11 @@ export default function HomePage() {
                 },
               ].map((offer) => (
                 <div key={offer.title} className="border border-white/40 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
-                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
+                  <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
                   <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
                   <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
                   <div className="mt-auto flex items-end justify-between">
-                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
+                    <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a
                       href="https://us01.iqwebbook.com/AHSCA115/" target="_blank" rel="noopener noreferrer"
                       target="_blank"
@@ -571,11 +571,11 @@ export default function HomePage() {
                 },
               ].map((offer) => (
                 <div key={offer.title} className="border border-white/40 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
-                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
+                  <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
                   <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
                   <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
                   <div className="mt-auto flex items-end justify-between">
-                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
+                    <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a
                       href="https://us01.iqwebbook.com/AHSCA115/" target="_blank" rel="noopener noreferrer"
                       target="_blank"
@@ -601,7 +601,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="mb-14">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-3">What We Offer</p>
-            <h2 className="font-display text-[var(--hotel-cream)] font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+            <h2 className="font-display text-white font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
               Hotel Amenities
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
@@ -613,7 +613,7 @@ export default function HomePage() {
               {amenities.map((a) => (
                 <div key={a.title} className="border border-[var(--hotel-cream)]/20 p-6 hover:border-[var(--hotel-gold)]/40 transition-colors duration-300">
                   <span className="text-[var(--hotel-gold)] text-xl block mb-4">{a.icon}</span>
-                  <h3 className="font-display text-[var(--hotel-cream)] text-lg font-light mb-2">{a.title}</h3>
+                  <h3 className="font-display text-white text-lg font-light mb-2">{a.title}</h3>
                   <p className="font-body text-white/80 text-xs leading-relaxed">{a.desc}</p>
                 </div>
               ))}
