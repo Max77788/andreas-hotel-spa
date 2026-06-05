@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
@@ -118,6 +119,11 @@ const galleryImages = [
 export default function HomePage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
+  const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+  const isDark = mounted && theme === "dark";
 
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">
@@ -256,6 +262,24 @@ export default function HomePage() {
           >
             Check Availability
           </a>
+        </div>
+      </section>
+
+      {/* ── LOGO MARK ──────────────────────────────────────────────────────── */}
+      <section className="bg-[var(--hotel-cream)] py-10">
+        <div className="flex justify-center relative">
+          {/* Dark logo for light mode */}
+          <img
+            src="/andreas_logo.png"
+            alt="The Andreas Hotel & Spa"
+            className={`h-10 md:h-12 w-auto transition-opacity duration-500 ${mounted && isDark ? "opacity-0 absolute" : "opacity-70 hover:opacity-100"}`}
+          />
+          {/* White logo for dark mode */}
+          <img
+            src="/andreas_logo_white.png"
+            alt="The Andreas Hotel & Spa"
+            className={`h-10 md:h-12 w-auto transition-opacity duration-500 ${mounted && !isDark ? "opacity-0 absolute" : "opacity-70 hover:opacity-100"}`}
+          />
         </div>
       </section>
 
