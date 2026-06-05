@@ -28,7 +28,7 @@ export default function RoomsPage() {
           </a>
           <a
             href="/"
-            className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-colors"
+            className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:hover:text-black transition-colors"
           >
             Back to Home
           </a>

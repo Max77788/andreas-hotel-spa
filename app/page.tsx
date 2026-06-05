@@ -219,7 +219,7 @@ export default function HomePage() {
       </section>
 
       {/* ── STATS STRIP ──────────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-[var(--hotel-sand)]">
+      <section className="bg-white dark:bg-[#1a1a1a] border-b border-[var(--hotel-sand)] dark:border-[#333]">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-8">
           <div className="grid grid-cols-4 md:grid-cols-8 gap-6">
             {stats.map((s) => (
@@ -234,7 +234,7 @@ export default function HomePage() {
       </section>
 
       {/* ── BOOKING BAR ─────────────────────────────────────────────────────── */}
-      <section className="bg-[var(--hotel-charcoal)] px-6 md:px-10 py-6">
+      <section className="bg-[#1a1a1a] px-6 md:px-10 py-6">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-end gap-4">
           <div className="flex-1 w-full">
             <label className="block font-body text-[9px] tracking-[0.4em] uppercase text-[var(--hotel-gold)] mb-1">Check In</label>
@@ -266,7 +266,7 @@ export default function HomePage() {
       </section>
 
       {/* ── LOGO MARK ──────────────────────────────────────────────────────── */}
-      <section className="bg-white py-10 border-b border-[var(--hotel-sand)]">
+      <section className="bg-white dark:bg-[#1a1a1a] py-10 border-b border-[var(--hotel-sand)] dark:border-[#333]">
         <div className="flex justify-center relative">
           {/* Dark logo for light mode */}
           <img
@@ -389,7 +389,7 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {rooms.map((room) => (
-              <div key={room.name} className="card-lift bg-white group">
+              <div key={room.name} className="card-lift bg-white dark:bg-[#2a2620] group">
                 {/* Image */}
                 <div className="relative overflow-hidden aspect-[4/3]">
                   <div
@@ -422,7 +422,7 @@ export default function HomePage() {
                       href="https://us01.iqwebbook.com/AHSCA115/" target="_blank" rel="noopener noreferrer"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[var(--hotel-charcoal)] transition-all duration-300"
+                      className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[#1a1a1a] dark:hover:text-[#1a1a1a] transition-all duration-300"
                     >
                       Book Now →
                     </a>
@@ -467,7 +467,7 @@ export default function HomePage() {
           {/* Horizontal scroll */}
           <div className="scroll-x flex gap-6 pb-4">
             {events.map((ev) => (
-              <div key={ev.title} className="flex-shrink-0 w-[260px] bg-white card-lift">
+              <div key={ev.title} className="flex-shrink-0 w-[260px] bg-white dark:bg-[#2a2620] card-lift">
                 <div
                   className="h-44 bg-cover bg-center"
                   style={{ backgroundImage: `url(${ev.img})` }}

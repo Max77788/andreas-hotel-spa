@@ -19,7 +19,7 @@ export default function ComingSoon({ title, subtitle, description }: ComingSoonP
         <h1 className="font-display text-[var(--hotel-charcoal)] text-5xl md:text-7xl font-light tracking-wide mb-6">
           {title}
         </h1>
-        <p className="font-body text-[var(--hotel-charcoal)]/50 text-base max-w-md leading-relaxed mb-10">
+        <p className="font-body text-[var(--hotel-charcoal)]/90 text-base max-w-md leading-relaxed mb-10">
           {description || "This section is currently being redesigned. Please check back soon or contact us for more information."}
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
@@ -31,7 +31,7 @@ export default function ComingSoon({ title, subtitle, description }: ComingSoonP
           </a>
           <Link
             href="/"
-            className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-colors"
+            className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:hover:text-black transition-colors"
           >
             Back to Home
           </Link>
