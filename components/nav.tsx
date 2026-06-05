@@ -7,7 +7,7 @@ import ThemeToggle from "./theme-toggle";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/#story" },
-  { label: "Rooms", href: "https://spaatandreas.com/booking/", external: true },
+  { label: "Rooms", href: "https://s005948.officialbookings.com/", external: true },
   { label: "Amenities", href: "/#amenities" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Contact", href: "/#contact" },
@@ -30,7 +30,7 @@ export default function Nav() {
             <img
               src="/andreas_logo_white.png"
               alt="The Andreas Hotel & Spa"
-              className="h-10 md:h-12 w-auto block"
+              className="h-14 md:h-20 w-auto block"
             />
           </Link>
 
@@ -63,7 +63,7 @@ export default function Nav() {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <a
-              href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
+              href="https://s005948.officialbookings.com/" target="_blank" rel="noopener noreferrer"
               className="hidden md:inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
@@ -127,7 +127,7 @@ export default function Nav() {
             )
           )}
           <a
-            href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
+            href="https://s005948.officialbookings.com/" target="_blank" rel="noopener noreferrer"
             className="mt-4 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Book a Room

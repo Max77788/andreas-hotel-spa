@@ -166,7 +166,7 @@ export default function HomePage() {
 
         {/* Hero content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: "60px" }}>
-          {/* Text backdrop */}
+          {/* Logo backdrop */}
           <div
             className="flex flex-col items-center px-10 py-10 mb-8"
             style={{
@@ -175,30 +175,31 @@ export default function HomePage() {
               WebkitBackdropFilter: "blur(6px)",
             }}
           >
-            <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-5">
-              Palm Springs, California
-            </p>
-            <h1 className="font-display text-[var(--hotel-cream)] font-light leading-none mb-3" style={{ fontSize: "clamp(4rem, 12vw, 9rem)" }}>
-              The Andreas
-            </h1>
-            <p className="font-display text-white italic font-light mb-3" style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}>
-              Hotel &amp; Spa
-            </p>
+            {/* White logo (visible on dark backgrounds / dark mode) */}
+            <img
+              src="/andreas_logo_white.png"
+              alt="The Andreas Hotel & Spa"
+              className="w-64 md:w-96 h-auto"
+            />
             <div className="w-10 h-px bg-[var(--hotel-gold)] my-4" />
-            <p className="font-body text-white/60 text-xs md:text-sm tracking-[0.4em] uppercase">
+            <p className="font-body text-white/90 text-xs md:text-sm tracking-[0.4em] uppercase">
               A Sanctuary of Italian-Inspired Elegance
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/rooms"
+            <a
+              href="https://s005948.officialbookings.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-black border border-black text-white font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-white hover:text-[var(--hotel-charcoal)] hover:border-white transition-all duration-300"
             >
               Explore Rooms
-            </Link>
+            </a>
             <a
-              href="https://us01.iqwebbook.com/AHSCA115/"
-  className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              href="https://s005948.officialbookings.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
             </a>
@@ -249,7 +250,7 @@ export default function HomePage() {
             />
           </div>
           <a
-            href="https://us01.iqwebbook.com/AHSCA115/"
+            href="https://s005948.officialbookings.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full md:w-auto flex-shrink-0 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-8 py-3 text-center hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
@@ -395,7 +396,7 @@ export default function HomePage() {
                       <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 ml-1">/ night</span>
                     </div>
                     <a
-                      href="https://us01.iqwebbook.com/AHSCA115/"
+                      href="https://s005948.officialbookings.com/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[var(--hotel-charcoal)] transition-all duration-300"
@@ -607,7 +608,7 @@ export default function HomePage() {
                   <p className="font-body text-white/70 text-[10px] tracking-widest uppercase mt-1">All amenities included</p>
                 </div>
                 <a
-                  href="https://us01.iqwebbook.com/AHSCA115/"
+                  href="https://s005948.officialbookings.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-4 py-2 hover:bg-[var(--hotel-cream)] transition-colors duration-300"
@@ -671,7 +672,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a
-              href="https://us01.iqwebbook.com/AHSCA115/"
+              href="https://s005948.officialbookings.com/"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
