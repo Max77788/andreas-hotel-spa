@@ -16,7 +16,7 @@ export default function RoomsPage() {
         <h1 className="font-display text-[var(--hotel-charcoal)] text-5xl md:text-7xl font-light tracking-wide mb-6">
           Rooms & Suites
         </h1>
-        <p className="font-body text-[var(--hotel-charcoal)]/50 text-base max-w-md leading-relaxed mb-10">
+        <p className="font-body text-[var(--hotel-charcoal)]/70 text-base max-w-md leading-relaxed mb-10">
           This page is currently being redesigned. To browse our rooms or make a reservation, please contact us directly.
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
