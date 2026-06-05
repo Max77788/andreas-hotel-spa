@@ -633,7 +633,7 @@ export default function HomePage() {
         id="contact"
         className="relative py-28 md:py-36 overflow-hidden"
         style={{
-          backgroundImage: `url(/hotel-photos/pool-night.jpg
+          backgroundImage: `url(/hotel-photos/pool-night.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
