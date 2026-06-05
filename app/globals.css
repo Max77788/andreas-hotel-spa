@@ -212,3 +212,20 @@ html {
 body nextjs-portal {
   display: none;
 }
+
+/* Vapi widget mobile constraints */
+@media (max-width: 768px) {
+  vapi-widget {
+    --vapi-chat-max-height: calc(100dvh - 60px);
+    --vapi-chat-max-width: 100vw;
+  }
+
+  /* Constrain the chat overlay on mobile */
+  .vapi-chat-overlay,
+  [class*="vapi-chat"],
+  [class*="vapi-panel"] {
+    max-height: calc(100dvh - 60px) !important;
+    max-width: 100vw !important;
+    border-radius: 12px 12px 0 0 !important;
+  }
+}
