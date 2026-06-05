@@ -8,12 +8,12 @@ import VapiChatSection from "@/components/vapi-chat-section";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
-const STORY_IMG = "https://images.pexels.com/photos/5029310/pexels-photo-5029310.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900";
-const PHILOSOPHY_IMG = "https://images.pexels.com/photos/35023213/pexels-photo-35023213.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900";
+const STORY_IMG = "/hotel-photos/courtyard.jpg";
+const PHILOSOPHY_IMG = "/hotel-photos/courtyard.jpg";
 
-const OFFERS_BG = "https://images.pexels.com/photos/18823962/pexels-photo-18823962.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1000&w=1800";
-const AMENITIES_POOL = "https://images.pexels.com/photos/24913567/pexels-photo-24913567.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=800";
-const AMENITIES_SPA = "https://images.pexels.com/photos/6187418/pexels-photo-6187418.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=800";
+const OFFERS_BG = "/hotel-photos/pool-night.jpg";
+const AMENITIES_POOL = "/hotel-photos/pool-night.jpg";
+const AMENITIES_SPA = "/hotel-photos/amenities.jpg";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const stats = [
@@ -32,7 +32,7 @@ const rooms = [
     badge: "VILLA",
     name: "Andreas Villa Suite",
     href: "/rooms/andreas-villa-suite",
-    img: "https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
+    img: "/hotel-photos/exterior.jpg",
     description: "Our most prestigious suite featuring Italian Villa design with panoramic desert views and private courtyard.",
     bed: "King Bed",
     guests: "4 Guests",
@@ -43,7 +43,7 @@ const rooms = [
     badge: "SUITE",
     name: "1 Bedroom Suite",
     href: "/rooms/1-bedroom-suite",
-    img: "https://images.pexels.com/photos/6187418/pexels-photo-6187418.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
+    img: "/hotel-photos/amenities.jpg",
     description: "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings.",
     bed: "King Bed",
     guests: "2 Guests",
@@ -54,7 +54,7 @@ const rooms = [
     badge: "DELUXE",
     name: "Deluxe Room",
     href: "/rooms/deluxe-room",
-    img: "https://images.pexels.com/photos/5547675/pexels-photo-5547675.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
+    img: "/hotel-photos/room6.jpg",
     description: "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor.",
     bed: "Queen Bed",
     guests: "2 Guests",
@@ -69,28 +69,28 @@ const events = [
     date: "APR 12, 2026",
     title: "Desert Sunrise Yoga",
     description: "Begin your morning with guided yoga on our rooftop terrace as the sun rises over the San Jacinto Mountains.",
-    img: "https://images.pexels.com/photos/3272589/pexels-photo-3272589.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+    img: "/hotel-photos/room7.jpg",
   },
   {
     tag: "DINING",
     date: "APR 19, 2026",
     title: "Poolside Wine Evening",
     description: "Join our sommelier for an intimate poolside tasting of curated California wines and artisanal small bites.",
-    img: "https://images.pexels.com/photos/5116976/pexels-photo-5116976.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+    img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg",
   },
   {
     tag: "CULTURE",
     date: "MAY 3, 2026",
     title: "Architecture Walking Tour",
     description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.",
-    img: "https://images.pexels.com/photos/5547676/pexels-photo-5547676.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+    img: "/hotel-photos/pool-night.jpg",
   },
   {
     tag: "SPA",
     date: "MAY 17, 2026",
     title: "Signature Spa Day",
     description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.",
-    img: "https://images.pexels.com/photos/6560252/pexels-photo-6560252.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
+    img: "/hotel-photos/room1.jpg",
   },
 ];
 
@@ -104,14 +104,14 @@ const amenities = [
 ];
 
 const galleryImages = [
-  { src: "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Villa Suite" },
-  { src: "https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Sunset pool" },
-  { src: "https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Guest room" },
-  { src: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Pool area" },
-  { src: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Spa treatment" },
-  { src: "https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Living area" },
-  { src: "https://images.pexels.com/photos/3272589/pexels-photo-3272589.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Desert palms" },
-  { src: "https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Executive room" },
+  { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa Suite" },
+  { src: "/hotel-photos/pool-night.jpg", alt: "Sunset pool" },
+  { src: "/hotel-photos/room1.jpg", alt: "Guest room" },
+  { src: "/hotel-photos/pool-night.jpg", alt: "Pool area" },
+  { src: "/hotel-photos/amenities.jpg", alt: "Spa treatment" },
+  { src: "/hotel-photos/room6.jpg", alt: "Living area" },
+  { src: "/hotel-photos/room7.jpg", alt: "Desert palms" },
+  { src: "/hotel-photos/room7.jpg", alt: "Executive room" },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -130,7 +130,7 @@ export default function HomePage() {
           className="absolute inset-0 w-full h-full bg-cover bg-center"
           style={{
             backgroundImage:
-              "url(https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1920)",
+              "url(/hotel-photos/exterior.jpg",
           }}
         >
           <video
@@ -138,7 +138,7 @@ export default function HomePage() {
             muted
             loop
             playsInline
-            poster="https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1920"
+            poster="/hotel-photos/exterior.jpg"
             style={{
               position: "absolute",
               top: "50%",
@@ -656,7 +656,7 @@ export default function HomePage() {
         id="contact"
         className="relative py-28 md:py-36 overflow-hidden"
         style={{
-          backgroundImage: `url(https://images.pexels.com/photos/30274228/pexels-photo-30274228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=1800)`,
+          backgroundImage: `url(/hotel-photos/pool-night.jpg
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
