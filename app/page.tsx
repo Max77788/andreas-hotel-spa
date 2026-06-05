@@ -491,7 +491,7 @@ export default function HomePage() {
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
                     <a
-                      href="tel:+17603275701"
+                      href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
                     >
                       Book Now
@@ -529,7 +529,7 @@ export default function HomePage() {
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
                     <a
-                      href="tel:+17603275701"
+                      href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
                     >
                       Book Now
