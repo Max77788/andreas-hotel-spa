@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTheme } from "next-themes";
+import { useState } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
@@ -9,12 +8,12 @@ import VapiChatSection from "@/components/vapi-chat-section";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
-const STORY_IMG = "/hotel-photos/andreas-banner-3.jpg";
-const PHILOSOPHY_IMG = "/hotel-photos/andreas-banner-2-1.jpg";
+const STORY_IMG = "https://images.pexels.com/photos/5029310/pexels-photo-5029310.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900";
+const PHILOSOPHY_IMG = "https://images.pexels.com/photos/35023213/pexels-photo-35023213.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=900";
 
-const OFFERS_BG = "/hotel-photos/andreas-hotel-spa-palm-springs-front-new.jpg";
-const AMENITIES_POOL = "/hotel-photos/andreas-banner-2-1.jpg";
-const AMENITIES_SPA = "/hotel-photos/andreas-amenities-1.jpg";
+const OFFERS_BG = "https://images.pexels.com/photos/18823962/pexels-photo-18823962.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1000&w=1800";
+const AMENITIES_POOL = "https://images.pexels.com/photos/24913567/pexels-photo-24913567.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=800";
+const AMENITIES_SPA = "https://images.pexels.com/photos/6187418/pexels-photo-6187418.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=600&w=800";
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 const stats = [
@@ -33,7 +32,7 @@ const rooms = [
     badge: "VILLA",
     name: "Andreas Villa Suite",
     href: "/rooms/andreas-villa-suite",
-    img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
+    img: "https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
     description: "Our most prestigious suite featuring Italian Villa design with panoramic desert views and private courtyard.",
     bed: "King Bed",
     guests: "4 Guests",
@@ -44,7 +43,7 @@ const rooms = [
     badge: "SUITE",
     name: "1 Bedroom Suite",
     href: "/rooms/1-bedroom-suite",
-    img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg",
+    img: "https://images.pexels.com/photos/6187418/pexels-photo-6187418.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
     description: "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings.",
     bed: "King Bed",
     guests: "2 Guests",
@@ -55,7 +54,7 @@ const rooms = [
     badge: "DELUXE",
     name: "Deluxe Room",
     href: "/rooms/deluxe-room",
-    img: "/hotel-photos/andreas-93.jpg",
+    img: "https://images.pexels.com/photos/5547675/pexels-photo-5547675.jpeg?auto=compress&cs=tinysrgb&h=400&w=400",
     description: "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor.",
     bed: "Queen Bed",
     guests: "2 Guests",
@@ -70,28 +69,28 @@ const events = [
     date: "APR 12, 2026",
     title: "Desert Sunrise Yoga",
     description: "Begin your morning with guided yoga on our rooftop terrace as the sun rises over the San Jacinto Mountains.",
-    img: "/hotel-photos/andreas-banner-2-1.jpg",
+    img: "https://images.pexels.com/photos/3272589/pexels-photo-3272589.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
   },
   {
     tag: "DINING",
     date: "APR 19, 2026",
     title: "Poolside Wine Evening",
     description: "Join our sommelier for an intimate poolside tasting of curated California wines and artisanal small bites.",
-    img: "/hotel-photos/andreas-banner-3.jpg",
+    img: "https://images.pexels.com/photos/5116976/pexels-photo-5116976.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
   },
   {
     tag: "CULTURE",
     date: "MAY 3, 2026",
     title: "Architecture Walking Tour",
     description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.",
-    img: "/hotel-photos/andreas-93.jpg",
+    img: "https://images.pexels.com/photos/5547676/pexels-photo-5547676.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
   },
   {
     tag: "SPA",
     date: "MAY 17, 2026",
     title: "Signature Spa Day",
     description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.",
-    img: "/hotel-photos/andreas-amenities-1.jpg",
+    img: "https://images.pexels.com/photos/6560252/pexels-photo-6560252.jpeg?auto=compress&cs=tinysrgb&h=400&w=600",
   },
 ];
 
@@ -105,25 +104,20 @@ const amenities = [
 ];
 
 const galleryImages = [
-  { src: "/hotel-photos/andreas-hotel-spa-palm-springs-front-new.jpg", alt: "Hotel exterior" },
-  { src: "/hotel-photos/andreas-banner-2-1.jpg", alt: "Pool at night" },
-  { src: "/hotel-photos/andreas-banner-3.jpg", alt: "Courtyard fireplace" },
-  { src: "/hotel-photos/andreas-93.jpg", alt: "Hotel entrance" },
-  { src: "/hotel-photos/andreas-amenities-1.jpg", alt: "Amenities" },
-  { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa suite bedroom" },
-  { src: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg", alt: "Accessible suite" },
-  { src: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs-room11.jpg", alt: "Accessible room" },
+  { src: "https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Villa Suite" },
+  { src: "https://images.pexels.com/photos/189296/pexels-photo-189296.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Sunset pool" },
+  { src: "https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Guest room" },
+  { src: "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Pool area" },
+  { src: "https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Spa treatment" },
+  { src: "https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Living area" },
+  { src: "https://images.pexels.com/photos/3272589/pexels-photo-3272589.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Desert palms" },
+  { src: "https://images.pexels.com/photos/237371/pexels-photo-237371.jpeg?auto=compress&cs=tinysrgb&w=800", alt: "Executive room" },
 ];
 
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const { theme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  const isDark = mounted && theme === "dark";
 
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">
@@ -136,7 +130,7 @@ export default function HomePage() {
           className="absolute inset-0 w-full h-full bg-cover bg-center"
           style={{
             backgroundImage:
-              "url(/hotel-photos/andreas-hotel-spa-palm-springs-front-new.jpg)",
+              "url(https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1920)",
           }}
         >
           <video
@@ -144,7 +138,7 @@ export default function HomePage() {
             muted
             loop
             playsInline
-            poster="/hotel-photos/andreas-hotel-spa-palm-springs-front-new.jpg"
+            poster="https://images.pexels.com/photos/34675728/pexels-photo-34675728.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=1080&w=1920"
             style={{
               position: "absolute",
               top: "50%",
@@ -184,20 +178,14 @@ export default function HomePage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-5">
               Palm Springs, California
             </p>
-            {/* Dark logo for light mode */}
-            <img
-              src="/andreas_logo.png"
-              alt="The Andreas Hotel & Spa"
-              className={`w-[min(85vw,480px)] h-auto mb-2 transition-opacity duration-500 ${mounted && isDark ? "hidden" : "block"}`}
-            />
-            {/* White logo for dark mode */}
-            <img
-              src="/andreas_logo_white.png"
-              alt="The Andreas Hotel & Spa"
-              className={`w-[min(85vw,480px)] h-auto mb-2 transition-opacity duration-500 ${mounted && !isDark ? "hidden" : "block"}`}
-            />
+            <h1 className="font-display text-[var(--hotel-cream)] font-light leading-none mb-3" style={{ fontSize: "clamp(4rem, 12vw, 9rem)" }}>
+              The Andreas
+            </h1>
+            <p className="font-display text-white italic font-light mb-3" style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}>
+              Hotel &amp; Spa
+            </p>
             <div className="w-10 h-px bg-[var(--hotel-gold)] my-4" />
-            <p className="font-body text-white/85 text-xs md:text-sm tracking-[0.4em] uppercase">
+            <p className="font-body text-white/60 text-xs md:text-sm tracking-[0.4em] uppercase">
               A Sanctuary of Italian-Inspired Elegance
             </p>
           </div>
@@ -209,7 +197,7 @@ export default function HomePage() {
               Explore Rooms
             </Link>
             <a
-              href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
+              href="https://us01.iqwebbook.com/AHSCA115/"
   className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
@@ -217,22 +205,22 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scroll hint — hidden on mobile */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 text-white/60">
+        {/* Scroll hint */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40">
           <span className="font-body text-[8px] tracking-[0.5em] uppercase">Scroll</span>
           <div className="w-px h-8 bg-white/20 animate-pulse" />
         </div>
       </section>
 
       {/* ── STATS STRIP ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#1a1a1a] border-b border-[var(--hotel-sand)] dark:border-[#333]">
+      <section className="bg-[var(--hotel-cream)] border-b border-[var(--hotel-sand)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-8">
           <div className="grid grid-cols-4 md:grid-cols-8 gap-6">
             {stats.map((s) => (
               <div key={s.label} className="flex flex-col items-center text-center gap-1">
                 <span className="text-[var(--hotel-gold)] text-lg mb-1">{s.icon}</span>
                 <span className="font-display text-[var(--hotel-charcoal)] text-xl font-light">{s.value}</span>
-                <span className="font-body text-[var(--hotel-charcoal)]/90 text-[9px] tracking-[0.3em] uppercase">{s.label}</span>
+                <span className="font-body text-[var(--hotel-charcoal)]/50 text-[9px] tracking-[0.3em] uppercase">{s.label}</span>
               </div>
             ))}
           </div>
@@ -240,7 +228,7 @@ export default function HomePage() {
       </section>
 
       {/* ── BOOKING BAR ─────────────────────────────────────────────────────── */}
-      <section className="bg-[#1a1a1a] px-6 md:px-10 py-6">
+      <section className="bg-[var(--hotel-charcoal)] px-6 md:px-10 py-6">
         <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-end gap-4">
           <div className="flex-1 w-full">
             <label className="block font-body text-[9px] tracking-[0.4em] uppercase text-[var(--hotel-gold)] mb-1">Check In</label>
@@ -248,7 +236,7 @@ export default function HomePage() {
               type="date"
               value={checkIn}
               onChange={(e) => setCheckIn(e.target.value)}
-              className="w-full bg-transparent border-b border-white/40 text-white font-body text-sm py-2 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+              className="w-full bg-transparent border-b border-white/20 text-white font-body text-sm py-2 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
             />
           </div>
           <div className="flex-1 w-full">
@@ -257,35 +245,17 @@ export default function HomePage() {
               type="date"
               value={checkOut}
               onChange={(e) => setCheckOut(e.target.value)}
-              className="w-full bg-transparent border-b border-white/40 text-white font-body text-sm py-2 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+              className="w-full bg-transparent border-b border-white/20 text-white font-body text-sm py-2 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
             />
           </div>
           <a
-            href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
+            href="https://us01.iqwebbook.com/AHSCA115/"
             target="_blank"
             rel="noopener noreferrer"
             className="w-full md:w-auto flex-shrink-0 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-8 py-3 text-center hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Check Availability
           </a>
-        </div>
-      </section>
-
-      {/* ── LOGO MARK ──────────────────────────────────────────────────────── */}
-      <section className="bg-white dark:bg-[#1a1a1a] py-10 border-b border-[var(--hotel-sand)] dark:border-[#333]">
-        <div className="flex justify-center relative">
-          {/* Dark logo for light mode */}
-          <img
-            src="/andreas_logo.png"
-            alt="The Andreas Hotel & Spa"
-            className={`h-10 md:h-12 w-auto transition-opacity duration-500 ${mounted && isDark ? "opacity-0 absolute" : "opacity-70 hover:opacity-100"}`}
-          />
-          {/* White logo for dark mode */}
-          <img
-            src="/andreas_logo_white.png"
-            alt="The Andreas Hotel & Spa"
-            className={`h-10 md:h-12 w-auto transition-opacity duration-500 ${mounted && !isDark ? "opacity-0 absolute" : "opacity-70 hover:opacity-100"}`}
-          />
         </div>
       </section>
 
@@ -304,10 +274,10 @@ export default function HomePage() {
                 Meets the Desert
               </h2>
               <div className="w-8 h-px bg-[var(--hotel-gold)] my-6" />
-              <p className="font-body text-[var(--hotel-charcoal)] text-sm leading-relaxed mb-4">
+              <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-4">
                 The Andreas Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
               </p>
-              <p className="font-body text-[var(--hotel-charcoal)] text-sm leading-relaxed mb-10">
+              <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-10">
                 Interiors include a full-service spa where guests can indulge in sumptuous treatments. Our 25 guest rooms are a reflection of Italian Villas in the hills of Italy. Outdoors, guests enjoy amenities including outdoor gas fireplaces, a swimming pool, and Jacuzzi, surrounded by a lovely manicured courtyard.
               </p>
 
@@ -320,7 +290,7 @@ export default function HomePage() {
                 ].map((s) => (
                   <div key={s.label}>
                     <div className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{s.num}</div>
-                    <div className="font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/90 mt-1">{s.label}</div>
+                    <div className="font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/50 mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -334,7 +304,7 @@ export default function HomePage() {
               />
               {/* Location badge */}
               <div className="absolute bottom-6 left-6 bg-[var(--hotel-charcoal)]/90 backdrop-blur-sm px-5 py-3">
-                <div className="font-display text-white text-lg font-light">Palm Springs</div>
+                <div className="font-display text-[var(--hotel-cream)] text-lg font-light">Palm Springs</div>
                 <div className="font-body text-[var(--hotel-gold)] text-[9px] tracking-widest uppercase mt-0.5">277 N. Indian Canyon Drive</div>
               </div>
             </div>
@@ -360,13 +330,13 @@ export default function HomePage() {
               <em className="italic">Art of Living Well</em>
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] my-5" />
-            <p className="font-body text-[var(--hotel-charcoal)] text-sm leading-relaxed mb-4">
+            <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-4">
               At The Andreas, we believe that true luxury is found in the harmony of authentic experiences, thoughtful design, and genuine human connection. Every detail — from our organically sourced linens to our garden-fresh menus — reflects our commitment to a life beautifully lived.
             </p>
-            <p className="font-body text-[var(--hotel-charcoal)] text-sm leading-relaxed mb-10">
+            <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-10">
               Our Palm Springs sanctuary celebrates the natural world around us — the desert light, the bloom of bougainvillea, the stillness of warm evenings — inviting each guest to slow down, breathe deeply, and arrive fully.
             </p>
-            <div className="grid grid-cols-3 gap-4 border-t border-[var(--hotel-sand)] pt-8">
+            <div className="grid grid-cols-3 gap-4 border-t border-[var(--hotel-sand)]/60 pt-8">
               {[
                 { num: "90+", label: "Years of Hospitality" },
                 { num: "100%", label: "Organic Spa Products" },
@@ -374,7 +344,7 @@ export default function HomePage() {
               ].map((s) => (
                 <div key={s.label} className="border-r border-[var(--hotel-charcoal)]/10 last:border-0 pr-4 last:pr-0">
                   <div className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">{s.num}</div>
-                  <div className="font-body text-[8px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90 mt-1 leading-tight">{s.label}</div>
+                  <div className="font-body text-[8px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/50 mt-1 leading-tight">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -395,7 +365,7 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {rooms.map((room) => (
-              <div key={room.name} className="card-lift bg-white dark:bg-[#2a2620] group">
+              <div key={room.name} className="card-lift bg-white group">
                 {/* Image */}
                 <div className="relative overflow-hidden aspect-[4/3]">
                   <div
@@ -411,24 +381,24 @@ export default function HomePage() {
                 {/* Card body */}
                 <div className="p-6">
                   <h3 className="font-display text-[var(--hotel-charcoal)] text-xl font-light mb-2">{room.name}</h3>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-xs leading-relaxed mb-4">{room.description}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/60 text-xs leading-relaxed mb-4">{room.description}</p>
                   {/* Meta row */}
                   <div className="flex gap-4 border-t border-[var(--hotel-sand)] pt-4 mb-5">
                     {[room.bed, room.guests, room.sqft].map((meta) => (
-                      <span key={meta} className="font-body text-[9px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90">{meta}</span>
+                      <span key={meta} className="font-body text-[9px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/50">{meta}</span>
                     ))}
                   </div>
                   {/* Price + CTA */}
                   <div className="flex items-center justify-between">
                     <div>
                       <span className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">{room.price}</span>
-                      <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/90 ml-1">/ night</span>
+                      <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 ml-1">/ night</span>
                     </div>
                     <a
-                      href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
+                      href="https://us01.iqwebbook.com/AHSCA115/"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[#1a1a1a] dark:hover:text-[#1a1a1a] transition-all duration-300"
+                      className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[var(--hotel-charcoal)] transition-all duration-300"
                     >
                       Book Now →
                     </a>
@@ -441,7 +411,7 @@ export default function HomePage() {
           <div className="text-center mt-12">
             <Link
               href="/rooms"
-              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:hover:text-black transition-all duration-300"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
             >
               View All Rooms
             </Link>
@@ -464,7 +434,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/events"
-              className="hidden md:inline-block font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/90 hover:text-[var(--hotel-charcoal)] transition-colors border-b border-[var(--hotel-charcoal)]/30 pb-0.5"
+              className="hidden md:inline-block font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/60 hover:text-[var(--hotel-charcoal)] transition-colors border-b border-[var(--hotel-charcoal)]/30 pb-0.5"
             >
               View All Events →
             </Link>
@@ -473,20 +443,20 @@ export default function HomePage() {
           {/* Horizontal scroll */}
           <div className="scroll-x flex gap-6 pb-4">
             {events.map((ev) => (
-              <div key={ev.title} className="flex-shrink-0 w-[260px] bg-white dark:bg-[#2a2620] card-lift">
+              <div key={ev.title} className="flex-shrink-0 w-[260px] bg-white card-lift">
                 <div
                   className="h-44 bg-cover bg-center"
                   style={{ backgroundImage: `url(${ev.img})` }}
                 />
                 <div className="p-5">
                   <div className="mb-3">
-                    <span className="font-body text-[7px] tracking-[0.4em] uppercase bg-[var(--hotel-gold)]/30 text-[var(--hotel-terracotta)] px-2 py-0.5">
+                    <span className="font-body text-[7px] tracking-[0.4em] uppercase bg-[var(--hotel-gold)]/20 text-[var(--hotel-terracotta)] px-2 py-0.5">
                       {ev.tag}
                     </span>
                   </div>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-[9px] tracking-widest uppercase mb-1">{ev.date}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/50 text-[9px] tracking-widest uppercase mb-1">{ev.date}</p>
                   <h3 className="font-display text-[var(--hotel-charcoal)] text-lg font-light mb-2">{ev.title}</h3>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-xs leading-relaxed">{ev.description}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/60 text-xs leading-relaxed">{ev.description}</p>
                 </div>
               </div>
             ))}
@@ -510,7 +480,7 @@ export default function HomePage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
               Offers
             </p>
-            <h2 className="font-display text-white font-light leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
               Andreas Hotel &amp; Spa
             </h2>
             <div className="divider-gold" />
@@ -536,16 +506,14 @@ export default function HomePage() {
                   price: "$550",
                 },
               ].map((offer) => (
-                <div key={offer.title} className="border border-white/40 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
-                  <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
+                <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
+                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
                   <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
                   <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
                   <div className="mt-auto flex items-end justify-between">
-                    <span className="font-display text-white text-3xl font-light">{offer.price}</span>
+                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
                     <a
-                      href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="tel:+17603275701"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
                     >
                       Book Now
@@ -576,16 +544,14 @@ export default function HomePage() {
                   price: "$650",
                 },
               ].map((offer) => (
-                <div key={offer.title} className="border border-white/40 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
-                  <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
+                <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
+                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
                   <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
                   <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
                   <div className="mt-auto flex items-end justify-between">
-                    <span className="font-display text-white text-3xl font-light">{offer.price}</span>
+                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
                     <a
-                      href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="tel:+17603275701"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
                     >
                       Book Now
@@ -596,7 +562,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <p className="font-body text-white/50 text-[10px] tracking-widest text-center uppercase">
+          <p className="font-body text-white/20 text-[10px] tracking-widest text-center uppercase">
             ✦ Call (760) 327-5701 for custom packages ✦
           </p>
         </div>
@@ -607,7 +573,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="mb-14">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-3">What We Offer</p>
-            <h2 className="font-display text-white font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+            <h2 className="font-display text-[var(--hotel-cream)] font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
               Hotel Amenities
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
@@ -617,9 +583,9 @@ export default function HomePage() {
             {/* Amenity cards */}
             <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
               {amenities.map((a) => (
-                <div key={a.title} className="border border-[var(--hotel-cream)]/20 p-6 hover:border-[var(--hotel-gold)]/40 transition-colors duration-300">
+                <div key={a.title} className="border border-[var(--hotel-cream)]/10 p-6 hover:border-[var(--hotel-gold)]/40 transition-colors duration-300">
                   <span className="text-[var(--hotel-gold)] text-xl block mb-4">{a.icon}</span>
-                  <h3 className="font-display text-white text-lg font-light mb-2">{a.title}</h3>
+                  <h3 className="font-display text-[var(--hotel-cream)] text-lg font-light mb-2">{a.title}</h3>
                   <p className="font-body text-white/80 text-xs leading-relaxed">{a.desc}</p>
                 </div>
               ))}
@@ -641,7 +607,7 @@ export default function HomePage() {
                   <p className="font-body text-white/70 text-[10px] tracking-widest uppercase mt-1">All amenities included</p>
                 </div>
                 <a
-                  href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
+                  href="https://us01.iqwebbook.com/AHSCA115/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-4 py-2 hover:bg-[var(--hotel-cream)] transition-colors duration-300"
@@ -689,7 +655,7 @@ export default function HomePage() {
         id="contact"
         className="relative py-28 md:py-36 overflow-hidden"
         style={{
-          backgroundImage: `url(/hotel-photos/andreas-hotel-spa-palm-springs-front-new.jpg)`,
+          backgroundImage: `url(https://images.pexels.com/photos/30274228/pexels-photo-30274228.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=900&w=1800)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -700,18 +666,20 @@ export default function HomePage() {
           <h2 className="font-display text-[var(--hotel-charcoal)] font-light mb-4" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
             Your Desert Escape Awaits
           </h2>
-          <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm tracking-widest mb-2">
+          <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm tracking-widest mb-2">
             {/* Contact us at +1 (747) 494-9881 ·  */}stay@andreashotel.com
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a
-              href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
-  className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              href="https://us01.iqwebbook.com/AHSCA115/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Your Stay
             </a>
             <a
-              href="tel:+174****9881"
+              href="tel:+17474949881"
               className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-black hover:text-white transition-all duration-300"
             >
               Call Us

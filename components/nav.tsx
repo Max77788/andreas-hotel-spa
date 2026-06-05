@@ -7,7 +7,7 @@ import ThemeToggle from "./theme-toggle";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/#story" },
-  { label: "Rooms", href: "/rooms" },
+  { label: "Rooms", href: "https://us01.iqwebbook.com/AHSCA115/", external: true },
   { label: "Amenities", href: "/#amenities" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Contact", href: "/#contact" },
@@ -36,15 +36,27 @@ export default function Nav() {
 
           {/* Desktop nav links */}
           <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {navLinks.map((link) =>
+              link.external ? (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
           </nav>
 
           {/* Right: Book Now + theme toggle + mobile hamburger */}
@@ -91,16 +103,29 @@ export default function Nav() {
         </div>
 
         <nav className="flex-1 flex flex-col items-center justify-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="font-display text-[var(--hotel-cream)] text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+                className="font-display text-[var(--hotel-cream)] text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                className="font-display text-[var(--hotel-cream)] text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
           <a
             href="https://spaatandreas.com/booking/" target="_blank" rel="noopener noreferrer"
             className="mt-4 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
