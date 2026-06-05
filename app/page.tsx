@@ -184,12 +184,18 @@ export default function HomePage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-5">
               Palm Springs, California
             </p>
-            <h1 className="font-display text-white font-light leading-none mb-3" style={{ fontSize: "clamp(4rem, 12vw, 9rem)" }}>
-              The Andreas
-            </h1>
-            <p className="font-display text-white italic font-light mb-3" style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}>
-              Hotel &amp; Spa
-            </p>
+            {/* Dark logo for light mode */}
+            <img
+              src="/andreas_logo.png"
+              alt="The Andreas Hotel & Spa"
+              className={`w-[min(85vw,480px)] h-auto mb-2 transition-opacity duration-500 ${mounted && isDark ? "hidden" : "block"}`}
+            />
+            {/* White logo for dark mode */}
+            <img
+              src="/andreas_logo_white.png"
+              alt="The Andreas Hotel & Spa"
+              className={`w-[min(85vw,480px)] h-auto mb-2 transition-opacity duration-500 ${mounted && !isDark ? "hidden" : "block"}`}
+            />
             <div className="w-10 h-px bg-[var(--hotel-gold)] my-4" />
             <p className="font-body text-white/85 text-xs md:text-sm tracking-[0.4em] uppercase">
               A Sanctuary of Italian-Inspired Elegance

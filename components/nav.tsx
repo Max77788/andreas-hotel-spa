@@ -30,7 +30,7 @@ export default function Nav() {
             <img
               src="/andreas_logo_white.png"
               alt="The Andreas Hotel & Spa"
-              className="h-8 md:h-9 w-auto block"
+              className="h-10 md:h-12 w-auto block"
             />
           </Link>
 
