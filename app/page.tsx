@@ -125,36 +125,13 @@ export default function HomePage() {
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
       <section className="relative h-screen overflow-hidden">
-        {/* Video background */}
+        {/* Hotel exterior background */}
         <div
           className="absolute inset-0 w-full h-full bg-cover bg-center"
           style={{
-            backgroundImage:
-              "url(/hotel-photos/exterior.jpg",
+            backgroundImage: "url(/hotel-photos/exterior.jpg)",
           }}
-        >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/hotel-photos/exterior.jpg"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "100vw",
-              height: "56.25vw",
-              minHeight: "100vh",
-              minWidth: "177.77vh",
-              objectFit: "cover",
-              pointerEvents: "none",
-            }}
-          >
-            <source src="/hero-video.mp4" type="video/mp4" />
-          </video>
-        </div>
+        />
 
         {/* Gradient overlay */}
         <div
