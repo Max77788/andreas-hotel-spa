@@ -219,7 +219,7 @@ export default function HomePage() {
       </section>
 
       {/* ── STATS STRIP ──────────────────────────────────────────────────────── */}
-      <section className="bg-[var(--hotel-cream)] border-b border-[var(--hotel-sand)]">
+      <section className="bg-white border-b border-[var(--hotel-sand)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-8">
           <div className="grid grid-cols-4 md:grid-cols-8 gap-6">
             {stats.map((s) => (
@@ -266,7 +266,7 @@ export default function HomePage() {
       </section>
 
       {/* ── LOGO MARK ──────────────────────────────────────────────────────── */}
-      <section className="bg-[var(--hotel-cream)] py-10">
+      <section className="bg-white py-10 border-b border-[var(--hotel-sand)]">
         <div className="flex justify-center relative">
           {/* Dark logo for light mode */}
           <img
