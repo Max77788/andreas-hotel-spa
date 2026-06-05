@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import ThemeToggle from "./theme-toggle";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -46,8 +47,9 @@ export default function Nav() {
             ))}
           </nav>
 
-          {/* Right: Book Now + mobile hamburger */}
+          {/* Right: Book Now + theme toggle + mobile hamburger */}
           <div className="flex items-center gap-4">
+            <ThemeToggle />
             <a
               href="https://us01.iqwebbook.com/AHSCA115/" target="_blank" rel="noopener noreferrer"
               className="hidden md:inline-block bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
@@ -70,7 +72,7 @@ export default function Nav() {
 
       {/* Mobile fullscreen overlay */}
       <div
-        className={`fixed inset-0 z-[100] bg-[var(--hotel-charcoal)] flex flex-col transition-all duration-500 ${
+        className={`fixed inset-0 z-[100] bg-[#1a1a1a] flex flex-col transition-all duration-500 ${
           menuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
       >

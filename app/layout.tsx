@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Script from "next/script";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "The Andreas Hotel & Spa – Palm Springs, CA",
@@ -25,9 +26,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning={true}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         {/* Vapi AI Chatbot Widget */}
         <Script
           src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"

@@ -40,6 +40,18 @@
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'DM Sans', sans-serif;
   }
+
+  /* Dark mode overrides — flips the palette */
+  .dark {
+    --hotel-cream: #1a1a1a;          /* deep espresso */
+    --hotel-sand: #2a2620;           /* dark warm grey */
+    --hotel-charcoal: #e8ddd0;       /* warm sand (inverted from charcoal) */
+    --hotel-terracotta: #d4956a;     /* softer amber */
+    --hotel-gold: #c9a96e;           /* gold stays warm */
+    --hotel-olive: #9a9a7a;          /* lighter olive */
+    --hotel-forest: #4a6a5e;         /* lighter forest */
+    --hotel-forest-light: #5a7a6e;   /* lighter forest-light */
+  }
 }
 
 @layer base {
