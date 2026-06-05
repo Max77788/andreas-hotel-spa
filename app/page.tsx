@@ -640,13 +640,21 @@ export default function HomePage() {
       >
         <div className="absolute inset-0 bg-[var(--hotel-cream)]/85" />
         <div className="relative text-center px-6">
-          <p className="font-body text-[var(--hotel-charcoal)] text-[10px] tracking-[0.6em] uppercase mb-4">Now</p>
-          <h2 className="font-display text-[var(--hotel-charcoal)] font-light mb-4" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
-            Your Desert Escape Awaits
-          </h2>
-          <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm tracking-widest mb-2">
-            {/* Contact us at +1 (747) 494-9881 ·  */}stay@andreashotel.com
-          </p>
+          <div className="inline-block px-8 py-8 mb-6"
+            style={{
+              background: "rgba(0,0,0,0.65)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+            }}
+          >
+            <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-4">Now</p>
+            <h2 className="font-display text-white font-light mb-4" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
+              Your Desert Escape Awaits
+            </h2>
+            <p className="font-body text-white/70 text-sm tracking-widest mb-2">
+              stay@andreashotel.com
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
             <a
               href="https://s005948.officialbookings.com/"
