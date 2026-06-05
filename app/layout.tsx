@@ -37,24 +37,42 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
         {/* Vapi AI Chatbot Widget */}
-        <Script
-          src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-          strategy="afterInteractive"
-        />
-        {/* @ts-expect-error custom web component */}
-        <vapi-widget
-          public-key="a2166c04-eff0-4623-852e-93d4e7d54f7e"
-          assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
-          mode="chat"
-          theme="dark"
-          size="compact"
-          radius="large"
-          base-color="#2a2118"
-          accent-color="#c9a96e"
-          button-base-color="#2a2118"
-          button-accent-color="#c9a96e"
-          empty-chat-message="Hi, Sam here! How can I help you today?"
-        />
+        <div className="vapi-wrapper">
+          <Script
+            src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+            strategy="afterInteractive"
+          />
+          {/* @ts-expect-error custom web component */}
+          <vapi-widget
+            public-key="a2166c04-eff0-4623-852e-93d4e7d54f7e"
+            assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
+            mode="chat"
+            theme="dark"
+            size="full"
+            position="bottom-right"
+            radius="large"
+            base-color="#2a2118"
+            accent-color="#c9a96e"
+            button-base-color="#2a2118"
+            button-accent-color="#c9a96e"
+            empty-chat-message="Hi, Sam here! How can I help you today?"
+          />
+        </div>
+        <style dangerouslySetInnerHTML={{__html: `
+          @media (max-width: 768px) {
+            .vapi-wrapper {
+              position: fixed;
+              bottom: 0;
+              right: 0;
+              left: 0;
+              z-index: 40;
+              pointer-events: none;
+            }
+            .vapi-wrapper > * {
+              pointer-events: auto;
+            }
+          }
+        `}} />
       </body>
     </html>
   );
