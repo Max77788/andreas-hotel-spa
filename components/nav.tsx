@@ -7,7 +7,7 @@ import ThemeToggle from "./theme-toggle";
 const navLinks = [
   { label: "Home", href: "/" },
   { label: "About", href: "/#story" },
-  { label: "Rooms", href: "https://us01.iqwebbook.com/AHSCA115/", external: true },
+  { label: "Rooms", href: "https://spaatandreas.com/booking/", external: true },
   { label: "Amenities", href: "/#amenities" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Contact", href: "/#contact" },

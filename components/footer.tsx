@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const footerLinks = [
-  { label: "Rooms & Suites", href: "/rooms" },
+  { label: "Rooms & Suites", href: "https://spaatandreas.com/booking/", external: true },
   { label: "The Spa", href: "/spa" },
   { label: "Special Events", href: "/events" },
-  { label: "Seasonal Offers", href: "/offers" },
+  { label: "Seasonal Offers", href: "https://spaatandreas.com/booking/", external: true },
 ];
 
 export default function Footer() {
@@ -43,12 +43,23 @@ export default function Footer() {
             <ul className="space-y-3">
               {footerLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="font-body text-sm text-[var(--hotel-cream)]/80 hover:text-[var(--hotel-gold)] transition-colors tracking-wide"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-body text-sm text-[var(--hotel-cream)]/80 hover:text-[var(--hotel-gold)] transition-colors tracking-wide"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="font-body text-sm text-[var(--hotel-cream)]/80 hover:text-[var(--hotel-gold)] transition-colors tracking-wide"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
