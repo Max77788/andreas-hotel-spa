@@ -8,8 +8,8 @@ import VapiChatSection from "@/components/vapi-chat-section";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
-const STORY_IMG = "/hotel-photos/courtyard.jpg";
-const PHILOSOPHY_IMG = "/hotel-photos/courtyard.jpg";
+const STORY_IMG = "/hotel-photos/pool-night.jpg";
+const PHILOSOPHY_IMG = "/hotel-photos/pool-night.jpg";
 
 const OFFERS_BG = "/hotel-photos/pool-night.jpg";
 const AMENITIES_POOL = "/hotel-photos/pool-night.jpg";
