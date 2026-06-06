@@ -186,14 +186,12 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
-            <a
-              href="https://s005948.officialbookings.com/"
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              href="#rooms"
               className="bg-black border border-black text-white font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-white hover:text-[var(--hotel-charcoal)] hover:border-white transition-all duration-300"
             >
               Explore Rooms
-            </a>
+            </Link>
             <a
               href="https://s005948.officialbookings.com/"
               target="_blank"
@@ -353,7 +351,7 @@ export default function HomePage() {
       </section>
 
       {/* ── ROOMS & SUITES ──────────────────────────────────────────────────── */}
-      <section className="py-24 md:py-32 bg-[var(--hotel-cream)]">
+      <section id="rooms" className="py-24 md:py-32 bg-[var(--hotel-cream)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="text-center mb-14">
             <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-3">Accommodations</p>
