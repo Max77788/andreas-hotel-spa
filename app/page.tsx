@@ -365,9 +365,9 @@ export default function HomePage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {rooms.map((room) => (
-              <div key={room.name} className="card-lift bg-white group">
+              <div key={room.name} className="card-lift bg-white dark:bg-[#2a2620] group">
                 {/* Image */}
-                <div className="relative overflow-hidden aspect-[4/3]">
+                <Link href={room.href} className="relative overflow-hidden aspect-[4/3] block">
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
                     style={{ backgroundImage: `url(${room.img})` }}
@@ -377,10 +377,12 @@ export default function HomePage() {
                       {room.badge}
                     </span>
                   </div>
-                </div>
+                </Link>
                 {/* Card body */}
                 <div className="p-6">
-                  <h3 className="font-display text-[var(--hotel-charcoal)] text-xl font-light mb-2">{room.name}</h3>
+                  <Link href={room.href}>
+                    <h3 className="font-display text-[var(--hotel-charcoal)] text-xl font-light mb-2 hover:text-[var(--hotel-terracotta)] transition-colors">{room.name}</h3>
+                  </Link>
                   <p className="font-body text-[var(--hotel-charcoal)]/60 text-xs leading-relaxed mb-4">{room.description}</p>
                   {/* Meta row */}
                   <div className="flex gap-4 border-t border-[var(--hotel-sand)] pt-4 mb-5">
@@ -562,9 +564,18 @@ export default function HomePage() {
             </div>
           </div>
 
-          <p className="font-body text-white/20 text-[10px] tracking-widest text-center uppercase">
+          <p className="font-body text-white/20 text-[10px] tracking-widest text-center uppercase mb-8">
             ✦ Call (760) 327-5701 for custom packages ✦
           </p>
+
+          <div className="text-center">
+            <Link
+              href="/offers"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] px-8 py-3 hover:bg-white transition-all duration-300"
+            >
+              View All Packages
+            </Link>
+          </div>
         </div>
       </section>
 

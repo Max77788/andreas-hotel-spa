@@ -6,8 +6,8 @@ import ThemeToggle from "./theme-toggle";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/#story" },
-  { label: "Rooms", href: "https://s005948.officialbookings.com/", external: true },
+  { label: "Rooms", href: "/rooms" },
+  { label: "Offers", href: "/offers" },
   { label: "Amenities", href: "/#amenities" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Contact", href: "/#contact" },

@@ -1,10 +1,10 @@
 import Link from "next/link";
 
 const footerLinks = [
-  { label: "Rooms & Suites", href: "https://s005948.officialbookings.com/", external: true },
+  { label: "Rooms & Suites", href: "/rooms" },
   { label: "The Spa", href: "/spa" },
   { label: "Special Events", href: "/events" },
-  { label: "Seasonal Offers", href: "https://spaatandreas.com/booking/", external: true },
+  { label: "Seasonal Offers", href: "/offers" },
 ];
 
 export default function Footer() {
