@@ -59,18 +59,8 @@ export default function RootLayout({
           />
         </div>
         <style dangerouslySetInnerHTML={{__html: `
-          @media (max-width: 768px) {
-            .vapi-wrapper {
-              position: fixed;
-              bottom: 0;
-              right: 0;
-              left: 0;
-              z-index: 40;
-              pointer-events: none;
-            }
-            .vapi-wrapper > * {
-              pointer-events: auto;
-            }
+          .vapi-wrapper {
+            z-index: 9999;
           }
         `}} />
       </body>

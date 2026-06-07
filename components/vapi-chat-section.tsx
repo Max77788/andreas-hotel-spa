@@ -42,7 +42,7 @@ export default function VapiChatSection() {
           ref={containerRef}
           className="w-full overflow-hidden"
           style={{
-            height: "600px",
+            height: "min(600px, 80vh)",
             borderRadius: "0px",
             border: "1px solid rgba(201,169,110,0.2)",
           }}
