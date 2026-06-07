@@ -708,6 +708,100 @@ export default function HomePage() {
       {/* ── AI CONCIERGE ─────────────────────────────────────────────────── */}
       {/* <VapiChatSection /> */}
 
+      {/* ── AWARDS & SOCIALS ────────────────────────────────────────────────── */}
+      <section className="bg-[var(--hotel-charcoal)] border-t border-[var(--hotel-gold)]/20">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-16">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+
+            {/* Awards */}
+            <div className="text-center md:text-left">
+              <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
+                Our Awards & Recognition
+              </p>
+              <a
+                href="https://www.tripadvisor.com/Hotel_Review-g32847-d529370-Reviews-Andreas_Hotel_Spa-Palm_Springs_Greater_Palm_Springs_California.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block hover:opacity-80 transition-opacity"
+              >
+                <img
+                  src="/hotel-photos/tripadvisor-award.png"
+                  alt="TripAdvisor Award"
+                  className="h-20 md:h-24 w-auto"
+                />
+              </a>
+            </div>
+
+            {/* Socials */}
+            <div className="text-center md:text-right">
+              <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-5">
+                Follow Us
+              </p>
+              <div className="flex items-center justify-center md:justify-end gap-5">
+                {/* Instagram */}
+                <a
+                  href="https://www.instagram.com/andreashotelandspa/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--hotel-cream)]/60 hover:text-[var(--hotel-gold)] transition-colors"
+                  aria-label="Instagram"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                  </svg>
+                </a>
+
+                {/* Facebook */}
+                <a
+                  href="https://www.facebook.com/andreashotelandspa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--hotel-cream)]/60 hover:text-[var(--hotel-gold)] transition-colors"
+                  aria-label="Facebook"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </a>
+
+                {/* TripAdvisor */}
+                <a
+                  href="https://www.tripadvisor.com/Hotel_Review-g32847-d529370-Reviews-Andreas_Hotel_Spa-Palm_Springs_Greater_Palm_Springs_California.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--hotel-cream)]/60 hover:text-[var(--hotel-gold)] transition-colors"
+                  aria-label="TripAdvisor"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <ellipse cx="12" cy="12" rx="4" ry="10"/>
+                    <line x1="2" y1="12" x2="22" y2="12"/>
+                  </svg>
+                </a>
+
+                {/* Yelp */}
+                <a
+                  href="https://www.yelp.com/biz/andreas-hotel-and-spa-palm-springs-4"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[var(--hotel-cream)]/60 hover:text-[var(--hotel-gold)] transition-colors"
+                  aria-label="Yelp"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v-2.5c0-.55.45-1 1-1h1.5c4.69 0 8.5-3.81 8.5-8.5S17.69 2 13 2h-1.5z"/>
+                    <path d="M7.5 13l1.5-4.5 1.5 4.5"/>
+                    <path d="M9.6 11h2.8"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
