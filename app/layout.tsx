@@ -48,7 +48,7 @@ export default function RootLayout({
             assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
             mode="chat"
             theme="dark"
-            size="compact"
+            size="tiny"
             position="bottom-right"
             radius="large"
             base-color="#2a2118"
@@ -61,12 +61,6 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{__html: `
           .vapi-wrapper {
             z-index: 9999;
-          }
-          @media (max-width: 400px) {
-            vapi-widget {
-              transform: scale(0.9);
-              transform-origin: bottom right;
-            }
           }
         `}} />
       </body>
