@@ -38,12 +38,21 @@ export default function RootLayout({
         </ThemeProvider>
         {/* Vapi AI Chatbot Widget */}
         <div className="vapi-wrapper">
+          <script dangerouslySetInnerHTML={{__html: `
+            (function(){
+              var w = document.querySelector('.vapi-widget-floating');
+              if (w && window.innerWidth <= 410) {
+                w.setAttribute('size', 'tiny');
+              }
+            })();
+          `}} />
           <Script
             src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
             strategy="afterInteractive"
           />
           {/* @ts-expect-error custom web component */}
           <vapi-widget
+            class="vapi-widget-floating"
             public-key="a2166c04-eff0-4623-852e-93d4e7d54f7e"
             assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
             mode="chat"
