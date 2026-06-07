@@ -706,7 +706,7 @@ export default function HomePage() {
       </section>
 
       {/* ── AI CONCIERGE ─────────────────────────────────────────────────── */}
-      {/* <VapiChatSection /> */}
+      <VapiChatSection />
 
       {/* ── AWARDS & SOCIALS ────────────────────────────────────────────────── */}
       <section className="bg-[var(--hotel-charcoal)] border-t border-[var(--hotel-gold)]/20">

@@ -62,12 +62,6 @@ export default function RootLayout({
           .vapi-wrapper {
             z-index: 9999;
           }
-          @media (max-width: 430px) {
-            vapi-widget {
-              transform: scale(0.85);
-              transform-origin: 100% 100%;
-            }
-          }
         `}} />
       </body>
     </html>
