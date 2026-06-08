@@ -138,57 +138,55 @@ export default function RoomsPage() {
       {/* Room listing */}
       <section className="py-20 md:py-28 bg-[var(--hotel-cream)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {allRooms.map((room) => (
-              <div key={room.slug} className="card-lift bg-white dark:bg-[#2a2620] group flex flex-col">
+              <div key={room.slug} className="group flex flex-col">
                 {/* Image */}
-                <Link href={`/rooms/${room.slug}`} className="relative overflow-hidden aspect-[4/3] block">
+                <Link href={`/rooms/${room.slug}`} className="relative overflow-hidden block">
                   <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                    className="aspect-[4/3] bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
                     style={{ backgroundImage: `url(${room.img})` }}
                   />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                  {/* Badge */}
                   <div className="absolute top-4 left-4">
-                    <span className="font-body text-[8px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-gold)] px-3 py-1">
+                    <span className="font-body text-[9px] tracking-[0.35em] uppercase bg-white/90 dark:bg-[#1a1a1a]/90 backdrop-blur-sm text-[var(--hotel-charcoal)] px-4 py-1.5">
                       {room.badge}
-                    </span>
-                  </div>
-                  {/* Hover overlay */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 flex items-center justify-center">
-                    <span className="text-white font-body text-[10px] tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/60 px-6 py-2 rounded-sm">
-                      View Details
                     </span>
                   </div>
                 </Link>
 
-                {/* Card body */}
-                <div className="p-6 flex flex-col flex-1">
+                {/* Content */}
+                <div className="pt-6 flex flex-col flex-1">
                   <Link href={`/rooms/${room.slug}`}>
                     <h3 className="font-display text-[var(--hotel-charcoal)] text-xl font-light mb-2 hover:text-[var(--hotel-terracotta)] transition-colors">
                       {room.name}
                     </h3>
                   </Link>
-                  <p className="font-body text-[var(--hotel-charcoal)]/70 text-xs leading-relaxed mb-4">
+                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-xs leading-relaxed mb-4">
                     {room.description}
                   </p>
 
                   {/* Amenity chips */}
-                  <div className="flex flex-wrap gap-2 mb-5">
-                    {room.amenities.map((a) => (
-                      <span
-                        key={a}
-                        className="font-body text-[8px] tracking-[0.15em] uppercase text-[var(--hotel-charcoal)]/50 border border-[var(--hotel-sand)] px-2 py-1"
-                      >
-                        {a}
+                  <div className="flex flex-wrap gap-x-1 gap-y-1 mb-5">
+                    {room.amenities.map((a, idx) => (
+                      <span key={a} className="inline-flex items-center">
+                        <span className="font-body text-[8px] tracking-[0.15em] uppercase text-[var(--hotel-charcoal)]/90">
+                          {a}
+                        </span>
+                        {idx < room.amenities.length - 1 && (
+                          <span className="text-[var(--hotel-sand)] mx-1.5">·</span>
+                        )}
                       </span>
                     ))}
                   </div>
 
                   {/* Meta row */}
-                  <div className="flex gap-4 border-t border-[var(--hotel-sand)] pt-4 mb-5 mt-auto">
+                  <div className="flex gap-5 pt-4 mb-5 mt-auto border-t border-[var(--hotel-sand)]">
                     {[room.bed, room.guests, room.sqft].map((meta) => (
                       <span
                         key={meta}
-                        className="font-body text-[9px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/50"
+                        className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90"
                       >
                         {meta}
                       </span>
@@ -201,18 +199,16 @@ export default function RoomsPage() {
                       <span className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">
                         {room.price}
                       </span>
-                      <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 ml-1">
+                      <span className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 ml-1">
                         / night
                       </span>
                     </div>
-                    <a
-                      href="https://s005948.officialbookings.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[var(--hotel-charcoal)] transition-all duration-300"
+                    <Link
+                      href={`/rooms/${room.slug}`}
+                      className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-charcoal)]/90 border-b border-[var(--hotel-charcoal)]/30 pb-0.5 hover:text-[var(--hotel-terracotta)] hover:border-[var(--hotel-terracotta)] transition-colors"
                     >
-                      Book Now
-                    </a>
+                      Details →
+                    </Link>
                   </div>
                 </div>
               </div>

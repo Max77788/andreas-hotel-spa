@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
-import VapiChatSection from "@/components/vapi-chat-section";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
@@ -351,64 +350,78 @@ export default function HomePage() {
       </section>
 
       {/* ── ROOMS & SUITES ──────────────────────────────────────────────────── */}
-      <section id="rooms" className="py-24 md:py-32 bg-[var(--hotel-cream)]">
+      <section id="rooms" className="py-24 md:py-32 bg-[var(--hotel-sand)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="text-center mb-14">
+          <div className="mb-16">
             <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-3">Accommodations</p>
             <h2 className="font-display text-[var(--hotel-charcoal)] font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
               Rooms &amp; Suites
             </h2>
-            <div className="divider-gold" />
+            <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {rooms.map((room) => (
-              <div key={room.name} className="card-lift bg-white dark:bg-[#2a2620] group">
-                {/* Image */}
-                <Link href={room.href} className="relative overflow-hidden aspect-[4/3] block">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${room.img})` }}
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="font-body text-[8px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-gold)] px-3 py-1">
-                      {room.badge}
-                    </span>
-                  </div>
-                </Link>
-                {/* Card body */}
-                <div className="p-6">
-                  <Link href={room.href}>
-                    <h3 className="font-display text-[var(--hotel-charcoal)] text-xl font-light mb-2 hover:text-[var(--hotel-terracotta)] transition-colors">{room.name}</h3>
-                  </Link>
-                  <p className="font-body text-[var(--hotel-charcoal)]/60 text-xs leading-relaxed mb-4">{room.description}</p>
-                  {/* Meta row */}
-                  <div className="flex gap-4 border-t border-[var(--hotel-sand)] pt-4 mb-5">
-                    {[room.bed, room.guests, room.sqft].map((meta) => (
-                      <span key={meta} className="font-body text-[9px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/50">{meta}</span>
-                    ))}
-                  </div>
-                  {/* Price + CTA */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">{room.price}</span>
-                      <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 ml-1">/ night</span>
+          <div className="flex flex-col gap-20 md:gap-28">
+            {rooms.map((room, i) => {
+              const isEven = i % 2 === 0;
+              return (
+                <div key={room.name} className="group flex flex-col md:flex-row gap-0">
+                  {/* Image side */}
+                  <div className={`relative w-full md:w-[58%] overflow-hidden ${isEven ? "md:order-1" : "md:order-2"}`}>
+                    <Link href={room.href} className="block">
+                      <div
+                        className="aspect-[4/3] md:aspect-[16/10] bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+                        style={{ backgroundImage: `url(${room.img})` }}
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
+                    </Link>
+                    {/* Badge */}
+                    <div className="absolute top-5 left-5">
+                      <span className="font-body text-[9px] tracking-[0.35em] uppercase bg-white/90 dark:bg-[#1a1a1a]/90 backdrop-blur-sm text-[var(--hotel-charcoal)] px-4 py-1.5">
+                        {room.badge}
+                      </span>
                     </div>
-                    <a
-                      href="https://s005948.officialbookings.com/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-body text-[9px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-4 py-2 hover:bg-[var(--hotel-charcoal)] transition-all duration-300"
-                    >
-                      Book Now →
-                    </a>
+                  </div>
+
+                  {/* Text side */}
+                  <div className={`w-full md:w-[42%] flex items-center ${isEven ? "md:order-2" : "md:order-1"}`}>
+                    <div className={`p-8 md:p-12 lg:p-16 w-full ${isEven ? "" : "md:text-right"}`}>
+                      <Link href={room.href}>
+                        <h3 className="font-display text-[var(--hotel-charcoal)] font-light mb-3 hover:text-[var(--hotel-terracotta)] transition-colors" style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", lineHeight: 1.15 }}>
+                          {room.name}
+                        </h3>
+                      </Link>
+                      <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-6 max-w-md" style={isEven ? {} : { marginLeft: "auto" }}>
+                        {room.description}
+                      </p>
+
+                      {/* Meta */}
+                      <div className={`flex gap-6 mb-8 ${isEven ? "" : "md:justify-end"}`}>
+                        {[room.bed, room.guests, room.sqft].map((meta) => (
+                          <span key={meta} className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90">{meta}</span>
+                        ))}
+                      </div>
+
+                      {/* Price + CTA */}
+                      <div className={`flex items-center gap-6 ${isEven ? "" : "md:flex-row-reverse"}`}>
+                        <div className="flex items-baseline gap-1">
+                          <span className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{room.price}</span>
+                          <span className="font-body text-[11px] text-[var(--hotel-charcoal)]/90">/ night</span>
+                        </div>
+                        <Link
+                          href={room.href}
+                          className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-charcoal)]/90 border-b border-[var(--hotel-charcoal)]/30 pb-0.5 hover:text-[var(--hotel-terracotta)] hover:border-[var(--hotel-terracotta)] transition-colors"
+                        >
+                          View Room →
+                        </Link>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-16">
             <Link
               href="/rooms"
               className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
@@ -704,9 +717,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* ── AI CONCIERGE ─────────────────────────────────────────────────── */}
-      <VapiChatSection />
 
       {/* ── AWARDS & SOCIALS ────────────────────────────────────────────────── */}
       <section className="bg-[var(--hotel-charcoal)] border-t border-[var(--hotel-gold)]/20">
