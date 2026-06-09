@@ -24,7 +24,7 @@ export default function ComingSoon({ title, subtitle, description }: ComingSoonP
         </p>
         <div className="flex flex-col sm:flex-row gap-4">
           <a
-            href="https://s005948.officialbookings.com/" target="_blank" rel="noopener noreferrer"
+            href="/book"
             className="bg-[var(--hotel-terracotta)] text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-charcoal)] transition-colors"
           >
             Book a Room

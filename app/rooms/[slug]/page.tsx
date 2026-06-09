@@ -395,7 +395,7 @@ export default async function RoomDetailPage({
                 </div>
 
                 <a
-                  href="https://s005948.officialbookings.com/"
+                  href="/book"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block text-center font-body text-[10px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-6 py-3 hover:bg-[var(--hotel-charcoal)] transition-all duration-300 mb-5"
@@ -450,7 +450,7 @@ export default async function RoomDetailPage({
               View All Rooms
             </Link>
             <a
-              href="https://s005948.officialbookings.com/"
+              href="/book"
               target="_blank"
               rel="noopener noreferrer"
               className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] px-8 py-3 hover:bg-white transition-all duration-300"

@@ -62,12 +62,12 @@ export default function Nav() {
           {/* Right: Book Now + theme toggle + mobile hamburger */}
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <a
-              href="https://s005948.officialbookings.com/" target="_blank" rel="noopener noreferrer"
+            <Link
+              href="/book"
               className="hidden md:inline-block bg-[var(--hotel-gold)] text-black font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
-            </a>
+            </Link>
             {/* Mobile hamburger — solid dark button so lines are always visible */}
             <button
               onClick={() => setMenuOpen(true)}
@@ -126,12 +126,12 @@ export default function Nav() {
               </Link>
             )
           )}
-          <a
-            href="https://s005948.officialbookings.com/" target="_blank" rel="noopener noreferrer"
+          <Link
+            href="/book"
             className="mt-4 bg-[var(--hotel-gold)] text-black font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Book a Room
-          </a>
+          </Link>
         </nav>
 
         <div className="pb-10 text-center">
