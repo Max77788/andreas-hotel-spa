@@ -96,7 +96,6 @@ const events = [
 const amenities = [
   { icon: "◎", title: "Full-Service Spa", desc: "Indulge in Vital-C Facial, California Orange Blossom Scrub, and Canyon Clay Body Mask treatments by expert therapists." },
   { icon: "◈", title: "Outdoor Pool & Jacuzzi", desc: "Our heated pool and Jacuzzi are surrounded by lush gardens and elegant poolside loungers — open daily." },
-  { icon: "⊟", title: "Poolside Bar & Dining", desc: "Enjoy happy hour daily 4–6 PM with handcrafted cocktails, seasonal bites, and poolside service." },
   { icon: "◐", title: "Outdoor Fireplaces", desc: "Gather around beautifully designed gas fireplaces set within our manicured courtyard every evening." },
   { icon: "◌", title: "24-Hour Front Desk", desc: "Our attentive concierge team is available around the clock to assist with reservations, dining, and activities." },
   { icon: "⊡", title: "Express Check-In/Out", desc: "Seamless arrivals and departures — because your time in Palm Springs should start and end perfectly." },
@@ -328,7 +327,7 @@ export default function HomePage() {
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] my-5" />
             <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-4">
-              At The Andreas, we believe that true luxury is found in the harmony of authentic experiences, thoughtful design, and genuine human connection. Every detail — from our organically sourced linens to our garden-fresh menus — reflects our commitment to a life beautifully lived.
+              At The Andreas, we believe that true luxury is found in the harmony of authentic experiences, thoughtful design, and genuine human connection. Every detail — from our organically sourced linens to our poolside lite menu — reflects our commitment to a life beautifully lived.
             </p>
             <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-10">
               Our Palm Springs sanctuary celebrates the natural world around us — the desert light, the bloom of bougainvillea, the stillness of warm evenings — inviting each guest to slow down, breathe deeply, and arrive fully.
@@ -336,7 +335,7 @@ export default function HomePage() {
             <div className="grid grid-cols-3 gap-4 border-t border-[var(--hotel-sand)]/60 pt-8">
               {[
                 { num: "90+", label: "Years of Hospitality" },
-                { num: "100%", label: "Organic Spa Products" },
+                { num: "100%", label: "Image Spa Products" },
                 { num: "5★", label: "Rated Experience" },
               ].map((s) => (
                 <div key={s.label} className="border-r border-[var(--hotel-charcoal)]/10 last:border-0 pr-4 last:pr-0">
@@ -493,9 +492,12 @@ export default function HomePage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
               Offers
             </p>
-            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
-              Andreas Hotel &amp; Spa
+            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight mb-2" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+              Seasonal Packages
             </h2>
+            <div className="flex justify-center mb-4">
+              <img src="/andreas_logo_white.png" alt="The Andreas Hotel & Spa" className="h-12 md:h-16 w-auto opacity-90" />
+            </div>
             <div className="divider-gold" />
           </div>
 
@@ -508,15 +510,15 @@ export default function HomePage() {
               {[
                 {
                   title: "The Escape",
-                  desc: "Includes the Andreas signature scrub, 60 min Deep Tissue, 60 minute Aroma Therapy massage, and the Vital C Facial.",
-                  duration: "4 hours of pure Heaven!",
-                  price: "$525",
+                  desc: "Includes the Andreas signature scrub, 50 min Deep Tissue, 50 minute Aroma Therapy massage, and the Vital C Facial.",
+                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
+                  price: "$630",
                 },
                 {
                   title: "The Rejuvenate",
-                  desc: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen&rsquo;s Facial and two 60 minute Therapeutic massages.",
-                  duration: "4.5 hours of restful bliss!",
-                  price: "$550",
+                  desc: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen&rsquo;s Facial and two 50 minute Therapeutic massages.",
+                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
+                  price: "$665",
                 },
               ].map((offer) => (
                 <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
@@ -546,15 +548,15 @@ export default function HomePage() {
               {[
                 {
                   title: "The Oasis",
-                  desc: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 60 minute Swedish massage, and a 60 Minute Aromatherapy massage.",
-                  duration: "4 hours of pampering treatments!",
-                  price: "$599",
+                  desc: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 50 minute Swedish massage, and a 50 Minute Aromatherapy massage.",
+                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
+                  price: "$745",
                 },
                 {
                   title: "The Andreas Renewal",
-                  desc: "Includes: 30 min. Mineral Soak, Enzyme Facial, and Botanical Body Wrap; 60 min. Deep Tissue &amp; therapeutic massage.",
-                  duration: "4.5 hours of complete renewal!",
-                  price: "$650",
+                  desc: "Includes: 30 min. Mineral Soak, Ageless Facial, and Rosemary Mint Scrub; 50 min. Deep Tissue &amp; therapeutic massage.",
+                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
+                  price: "$795",
                 },
               ].map((offer) => (
                 <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
@@ -725,21 +727,26 @@ export default function HomePage() {
 
             {/* Awards */}
             <div className="text-center md:text-left">
-              <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
+              <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-5">
                 Our Awards & Recognition
               </p>
-              <a
-                href="https://www.tripadvisor.com/Hotel_Review-g32847-d529370-Reviews-Andreas_Hotel_Spa-Palm_Springs_Greater_Palm_Springs_California.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block hover:opacity-80 transition-opacity"
-              >
-                <img
-                  src="/hotel-photos/tripadvisor-award.png"
-                  alt="TripAdvisor Award"
-                  className="h-20 md:h-24 w-auto"
-                />
-              </a>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-6">
+                <a
+                  href="https://www.tripadvisor.com/Hotel_Review-g32847-d529370-Reviews-Andreas_Hotel_Spa-Palm_Springs_Greater_Palm_Springs_California.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block hover:opacity-80 transition-opacity"
+                >
+                  <img
+                    src="/hotel-photos/tripadvisor-award.png"
+                    alt="TripAdvisor Award"
+                    className="h-16 md:h-20 w-auto"
+                  />
+                </a>
+                <span className="font-body text-[var(--hotel-cream)]/50 text-[9px] tracking-[0.3em] uppercase">
+                  Expedia · Booking.com · Yelp
+                </span>
+              </div>
             </div>
 
             {/* Socials */}

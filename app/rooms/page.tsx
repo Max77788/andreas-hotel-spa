@@ -87,7 +87,7 @@ const allRooms = [
     badge: "DELUXE",
     img: "/hotel-photos/room6.jpg",
     description:
-      "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor. The classic Andreas experience.",
+      "Beautifully appointed with marble bathrooms, luxury linens, and Italian-inspired furnishings. The classic Andreas experience.",
     bed: "Queen Bed",
     guests: "2 Guests",
     sqft: "340 sq ft",

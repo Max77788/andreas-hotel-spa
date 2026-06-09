@@ -24,7 +24,7 @@ const rooms: Record<string, RoomData> = {
     badge: "VILLA",
     img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
     description:
-      "Our most prestigious suite featuring Italian Villa design with panoramic desert views, private courtyard entrance, king bedroom, and a separate living area with fireplace.",
+      "Our most prestigious suite featuring Italian Villa design with panoramic desert views, a private courtyard entrance facing the pool, king bedroom, and a separate living area with fireplace.",
     bed: "King Bed",
     guests: "4 Guests",
     sqft: "750 sq ft",
@@ -110,7 +110,7 @@ const rooms: Record<string, RoomData> = {
       "Luxury Linens",
     ],
     longDescription:
-      "The Mobility Accessible Deluxe Room brings together accessibility and the classic Andreas aesthetic. A spacious layout with a queen bed, roll-in shower, and wide doorways ensures a comfortable stay without sacrificing style. Marble bathroom finishes and warm desert-inspired décor create the same inviting atmosphere found in every Andreas room, with the added peace of mind of ground-floor access and barrier-free design throughout.",
+      "The Mobility Accessible Deluxe Room brings together accessibility and the classic Andreas aesthetic. A spacious layout with a queen bed, roll-in shower, and wide doorways ensures a comfortable stay without sacrificing style. Marble bathroom finishes and Italian-inspired furnishings create the same inviting atmosphere found in every Andreas room, with the added peace of mind of ground-floor access and barrier-free design throughout.",
     extras: [
       { icon: "♿", label: "Full Accessibility" },
       { icon: "🛏", label: "Queen Bed" },
@@ -168,7 +168,7 @@ const rooms: Record<string, RoomData> = {
     badge: "SUITE",
     img: "/hotel-photos/amenities.jpg",
     description:
-      "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings throughout.",
+      "Spacious suite with pillow-topped king bed, separate living area, luxurious Italian-inspired furnishings, and select suites feature a private cabana patio.",
     bed: "King Bed",
     guests: "2 Guests",
     sqft: "520 sq ft",
@@ -186,6 +186,7 @@ const rooms: Record<string, RoomData> = {
     extras: [
       { icon: "🛏", label: "King Bed" },
       { icon: "🛋", label: "Separate Living Room" },
+      { icon: "🏖", label: "Private Cabana Patio" },
       { icon: "🌿", label: "Courtyard View" },
       { icon: "🖊", label: "Work Desk" },
       { icon: "📺", label: "Flat Screen TV" },
@@ -240,7 +241,7 @@ const rooms: Record<string, RoomData> = {
     badge: "DELUXE",
     img: "/hotel-photos/room6.jpg",
     description:
-      "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor. The classic Andreas experience.",
+      "Beautifully appointed with marble bathrooms, luxury linens, and Italian-inspired furnishings. The classic Andreas experience.",
     bed: "Queen Bed",
     guests: "2 Guests",
     sqft: "340 sq ft",
@@ -250,11 +251,11 @@ const rooms: Record<string, RoomData> = {
       "Queen Bed",
       "Pool View",
       "Luxury Linens",
-      "Desert-Inspired Décor",
+      "Italian-Inspired Furnishings",
       "Plush Robes",
     ],
     longDescription:
-      "The Deluxe Room is where most guests fall in love with the Andreas. A beautifully appointed queen bed dressed in crisp Italian linens, a marble bathroom with premium amenities, and warm desert-inspired décor that reflects the natural beauty of Palm Springs. Overlooking the pool and courtyard, these rooms capture the essence of relaxed luxury. It's the perfect home base for exploring downtown, hiking the nearby trails, or simply doing nothing at all by the pool.",
+      "The Deluxe Room is where most guests fall in love with the Andreas. A beautifully appointed queen bed dressed in crisp Italian linens, a marble bathroom with premium amenities, and Italian-inspired furnishings that reflect the timeless elegance of our hotel. Overlooking the pool and courtyard, these rooms capture the essence of relaxed luxury. It's the perfect home base for exploring downtown, hiking the nearby trails, or simply doing nothing at all by the pool.",
     extras: [
       { icon: "🛏", label: "Queen Bed" },
       { icon: "🏊", label: "Pool View" },
@@ -263,7 +264,7 @@ const rooms: Record<string, RoomData> = {
       { icon: "📺", label: "Flat Screen TV" },
       { icon: "❄️", label: "Mini Fridge" },
       { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "🖼", label: "Desert Décor" },
+      { icon: "🛋", label: "Italian Furnishings" },
     ],
     gallery: [
       "/hotel-photos/room6.jpg",

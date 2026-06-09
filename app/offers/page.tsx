@@ -4,30 +4,30 @@ import Footer from "@/components/footer";
 const oneNight = [
   {
     title: "The Escape",
-    desc: "Includes the Andreas signature scrub, 60 min Deep Tissue, 60 minute Aroma Therapy massage, and the Vital C Facial.",
-    duration: "4 hours of pure Heaven!",
-    price: "$525",
+    desc: "Includes the Andreas signature scrub, 50 min Deep Tissue, 50 minute Aroma Therapy massage, and the Vital C Facial.",
+    duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid March 15 - October 15.",
+    price: "$630",
   },
   {
     title: "The Rejuvenate",
-    desc: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen's Facial and two 60 minute Therapeutic massages.",
-    duration: "4.5 hours of restful bliss!",
-    price: "$550",
+    desc: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen's Facial and two 50 minute Therapeutic massages.",
+    duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid March 15 - October 15.",
+    price: "$665",
   },
 ];
 
 const twoNight = [
   {
     title: "The Oasis",
-    desc: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 60 minute Swedish massage, and a 60 Minute Aromatherapy massage.",
-    duration: "4 hours of pampering treatments!",
-    price: "$599",
+    desc: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 50 minute Swedish massage, and a 50 Minute Aromatherapy massage.",
+    duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid March 15 - October 15.",
+    price: "$745",
   },
   {
     title: "The Andreas Renewal",
-    desc: "Includes: 30 min. Mineral Soak, Enzyme Facial, and Botanical Body Wrap; 60 min. Deep Tissue & therapeutic massage.",
-    duration: "4.5 hours of complete renewal!",
-    price: "$650",
+    desc: "Includes: 30 min. Mineral Soak, Ageless Facial, and Rosemary Mint Scrub; 50 min. Deep Tissue & therapeutic massage.",
+    duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid March 15 - October 15.",
+    price: "$795",
   },
 ];
 
