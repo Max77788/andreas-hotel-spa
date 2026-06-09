@@ -95,6 +95,9 @@ export default function Footer() {
             © {new Date().getFullYear()} The Andreas Hotel & Spa. All Rights Reserved.
           </p>
           <div className="flex gap-6">
+            <Link href="/policies" className="font-body text-xs text-[var(--hotel-cream)]/50 hover:text-[var(--hotel-cream)]/80 transition-colors">
+              Hotel Policies
+            </Link>
             <Link href="/privacy" className="font-body text-xs text-[var(--hotel-cream)]/50 hover:text-[var(--hotel-cream)]/80 transition-colors">
               Privacy Policy
             </Link>
