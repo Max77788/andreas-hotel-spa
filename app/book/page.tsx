@@ -36,7 +36,7 @@ export default function BookPage() {
       <section className="flex-1 flex flex-col">
         <div className="flex-1 relative min-h-[800px]">
           <iframe
-            src="/api/book-proxy/"
+            src="/api/book-proxy"
             className="absolute inset-0 w-full h-full border-0"
             title="Book a room at The Andreas Hotel & Spa"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
