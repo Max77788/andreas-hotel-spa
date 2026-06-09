@@ -16,6 +16,9 @@ const nextConfig = {
     "*.macaly-app.com",
     "*.macaly-user-data.dev",
   ],
+  async rewrites() {
+    return [];
+  },
   turbopack: {
     rules: {
       "*.{jsx,tsx}": {
