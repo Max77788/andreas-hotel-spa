@@ -44,13 +44,15 @@ export async function PATCH(
 
 async function proxyRequest(
   req: NextRequest,
-  path: string[],
+  path: string[] | undefined,
   method: string
 ) {
   const proxyBase = `${req.nextUrl.protocol}//${req.nextUrl.host}/api/book-proxy`;
-  const pathStr = path.join("/");
+  const pathStr = (path && path.length > 0) ? path.join("/") : "";
   const query = req.nextUrl.search;
-  const targetUrl = `${BOOKING_BASE}/${pathStr}${query}`;
+  const targetUrl = pathStr
+    ? `${BOOKING_BASE}/${pathStr}${query}`
+    : `${BOOKING_BASE}${query}`;
 
   try {
     const headers: Record<string, string> = {};
