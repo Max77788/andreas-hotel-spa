@@ -9,20 +9,34 @@ export const metadata = {
 export default function BookPage() {
   return (
     <div className="fixed inset-0 flex flex-col">
-      {/* Minimal top bar */}
-      <div className="flex items-center justify-between px-4 py-2 bg-[var(--hotel-charcoal)] shrink-0">
-        <Link
-          href="/"
-          className="text-[var(--hotel-cream)]/80 hover:text-[var(--hotel-gold)] font-body text-xs tracking-wider transition-colors"
-        >
-          ← Back to Andreas Hotel
-        </Link>
-        <Link href="/" className="flex items-center gap-1">
-          <span className="font-display text-white text-sm tracking-wide">Andreas</span>
-          <span className="font-body text-[10px] tracking-[0.2em] text-[var(--hotel-gold)] uppercase">
-            Hotel & Spa
-          </span>
-        </Link>
+      {/* Branding bar */}
+      <div className="bg-[var(--hotel-charcoal)] shrink-0">
+        <div className="flex items-center justify-between px-4 md:px-6 py-3">
+          <Link
+            href="/"
+            className="font-body text-[var(--hotel-cream)]/70 hover:text-[var(--hotel-gold)] text-[10px] tracking-[0.25em] uppercase transition-colors"
+          >
+            ← Back to Site
+          </Link>
+          <Link href="/" className="flex flex-col items-end">
+            <img
+              src="/andreas_logo_white.png"
+              alt="The Andreas Hotel & Spa"
+              className="h-8 md:h-10 w-auto"
+            />
+            <span className="font-body text-[8px] tracking-[0.35em] text-[var(--hotel-gold)] uppercase -mt-1">
+              Palm Springs
+            </span>
+          </Link>
+        </div>
+        {/* Gold accent line */}
+        <div className="h-[2px] bg-gradient-to-r from-[var(--hotel-gold)] via-[var(--hotel-terracotta)] to-[var(--hotel-gold)]" />
+        {/* Tagline */}
+        <div className="text-center py-2 bg-black/30">
+          <p className="font-body text-white/90 text-[11px] tracking-[0.2em] uppercase">
+            Book Direct — Best Rates Guaranteed
+          </p>
+        </div>
       </div>
       {/* Booking iframe fills the rest */}
       <iframe
