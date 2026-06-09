@@ -9,12 +9,12 @@ const allRooms = [
     badge: "VILLA",
     img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
     description:
-      "Our most prestigious suite featuring Italian Villa design with panoramic desert views, private courtyard entrance, king bedroom, and a separate living area with fireplace.",
+      "Our most prestigious suite: Italian Villa design, fireplace, private courtyard, king bedroom, separate living area, and a private balcony with mountain views.",
     bed: "King Bed",
     guests: "4 Guests",
     sqft: "750 sq ft",
     price: "$599",
-    amenities: ["Private Courtyard", "Fireplace", "Sitting Area", "Marble Bath"],
+    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Private Courtyard", "Marble Bath"],
   },
   {
     slug: "mobility-accessible-suite",
@@ -22,12 +22,12 @@ const allRooms = [
     badge: "ACCESSIBLE",
     img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg",
     description:
-      "A spacious two-bedroom, two-bathroom suite designed for full accessibility with wide doorways, roll-in shower, and comfortable furnishings throughout.",
+      "Italian furnishings, fireplace, two bedrooms, two baths. Full accessibility with wide doorways, roll-in shower, and every comfort.",
     bed: "2 Queen Beds",
     guests: "4 Guests",
     sqft: "680 sq ft",
     price: "$449",
-    amenities: ["Roll-in Shower", "Wide Doorways", "Grab Bars", "Ground Floor"],
+    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Roll-in Shower", "Wide Doorways"],
   },
   {
     slug: "mobility-accessible-deluxe-room",
@@ -35,12 +35,12 @@ const allRooms = [
     badge: "ACCESSIBLE",
     img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs-room11.jpg",
     description:
-      "A thoughtfully designed accessible deluxe room with all the comfort and elegance of our standard deluxe rooms, plus enhanced accessibility features.",
+      "Italian furnishings, fireplace, full accessibility. All the elegance of our deluxe rooms with enhanced accessibility features throughout.",
     bed: "Queen Bed",
     guests: "2 Guests",
     sqft: "360 sq ft",
     price: "$219",
-    amenities: ["Roll-in Shower", "Wide Doorways", "Grab Bars", "Ground Floor"],
+    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Roll-in Shower", "Wide Doorways"],
   },
   {
     slug: "2-bed-1-bath-suite",
@@ -48,12 +48,12 @@ const allRooms = [
     badge: "SUITE",
     img: "/hotel-photos/room7.jpg",
     description:
-      "Perfect for families or small groups, this two-bedroom suite offers privacy and comfort with a shared full bath and cozy living space.",
+      "Italian furnishings, fireplace, two private bedrooms, cozy living space. Select suites have a balcony facing N. Indian Canyon for prime people-watching.",
     bed: "2 Queen Beds",
     guests: "4 Guests",
     sqft: "580 sq ft",
     price: "$379",
-    amenities: ["Two Bedrooms", "Sitting Area", "Mini Fridge", "Garden View"],
+    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Two Bedrooms", "Garden View"],
   },
   {
     slug: "1-bedroom-suite",
@@ -61,12 +61,12 @@ const allRooms = [
     badge: "SUITE",
     img: "/hotel-photos/amenities.jpg",
     description:
-      "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings throughout.",
+      "Spacious suite with pillow-topped king bed, fireplace, separate living area, luxurious Italian furnishings. Select suites feature a private balcony.",
     bed: "King Bed",
     guests: "2 Guests",
     sqft: "520 sq ft",
     price: "$389",
-    amenities: ["Separate Living Room", "King Bed", "Courtyard View", "Luxury Linens"],
+    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Separate Living Room", "King Bed"],
   },
   {
     slug: "executive-room",
@@ -74,12 +74,12 @@ const allRooms = [
     badge: "EXECUTIVE",
     img: "/hotel-photos/room1.jpg",
     description:
-      "An elevated stay with upgraded furnishings, dedicated workspace, and refined details — ideal for business travelers who expect more.",
+      "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.",
     bed: "King Bed",
     guests: "2 Guests",
     sqft: "380 sq ft",
     price: "$289",
-    amenities: ["Work Desk", "King Bed", "Upgraded Linens", "Courtyard View"],
+    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Work Desk", "King Bed"],
   },
   {
     slug: "deluxe-room",
@@ -87,19 +87,19 @@ const allRooms = [
     badge: "DELUXE",
     img: "/hotel-photos/room6.jpg",
     description:
-      "Beautifully appointed with marble bathrooms, luxury linens, and Italian-inspired furnishings. The classic Andreas experience.",
+      "Italian furnishings, fireplace, marble bathroom. Refrigerator, microwave, Keurig, sound machine. The classic Andreas experience.",
     bed: "Queen Bed",
     guests: "2 Guests",
     sqft: "340 sq ft",
     price: "$219",
-    amenities: ["Marble Bath", "Queen Bed", "Pool View", "Luxury Linens"],
+    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Marble Bath", "Queen Bed"],
   },
 ];
 
 export const metadata = {
   title: "Rooms & Suites – The Andreas Hotel & Spa",
   description:
-    "Explore our 25 guest rooms and suites in the heart of Palm Springs. From the Villa Suite to Deluxe Rooms, find your perfect desert retreat.",
+    "Explore our 25 guest rooms and suites in the heart of Palm Springs. Italian furnishings, fireplaces, and every modern comfort — find your perfect retreat.",
 };
 
 export default function RoomsPage() {
