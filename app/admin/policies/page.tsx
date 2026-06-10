@@ -69,13 +69,13 @@ export default function PoliciesEditor() {
               <input
                 value={item.label}
                 onChange={e => { const updated = items.map(i => i.id === item.id ? { ...i, label: e.target.value } : i); setItems(updated); }}
-                className="text-xl font-bold text-neutral-900 w-full mb-3 border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none placeholder:text-neutral-400"
+                className="text-xl font-bold text-neutral-900 w-full mb-3 border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400"
                 placeholder="Label"
               />
               <textarea
                 value={item.detail}
                 onChange={e => { const updated = items.map(i => i.id === item.id ? { ...i, detail: e.target.value } : i); setItems(updated); }}
-                className="text-lg font-medium text-neutral-800 w-full resize-none border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none placeholder:text-neutral-400"
+                className="text-lg font-medium text-neutral-800 w-full resize-none border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400"
                 rows={3}
                 placeholder="Detail"
               />

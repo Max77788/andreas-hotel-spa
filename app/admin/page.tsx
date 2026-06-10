@@ -42,7 +42,7 @@ export default function AdminLogin() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Admin password"
-            className="w-full border-[3px] border-neutral-400 px-5 py-5 text-xl text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 pr-14 placeholder:text-neutral-400 font-medium"
+            className="w-full border-[3px] border-neutral-400 px-5 py-5 text-xl text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 pr-14 placeholder:text-neutral-400 font-medium bg-neutral-50"
             autoFocus
           />
           <button

@@ -80,35 +80,35 @@ export default function RoomsEditor() {
                 {[["Name","name"],["Slug","slug"],["Badge","badge"],["Price","price"],["Bed","bed"],["Guests","guests"],["Sq Ft","sqft"]].map(([label, field]) => (
                   <label key={field} className="flex flex-col gap-1.5">
                     <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">{label}</span>
-                    <input value={(editing as any)[field] || ""} onChange={e => updateField(field as keyof Room, e.target.value)} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none" />
+                    <input value={(editing as any)[field] || ""} onChange={e => updateField(field as keyof Room, e.target.value)} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
                   </label>
                 ))}
                 <label className="flex flex-col gap-1.5">
                   <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Sort Order</span>
-                  <input type="number" value={editing.sort_order} onChange={e => updateField("sort_order", parseInt(e.target.value))} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none" />
+                  <input type="number" value={editing.sort_order} onChange={e => updateField("sort_order", parseInt(e.target.value))} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
                 </label>
               </div>
 
               <label className="flex flex-col gap-1.5 mt-5">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Short Description</span>
-                <textarea value={editing.short_description || ""} onChange={e => updateField("short_description", e.target.value)} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none" />
+                <textarea value={editing.short_description || ""} onChange={e => updateField("short_description", e.target.value)} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
               </label>
 
               <label className="flex flex-col gap-1.5 mt-5">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Long Description</span>
-                <textarea value={editing.long_description || ""} onChange={e => updateField("long_description", e.target.value)} rows={4} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none" />
+                <textarea value={editing.long_description || ""} onChange={e => updateField("long_description", e.target.value)} rows={4} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
               </label>
 
               <label className="flex flex-col gap-1.5 mt-5">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Amenities (comma-separated)</span>
-                <textarea value={(editing.amenities || []).join(", ")} onChange={e => updateField("amenities", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none" />
+                <textarea value={(editing.amenities || []).join(", ")} onChange={e => updateField("amenities", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
               </label>
 
               <div className="mt-5 space-y-2">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Main Image</span>
                 <input type="file" accept="image/*" onChange={e => handleImageUpload(e, "image_url")} className="text-base font-medium" />
                 {editing.image_url && <img src={editing.image_url} className="w-40 h-24 object-cover rounded border-2 border-neutral-300" />}
-                <input value={editing.image_url || ""} onChange={e => updateField("image_url", e.target.value)} placeholder="Or paste URL" className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg w-full mt-1 focus:border-amber-500 focus:outline-none font-medium" />
+                <input value={editing.image_url || ""} onChange={e => updateField("image_url", e.target.value)} placeholder="Or paste URL" className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg w-full mt-1 focus:border-amber-500 focus:outline-none font-medium bg-neutral-50" />
               </div>
 
               <div className="mt-5 space-y-2">

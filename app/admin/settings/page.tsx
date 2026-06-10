@@ -49,7 +49,7 @@ export default function SettingsEditor() {
                 <input
                   value={settings[key] || ""}
                   onChange={e => update(key, e.target.value)}
-                  className="border-[3px] border-neutral-400 px-5 py-4 text-lg font-medium focus:border-amber-500 focus:outline-none"
+                  className="border-[3px] border-neutral-400 px-5 py-4 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50"
                 />
               </label>
             ))}

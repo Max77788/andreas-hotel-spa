@@ -51,15 +51,15 @@ export default function EventsEditor() {
           {items.map((item) => (
             <div key={item.id} className="bg-white p-6 border-[3px] border-neutral-300 space-y-4">
               <div className="flex gap-4">
-                <input value={item.tag || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, tag: e.target.value } : i); setItems(u); }} className="w-32 text-lg font-bold uppercase border-[3px] border-neutral-300 px-4 py-3 bg-amber-100" placeholder="TAG" />
-                <input value={item.date_label} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, date_label: e.target.value } : i); setItems(u); }} className="text-lg font-bold border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none" placeholder="Date" />
+                <input value={item.tag || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, tag: e.target.value } : i); setItems(u); }} className="w-32 text-lg font-bold uppercase border-[3px] border-neutral-300 px-4 py-3 bg-neutral-50" placeholder="TAG" />
+                <input value={item.date_label} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, date_label: e.target.value } : i); setItems(u); }} className="text-lg font-bold border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" placeholder="Date" />
               </div>
-              <input value={item.title} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, title: e.target.value } : i); setItems(u); }} className="text-2xl font-bold w-full border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none" />
-              <textarea value={item.description || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, description: e.target.value } : i); setItems(u); }} rows={3} className="text-lg font-medium w-full border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none placeholder:text-neutral-400" />
+              <input value={item.title} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, title: e.target.value } : i); setItems(u); }} className="text-2xl font-bold w-full border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" />
+              <textarea value={item.description || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, description: e.target.value } : i); setItems(u); }} rows={3} className="text-lg font-medium w-full border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400" />
               <div className="flex items-center gap-4">
                 <input type="file" accept="image/*" onChange={e => handleImageUpload(e, item.id)} className="text-lg font-medium" />
                 {item.image_url && <img src={item.image_url} className="w-24 h-16 object-cover rounded border-2 border-neutral-300" />}
-                <input value={item.image_url || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, image_url: e.target.value } : i); setItems(u); }} className="text-lg flex-1 border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none placeholder:text-neutral-400" placeholder="Or paste image URL" />
+                <input value={item.image_url || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, image_url: e.target.value } : i); setItems(u); }} className="text-lg flex-1 border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400" placeholder="Or paste image URL" />
               </div>
               <div className="flex items-center justify-between">
                 <button onClick={() => remove(item.id)} className="text-lg text-red-600 hover:underline font-bold">Delete</button>
