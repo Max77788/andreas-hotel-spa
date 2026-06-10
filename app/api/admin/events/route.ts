@@ -11,13 +11,14 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const supabase = createServerClient();
-  if (!body.id) delete body.id;
-  const { data, error } = await supabase
-    .from("events")
-    .upsert(body)
-    .select()
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  const clean = {
+    id: body.id, tag: body.tag, date_label: body.date_label, title: body.title,
+    description: body.description, image_url: body.image_url,
+    sort_order: body.sort_order, is_published: body.is_published,
+  };
+  if (!clean.id) delete clean.id;
+  const { data, error } = await supabase.from("events").upsert(clean).select().single();
+  if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
   revalidatePath("/");
   revalidatePath("/events");
   return NextResponse.json(data);

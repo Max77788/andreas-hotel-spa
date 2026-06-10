@@ -12,14 +12,19 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const supabase = createServerClient();
-  if (!body.id) delete body.id;
   const table = body.type === "inclusion" ? "offer_inclusions" : "offers";
-  const { data, error } = await supabase
-    .from(table)
-    .upsert(body)
-    .select()
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (table === "offer_inclusions") {
+    const clean = { id: body.id, icon: body.icon, label: body.label, detail: body.detail, sort_order: body.sort_order };
+    if (!clean.id) delete clean.id;
+    const { data, error } = await supabase.from(table).upsert(clean).select().single();
+    if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
+    revalidatePath("/offers");
+    return NextResponse.json(data);
+  }
+  const clean = { id: body.id, title: body.title, description: body.description, duration: body.duration, price: body.price, category: body.category, sort_order: body.sort_order, is_published: body.is_published };
+  if (!clean.id) delete clean.id;
+  const { data, error } = await supabase.from(table).upsert(clean).select().single();
+  if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
   revalidatePath("/offers");
   return NextResponse.json(data);
 }

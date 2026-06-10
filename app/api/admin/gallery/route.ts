@@ -11,13 +11,13 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const supabase = createServerClient();
-  if (!body.id) delete body.id;
-  const { data, error } = await supabase
-    .from("gallery")
-    .upsert(body)
-    .select()
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  const clean = {
+    id: body.id, image_url: body.image_url, alt: body.alt,
+    category: body.category, sort_order: body.sort_order,
+  };
+  if (!clean.id) delete clean.id;
+  const { data, error } = await supabase.from("gallery").upsert(clean).select().single();
+  if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
   revalidatePath("/");
   return NextResponse.json(data);
 }

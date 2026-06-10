@@ -11,12 +11,17 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const supabase = createServerClient();
-  const { data, error } = await supabase
-    .from("rooms")
-    .upsert(body)
-    .select()
-    .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  const clean = {
+    id: body.id, slug: body.slug, name: body.name, badge: body.badge,
+    short_description: body.short_description, long_description: body.long_description,
+    bed: body.bed, guests: body.guests, sqft: body.sqft, price: body.price,
+    amenities: body.amenities, extras: body.extras,
+    image_url: body.image_url, gallery_urls: body.gallery_urls,
+    sort_order: body.sort_order, is_published: body.is_published,
+  };
+  if (!clean.id) delete clean.id;
+  const { data, error } = await supabase.from("rooms").upsert(clean).select().single();
+  if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
   revalidatePath("/");
   revalidatePath("/rooms");
   revalidatePath(`/rooms/${body.slug}`);
