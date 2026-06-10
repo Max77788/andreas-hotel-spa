@@ -28,13 +28,13 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[var(--hotel-charcoal)]">
+    <div className="min-h-screen flex items-center justify-center bg-[#2a2118]">
       <form onSubmit={handleSubmit} className="bg-white p-10 w-full max-w-sm shadow-lg">
         <div className="text-center mb-8">
-          <h1 className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">
+          <h1 className="font-display text-2xl text-[#2a2118] font-light">
             Andreas CMS
           </h1>
-          <div className="w-8 h-px bg-[var(--hotel-gold)] mx-auto mt-3" />
+          <div className="w-8 h-px bg-[#c9a96e] mx-auto mt-3" />
         </div>
         <div className="relative">
           <input
@@ -42,23 +42,23 @@ export default function AdminLogin() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Admin password"
-            className="w-full border-2 border-gray-300 px-4 py-3.5 text-base mb-4 focus:outline-none focus:border-[var(--hotel-gold)] pr-12"
+            className="w-full border-2 border-gray-400 px-4 py-3.5 text-base text-gray-900 mb-4 focus:outline-none focus:border-[#c9a96e] pr-12 placeholder:text-gray-500"
             autoFocus
           />
           <button
             type="button"
             onClick={() => setShow(!show)}
-            className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 text-xl"
+            className="absolute right-3 top-3.5 text-gray-500 hover:text-gray-800 text-xl"
             tabIndex={-1}
           >
             {show ? "🙈" : "👁"}
           </button>
         </div>
-        {error && <p className="text-red-600 text-sm mb-4 font-medium">{error}</p>}
+        {error && <p className="text-red-600 text-sm mb-4 font-semibold">{error}</p>}
         <button
           type="submit"
           disabled={loading || !password}
-          className="w-full bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.2em] uppercase py-3.5 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-colors disabled:opacity-40 font-semibold"
+          className="w-full bg-[#c9a96e] text-[#2a2118] font-body text-sm tracking-[0.2em] uppercase py-3.5 hover:bg-[#b8743d] hover:text-white transition-colors disabled:opacity-40 font-bold"
         >
           {loading ? "..." : "Enter"}
         </button>
