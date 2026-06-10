@@ -19,7 +19,8 @@ export async function POST(req: NextRequest) {
     .select()
     .single();
   if (error) {
-    console.error("[policies POST] error:", error);
+    console.error("[policies POST] raw error:", JSON.stringify(error));
+    console.error("[policies POST] body sent:", JSON.stringify(body));
     return NextResponse.json({
       error: error.message,
       code: error.code,
