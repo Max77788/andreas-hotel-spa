@@ -12,6 +12,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const supabase = createServerClient();
+  if (!body.id) delete body.id;
   const table = body.type === "inclusion" ? "offer_inclusions" : "offers";
   const { data, error } = await supabase
     .from(table)
