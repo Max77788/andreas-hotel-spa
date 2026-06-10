@@ -7,6 +7,7 @@ export default function PoliciesEditor() {
   const [items, setItems] = useState<Policy[]>([]);
   const [loading, setLoading] = useState(true);
   const [savedId, setSavedId] = useState<string | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
   const itemsRef = useRef(items);
   itemsRef.current = items;
 
@@ -15,13 +16,19 @@ export default function PoliciesEditor() {
   }, []);
 
   async function save(id: string) {
+    setApiError(null);
     const item = itemsRef.current.find(i => i.id === id);
     if (!item) return;
-    await fetch("/api/admin/policies", {
+    const res = await fetch("/api/admin/policies", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(item),
     });
+    if (!res.ok) {
+      const err = await res.json();
+      setApiError(`${err.error} (${err.code || "unknown"})`);
+      return;
+    }
     setSavedId(id);
     setTimeout(() => setSavedId(null), 1500);
   }
@@ -59,6 +66,12 @@ export default function PoliciesEditor() {
           </div>
           <button onClick={add} className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.2em] uppercase px-6 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-colors font-semibold">+ Add</button>
         </div>
+
+        {apiError && (
+          <div className="bg-red-50 border-2 border-red-400 text-red-700 px-4 py-3 mb-4 text-sm font-semibold">
+            Error: {apiError}
+          </div>
+        )}
 
         <div className="space-y-3">
           {items.map((item) => (
