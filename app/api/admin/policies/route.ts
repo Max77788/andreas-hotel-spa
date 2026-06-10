@@ -10,12 +10,21 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  console.log("[policies POST] body:", JSON.stringify(body));
+  console.log("[policies POST] raw body:", JSON.stringify(body));
   const supabase = createServerClient();
   if (!body.id) delete body.id;
+  // Only allow known columns
+  const clean = {
+    id: body.id,
+    label: body.label,
+    detail: body.detail,
+    sort_order: body.sort_order,
+    is_highlighted: body.is_highlighted,
+  };
+  if (!clean.id) delete clean.id;
   const { data, error } = await supabase
     .from("policies")
-    .upsert(body)
+    .upsert(clean)
     .select()
     .single();
   if (error) {
