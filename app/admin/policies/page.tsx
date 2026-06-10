@@ -1,22 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { Policy } from "@/lib/cms/types";
 
 export default function PoliciesEditor() {
   const [items, setItems] = useState<Policy[]>([]);
   const [loading, setLoading] = useState(true);
+  const [savedId, setSavedId] = useState<string | null>(null);
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
 
   useEffect(() => {
     fetch("/api/admin/policies").then(r => r.json()).then(d => { setItems(d); setLoading(false); });
   }, []);
 
-  async function save(item: Policy) {
+  async function save(id: string) {
+    const item = itemsRef.current.find(i => i.id === id);
+    if (!item) return;
     await fetch("/api/admin/policies", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(item),
     });
+    setSavedId(id);
+    setTimeout(() => setSavedId(null), 1500);
   }
 
   async function add() {
@@ -59,19 +66,22 @@ export default function PoliciesEditor() {
               <input
                 value={item.label}
                 onChange={e => { const updated = items.map(i => i.id === item.id ? { ...i, label: e.target.value } : i); setItems(updated); }}
-                onBlur={() => save(item)}
                 className="font-body text-xs tracking-[0.2em] uppercase font-semibold text-[var(--hotel-charcoal)] w-full mb-2 border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none"
                 placeholder="Label"
               />
               <textarea
                 value={item.detail}
                 onChange={e => { const updated = items.map(i => i.id === item.id ? { ...i, detail: e.target.value } : i); setItems(updated); }}
-                onBlur={() => save(item)}
                 className="font-body text-sm text-[var(--hotel-charcoal)]/80 w-full resize-none border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none"
                 rows={2}
                 placeholder="Detail"
               />
-              <button onClick={() => remove(item.id)} className="font-body text-[10px] text-red-500 mt-2 hover:underline">Delete</button>
+              <div className="flex items-center justify-between mt-2">
+                <button onClick={() => remove(item.id)} className="font-body text-[10px] text-red-500 hover:underline">Delete</button>
+                <button onClick={() => save(item.id)} className="bg-[var(--hotel-charcoal)] text-white font-body text-xs px-4 py-1.5 hover:bg-black transition-colors">
+                  {savedId === item.id ? "Saved ✓" : "Save"}
+                </button>
+              </div>
             </div>
           ))}
         </div>

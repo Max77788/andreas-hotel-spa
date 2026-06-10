@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { Offer, OfferInclusion } from "@/lib/cms/types";
 
 export default function OffersEditor() {
@@ -8,6 +8,11 @@ export default function OffersEditor() {
   const [inclusions, setInclusions] = useState<OfferInclusion[]>([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<"offers" | "inclusions">("offers");
+  const [savedId, setSavedId] = useState<string | null>(null);
+  const offersRef = useRef(offers);
+  const inclusionsRef = useRef(inclusions);
+  offersRef.current = offers;
+  inclusionsRef.current = inclusions;
 
   useEffect(() => {
     fetch("/api/admin/offers").then(r => r.json()).then(d => {
@@ -17,18 +22,26 @@ export default function OffersEditor() {
     });
   }, []);
 
-  async function saveOffer(item: Offer) {
+  async function saveOffer(id: string) {
+    const item = offersRef.current.find(o => o.id === id);
+    if (!item) return;
     await fetch("/api/admin/offers", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(item),
     });
+    setSavedId(id);
+    setTimeout(() => setSavedId(null), 1500);
   }
 
-  async function saveInclusion(item: OfferInclusion) {
+  async function saveInclusion(id: string) {
+    const item = inclusionsRef.current.find(i => i.id === id);
+    if (!item) return;
     await fetch("/api/admin/offers", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...item, type: "inclusion" }),
     });
+    setSavedId(id);
+    setTimeout(() => setSavedId(null), 1500);
   }
 
   async function addOffer() {
@@ -80,16 +93,21 @@ export default function OffersEditor() {
             <div className="space-y-3">
               {offers.map((item) => (
                 <div key={item.id} className="bg-white p-4 space-y-2">
-                  <input value={item.title} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, title: e.target.value } : o); setOffers(u); }} onBlur={() => saveOffer(item)} className="font-display text-lg w-full border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" />
-                  <textarea value={item.description || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, description: e.target.value } : o); setOffers(u); }} onBlur={() => saveOffer(item)} rows={2} className="text-sm w-full border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" placeholder="Description" />
+                  <input value={item.title} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, title: e.target.value } : o); setOffers(u); }} className="font-display text-lg w-full border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" />
+                  <textarea value={item.description || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, description: e.target.value } : o); setOffers(u); }} rows={2} className="text-sm w-full border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" placeholder="Description" />
                   <div className="flex gap-4">
-                    <input value={item.price || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, price: e.target.value } : o); setOffers(u); }} onBlur={() => saveOffer(item)} className="text-sm w-24 border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" placeholder="Price" />
-                    <select value={item.category} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, category: e.target.value as "one_night" | "two_night" } : o); setOffers(u); saveOffer({ ...item, category: e.target.value as "one_night" | "two_night" }); }} className="text-sm border border-gray-200 px-2">
+                    <input value={item.price || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, price: e.target.value } : o); setOffers(u); }} className="text-sm w-24 border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" placeholder="Price" />
+                    <select value={item.category} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, category: e.target.value as "one_night" | "two_night" } : o); setOffers(u); }} className="text-sm border border-gray-200 px-2">
                       <option value="one_night">1 Night</option>
                       <option value="two_night">2 Night</option>
                     </select>
                   </div>
-                  <button onClick={() => removeOffer(item.id)} className="font-body text-[10px] text-red-500 hover:underline">Delete</button>
+                  <div className="flex items-center justify-between">
+                    <button onClick={() => removeOffer(item.id)} className="font-body text-[10px] text-red-500 hover:underline">Delete</button>
+                    <button onClick={() => saveOffer(item.id)} className="bg-[var(--hotel-charcoal)] text-white font-body text-xs px-4 py-1.5 hover:bg-black transition-colors">
+                      {savedId === item.id ? "Saved ✓" : "Save"}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -102,9 +120,12 @@ export default function OffersEditor() {
             <div className="space-y-2">
               {inclusions.map((item) => (
                 <div key={item.id} className="bg-white p-3 flex gap-3 items-center">
-                  <input value={item.icon} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, icon: e.target.value } : i); setInclusions(u); }} onBlur={() => saveInclusion(item)} className="w-10 text-center border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" />
-                  <input value={item.label} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, label: e.target.value } : i); setInclusions(u); }} onBlur={() => saveInclusion(item)} className="flex-1 text-sm border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" />
+                  <input value={item.icon} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, icon: e.target.value } : i); setInclusions(u); }} className="w-10 text-center border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" />
+                  <input value={item.label} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, label: e.target.value } : i); setInclusions(u); }} className="flex-1 text-sm border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none" />
                   <button onClick={() => removeInclusion(item.id)} className="font-body text-[10px] text-red-500 hover:underline">×</button>
+                  <button onClick={() => saveInclusion(item.id)} className="bg-[var(--hotel-charcoal)] text-white font-body text-xs px-3 py-1 hover:bg-black transition-colors">
+                    {savedId === item.id ? "✓" : "Save"}
+                  </button>
                 </div>
               ))}
             </div>

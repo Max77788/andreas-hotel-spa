@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { GalleryImage } from "@/lib/cms/types";
 
 export default function GalleryEditor() {
   const [items, setItems] = useState<GalleryImage[]>([]);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [savedId, setSavedId] = useState<string | null>(null);
+  const itemsRef = useRef(items);
+  itemsRef.current = items;
 
   useEffect(() => {
     fetch("/api/admin/gallery").then(r => r.json()).then(d => { setItems(d); setLoading(false); });
@@ -31,11 +34,15 @@ export default function GalleryEditor() {
     setUploading(false);
   }
 
-  async function update(item: GalleryImage) {
+  async function save(id: string) {
+    const item = itemsRef.current.find(i => i.id === id);
+    if (!item) return;
     await fetch("/api/admin/gallery", {
       method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify(item),
     });
+    setSavedId(id);
+    setTimeout(() => setSavedId(null), 1500);
   }
 
   async function remove(id: string) {
@@ -67,17 +74,20 @@ export default function GalleryEditor() {
                 <input
                   value={item.alt || ""}
                   onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, alt: e.target.value } : i); setItems(u); }}
-                  onBlur={() => update(item)}
                   className="text-xs w-full border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none"
                   placeholder="Alt text"
                 />
                 <input
                   value={item.image_url}
                   onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, image_url: e.target.value } : i); setItems(u); }}
-                  onBlur={() => update(item)}
                   className="text-[10px] text-gray-400 w-full truncate border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none"
                 />
-                <button onClick={() => remove(item.id)} className="text-[10px] text-red-500 hover:underline">Remove</button>
+                <div className="flex items-center justify-between">
+                  <button onClick={() => remove(item.id)} className="text-[10px] text-red-500 hover:underline">Remove</button>
+                  <button onClick={() => save(item.id)} className="bg-[var(--hotel-charcoal)] text-white font-body text-[10px] px-3 py-1 hover:bg-black transition-colors">
+                    {savedId === item.id ? "✓" : "Save"}
+                  </button>
+                </div>
               </div>
             </div>
           ))}
