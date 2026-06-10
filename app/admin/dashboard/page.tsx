@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 const sections = [
   { name: "Rooms", href: "/admin/rooms", desc: "Edit room details, photos, amenities, pricing" },
   { name: "Policies", href: "/admin/policies", desc: "Manage hotel policies and cancellation" },
@@ -13,33 +11,27 @@ const sections = [
 
 export default function Dashboard() {
   return (
-    <div className="min-h-screen bg-[var(--hotel-cream)] p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-neutral-100 p-8">
+      <div className="max-w-5xl mx-auto">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <h1 className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">CMS Dashboard</h1>
-            <p className="font-body text-sm text-[var(--hotel-charcoal)]/70 mt-1">Andreas Hotel & Spa</p>
+            <h1 className="text-4xl font-bold text-neutral-900">CMS Dashboard</h1>
+            <p className="text-lg text-neutral-600 font-medium mt-1">Andreas Hotel & Spa</p>
           </div>
-          <a
-            href="/"
-            target="_blank"
-            className="font-body text-sm text-[var(--hotel-charcoal)]/80 hover:text-[var(--hotel-terracotta)] transition-colors font-semibold"
-          >
+          <a href="/" target="_blank" className="text-lg text-neutral-700 hover:text-amber-600 font-bold">
             View Site →
           </a>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-5">
           {sections.map((s) => (
             <a
               key={s.name}
               href={s.href}
-              className="block bg-white p-6 hover:shadow-md transition-shadow border-2 border-gray-200 hover:border-[var(--hotel-gold)]"
+              className="block bg-white p-8 hover:shadow-lg transition-shadow border-[3px] border-neutral-300 hover:border-amber-500"
             >
-              <h2 className="font-display text-xl text-[var(--hotel-charcoal)] font-medium mb-1">
-                {s.name}
-              </h2>
-              <p className="font-body text-sm text-[var(--hotel-charcoal)]/70">{s.desc}</p>
+              <h2 className="text-2xl font-bold text-neutral-900 mb-2">{s.name}</h2>
+              <p className="text-lg text-neutral-600 font-medium">{s.desc}</p>
             </a>
           ))}
         </div>

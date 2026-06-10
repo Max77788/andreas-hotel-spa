@@ -28,13 +28,13 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#2a2118]">
-      <form onSubmit={handleSubmit} className="bg-white p-10 w-full max-w-sm shadow-lg">
-        <div className="text-center mb-8">
-          <h1 className="font-display text-2xl text-[#2a2118] font-light">
+    <div className="min-h-screen flex items-center justify-center bg-neutral-900">
+      <form onSubmit={handleSubmit} className="bg-white p-12 w-full max-w-md shadow-2xl">
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">
             Andreas CMS
           </h1>
-          <div className="w-8 h-px bg-[#c9a96e] mx-auto mt-3" />
+          <div className="w-10 h-1 bg-amber-500 mx-auto mt-4" />
         </div>
         <div className="relative">
           <input
@@ -42,23 +42,23 @@ export default function AdminLogin() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Admin password"
-            className="w-full border-2 border-gray-400 px-4 py-3.5 text-base text-gray-900 mb-4 focus:outline-none focus:border-[#c9a96e] pr-12 placeholder:text-gray-500"
+            className="w-full border-[3px] border-neutral-400 px-5 py-5 text-xl text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 pr-14 placeholder:text-neutral-400 font-medium"
             autoFocus
           />
           <button
             type="button"
             onClick={() => setShow(!show)}
-            className="absolute right-3 top-3.5 text-gray-500 hover:text-gray-800 text-xl"
+            className="absolute right-4 top-5 text-2xl text-neutral-500 hover:text-neutral-800"
             tabIndex={-1}
           >
             {show ? "🙈" : "👁"}
           </button>
         </div>
-        {error && <p className="text-red-600 text-sm mb-4 font-semibold">{error}</p>}
+        {error && <p className="text-red-600 text-lg mb-5 font-bold">{error}</p>}
         <button
           type="submit"
           disabled={loading || !password}
-          className="w-full bg-[#c9a96e] text-[#2a2118] font-body text-sm tracking-[0.2em] uppercase py-3.5 hover:bg-[#b8743d] hover:text-white transition-colors disabled:opacity-40 font-bold"
+          className="w-full bg-amber-500 text-neutral-900 text-lg font-bold tracking-[0.2em] uppercase py-5 hover:bg-amber-600 transition-colors disabled:opacity-30"
         >
           {loading ? "..." : "Enter"}
         </button>
