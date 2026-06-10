@@ -96,6 +96,7 @@ const events = [
 const amenities = [
   { icon: "◎", title: "Full-Service Spa", desc: "Indulge in Vital-C Facial, California Orange Blossom Scrub, and Canyon Clay Body Mask treatments by expert therapists." },
   { icon: "◈", title: "Outdoor Pool & Jacuzzi", desc: "Our heated pool and Jacuzzi are surrounded by lush gardens and elegant poolside loungers — open daily." },
+  { icon: "♨", title: "Finnish Sauna", desc: "Enjoy our traditional Finnish sauna — available as a dry sauna or a steam sauna for the ultimate relaxation experience." },
   { icon: "◐", title: "Outdoor Fireplaces", desc: "Gather around beautifully designed gas fireplaces set within our manicured courtyard every evening." },
   { icon: "◌", title: "24-Hour Front Desk", desc: "Our attentive concierge team is available around the clock to assist with reservations, dining, and activities." },
   { icon: "⊡", title: "Express Check-In/Out", desc: "Seamless arrivals and departures — because your time in Palm Springs should start and end perfectly." },
