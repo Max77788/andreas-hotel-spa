@@ -10,6 +10,7 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
+  console.log("[policies POST] body:", JSON.stringify(body));
   const supabase = createServerClient();
   if (!body.id) delete body.id;
   const { data, error } = await supabase
@@ -17,7 +18,11 @@ export async function POST(req: NextRequest) {
     .upsert(body)
     .select()
     .single();
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+  if (error) {
+    console.error("[policies POST] error:", error);
+    return NextResponse.json({ error: error.message }, { status: 400 });
+  }
+  console.log("[policies POST] saved:", data?.id);
   revalidatePath("/policies");
   return NextResponse.json(data);
 }

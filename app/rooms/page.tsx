@@ -1,100 +1,8 @@
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
-
-const allRooms = [
-  {
-    slug: "andreas-villa-suite",
-    name: "Andreas Villa Suite",
-    badge: "VILLA",
-    img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
-    description:
-      "Our most prestigious suite: Italian Villa design, fireplace, private courtyard, king bedroom, separate living area, and a private balcony with mountain views.",
-    bed: "King Bed",
-    guests: "4 Guests",
-    sqft: "750 sq ft",
-    price: "$599",
-    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Private Courtyard", "Marble Bath"],
-  },
-  {
-    slug: "mobility-accessible-suite",
-    name: "Mobility Accessible 2 Bed Suite",
-    badge: "ACCESSIBLE",
-    img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg",
-    description:
-      "Italian furnishings, fireplace, two bedrooms, two baths. Full accessibility with wide doorways, roll-in shower, and every comfort.",
-    bed: "2 Queen Beds",
-    guests: "4 Guests",
-    sqft: "680 sq ft",
-    price: "$449",
-    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Roll-in Shower", "Wide Doorways"],
-  },
-  {
-    slug: "mobility-accessible-deluxe-room",
-    name: "Mobility Accessible Deluxe Room",
-    badge: "ACCESSIBLE",
-    img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs-room11.jpg",
-    description:
-      "Italian furnishings, fireplace, full accessibility. All the elegance of our deluxe rooms with enhanced accessibility features throughout.",
-    bed: "Queen Bed",
-    guests: "2 Guests",
-    sqft: "360 sq ft",
-    price: "$219",
-    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Roll-in Shower", "Wide Doorways"],
-  },
-  {
-    slug: "2-bed-1-bath-suite",
-    name: "2 Bed 1 Bath Suite",
-    badge: "SUITE",
-    img: "/hotel-photos/room7.jpg",
-    description:
-      "Italian furnishings, fireplace, two private bedrooms, cozy living space. Select suites have a balcony facing N. Indian Canyon for prime people-watching.",
-    bed: "2 Queen Beds",
-    guests: "4 Guests",
-    sqft: "580 sq ft",
-    price: "$379",
-    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Two Bedrooms", "Garden View"],
-  },
-  {
-    slug: "1-bedroom-suite",
-    name: "1 Bedroom Suite",
-    badge: "SUITE",
-    img: "/hotel-photos/amenities.jpg",
-    description:
-      "Spacious suite with pillow-topped king bed, fireplace, separate living area, luxurious Italian furnishings. Select suites feature a private balcony.",
-    bed: "King Bed",
-    guests: "2 Guests",
-    sqft: "520 sq ft",
-    price: "$389",
-    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Separate Living Room", "King Bed"],
-  },
-  {
-    slug: "executive-room",
-    name: "Executive Room",
-    badge: "EXECUTIVE",
-    img: "/hotel-photos/room1.jpg",
-    description:
-      "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.",
-    bed: "King Bed",
-    guests: "2 Guests",
-    sqft: "380 sq ft",
-    price: "$289",
-    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Work Desk", "King Bed"],
-  },
-  {
-    slug: "deluxe-room",
-    name: "Deluxe Room",
-    badge: "DELUXE",
-    img: "/hotel-photos/room6.jpg",
-    description:
-      "Italian furnishings, fireplace, marble bathroom. Refrigerator, microwave, Keurig, sound machine. The classic Andreas experience.",
-    bed: "Queen Bed",
-    guests: "2 Guests",
-    sqft: "340 sq ft",
-    price: "$219",
-    amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Marble Bath", "Queen Bed"],
-  },
-];
+import { getRooms } from "@/lib/cms/queries";
+import type { Room } from "@/lib/cms/types";
 
 export const metadata = {
   title: "Rooms & Suites – The Andreas Hotel & Spa",
@@ -102,7 +10,21 @@ export const metadata = {
     "Explore our 25 guest rooms and suites in the heart of Palm Springs. Italian furnishings, fireplaces, and every modern comfort — find your perfect retreat.",
 };
 
-export default function RoomsPage() {
+// Fallback data in case Supabase is not yet seeded
+const fallbackRooms: Room[] = [
+  { id:"1", slug:"andreas-villa-suite", name:"Andreas Villa Suite", badge:"VILLA", image_url:"/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", short_description:"Our most prestigious suite: Italian Villa design, fireplace, private courtyard, king bedroom, separate living area, and a private balcony with mountain views.", bed:"King Bed", guests:"4 Guests", sqft:"750 sq ft", price:"$599", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine","Private Courtyard","Marble Bath"], extras:[], gallery_urls:[], sort_order:0, is_published:true, long_description:null },
+  { id:"2", slug:"mobility-accessible-suite", name:"Mobility Accessible 2 Bed Suite", badge:"ACCESSIBLE", image_url:"/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg", short_description:"Italian furnishings, fireplace, two bedrooms, two baths. Full accessibility with wide doorways, roll-in shower, and every comfort.", bed:"2 Queen Beds", guests:"4 Guests", sqft:"680 sq ft", price:"$449", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine","Roll-in Shower","Wide Doorways"], extras:[], gallery_urls:[], sort_order:1, is_published:true, long_description:null },
+  { id:"3", slug:"mobility-accessible-deluxe-room", name:"Mobility Accessible Deluxe Room", badge:"ACCESSIBLE", image_url:"/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs-room11.jpg", short_description:"Italian furnishings, fireplace, full accessibility. All the elegance of our deluxe rooms with enhanced accessibility features throughout.", bed:"Queen Bed", guests:"2 Guests", sqft:"360 sq ft", price:"$219", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine","Roll-in Shower","Wide Doorways"], extras:[], gallery_urls:[], sort_order:2, is_published:true, long_description:null },
+  { id:"4", slug:"2-bed-1-bath-suite", name:"2 Bed 1 Bath Suite", badge:"SUITE", image_url:"/hotel-photos/room7.jpg", short_description:"Italian furnishings, fireplace, two private bedrooms, cozy living space. Select suites have a balcony facing N. Indian Canyon for prime people-watching.", bed:"2 Queen Beds", guests:"4 Guests", sqft:"580 sq ft", price:"$379", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine","Two Bedrooms","Garden View"], extras:[], gallery_urls:[], sort_order:3, is_published:true, long_description:null },
+  { id:"5", slug:"1-bedroom-suite", name:"1 Bedroom Suite", badge:"SUITE", image_url:"/hotel-photos/amenities.jpg", short_description:"Spacious suite with pillow-topped king bed, fireplace, separate living area, luxurious Italian furnishings. Select suites feature a private balcony.", bed:"King Bed", guests:"2 Guests", sqft:"520 sq ft", price:"$389", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine","Separate Living Room","King Bed"], extras:[], gallery_urls:[], sort_order:4, is_published:true, long_description:null },
+  { id:"6", slug:"executive-room", name:"Executive Room", badge:"EXECUTIVE", image_url:"/hotel-photos/room1.jpg", short_description:"Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.", bed:"King Bed", guests:"2 Guests", sqft:"380 sq ft", price:"$289", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine","Work Desk","King Bed"], extras:[], gallery_urls:[], sort_order:5, is_published:true, long_description:null },
+  { id:"7", slug:"deluxe-room", name:"Deluxe Room", badge:"DELUXE", image_url:"/hotel-photos/room6.jpg", short_description:"Italian furnishings, fireplace, marble bathroom. Refrigerator, microwave, Keurig, sound machine. The classic Andreas experience.", bed:"Queen Bed", guests:"2 Guests", sqft:"340 sq ft", price:"$219", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine","Marble Bath","Queen Bed"], extras:[], gallery_urls:[], sort_order:6, is_published:true, long_description:null },
+];
+
+export default async function RoomsPage() {
+  const rooms = await getRooms().catch(() => fallbackRooms);
+  const allRooms = rooms.length ? rooms : fallbackRooms;
+
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">
       <Nav />
@@ -145,15 +67,16 @@ export default function RoomsPage() {
                 <Link href={`/rooms/${room.slug}`} className="relative overflow-hidden block">
                   <div
                     className="aspect-[4/3] bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
-                    style={{ backgroundImage: `url(${room.img})` }}
+                    style={{ backgroundImage: `url(${room.image_url})` }}
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
-                  {/* Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="font-body text-[9px] tracking-[0.35em] uppercase bg-white/90 dark:bg-[#1a1a1a]/90 backdrop-blur-sm text-[var(--hotel-charcoal)] px-4 py-1.5">
-                      {room.badge}
-                    </span>
-                  </div>
+                  {room.badge && (
+                    <div className="absolute top-4 left-4">
+                      <span className="font-body text-[9px] tracking-[0.35em] uppercase bg-white/90 dark:bg-[#1a1a1a]/90 backdrop-blur-sm text-[var(--hotel-charcoal)] px-4 py-1.5">
+                        {room.badge}
+                      </span>
+                    </div>
+                  )}
                 </Link>
 
                 {/* Content */}
@@ -164,49 +87,33 @@ export default function RoomsPage() {
                     </h3>
                   </Link>
                   <p className="font-body text-[var(--hotel-charcoal)]/90 text-xs leading-relaxed mb-4">
-                    {room.description}
+                    {room.short_description}
                   </p>
 
                   {/* Amenity chips */}
                   <div className="flex flex-wrap gap-x-1 gap-y-1 mb-5">
-                    {room.amenities.map((a, idx) => (
+                    {(room.amenities || []).map((a, idx) => (
                       <span key={a} className="inline-flex items-center">
-                        <span className="font-body text-[8px] tracking-[0.15em] uppercase text-[var(--hotel-charcoal)]/90">
-                          {a}
-                        </span>
-                        {idx < room.amenities.length - 1 && (
-                          <span className="text-[var(--hotel-sand)] mx-1.5">·</span>
-                        )}
+                        <span className="font-body text-[8px] tracking-[0.15em] uppercase text-[var(--hotel-charcoal)]/90">{a}</span>
+                        {idx < (room.amenities || []).length - 1 && <span className="text-[var(--hotel-sand)] mx-1.5">·</span>}
                       </span>
                     ))}
                   </div>
 
                   {/* Meta row */}
                   <div className="flex gap-5 pt-4 mb-5 mt-auto border-t border-[var(--hotel-sand)]">
-                    {[room.bed, room.guests, room.sqft].map((meta) => (
-                      <span
-                        key={meta}
-                        className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90"
-                      >
-                        {meta}
-                      </span>
+                    {[room.bed, room.guests, room.sqft].filter(Boolean).map((meta) => (
+                      <span key={meta} className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90">{meta}</span>
                     ))}
                   </div>
 
                   {/* Price + CTA */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">
-                        {room.price}
-                      </span>
-                      <span className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 ml-1">
-                        / night
-                      </span>
+                      <span className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">{room.price}</span>
+                      <span className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 ml-1">/ night</span>
                     </div>
-                    <Link
-                      href={`/rooms/${room.slug}`}
-                      className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-charcoal)]/90 border-b border-[var(--hotel-charcoal)]/30 pb-0.5 hover:text-[var(--hotel-terracotta)] hover:border-[var(--hotel-terracotta)] transition-colors"
-                    >
+                    <Link href={`/rooms/${room.slug}`} className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-charcoal)]/90 border-b border-[var(--hotel-charcoal)]/30 pb-0.5 hover:text-[var(--hotel-terracotta)] hover:border-[var(--hotel-terracotta)] transition-colors">
                       Details →
                     </Link>
                   </div>
@@ -231,7 +138,7 @@ export default function RoomsPage() {
             accessibility questions.
           </p>
           <a
-            href="tel:+17603275701"
+            href="tel:+176****5701"
             className="font-body text-[10px] tracking-[0.35em] uppercase border border-[var(--hotel-gold)] text-[var(--hotel-gold)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
           >
             (760) 327-5701
