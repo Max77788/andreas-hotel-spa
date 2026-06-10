@@ -27,7 +27,7 @@ export default function SettingsEditor() {
     setSettings({ ...settings, [field]: value });
   }
 
-  if (loading) return <div className="min-h-screen bg-[var(--hotel-cream)] p-8"><p className="font-body text-sm">Loading...</p></div>;
+  if (loading) return <div className="min-h-screen bg-[var(--hotel-cream)] p-8"><p className="font-body text-base">Loading...</p></div>;
 
   const fields: { key: keyof SiteSettings; label: string }[] = [
     { key: "hotel_name", label: "Hotel Name" },
@@ -46,10 +46,10 @@ export default function SettingsEditor() {
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <a href="/admin/dashboard" className="font-body text-xs text-[var(--hotel-charcoal)]/50 hover:text-[var(--hotel-terracotta)]">← Dashboard</a>
+            <a href="/admin/dashboard" className="font-body text-sm text-[var(--hotel-charcoal)]/70 hover:text-[var(--hotel-terracotta)] font-semibold">← Dashboard</a>
             <h1 className="font-display text-3xl text-[var(--hotel-charcoal)] font-light mt-1">Site Settings</h1>
           </div>
-          <button onClick={save} className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-xs tracking-[0.2em] uppercase px-8 py-2.5 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-colors">
+          <button onClick={save} className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.2em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-colors font-semibold">
             {saved ? "✓ Saved" : "Save"}
           </button>
         </div>
@@ -57,12 +57,12 @@ export default function SettingsEditor() {
         {settings && (
           <div className="space-y-4">
             {fields.map(({ key, label }) => (
-              <label key={key} className="flex flex-col gap-1">
-                <span className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/50">{label}</span>
+              <label key={key} className="flex flex-col gap-1.5">
+                <span className="font-body text-xs tracking-[0.15em] uppercase text-[var(--hotel-charcoal)]/70 font-semibold">{label}</span>
                 <input
                   value={settings[key] || ""}
                   onChange={e => update(key, e.target.value)}
-                  className="border border-gray-200 px-4 py-2.5 text-sm focus:border-[var(--hotel-gold)] focus:outline-none"
+                  className="border-2 border-gray-300 px-4 py-3 text-base focus:border-[var(--hotel-gold)] focus:outline-none"
                 />
               </label>
             ))}

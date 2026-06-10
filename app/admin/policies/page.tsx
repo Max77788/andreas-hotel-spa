@@ -47,38 +47,38 @@ export default function PoliciesEditor() {
     setItems(items.filter(i => i.id !== id));
   }
 
-  if (loading) return <div className="min-h-screen bg-[var(--hotel-cream)] p-8"><p className="font-body text-sm">Loading...</p></div>;
+  if (loading) return <div className="min-h-screen bg-[var(--hotel-cream)] p-8"><p className="font-body text-base">Loading...</p></div>;
 
   return (
     <div className="min-h-screen bg-[var(--hotel-cream)] p-8">
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <a href="/admin/dashboard" className="font-body text-xs text-[var(--hotel-charcoal)]/50 hover:text-[var(--hotel-terracotta)]">← Dashboard</a>
+            <a href="/admin/dashboard" className="font-body text-sm text-[var(--hotel-charcoal)]/70 hover:text-[var(--hotel-terracotta)] font-semibold">← Dashboard</a>
             <h1 className="font-display text-3xl text-[var(--hotel-charcoal)] font-light mt-1">Policies</h1>
           </div>
-          <button onClick={add} className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-xs tracking-[0.2em] uppercase px-6 py-2.5 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-colors">+ Add</button>
+          <button onClick={add} className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-sm tracking-[0.2em] uppercase px-6 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-colors font-semibold">+ Add</button>
         </div>
 
         <div className="space-y-3">
           {items.map((item) => (
-            <div key={item.id} className="bg-white p-4">
+            <div key={item.id} className="bg-white p-5 border-2 border-gray-200">
               <input
                 value={item.label}
                 onChange={e => { const updated = items.map(i => i.id === item.id ? { ...i, label: e.target.value } : i); setItems(updated); }}
-                className="font-body text-xs tracking-[0.2em] uppercase font-semibold text-[var(--hotel-charcoal)] w-full mb-2 border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none"
+                className="font-body text-sm tracking-[0.15em] uppercase font-bold text-[var(--hotel-charcoal)] w-full mb-3 border-2 border-gray-200 px-3 py-2 focus:border-[var(--hotel-gold)] focus:outline-none"
                 placeholder="Label"
               />
               <textarea
                 value={item.detail}
                 onChange={e => { const updated = items.map(i => i.id === item.id ? { ...i, detail: e.target.value } : i); setItems(updated); }}
-                className="font-body text-sm text-[var(--hotel-charcoal)]/80 w-full resize-none border-b border-transparent focus:border-[var(--hotel-gold)] focus:outline-none"
+                className="font-body text-base text-[var(--hotel-charcoal)]/90 w-full resize-none border-2 border-gray-200 px-3 py-2 focus:border-[var(--hotel-gold)] focus:outline-none"
                 rows={2}
                 placeholder="Detail"
               />
-              <div className="flex items-center justify-between mt-2">
-                <button onClick={() => remove(item.id)} className="font-body text-[10px] text-red-500 hover:underline">Delete</button>
-                <button onClick={() => save(item.id)} className="bg-[var(--hotel-charcoal)] text-white font-body text-xs px-4 py-1.5 hover:bg-black transition-colors">
+              <div className="flex items-center justify-between mt-3">
+                <button onClick={() => remove(item.id)} className="font-body text-sm text-red-600 hover:underline font-semibold">Delete</button>
+                <button onClick={() => save(item.id)} className="bg-[var(--hotel-charcoal)] text-white font-body text-sm px-5 py-2 hover:bg-black transition-colors font-semibold">
                   {savedId === item.id ? "Saved ✓" : "Save"}
                 </button>
               </div>

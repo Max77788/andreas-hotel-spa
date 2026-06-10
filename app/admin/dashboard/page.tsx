@@ -18,12 +18,12 @@ export default function Dashboard() {
         <div className="flex items-center justify-between mb-10">
           <div>
             <h1 className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">CMS Dashboard</h1>
-            <p className="font-body text-xs text-[var(--hotel-charcoal)]/50 mt-1">Andreas Hotel & Spa</p>
+            <p className="font-body text-sm text-[var(--hotel-charcoal)]/70 mt-1">Andreas Hotel & Spa</p>
           </div>
           <a
             href="/"
             target="_blank"
-            className="font-body text-xs text-[var(--hotel-charcoal)]/60 hover:text-[var(--hotel-terracotta)] transition-colors"
+            className="font-body text-sm text-[var(--hotel-charcoal)]/80 hover:text-[var(--hotel-terracotta)] transition-colors font-semibold"
           >
             View Site →
           </a>
@@ -34,12 +34,12 @@ export default function Dashboard() {
             <a
               key={s.name}
               href={s.href}
-              className="block bg-white p-6 hover:shadow-md transition-shadow border border-transparent hover:border-[var(--hotel-gold)]/30"
+              className="block bg-white p-6 hover:shadow-md transition-shadow border-2 border-gray-200 hover:border-[var(--hotel-gold)]"
             >
-              <h2 className="font-display text-lg text-[var(--hotel-charcoal)] font-light mb-1">
+              <h2 className="font-display text-xl text-[var(--hotel-charcoal)] font-medium mb-1">
                 {s.name}
               </h2>
-              <p className="font-body text-xs text-[var(--hotel-charcoal)]/50">{s.desc}</p>
+              <p className="font-body text-sm text-[var(--hotel-charcoal)]/70">{s.desc}</p>
             </a>
           ))}
         </div>
