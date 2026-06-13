@@ -45,7 +45,7 @@ export default function RootLayout({
             assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
             mode="chat"
             theme="dark"
-            size="full"
+            size="compact"
             position="bottom-right"
             radius="large"
             base-color="#2a2118"
@@ -55,12 +55,7 @@ export default function RootLayout({
             empty-chat-message="Hi, Sam here! How can I help you today?"
           />
           <script dangerouslySetInnerHTML={{__html: `
-            (function(){
-              var w = document.querySelector('.vapi-widget-floating');
-              if (w && window.innerWidth <= 410) {
-                w.setAttribute('size', 'tiny');
-              }
-            })();
+            // Mobile stays compact — no tiny swap needed
           `}} />
           <Script
             src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
