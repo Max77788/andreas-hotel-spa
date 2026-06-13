@@ -63,9 +63,24 @@ function respond(code: string, arrival: string, departure: string, adults: strin
     );
   }
 
-  const siteUrl = "https://andreas-hotel-spa.vercel.app";
-  const bookingUrl = `${siteUrl}/book?room=${code}&arrival=${arrival}&departure=${departure}&adults=${adults}`;
-  const roomPageUrl = `${siteUrl}/rooms/${ROOM_SLUGS[code]}`;
+  const kubeUrl = new URL("https://s005948.officialbookings.com/");
+  kubeUrl.searchParams.set("channelId", "ibe");
+  kubeUrl.searchParams.set("checkin", arrival);
+  kubeUrl.searchParams.set("checkout", departure);
+  kubeUrl.searchParams.set("totalRooms", "1");
+  kubeUrl.searchParams.set("language", "en");
+  kubeUrl.searchParams.set("currencyCode", "USD");
+  kubeUrl.searchParams.set("propertyCode", "S005948");
+  kubeUrl.searchParams.set("widgetId", "BOOKINGWIDGET");
+  kubeUrl.searchParams.set("widgetSection", "searchbar");
+  kubeUrl.searchParams.set("activeBookingEngine", "KBE");
+  kubeUrl.searchParams.set("adult_room1", adults);
+  kubeUrl.searchParams.set("priceType", "withInformativeTaxesAndFees");
+  kubeUrl.searchParams.set("priceTimeBase", "stay");
+  kubeUrl.searchParams.set("coupon", "");
+
+  const bookingUrl = kubeUrl.toString();
+  const roomPageUrl = `https://andreas-hotel-spa.vercel.app/rooms/${ROOM_SLUGS[code]}`;
 
   return NextResponse.json({
     room: roomName, code, arrival, departure, adults,
