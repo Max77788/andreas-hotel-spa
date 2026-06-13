@@ -71,6 +71,9 @@ export default function RootLayout({
           .vapi-wrapper {
             z-index: 9999;
           }
+          vapi-widget::part(user-message) {
+            color: #000000 !important;
+          }
         `}} />
       </body>
     </html>
