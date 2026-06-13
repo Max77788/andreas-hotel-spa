@@ -79,8 +79,8 @@ function respond(code: string, arrival: string, departure: string, adults: strin
   kubeUrl.searchParams.set("priceTimeBase", "stay");
   kubeUrl.searchParams.set("coupon", "");
 
-  const bookingUrl = kubeUrl.toString();
-  const roomPageUrl = `https://andreas-hotel-spa.vercel.app/rooms/${ROOM_SLUGS[code]}`;
+  const bookingUrl = `https://stayatandreas.com/book?arrival=${arrival}&departure=${departure}&adults=${adults}`;
+  const roomPageUrl = `https://stayatandreas.com/rooms/${ROOM_SLUGS[code]}`;
 
   return NextResponse.json({
     room: roomName, code, arrival, departure, adults,
