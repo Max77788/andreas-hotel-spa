@@ -246,7 +246,7 @@ export default function HomePage() {
             />
           </div>
           <a
-            href="/book"
+            href={checkIn && checkOut ? `/book?arrival=${checkIn}&departure=${checkOut}` : "/book"}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full md:w-auto flex-shrink-0 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-8 py-3 text-center hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
