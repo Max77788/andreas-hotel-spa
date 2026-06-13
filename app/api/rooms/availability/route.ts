@@ -1,19 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-// Room data mirroring the CMS - code to room mapping
 const ROOMS: Record<string, {
-  code: string;
-  name: string;
-  slug: string;
-  bed: string;
-  guests: string;
-  sqft: string;
-  price: string;
-  price_numeric: number;
-  description: string;
-  amenities: string[];
-  badge: string;
-  img: string;
+  code: string; name: string; slug: string;
+  bed: string; guests: string; sqft: string;
+  price: string; price_numeric: number;
+  description: string; amenities: string[];
+  badge: string; img: string;
 }> = {
   DLX: {
     code: "DLX", name: "Deluxe Room", slug: "deluxe-room",
@@ -27,7 +19,7 @@ const ROOMS: Record<string, {
     code: "EXEC", name: "Executive Room", slug: "executive-room",
     bed: "King Bed", guests: "2 Guests", sqft: "380 sq ft",
     price: "$289", price_numeric: 289,
-    description: "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.",
+    description: "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers.",
     amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Work Desk", "King Bed"],
     badge: "EXECUTIVE", img: "/hotel-photos/room1.jpg",
   },
@@ -43,7 +35,7 @@ const ROOMS: Record<string, {
     code: "2BED", name: "2 Bed 1 Bath Suite", slug: "2-bed-1-bath-suite",
     bed: "2 Queen Beds", guests: "4 Guests", sqft: "580 sq ft",
     price: "$379", price_numeric: 379,
-    description: "Italian furnishings, fireplace, two private bedrooms, cozy living space. Select suites have a balcony facing N. Indian Canyon for prime people-watching.",
+    description: "Italian furnishings, fireplace, two private bedrooms, cozy living space. Select suites have a balcony facing N. Indian Canyon.",
     amenities: ["Fireplace", "Refrigerator", "Microwave", "Keurig", "Sound Machine", "Two Bedrooms", "Garden View"],
     badge: "SUITE", img: "/hotel-photos/room7.jpg",
   },
@@ -73,29 +65,77 @@ const ROOMS: Record<string, {
   },
 };
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const arrival = searchParams.get("arrival") || "";
-  const departure = searchParams.get("departure") || "";
-  const adults = parseInt(searchParams.get("adults") || "2", 10);
+function parseDate(s: string): Date | null {
+  if (!s) return null;
+  // Try YYYY-MM-DD
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (m) return new Date(`${m[1]}-${m[2]}-${m[3]}T12:00:00`);
+  // Try other formats
+  const d = new Date(s);
+  return isNaN(d.getTime()) ? null : d;
+}
 
-  if (!arrival || !departure) {
-    return NextResponse.json(
-      { error: "arrival and departure dates are required (YYYY-MM-DD)" },
-      { status: 400 }
-    );
+function fmt(d: Date): string {
+  return d.toISOString().slice(0, 10);
+}
+
+async function getParams(req: NextRequest): Promise<{ arrival: string; departure: string; adults: number } | { error: string; status: number }> {
+  let arrival = "";
+  let departure = "";
+  let adults = 2;
+
+  // Try query params first (GET)
+  const sp = req.nextUrl.searchParams;
+  arrival = sp.get("arrival") || "";
+  departure = sp.get("departure") || "";
+  const a = sp.get("adults");
+  if (a) adults = parseInt(a, 10) || 2;
+
+  // If no query params, try JSON body (POST)
+  if (!arrival && !departure) {
+    try {
+      const body = await req.json();
+      arrival = body.arrival || body.checkin || body.check_in || body.startDate || "";
+      departure = body.departure || body.checkout || body.check_out || body.endDate || "";
+      if (body.adults) adults = parseInt(String(body.adults), 10) || 2;
+    } catch { /* ignore */ }
   }
 
+  const ad = parseDate(arrival);
+  const dd = parseDate(departure);
+  if (!ad || !dd) {
+    return { error: "Valid arrival and departure dates required (YYYY-MM-DD)", status: 400 };
+  }
+  if (dd <= ad) {
+    return { error: "Departure must be after arrival", status: 400 };
+  }
+
+  return { arrival: fmt(ad), departure: fmt(dd), adults };
+}
+
+export async function GET(req: NextRequest) {
+  const params = await getParams(req);
+  if ("error" in params) {
+    return NextResponse.json({ error: params.error }, { status: params.status });
+  }
+  return respond(params);
+}
+
+export async function POST(req: NextRequest) {
+  const params = await getParams(req);
+  if ("error" in params) {
+    return NextResponse.json({ error: params.error }, { status: params.status });
+  }
+  return respond(params);
+}
+
+function respond({ arrival, departure, adults }: { arrival: string; departure: string; adults: number }) {
   const nights = Math.max(1, Math.round(
     (new Date(departure).getTime() - new Date(arrival).getTime()) / (1000 * 60 * 60 * 24)
   ));
 
   const rooms = Object.values(ROOMS)
-    .filter((r) => {
-      // Filter by guest capacity
-      const maxGuests = parseInt(r.guests, 10);
-      return adults <= maxGuests;
-    })
+    .filter((r) => adults <= parseInt(r.guests, 10))
     .map((r) => ({
       code: r.code,
       name: r.name,
@@ -110,11 +150,7 @@ export async function GET(request: Request) {
       key_amenities: r.amenities.slice(0, 5),
       accessible: r.code.startsWith("ADA"),
     }))
-    .sort((a, b) => {
-      // Accessible rooms last
-      if (a.accessible !== b.accessible) return a.accessible ? 1 : -1;
-      return 0;
-    });
+    .sort((a, b) => (a.accessible === b.accessible ? 0 : a.accessible ? 1 : -1));
 
   return NextResponse.json({
     hotel: "Andreas Hotel & Spa",
