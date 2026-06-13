@@ -54,6 +54,14 @@ export default function RootLayout({
             button-accent-color="#c9a96e"
             empty-chat-message="Hi, Sam here! How can I help you today?"
           />
+          <script dangerouslySetInnerHTML={{__html: `
+            (function(){
+              var w = document.querySelector('.vapi-widget-floating');
+              if (w && window.innerWidth <= 410) {
+                w.setAttribute('size', 'tiny');
+              }
+            })();
+          `}} />
           <Script
             src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
             strategy="afterInteractive"
