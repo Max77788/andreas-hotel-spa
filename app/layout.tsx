@@ -45,7 +45,7 @@ export default function RootLayout({
             assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
             mode="chat"
             theme="dark"
-            size="compact"
+            size="full"
             position="bottom-right"
             radius="large"
             base-color="#2a2118"
