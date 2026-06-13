@@ -42,9 +42,7 @@ export async function GET(request: Request) {
     );
   }
 
-  const siteUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "https://andreas-hotel-spa.vercel.app";
+  const siteUrl = "https://andreas-hotel-spa.vercel.app";
 
   const bookingUrl = `${siteUrl}/book?room=${code}&arrival=${arrival}&departure=${departure}&adults=${adults}`;
 
