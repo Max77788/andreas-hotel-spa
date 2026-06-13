@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Book a Room – The Andreas Hotel & Spa",
@@ -6,7 +7,42 @@ export const metadata = {
     "Secure your stay at The Andreas Hotel & Spa. Book directly through our reservation system.",
 };
 
-export default function BookPage() {
+export default function BookPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  return <BookPageInner searchParamsPromise={searchParams} />;
+}
+
+function BookPageInner({
+  searchParamsPromise,
+}: {
+  searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  return (
+    <Suspense fallback={<BookShell iframeSrc="/api/book-proxy" />}>
+      <AsyncBookPage searchParamsPromise={searchParamsPromise} />
+    </Suspense>
+  );
+}
+
+async function AsyncBookPage({
+  searchParamsPromise,
+}: {
+  searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const sp = await searchParamsPromise;
+  const params = new URLSearchParams();
+  if (sp.arrival) params.set("arrival", String(sp.arrival));
+  if (sp.departure) params.set("departure", String(sp.departure));
+  if (sp.adults) params.set("adults", String(sp.adults));
+  if (sp.room) params.set("room", String(sp.room));
+  const iframeSrc = `/api/book-proxy${params.toString() ? `?${params.toString()}` : ""}`;
+  return <BookShell iframeSrc={iframeSrc} />;
+}
+
+function BookShell({ iframeSrc }: { iframeSrc: string }) {
   return (
     <div className="fixed inset-0 flex flex-col">
       {/* Branding header */}
@@ -47,7 +83,7 @@ export default function BookPage() {
 
       {/* Booking iframe fills the rest */}
       <iframe
-        src="/api/book-proxy"
+        src={iframeSrc}
         className="flex-1 w-full border-0"
         title="Book a room at The Andreas Hotel & Spa"
       />
