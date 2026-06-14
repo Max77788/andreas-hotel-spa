@@ -820,6 +820,128 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── CONTACT US ────────────────────────────────────────────────────── */}
+      <section id="contact" className="py-24 md:py-32 bg-[var(--hotel-cream)]">
+        <div className="max-w-7xl mx-auto px-6 md:px-10">
+          {/* Section header */}
+          <div className="text-center mb-16">
+            <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
+              Get in Touch
+            </p>
+            <h2 className="font-display text-4xl md:text-5xl font-light text-[var(--hotel-charcoal)] mb-4">
+              Contact Us
+            </h2>
+            <div className="divider-gold mx-auto mb-6" />
+            <p className="font-body text-[var(--hotel-charcoal)]/90 max-w-xl mx-auto leading-relaxed">
+              We'd love to hear from you. Whether you have a question about our rooms, spa services,
+              or anything else, our team is ready to help.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-5 gap-16">
+            {/* Form — 3/5 width */}
+            <div className="md:col-span-3">
+              <form className="space-y-6">
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">
+                      Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Your name"
+                      className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">
+                      Email *
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      placeholder="Your email"
+                      className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    placeholder="Your phone number"
+                    className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">
+                    Message *
+                  </label>
+                  <textarea
+                    required
+                    rows={5}
+                    placeholder="How can we help you?"
+                    className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors resize-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+
+            {/* Contact Info — 2/5 width */}
+            <div className="md:col-span-2 space-y-8">
+              <div>
+                <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.3em] uppercase mb-3">
+                  Address
+                </p>
+                <p className="font-body text-[var(--hotel-charcoal)]/90 leading-relaxed">
+                  277 N. Indian Canyon Drive<br />
+                  Palm Springs, CA 92262
+                </p>
+              </div>
+              <div>
+                <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.3em] uppercase mb-3">
+                  Phone
+                </p>
+                <a
+                  href="tel:+17603250900"
+                  className="font-body text-[var(--hotel-charcoal)]/90 hover:text-[var(--hotel-terracotta)] transition-colors"
+                >
+                  (760) 325-0900
+                </a>
+              </div>
+              <div>
+                <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.3em] uppercase mb-3">
+                  Email
+                </p>
+                <a
+                  href="mailto:stay@andreashotel.com"
+                  className="font-body text-[var(--hotel-charcoal)]/90 hover:text-[var(--hotel-terracotta)] transition-colors break-all"
+                >
+                  stay@andreashotel.com
+                </a>
+              </div>
+              <div>
+                <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.3em] uppercase mb-3">
+                  Front Desk
+                </p>
+                <p className="font-body text-[var(--hotel-charcoal)]/90">
+                  Open 24 hours
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
