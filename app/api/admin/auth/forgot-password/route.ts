@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ConvexHttpClient } from "convex/browser";
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+import { getConvexClient } from "@/lib/convex";
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,6 +11,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const convex = getConvexClient();
     const result = await (convex as any).action("adminUsers:generateResetToken", {
       email,
     });

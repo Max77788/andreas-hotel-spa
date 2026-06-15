@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex";
 import { createSessionToken, sessionCookie } from "@/lib/auth";
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
-
 // Helper: call Convex action by string reference
-async function callAction(path: string, args: Record<string, unknown>) {
+function callAction(path: string, args: Record<string, unknown>) {
+  const convex = getConvexClient();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (convex as any).action(path, args) as Promise<any>;
 }
 
-async function callQuery(path: string, args: Record<string, unknown>) {
+function callQuery(path: string, args: Record<string, unknown>) {
+  const convex = getConvexClient();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (convex as any).query(path, args) as Promise<any>;
 }

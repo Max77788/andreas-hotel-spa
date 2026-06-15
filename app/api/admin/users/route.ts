@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex";
 import { verifySessionToken } from "@/lib/auth";
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 // Auth helper — rejects non-admins
 async function requireAdmin(req: NextRequest) {
@@ -21,6 +19,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    const convex = getConvexClient();
     const users = await (convex as any).query("adminUsers:listUsers", {});
     return NextResponse.json(users);
   } catch (err) {
@@ -45,6 +44,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const convex = getConvexClient();
     const result = await (convex as any).action("adminUsers:createUser", {
       email,
       name,
@@ -75,6 +75,7 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "userId is required" }, { status: 400 });
     }
 
+    const convex = getConvexClient();
     const result = await (convex as any).mutation("adminUsers:updateUser", {
       userId,
       ...(name && { name }),
@@ -112,6 +113,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
+    const convex = getConvexClient();
     const result = await (convex as any).mutation("adminUsers:deleteUser", {
       userId,
     });

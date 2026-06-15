@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex";
 import { requireAdmin } from "@/lib/api-auth";
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 /**
  * POST /api/admin/users/reset-password
@@ -19,6 +17,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
+    const convex = getConvexClient();
     const result = await (convex as any).action("adminUsers:generateResetToken", {
       email: email.toLowerCase().trim(),
     });
