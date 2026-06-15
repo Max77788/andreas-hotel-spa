@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { requireAuth } from "@/lib/api-auth";
 import { revalidatePath } from "next/cache";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const session = await requireAuth(req);
+  if (session instanceof NextResponse) return session;
   const supabase = createServerClient();
   const { data: offers } = await supabase.from("offers").select("*").order("sort_order");
   const { data: inclusions } = await supabase.from("offer_inclusions").select("*").order("sort_order");
@@ -10,6 +13,8 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
+  const session = await requireAuth(req);
+  if (session instanceof NextResponse) return session;
   const body = await req.json();
   const supabase = createServerClient();
   const table = body.type === "inclusion" ? "offer_inclusions" : "offers";
@@ -30,6 +35,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const session = await requireAuth(req);
+  if (session instanceof NextResponse) return session;
   const { id, type } = await req.json();
   const supabase = createServerClient();
   const table = type === "inclusion" ? "offer_inclusions" : "offers";

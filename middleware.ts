@@ -46,7 +46,14 @@ export async function middleware(req: NextRequest) {
     }
 
     try {
-      await jwtVerify(token, SECRET);
+      const { payload } = await jwtVerify(token, SECRET);
+      const role = (payload as any).role;
+
+      // Admin-only routes
+      if (pathname.startsWith("/admin/users") && role !== "admin") {
+        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
+      }
+
       return NextResponse.next();
     } catch {
       const resp = NextResponse.redirect(new URL("/admin", req.url));

@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
+import { requireAuth } from "@/lib/api-auth";
 import { revalidatePath } from "next/cache";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const session = await requireAuth(req);
+  if (session instanceof NextResponse) return session;
   const supabase = createServerClient();
   const { data } = await supabase.from("gallery").select("*").order("sort_order");
   return NextResponse.json(data ?? []);
 }
 
 export async function POST(req: NextRequest) {
+  const session = await requireAuth(req);
+  if (session instanceof NextResponse) return session;
   const body = await req.json();
   const supabase = createServerClient();
   const clean = {
@@ -23,6 +28,8 @@ export async function POST(req: NextRequest) {
 }
 
 export async function DELETE(req: NextRequest) {
+  const session = await requireAuth(req);
+  if (session instanceof NextResponse) return session;
   const { id } = await req.json();
   const supabase = createServerClient();
   await supabase.from("gallery").delete().eq("id", id);

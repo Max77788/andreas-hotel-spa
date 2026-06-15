@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Shield, Trash2, UserPlus, Pencil, X } from "lucide-react";
+import { Shield, Trash2, UserPlus, Pencil, X, KeyRound } from "lucide-react";
 
 interface AdminUser {
   _id: string;
@@ -29,6 +29,8 @@ export default function UsersPage() {
 
   // Delete confirm
   const [deleteTarget, setDeleteTarget] = useState<AdminUser | null>(null);
+  // Reset password feedback
+  const [resetSent, setResetSent] = useState<string | null>(null);
 
   const fetchUsers = useCallback(async () => {
     const res = await fetch("/api/admin/users");
@@ -130,6 +132,22 @@ export default function UsersPage() {
     }
   }
 
+  async function handleSendReset(user: AdminUser) {
+    setResetSent(null);
+    const res = await fetch("/api/admin/users/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: user.email }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      setResetSent(`Reset link sent to ${user.email}`);
+      setTimeout(() => setResetSent(null), 5000);
+    } else {
+      setError(data.error || "Failed to send reset link");
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-neutral-100 p-8 flex items-center justify-center">
@@ -168,6 +186,11 @@ export default function UsersPage() {
         {error && (
           <p className="text-red-600 text-lg font-bold mb-5 bg-red-50 p-4 border-[3px] border-red-400">
             {error}
+          </p>
+        )}
+        {resetSent && (
+          <p className="text-green-700 text-lg font-bold mb-5 bg-green-50 p-4 border-[3px] border-green-400">
+            {resetSent}
           </p>
         )}
 
@@ -232,6 +255,13 @@ export default function UsersPage() {
                         title="Edit"
                       >
                         <Pencil size={20} />
+                      </button>
+                      <button
+                        onClick={() => handleSendReset(user)}
+                        className="text-neutral-500 hover:text-blue-600 p-2"
+                        title="Send reset link"
+                      >
+                        <KeyRound size={20} />
                       </button>
                       <button
                         onClick={() => setDeleteTarget(user)}
