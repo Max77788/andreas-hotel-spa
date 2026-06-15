@@ -75,6 +75,29 @@ export default function RootLayout({
             color: #000000 !important;
           }
         `}} />
+        <script dangerouslySetInnerHTML={{__html: `
+          (function(){
+            var observer = new MutationObserver(function(){
+              var host = document.querySelector('vapi-widget');
+              if (host && host.shadowRoot) {
+                var style = document.createElement('style');
+                style.textContent = '.user-message, [class*="user"], [data-role="user-message"] { color: #000000 !important; }';
+                host.shadowRoot.appendChild(style);
+                observer.disconnect();
+              }
+            });
+            observer.observe(document.body, {childList: true, subtree: true});
+            // Also try direct after 2s
+            setTimeout(function(){
+              var host = document.querySelector('vapi-widget');
+              if (host && host.shadowRoot) {
+                var style = document.createElement('style');
+                style.textContent = '.user-message, [class*="user"], [data-role="user-message"] { color: #000000 !important; }';
+                host.shadowRoot.appendChild(style);
+              }
+            }, 2000);
+          })();
+        `}} />
       </body>
     </html>
   );
