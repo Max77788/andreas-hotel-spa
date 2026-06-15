@@ -70,6 +70,12 @@ export default function RootLayout({
         <style dangerouslySetInnerHTML={{__html: `
           .vapi-wrapper {
             z-index: 9999;
+            --user-message-color: #000000;
+            --vapi-user-message-color: #000000;
+          }
+          vapi-widget {
+            --user-message-color: #000000;
+            --vapi-user-message-color: #000000;
           }
           vapi-widget::part(user-message) {
             color: #000000 !important;
