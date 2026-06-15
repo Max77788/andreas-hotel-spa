@@ -675,51 +675,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA BANNER ──────────────────────────────────────────────────────── */}
-      <section
-        id="contact"
-        className="relative py-28 md:py-36 overflow-hidden"
-        style={{
-          backgroundImage: `url(/hotel-photos/pool-night.jpg)`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="absolute inset-0 bg-[var(--hotel-cream)]/85" />
-        <div className="relative text-center px-6">
-          <div className="inline-block px-8 py-8 mb-6"
-            style={{
-              background: "rgba(0,0,0,0.65)",
-              backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)",
-            }}
-          >
-            <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-4">Now</p>
-            <h2 className="font-display text-white font-light mb-4" style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)" }}>
-              Your Desert Escape Awaits
-            </h2>
-            <p className="font-body text-white/70 text-sm tracking-widest mb-2">
-              stay@andreashotel.com
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
-            <a
-              href="/book"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
-            >
-              Book Your Stay
-            </a>
-            <a
-              href="tel:+17474949881"
-              className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-black hover:text-white transition-all duration-300"
-            >
-              Call Us
-            </a>
-          </div>
-        </div>
-      </section>
+
 
       {/* ── AWARDS & SOCIALS ────────────────────────────────────────────────── */}
       <section className="bg-[var(--hotel-charcoal)] border-t border-[var(--hotel-gold)]/20">
@@ -825,17 +781,21 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           {/* Section header */}
           <div className="text-center mb-16">
-            <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
-              Get in Touch
-            </p>
-            <h2 className="font-display text-4xl md:text-5xl font-light text-[var(--hotel-charcoal)] mb-4">
-              Contact Us
-            </h2>
-            <div className="divider-gold mx-auto mb-6" />
-            <p className="font-body text-[var(--hotel-charcoal)]/90 max-w-xl mx-auto leading-relaxed">
-              We'd love to hear from you. Whether you have a question about our rooms, spa services,
-              or anything else, our team is ready to help.
-            </p>
+            <div className="inline-block px-8 py-8 mb-8"
+              style={{
+                background: "rgba(0,0,0,0.65)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+              }}
+            >
+              <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-4">Get in Touch</p>
+              <h2 className="font-display text-white font-light mb-4" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
+                Your Desert Escape Awaits
+              </h2>
+              <p className="font-body text-white/60 text-sm tracking-widest">
+                We'd love to hear from you — our team is ready to help
+              </p>
+            </div>
           </div>
 
           <div className="grid md:grid-cols-5 gap-16">
@@ -938,6 +898,24 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-16">
+            <a
+              href="/book"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+            >
+              Book Your Stay
+            </a>
+            <a
+              href="tel:+176****0900"
+              className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-black hover:text-white transition-all duration-300"
+            >
+              Call Us
+            </a>
           </div>
         </div>
       </section>
