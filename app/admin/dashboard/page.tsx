@@ -1,6 +1,7 @@
 "use client";
 
 const sections = [
+  { name: "Users", href: "/admin/users", desc: "Manage CMS admin accounts", adminOnly: true },
   { name: "Rooms", href: "/admin/rooms", desc: "Edit room details, photos, amenities, pricing" },
   { name: "Policies", href: "/admin/policies", desc: "Manage hotel policies and cancellation" },
   { name: "Offers", href: "/admin/offers", desc: "Seasonal packages and inclusions" },

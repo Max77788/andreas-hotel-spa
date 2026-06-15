@@ -1,36 +1,55 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function AdminLogin() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError("");
 
-    const res = await fetch("/api/admin/auth/login", {
+    const res = await fetch("/api/admin/auth/forgot-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email }),
     });
 
-    const data = await res.json();
-
     if (res.ok) {
-      router.push("/admin/dashboard");
+      setSent(true);
     } else {
-      setError(data.error || "Invalid credentials");
+      const data = await res.json();
+      setError(data.error || "Something went wrong");
     }
     setLoading(false);
+  }
+
+  if (sent) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-neutral-900">
+        <div className="bg-white p-12 w-full max-w-md shadow-2xl text-center">
+          <h1 className="text-3xl font-bold text-neutral-900 mb-4">
+            Check Your Email
+          </h1>
+          <div className="w-10 h-1 bg-amber-500 mx-auto mb-6" />
+          <p className="text-lg text-neutral-600 font-medium mb-8">
+            If an account with that email exists, we've sent a password reset
+            link.
+          </p>
+          <Link
+            href="/admin"
+            className="text-lg font-bold text-amber-600 hover:text-amber-700"
+          >
+            Back to sign in
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -41,12 +60,14 @@ export default function AdminLogin() {
       >
         <div className="text-center mb-10">
           <h1 className="text-3xl font-bold text-neutral-900 tracking-tight">
-            Andreas CMS
+            Reset Password
           </h1>
           <div className="w-10 h-1 bg-amber-500 mx-auto mt-4" />
+          <p className="text-lg text-neutral-600 font-medium mt-4">
+            Enter your email and we'll send you a reset link.
+          </p>
         </div>
 
-        {/* Email */}
         <input
           type="email"
           value={email}
@@ -57,44 +78,24 @@ export default function AdminLogin() {
           autoComplete="email"
         />
 
-        {/* Password */}
-        <div className="relative mb-5">
-          <input
-            type={show ? "text" : "password"}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full border-[3px] border-neutral-400 px-5 py-5 text-xl text-neutral-900 focus:outline-none focus:border-amber-500 pr-14 placeholder:text-neutral-400 font-medium bg-neutral-50"
-            autoComplete="current-password"
-          />
-          <button
-            type="button"
-            onClick={() => setShow(!show)}
-            className="absolute right-4 top-5 text-2xl text-neutral-500 hover:text-neutral-800"
-            tabIndex={-1}
-          >
-            {show ? "🙈" : "👁"}
-          </button>
-        </div>
-
         {error && (
           <p className="text-red-600 text-lg mb-5 font-bold">{error}</p>
         )}
 
         <button
           type="submit"
-          disabled={loading || !email || !password}
+          disabled={loading || !email}
           className="w-full bg-amber-500 text-neutral-900 text-lg font-bold tracking-[0.2em] uppercase py-5 hover:bg-amber-600 transition-colors disabled:opacity-30 mb-6"
         >
-          {loading ? "..." : "Sign In"}
+          {loading ? "..." : "Send Reset Link"}
         </button>
 
         <div className="text-center">
           <Link
-            href="/admin/forgot-password"
+            href="/admin"
             className="text-lg font-bold text-neutral-600 hover:text-amber-600 transition-colors"
           >
-            Forgot password?
+            Back to sign in
           </Link>
         </div>
       </form>
