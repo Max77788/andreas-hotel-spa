@@ -52,6 +52,7 @@ export default function RootLayout({
             accent-color="#c9a96e"
             button-base-color="#2a2118"
             button-accent-color="#c9a96e"
+            title="Talk with Andreas"
             empty-chat-message="Hi, Sam here! How can I help you today?"
           />
           <script dangerouslySetInnerHTML={{__html: `
@@ -87,21 +88,86 @@ export default function RootLayout({
               var host = document.querySelector('vapi-widget');
               if (host && host.shadowRoot) {
                 var style = document.createElement('style');
+                style.id = 'hermes-user-color';
                 style.textContent = '.user-message, [class*="user"], [data-role="user-message"] { color: #000000 !important; }';
                 host.shadowRoot.appendChild(style);
                 observer.disconnect();
+                // Inject minimize toggle after chat panel appears
+                setTimeout(injectMinimizeToggle, 1000);
               }
             });
             observer.observe(document.body, {childList: true, subtree: true});
-            // Also try direct after 2s
             setTimeout(function(){
               var host = document.querySelector('vapi-widget');
               if (host && host.shadowRoot) {
                 var style = document.createElement('style');
+                style.id = 'hermes-user-color-2';
                 style.textContent = '.user-message, [class*="user"], [data-role="user-message"] { color: #000000 !important; }';
                 host.shadowRoot.appendChild(style);
               }
             }, 2000);
+
+            function injectMinimizeToggle() {
+              var host = document.querySelector('vapi-widget');
+              if (!host || !host.shadowRoot) { setTimeout(injectMinimizeToggle, 500); return; }
+              // Already injected?
+              if (host.shadowRoot.querySelector('.hermes-minimize-btn')) return;
+              // Watch for chat panel to appear
+              var chatObserver = new MutationObserver(function() {
+                var header = host.shadowRoot.querySelector('[class*="header"], [class*="Header"], [class*="chat-header"], [class*="title-bar"]');
+                var closeBtn = host.shadowRoot.querySelector('[class*="close"], [class*="Close"], [aria-label*="close" i], [aria-label*="Close" i]');
+                var chatBody = host.shadowRoot.querySelector('[class*="chat"], [class*="body"], [class*="messages"], [class*="conversation"]');
+                if (header && !header.querySelector('.hermes-minimize-btn')) {
+                  var btn = document.createElement('button');
+                  btn.className = 'hermes-minimize-btn';
+                  btn.innerHTML = '&#x2014;';
+                  btn.title = 'Minimize';
+                  btn.style.cssText = 'background:none;border:none;color:#c9a96e;font-size:20px;cursor:pointer;padding:0 8px;line-height:1;opacity:0.7;';
+                  btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var body = host.shadowRoot.querySelector('[class*="chat"], [class*="body"], [class*="messages"], [class*="conversation"]');
+                    var footer = host.shadowRoot.querySelector('[class*="footer"], [class*="input"], [class*="composer"]');
+                    var isMinimized = host.getAttribute('data-hermes-minimized') === 'true';
+                    if (isMinimized) {
+                      // Expand
+                      if (body) body.style.display = '';
+                      if (footer) footer.style.display = '';
+                      btn.innerHTML = '&#x2014;';
+                      btn.title = 'Minimize';
+                      host.setAttribute('data-hermes-minimized', 'false');
+                      host.style.height = '';
+                      host.style.maxHeight = '';
+                    } else {
+                      // Minimize - keep only header
+                      if (body) body.style.display = 'none';
+                      if (footer) footer.style.display = 'none';
+                      btn.innerHTML = '+';
+                      btn.title = 'Expand';
+                      host.setAttribute('data-hermes-minimized', 'true');
+                      host.style.height = 'auto';
+                      host.style.maxHeight = '60px';
+                    }
+                  });
+                  // Insert before close button or at end of header
+                  if (closeBtn) {
+                    closeBtn.parentNode.insertBefore(btn, closeBtn);
+                  } else {
+                    header.appendChild(btn);
+                  }
+                  // Also add a header click to expand when minimized
+                  header.style.cursor = 'pointer';
+                  header.addEventListener('click', function(e) {
+                    if (e.target.closest('.hermes-minimize-btn') || e.target.closest('[class*="close"]') || e.target.closest('[aria-label*="close" i]')) return;
+                    if (host.getAttribute('data-hermes-minimized') === 'true') {
+                      var b = host.shadowRoot.querySelector('.hermes-minimize-btn');
+                      if (b) b.click();
+                    }
+                  });
+                  chatObserver.disconnect();
+                }
+              });
+              chatObserver.observe(host.shadowRoot, {childList: true, subtree: true});
+            }
           })();
         `}} />
       </body>
