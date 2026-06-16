@@ -15,19 +15,32 @@ export interface AdminUser {
 }
 
 // ── Store path ───────────────────────────────────────
+// On Vercel, the app directory is read-only — use /tmp for mutable state.
+// The committed data/admin-users.json acts as seed on cold start.
 
-const STORE_DIR = path.join(process.cwd(), "data");
-const STORE_PATH = path.join(STORE_DIR, "admin-users.json");
+const SEED_PATH = path.join(process.cwd(), "data", "admin-users.json");
+const STORE_PATH = process.env.VERCEL
+  ? path.join("/tmp", "admin-users.json")
+  : path.join(process.cwd(), "data", "admin-users.json");
 
 function ensureDir() {
-  if (!fs.existsSync(STORE_DIR)) {
-    fs.mkdirSync(STORE_DIR, { recursive: true });
+  const dir = path.dirname(STORE_PATH);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
   }
 }
 
 function readStore(): AdminUser[] {
   ensureDir();
-  if (!fs.existsSync(STORE_PATH)) return [];
+  if (!fs.existsSync(STORE_PATH)) {
+    // Seed from committed file (Vercel cold start)
+    if (fs.existsSync(SEED_PATH)) {
+      const seed = JSON.parse(fs.readFileSync(SEED_PATH, "utf-8"));
+      fs.writeFileSync(STORE_PATH, JSON.stringify(seed, null, 2));
+      return seed;
+    }
+    return [];
+  }
   const raw = fs.readFileSync(STORE_PATH, "utf-8");
   return JSON.parse(raw);
 }
