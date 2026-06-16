@@ -1,0 +1,9 @@
+[
+  {
+    "_id": "2a7cf39b-b6f2-426c-a13a-a8b218e9861c",
+    "email": "admin@stayatandreas.com",
+    "name": "Admin",
+    "role": "admin",
+    "passwordHash": "$2b$12$QIVd9eBHv6lL54Dr7Efuj.JpW5XCK0iKrR9LiYJfmW0XgpddOkwpS"
+  }
+]

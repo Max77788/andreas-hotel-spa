@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getConvexClient } from "@/lib/convex";
+import { generateResetToken } from "@/lib/admin-store";
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,15 +11,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const convex = getConvexClient();
-    const result = await (convex as any).action("adminUsers:generateResetToken", {
-      email,
-    });
+    const result = await generateResetToken(email);
 
-    // Send reset email via the same OTP endpoint pattern
-    if (result.token && result.user && process.env.OTP_ENDPOINT) {
-      const resetUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://stayatandreas.com"}/admin/reset-password?token=${result.token}`;
-      
+    // Send reset email if OTP endpoint configured
+    if (result && process.env.OTP_ENDPOINT) {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_SITE_URL || "https://stayatandreas.com";
+      const resetUrl = `${baseUrl}/admin/reset-password?token=${result.token}`;
+
       await fetch(process.env.OTP_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -38,7 +37,8 @@ export async function POST(req: NextRequest) {
     // Always return success to prevent email enumeration
     return NextResponse.json({
       success: true,
-      message: "If an account with that email exists, a reset link has been sent.",
+      message:
+        "If an account with that email exists, a reset link has been sent.",
     });
   } catch (err) {
     console.error("Forgot password error:", err);

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getConvexClient } from "@/lib/convex";
+import { generateResetToken } from "@/lib/admin-store";
 import { requireAdmin } from "@/lib/api-auth";
 
 /**
@@ -14,19 +14,16 @@ export async function POST(req: NextRequest) {
   try {
     const { email } = await req.json();
     if (!email) {
-      return NextResponse.json({ error: "Email is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email is required" },
+        { status: 400 }
+      );
     }
 
-    const convex = getConvexClient();
-    const result = await (convex as any).action("adminUsers:generateResetToken", {
-      email: email.toLowerCase().trim(),
-    });
+    const result = await generateResetToken(email.toLowerCase().trim());
 
-    if (!result.token || !result.user) {
-      return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
-      );
+    if (!result) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     const baseUrl =

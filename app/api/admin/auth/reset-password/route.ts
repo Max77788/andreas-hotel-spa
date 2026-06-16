@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getConvexClient } from "@/lib/convex";
+import { resetPassword } from "@/lib/admin-store";
 
 export async function POST(req: NextRequest) {
   try {
@@ -17,13 +17,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const convex = getConvexClient();
-    const result = await (convex as any).action("adminUsers:resetPassword", {
-      token,
-      password,
-    });
+    const result = await resetPassword(token, password);
 
-    if ("error" in result) {
+    if (result.error) {
       return NextResponse.json({ error: result.error }, { status: 400 });
     }
 

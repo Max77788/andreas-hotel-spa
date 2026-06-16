@@ -1,5 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getConvexClient } from "@/lib/convex";
+import {
+  listUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+} from "@/lib/admin-store";
 import { verifySessionToken } from "@/lib/auth";
 
 // Auth helper — rejects non-admins
@@ -19,12 +24,14 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const convex = getConvexClient();
-    const users = await (convex as any).query("adminUsers:listUsers", {});
+    const users = listUsers();
     return NextResponse.json(users);
   } catch (err) {
     console.error("List users error:", err);
-    return NextResponse.json({ error: "Failed to list users" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to list users" },
+      { status: 500 }
+    );
   }
 }
 
@@ -44,15 +51,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const convex = getConvexClient();
-    const result = await (convex as any).action("adminUsers:createUser", {
-      email,
-      name,
-      password,
-      role,
-    });
+    const result = await createUser({ email, name, password, role });
 
-    return NextResponse.json(result, { status: 201 });
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 409 });
+    }
+
+    return NextResponse.json({ success: true, userId: result.userId }, { status: 201 });
   } catch (err: any) {
     console.error("Create user error:", err);
     return NextResponse.json(
@@ -72,17 +77,19 @@ export async function PATCH(req: NextRequest) {
   try {
     const { userId, name, role } = await req.json();
     if (!userId) {
-      return NextResponse.json({ error: "userId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "userId is required" },
+        { status: 400 }
+      );
     }
 
-    const convex = getConvexClient();
-    const result = await (convex as any).mutation("adminUsers:updateUser", {
-      userId,
-      ...(name && { name }),
-      ...(role && { role }),
-    });
+    const result = updateUser(userId, { name, role });
 
-    return NextResponse.json(result);
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true });
   } catch (err: any) {
     console.error("Update user error:", err);
     return NextResponse.json(
@@ -102,7 +109,10 @@ export async function DELETE(req: NextRequest) {
   try {
     const { userId } = await req.json();
     if (!userId) {
-      return NextResponse.json({ error: "userId is required" }, { status: 400 });
+      return NextResponse.json(
+        { error: "userId is required" },
+        { status: 400 }
+      );
     }
 
     // Prevent self-deletion
@@ -113,12 +123,13 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const convex = getConvexClient();
-    const result = await (convex as any).mutation("adminUsers:deleteUser", {
-      userId,
-    });
+    const result = deleteUser(userId);
 
-    return NextResponse.json(result);
+    if (result.error) {
+      return NextResponse.json({ error: result.error }, { status: 404 });
+    }
+
+    return NextResponse.json({ success: true });
   } catch (err: any) {
     console.error("Delete user error:", err);
     return NextResponse.json(
