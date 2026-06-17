@@ -73,6 +73,14 @@ export default function RootLayout({
             z-index: 9999;
             --user-message-color: #000000;
             --vapi-user-message-color: #000000;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+          }
+          /* Collapse on hover — bubble shrinks and fades so it doesn't block UI */
+          .vapi-wrapper:not(.vapi-expanded):hover {
+            opacity: 0.18;
+          }
+          .vapi-wrapper:not(.vapi-expanded):hover vapi-widget {
+            pointer-events: none;
           }
           vapi-widget {
             --user-message-color: #000000;
@@ -94,6 +102,8 @@ export default function RootLayout({
                 observer.disconnect();
                 // Inject minimize toggle after chat panel appears
                 setTimeout(injectMinimizeToggle, 1000);
+                // Watch for chat panel open/close to toggle hover-collapse
+                setTimeout(watchPanelState, 500);
               }
             });
             observer.observe(document.body, {childList: true, subtree: true});
@@ -106,6 +116,28 @@ export default function RootLayout({
                 host.shadowRoot.appendChild(style);
               }
             }, 2000);
+
+            function watchPanelState() {
+              var host = document.querySelector('vapi-widget');
+              var wrapper = document.querySelector('.vapi-wrapper');
+              if (!host || !host.shadowRoot || !wrapper) { setTimeout(watchPanelState, 500); return; }
+              var panelObserver = new MutationObserver(function() {
+                // Vapi panel = expanded content area beyond the bubble
+                var panel = host.shadowRoot.querySelector('[class*="chat"], [class*="panel"], [class*="expanded"], [class*="body"], [class*="conversation"]');
+                var isExpanded = panel && panel.offsetHeight > 50;
+                if (isExpanded) {
+                  wrapper.classList.add('vapi-expanded');
+                } else {
+                  wrapper.classList.remove('vapi-expanded');
+                }
+              });
+              panelObserver.observe(host.shadowRoot, {childList: true, subtree: true, attributes: true});
+              // Initial check
+              var panel = host.shadowRoot.querySelector('[class*="chat"], [class*="panel"], [class*="expanded"], [class*="body"], [class*="conversation"]');
+              if (panel && panel.offsetHeight > 50) {
+                wrapper.classList.add('vapi-expanded');
+              }
+            }
 
             function injectMinimizeToggle() {
               var host = document.querySelector('vapi-widget');
