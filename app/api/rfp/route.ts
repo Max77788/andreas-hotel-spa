@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     const resend = new Resend(resendApiKey);
 
     await resend.emails.send({
-      from: "Andreas Hotel <noreply@andreashotel.com>",
+      from: "Andreas Hotel <events@email.mom-ai-agency.site>",
       to: RECIPIENT_EMAIL,
       subject: `New RFP: ${organization || contactName} — ${eventType || "Event Inquiry"}`,
       replyTo: email,

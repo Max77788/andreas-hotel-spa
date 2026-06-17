@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const resend = new Resend(resendApiKey);
 
     await resend.emails.send({
-      from: "Andreas Hotel <noreply@andreashotel.com>",
+      from: "Andreas Hotel <contact@email.mom-ai-agency.site>",
       to: RECIPIENT_EMAIL,
       subject: `New Contact Form: ${name}`,
       replyTo: email,
