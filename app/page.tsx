@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
@@ -103,13 +103,13 @@ const amenities = [
 ];
 
 const galleryImages = [
-  { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa Suite" },
-  { src: "/hotel-photos/pool-night.jpg", alt: "Sunset pool" },
-  { src: "/hotel-photos/room1.jpg", alt: "Guest room" },
-  { src: "/hotel-photos/pool-night.jpg", alt: "Pool area" },
-  { src: "/hotel-photos/amenities.jpg", alt: "Spa treatment" },
-  { src: "/hotel-photos/room6.jpg", alt: "Living area" },
-  { src: "/hotel-photos/room7.jpg", alt: "Desert palms" },
+  { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa Suite bedroom" },
+  { src: "/hotel-photos/courtyard.jpg", alt: "Courtyard garden" },
+  { src: "/hotel-photos/room1.jpg", alt: "Deluxe guest room" },
+  { src: "/hotel-photos/exterior.jpg", alt: "Hotel exterior" },
+  { src: "/hotel-photos/amenities.jpg", alt: "Spa treatment room" },
+  { src: "/hotel-photos/room6.jpg", alt: "Suite living area" },
+  { src: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg", alt: "Accessible suite" },
   { src: "/hotel-photos/room7.jpg", alt: "Executive room" },
 ];
 
@@ -117,6 +117,60 @@ const galleryImages = [
 export default function HomePage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
+
+  // ── Contact form state ──
+  const [contactForm, setContactForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [contactError, setContactError] = useState("");
+
+  // ── RFP form state ──
+  const [rfpForm, setRfpForm] = useState({
+    organization: "", contactName: "", email: "", phone: "",
+    eventType: "", guestCount: "", preferredDates: "", budget: "", requirements: "",
+  });
+  const [rfpStatus, setRfpStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [rfpError, setRfpError] = useState("");
+  const [showRfp, setShowRfp] = useState(false);
+
+  async function handleContactSubmit(e: FormEvent) {
+    e.preventDefault();
+    setContactStatus("sending");
+    setContactError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(contactForm),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || "Failed");
+      setContactStatus("sent");
+      setContactForm({ name: "", email: "", phone: "", message: "" });
+      setTimeout(() => setContactStatus("idle"), 5000);
+    } catch (err: unknown) {
+      setContactStatus("error");
+      setContactError(err instanceof Error ? err.message : "Something went wrong");
+    }
+  }
+
+  async function handleRfpSubmit(e: FormEvent) {
+    e.preventDefault();
+    setRfpStatus("sending");
+    setRfpError("");
+    try {
+      const res = await fetch("/api/rfp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(rfpForm),
+      });
+      if (!res.ok) throw new Error((await res.json()).error || "Failed");
+      setRfpStatus("sent");
+      setRfpForm({ organization: "", contactName: "", email: "", phone: "", eventType: "", guestCount: "", preferredDates: "", budget: "", requirements: "" });
+      setTimeout(() => setRfpStatus("idle"), 5000);
+    } catch (err: unknown) {
+      setRfpStatus("error");
+      setRfpError(err instanceof Error ? err.message : "Something went wrong");
+    }
+  }
 
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">
@@ -801,7 +855,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-5 gap-16">
             {/* Form — 3/5 width */}
             <div className="md:col-span-3">
-              <form className="space-y-6">
+              <form onSubmit={handleContactSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div>
                     <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">
@@ -811,6 +865,8 @@ export default function HomePage() {
                       type="text"
                       required
                       placeholder="Your name"
+                      value={contactForm.name}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, name: e.target.value }))}
                       className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
                     />
                   </div>
@@ -822,6 +878,8 @@ export default function HomePage() {
                       type="email"
                       required
                       placeholder="Your email"
+                      value={contactForm.email}
+                      onChange={(e) => setContactForm(prev => ({ ...prev, email: e.target.value }))}
                       className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
                     />
                   </div>
@@ -833,6 +891,8 @@ export default function HomePage() {
                   <input
                     type="tel"
                     placeholder="Your phone number"
+                    value={contactForm.phone}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, phone: e.target.value }))}
                     className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
                   />
                 </div>
@@ -844,16 +904,142 @@ export default function HomePage() {
                     required
                     rows={5}
                     placeholder="How can we help you?"
+                    value={contactForm.message}
+                    onChange={(e) => setContactForm(prev => ({ ...prev, message: e.target.value }))}
                     className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors resize-none"
                   />
                 </div>
+                {contactError && (
+                  <p className="text-red-600 font-body text-xs">{contactError}</p>
+                )}
                 <button
                   type="submit"
-                  className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+                  disabled={contactStatus === "sending"}
+                  className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300 disabled:opacity-50"
                 >
-                  Send Message
+                  {contactStatus === "sending" ? "Sending..." : contactStatus === "sent" ? "✓ Message Sent" : "Send Message"}
                 </button>
+                {contactStatus === "sent" && (
+                  <p className="text-green-700 font-body text-xs">Thank you! We'll get back to you shortly.</p>
+                )}
               </form>
+
+              {/* RFP Toggle */}
+              <div className="mt-12 pt-10 border-t border-[var(--hotel-sand)]">
+                <button
+                  onClick={() => setShowRfp(!showRfp)}
+                  className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.3em] uppercase hover:text-[var(--hotel-charcoal)] transition-colors flex items-center gap-2"
+                >
+                  {showRfp ? "− Hide" : "+"} Event & Group RFP
+                </button>
+              </div>
+
+              {/* RFP Form */}
+              {showRfp && (
+                <form onSubmit={handleRfpSubmit} className="mt-8 space-y-6 animate-in fade-in duration-300">
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Organization</label>
+                      <input type="text" placeholder="Company or group name"
+                        value={rfpForm.organization}
+                        onChange={(e) => setRfpForm(prev => ({ ...prev, organization: e.target.value }))}
+                        className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Contact Name *</label>
+                      <input type="text" required placeholder="Your full name"
+                        value={rfpForm.contactName}
+                        onChange={(e) => setRfpForm(prev => ({ ...prev, contactName: e.target.value }))}
+                        className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Email *</label>
+                      <input type="email" required placeholder="Your email"
+                        value={rfpForm.email}
+                        onChange={(e) => setRfpForm(prev => ({ ...prev, email: e.target.value }))}
+                        className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Phone</label>
+                      <input type="tel" placeholder="Your phone number"
+                        value={rfpForm.phone}
+                        onChange={(e) => setRfpForm(prev => ({ ...prev, phone: e.target.value }))}
+                        className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid sm:grid-cols-3 gap-6">
+                    <div>
+                      <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Event Type</label>
+                      <select value={rfpForm.eventType}
+                        onChange={(e) => setRfpForm(prev => ({ ...prev, eventType: e.target.value }))}
+                        className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                      >
+                        <option value="">Select type...</option>
+                        <option value="Wedding">Wedding</option>
+                        <option value="Corporate Retreat">Corporate Retreat</option>
+                        <option value="Wellness Retreat">Wellness Retreat</option>
+                        <option value="Private Party">Private Party</option>
+                        <option value="Photo Shoot">Photo Shoot</option>
+                        <option value="Buyout">Full Hotel Buyout</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Guest Count</label>
+                      <input type="text" placeholder="e.g. 20-30"
+                        value={rfpForm.guestCount}
+                        onChange={(e) => setRfpForm(prev => ({ ...prev, guestCount: e.target.value }))}
+                        className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Budget</label>
+                      <input type="text" placeholder="e.g. $5,000-10,000"
+                        value={rfpForm.budget}
+                        onChange={(e) => setRfpForm(prev => ({ ...prev, budget: e.target.value }))}
+                        className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">Preferred Dates</label>
+                    <input type="text" placeholder="e.g. October 15-17, 2026"
+                      value={rfpForm.preferredDates}
+                      onChange={(e) => setRfpForm(prev => ({ ...prev, preferredDates: e.target.value }))}
+                      className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors"
+                    />
+                  </div>
+                  <div>
+                    <label className="block font-body text-[var(--hotel-charcoal)] text-xs tracking-[0.2em] uppercase mb-2">
+                      Special Requirements
+                    </label>
+                    <textarea rows={4} placeholder="Tell us about your event — room blocks, spa services, catering, AV needs..."
+                      value={rfpForm.requirements}
+                      onChange={(e) => setRfpForm(prev => ({ ...prev, requirements: e.target.value }))}
+                      className="w-full bg-white dark:bg-[#2a2620] border border-[var(--hotel-sand)] dark:border-[#3a3530] px-4 py-3 font-body text-[var(--hotel-charcoal)] placeholder:text-[var(--hotel-charcoal)]/30 focus:outline-none focus:border-[var(--hotel-gold)] transition-colors resize-none"
+                    />
+                  </div>
+                  {rfpError && (
+                    <p className="text-red-600 font-body text-xs">{rfpError}</p>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={rfpStatus === "sending"}
+                    className="bg-[var(--hotel-terracotta)] text-white font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-charcoal)] transition-all duration-300 disabled:opacity-50"
+                  >
+                    {rfpStatus === "sending" ? "Submitting..." : rfpStatus === "sent" ? "✓ RFP Submitted" : "Submit RFP"}
+                  </button>
+                  {rfpStatus === "sent" && (
+                    <p className="text-green-700 font-body text-xs">RFP received! Our events team will respond within 24 hours.</p>
+                  )}
+                </form>
+              )}
             </div>
 
             {/* Contact Info — 2/5 width */}
