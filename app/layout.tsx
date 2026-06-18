@@ -7,9 +7,7 @@ export const metadata: Metadata = {
   title: "The Andreas Hotel & Spa – Palm Springs, CA",
   description:
     "Ideally located in the heart of downtown Palm Springs, the Andreas Hotel & Spa brings modern style to a classic setting. Originally built in 1935, enjoy 25 luxurious guest rooms and suites, a full-service spa, and stunning pool courtyard.",
-  icons: {
-    icon: "/favicon.png",
-  },
+  icons: { icon: "/favicon.png" },
   openGraph: {
     title: "The Andreas Hotel & Spa – Palm Springs, CA",
     description:
@@ -20,11 +18,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning={true}>
@@ -36,7 +30,8 @@ export default function RootLayout({
         >
           {children}
         </ThemeProvider>
-        {/* Vapi AI Chatbot Widget */}
+
+        {/* Vapi widget — handles its own positioning at bottom-right */}
         {/* @ts-expect-error custom web component */}
         <vapi-widget
           class="vapi-widget-floating"
@@ -58,164 +53,125 @@ export default function RootLayout({
           src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
           strategy="afterInteractive"
         />
-        <style dangerouslySetInnerHTML={{__html: `
-          /* Chat bubble always visible with warm glow */
-          vapi-widget::part(button) {
-            box-shadow: 0 0 24px rgba(201,169,110,0.5), 0 0 60px rgba(201,169,110,0.25) !important;
-            animation: vapi-pulse 2.5s ease-in-out infinite;
+
+        {/* Permanent floating label — no shadow DOM tricks, just a real DOM element */}
+        <a
+          href="#"
+          className="chat-pill"
+          onClick={(e) => {
+            e.preventDefault();
+            // Click the Vapi bubble button through its shadow DOM
+            const w = document.querySelector("vapi-widget") as any;
+            if (w?.shadowRoot) {
+              const btn = w.shadowRoot.querySelector(
+                "button, [role='button'], [class*='button'], [class*='toggle'], [class*='trigger'], [class*='launcher']"
+              );
+              if (btn) (btn as HTMLElement).click();
+            }
+          }}
+        >
+          <span className="chat-pill-dot" />
+          Talk with Andreas
+        </a>
+
+        <style dangerouslySetInnerHTML={{ __html: `
+          .chat-pill {
+            position: fixed;
+            bottom: 36px;
+            right: 84px;
+            z-index: 9998;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #2a2118;
+            color: #c9a96e;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 11px 20px;
+            border-radius: 999px;
+            border: 2px solid rgba(201, 169, 110, 0.5);
+            text-decoration: none;
+            box-shadow:
+              0 0 18px rgba(201, 169, 110, 0.35),
+              0 0 50px rgba(201, 169, 110, 0.15),
+              0 4px 16px rgba(0, 0, 0, 0.4);
+            animation: pill-glow 2.5s ease-in-out infinite;
+            cursor: pointer;
+            transition: all 0.2s ease;
           }
-          @keyframes vapi-pulse {
-            0%, 100% { box-shadow: 0 0 24px rgba(201,169,110,0.5), 0 0 60px rgba(201,169,110,0.25); }
-            50% { box-shadow: 0 0 36px rgba(201,169,110,0.7), 0 0 80px rgba(201,169,110,0.35); }
+          .chat-pill:hover {
+            border-color: #c9a96e;
+            box-shadow:
+              0 0 28px rgba(201, 169, 110, 0.55),
+              0 0 70px rgba(201, 169, 110, 0.25),
+              0 6px 24px rgba(0, 0, 0, 0.5);
+            transform: scale(1.03);
           }
-          vapi-widget::part(button):hover {
-            animation: none;
-            box-shadow: 0 0 40px rgba(201,169,110,0.75), 0 0 90px rgba(201,169,110,0.4) !important;
-            transform: scale(1.08) !important;
+          .chat-pill-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #c9a96e;
+            box-shadow: 0 0 8px #c9a96e;
+            flex-shrink: 0;
+          }
+          @keyframes pill-glow {
+            0%, 100% {
+              box-shadow:
+                0 0 18px rgba(201, 169, 110, 0.35),
+                0 0 50px rgba(201, 169, 110, 0.15),
+                0 4px 16px rgba(0, 0, 0, 0.4);
+            }
+            50% {
+              box-shadow:
+                0 0 26px rgba(201, 169, 110, 0.55),
+                0 0 70px rgba(201, 169, 110, 0.25),
+                0 4px 16px rgba(0, 0, 0, 0.4);
+            }
+          }
+          /* Hide pill when Vapi chat panel is open (JS adds .chat-open to body) */
+          body.chat-open .chat-pill {
+            opacity: 0;
+            pointer-events: none;
+          }
+          /* Mobile: smaller pill */
+          @media (max-width: 480px) {
+            .chat-pill {
+              right: 76px;
+              bottom: 32px;
+              padding: 10px 16px;
+              font-size: 13px;
+            }
           }
         `}} />
 
-        {/* JS: tiny-screen compact, hover label, minimize toggle */}
-        <script dangerouslySetInnerHTML={{__html: `
+        {/* JS: detect when Vapi chat is open/closed, and click-to-open support */}
+        <script dangerouslySetInnerHTML={{ __html: `
           (function(){
-            // ── Tiny screen → extra compact ──
-            var w = document.querySelector('.vapi-widget-floating');
-            if (w && window.innerWidth <= 410) {
-              w.setAttribute('size', 'tiny');
-            }
-
-            // ── Hover label: inject a fixed-position pill next to the bubble ──
-            var label = document.createElement('div');
-            label.id = 'vapi-hover-label';
-            label.textContent = 'Talk with Andreas';
-            label.style.cssText = [
-              'position:fixed','bottom:38px','right:90px','z-index:9998',
-              'background:#2a2118','color:#c9a96e','font-size:14px','font-weight:600',
-              'padding:10px 18px','border-radius:999px',
-              'border:1px solid rgba(201,169,110,0.35)',
-              'box-shadow:0 4px 20px rgba(0,0,0,0.35)',
-              'opacity:0','pointer-events:none',
-              'transition:opacity 0.2s ease,transform 0.2s ease',
-              'transform:translateX(8px)'
-            ].join(';');
-            document.body.appendChild(label);
-
-            // ── Show/hide label based on chat expanded state ──
-            var showTimer = null;
-            function showLabel(){
-              clearTimeout(showTimer);
-              var host = document.querySelector('vapi-widget');
-              var expanded = host && host.getAttribute('data-hermes-minimized') !== 'true' &&
-                host.shadowRoot && host.shadowRoot.querySelector('[class*="chat"]') &&
-                host.shadowRoot.querySelector('[class*="chat"]').offsetHeight > 50;
-              if (expanded) return; // don't show label when chat is open
-              label.style.opacity = '1';
-              label.style.transform = 'translateX(0)';
-            }
-            function hideLabel(){
-              showTimer = setTimeout(function(){
-                label.style.opacity = '0';
-                label.style.transform = 'translateX(8px)';
-              }, 300);
-            }
-
-            // ── Track mouse near the button area ──
-            var isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-            var zone = document.createElement('div');
-            zone.style.cssText = 'position:fixed;bottom:0;right:0;width:200px;height:120px;z-index:9997;pointer-events:none';
-            document.body.appendChild(zone);
-
-            // Mobile: always show the label (no hover on touch devices)
-            if (isTouch) {
-              label.style.opacity = '1';
-              label.style.transform = 'translateX(0)';
-              // Auto-hide after 5 seconds on mobile, then pulse back every 15s
-              setInterval(function(){
-                label.style.opacity = '1';
-                label.style.transform = 'translateX(0)';
-                setTimeout(function(){ label.style.opacity = '0.5'; }, 5000);
-              }, 15000);
-            } else {
-              document.addEventListener('mousemove', function(e){
-                var winW = window.innerWidth;
-                var winH = window.innerHeight;
-                if (winW - e.clientX < 220 && winH - e.clientY < 140) {
-                  showLabel();
-                } else {
-                  hideLabel();
-                }
-              });
-            }
-
-            // ── Hide label when chat is open ──
-            var hostObserver = new MutationObserver(function(){
-              var host = document.querySelector('vapi-widget');
-              if (!host || !host.shadowRoot) return;
-              var panel = host.shadowRoot.querySelector('[class*="chat"], [class*="panel"], [class*="body"], [class*="conversation"]');
-              if (panel && panel.offsetHeight > 50) {
-                label.style.opacity = '0';
-              }
-            });
-
             var findHost = setInterval(function(){
               var host = document.querySelector('vapi-widget');
-              if (host && host.shadowRoot) {
-                clearInterval(findHost);
-                hostObserver.observe(host.shadowRoot, {childList:true, subtree:true, attributes:true});
-              }
-            }, 300);
+              if (!host || !host.shadowRoot) return;
+              clearInterval(findHost);
 
-            // ── Minimize toggle button in chat header ──
-            function injectMinimizeToggle(){
-              var host = document.querySelector('vapi-widget');
-              if (!host || !host.shadowRoot) { setTimeout(injectMinimizeToggle, 500); return; }
-              if (host.shadowRoot.querySelector('.hermes-minimize-btn')) return;
-
-              var chatObserver = new MutationObserver(function(){
-                var header = host.shadowRoot.querySelector('[class*="header"],[class*="Header"],[class*="chat-header"],[class*="title-bar"]');
-                var closeBtn = host.shadowRoot.querySelector('[class*="close"],[class*="Close"],[aria-label*="close" i]');
-                if (header && !header.querySelector('.hermes-minimize-btn')) {
-                  var btn = document.createElement('button');
-                  btn.className = 'hermes-minimize-btn';
-                  btn.innerHTML = '—';
-                  btn.title = 'Minimize';
-                  btn.style.cssText = 'background:none;border:none;color:#c9a96e;font-size:20px;cursor:pointer;padding:0 8px;line-height:1;opacity:0.7';
-                  btn.addEventListener('click', function(e){
-                    e.stopPropagation();
-                    var body = host.shadowRoot.querySelector('[class*="chat"],[class*="body"],[class*="messages"],[class*="conversation"]');
-                    var footer = host.shadowRoot.querySelector('[class*="footer"],[class*="input"],[class*="composer"]');
-                    var min = host.getAttribute('data-hermes-minimized') === 'true';
-                    if (min) {
-                      if (body) body.style.display = '';
-                      if (footer) footer.style.display = '';
-                      btn.innerHTML = '—'; btn.title = 'Minimize';
-                      host.setAttribute('data-hermes-minimized','false');
-                      host.style.height = ''; host.style.maxHeight = '';
-                    } else {
-                      if (body) body.style.display = 'none';
-                      if (footer) footer.style.display = 'none';
-                      btn.innerHTML = '+'; btn.title = 'Expand';
-                      host.setAttribute('data-hermes-minimized','true');
-                      host.style.height = 'auto'; host.style.maxHeight = '60px';
-                    }
-                  });
-                  if (closeBtn) closeBtn.parentNode.insertBefore(btn, closeBtn);
-                  else header.appendChild(btn);
-                  header.style.cursor = 'pointer';
-                  header.addEventListener('click', function(e){
-                    if (e.target.closest('.hermes-minimize-btn')||e.target.closest('[class*="close"]')||e.target.closest('[aria-label*="close" i]')) return;
-                    if (host.getAttribute('data-hermes-minimized')==='true'){
-                      var b = host.shadowRoot.querySelector('.hermes-minimize-btn');
-                      if (b) b.click();
-                    }
-                  });
-                  chatObserver.disconnect();
+              // Watch for chat panel appearing/disappearing
+              var obs = new MutationObserver(function(){
+                var panel = host.shadowRoot.querySelector('[class*="chat"],[class*="panel"],[class*="body"],[class*="conversation"]');
+                if (panel && panel.offsetHeight > 40) {
+                  document.body.classList.add('chat-open');
+                } else {
+                  document.body.classList.remove('chat-open');
                 }
               });
-              chatObserver.observe(host.shadowRoot, {childList:true, subtree:true});
-            }
+              obs.observe(host.shadowRoot, {childList:true, subtree:true, attributes:true});
 
-            setTimeout(injectMinimizeToggle, 1000);
+              // Initial check
+              setTimeout(function(){
+                var panel = host.shadowRoot.querySelector('[class*="chat"],[class*="panel"],[class*="body"],[class*="conversation"]');
+                if (panel && panel.offsetHeight > 40) {
+                  document.body.classList.add('chat-open');
+                }
+              }, 500);
+            }, 300);
           })();
         `}} />
       </body>
