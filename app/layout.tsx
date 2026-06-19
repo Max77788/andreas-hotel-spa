@@ -97,34 +97,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
 
           .vapi-pill-spinner {
-            position: relative;
-            width: 18px;
-            height: 18px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
             flex-shrink: 0;
+            height: 18px;
           }
           .vapi-pill-spinner i {
-            position: absolute;
-            top: 0; left: 50%;
-            width: 3px; height: 3px;
+            display: block;
             border-radius: 50%;
-            background: #c9a96e;
-            transform-origin: 50% 9px;
-            animation: vapi-spin 1.2s linear infinite;
-            opacity: 0.3;
+            flex-shrink: 0;
           }
-          .vapi-pill-spinner i:nth-child(2) { animation-delay: 0.3s; opacity: 0.5; }
-          .vapi-pill-spinner i:nth-child(3) { animation-delay: 0.6s; opacity: 0.75; }
-          .vapi-pill-spinner i:nth-child(4) { animation-delay: 0.9s; opacity: 1; }
-
-          @keyframes vapi-spin {
-            0%   { transform: rotate(0deg)   translateY(-8px) rotate(0deg); }
-            100% { transform: rotate(360deg) translateY(-8px) rotate(-360deg); }
-          }
+          .vapi-pill-spinner i:nth-child(1) { width: 8px; height: 8px; background: #a0a0a0; }
+          .vapi-pill-spinner i:nth-child(2) { width: 5px; height: 5px; background: #777; }
+          .vapi-pill-spinner i:nth-child(3) { width: 5px; height: 5px; background: #8b5e3c; }
+          .vapi-pill-spinner i:nth-child(4) { width: 6px; height: 6px; background: #8b6b4a; }
 
           .vapi-pill-text {
-            color: #c9a96e;
+            color: #fff;
             font-size: 14px;
             font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
             user-select: none;
           }
 
