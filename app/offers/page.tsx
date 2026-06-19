@@ -19,7 +19,7 @@ const fallbackInclusions: OfferInclusion[] = [
   { id:"2", icon:"💆", label:"Spa Treatments", detail:"Massages, facials, body wraps, and scrubs by licensed therapists.", sort_order:1 },
   { id:"3", icon:"🏊", label:"Pool & Jacuzzi", detail:"Heated outdoor pool and Jacuzzi surrounded by manicured courtyard.", sort_order:2 },
   { id:"4", icon:"🔥", label:"Outdoor Fireplaces", detail:"Cozy gas fireplaces throughout the courtyard for evening relaxation.", sort_order:3 },
-  { id:"5", icon:"🍷", label:"Welcome Amenity", detail:"A complimentary welcome drink or bottle of wine on arrival.", sort_order:4 },
+  { id:"5", icon:"🍷", label:"Welcome Amenity", detail:"A complimentary bottle of champagne or sparkling apple cider on arrival.", sort_order:4 },
   { id:"6", icon:"🅿", label:"Free Parking", detail:"Complimentary on-site parking for the duration of your stay.", sort_order:5 },
 ];
 
@@ -69,7 +69,7 @@ export default async function OffersPage() {
                 {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/50 mb-6">{offer.duration}</p>}
                 <div className="flex items-center justify-between pt-6 border-t border-[var(--hotel-sand)]">
                   <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/50 ml-1">total</span></>}</div>
-                  <a href="/book" target="_blank" rel="noopener noreferrer" className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] border-b border-[var(--hotel-terracotta)]/30 pb-0.5 hover:text-[var(--hotel-charcoal)] hover:border-[var(--hotel-charcoal)] transition-colors">Book Now →</a>
+                  <a href="/contact" className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] border-b border-[var(--hotel-terracotta)]/30 pb-0.5 hover:text-[var(--hotel-charcoal)] hover:border-[var(--hotel-charcoal)] transition-colors">Book Now →</a>
                 </div>
               </div>
             ))}
@@ -91,7 +91,7 @@ export default async function OffersPage() {
                 {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/50 mb-6">{offer.duration}</p>}
                 <div className="flex items-center justify-between pt-6 border-t border-[var(--hotel-sand)]">
                   <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/50 ml-1">total</span></>}</div>
-                  <a href="/book" target="_blank" rel="noopener noreferrer" className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] border-b border-[var(--hotel-terracotta)]/30 pb-0.5 hover:text-[var(--hotel-charcoal)] hover:border-[var(--hotel-charcoal)] transition-colors">Book Now →</a>
+                  <a href="/contact" className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] border-b border-[var(--hotel-terracotta)]/30 pb-0.5 hover:text-[var(--hotel-charcoal)] hover:border-[var(--hotel-charcoal)] transition-colors">Book Now →</a>
                 </div>
               </div>
             ))}

@@ -18,7 +18,7 @@ export default function ChatPill() {
         }}
       >
         <span className="chat-pill-dot" />
-        Talk with Andreas
+        <span className="chat-pill-text">Talk with Andreas</span>
       </a>
 
       <style dangerouslySetInnerHTML={{ __html: `
@@ -61,6 +61,16 @@ export default function ChatPill() {
           background: #c9a96e;
           box-shadow: 0 0 8px #c9a96e;
           flex-shrink: 0;
+        }
+        .chat-pill-text {
+          max-width: 0;
+          overflow: hidden;
+          white-space: nowrap;
+          transition: max-width 0.3s ease;
+          display: inline-block;
+        }
+        .chat-pill:hover .chat-pill-text {
+          max-width: 160px;
         }
         @keyframes pill-glow {
           0%, 100% {

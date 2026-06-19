@@ -8,19 +8,19 @@ export const metadata = {
 const SPA_PACKAGES = [
   {
     name: "Couples Getaway",
-    price: "$249",
+    price: "$535",
     duration: null,
     desc: "Two 60-minute therapeutic massages, side by side, in our couples suite with a fireplace, a bottle of champagne, and a 30-minute mineral soak in our whirlpool tub.",
   },
   {
     name: "Me Time",
-    price: "$89",
+    price: "$99",
     duration: null,
     desc: "A 55-minute aromatherapy massage and a glass of champagne. The perfect solo escape.",
   },
   {
     name: "Summer Delight",
-    price: "$189",
+    price: "$205",
     duration: null,
     desc: "A 55-minute Swedish massage, a 55-minute Vital-C facial, and a glass of champagne.",
   },
@@ -29,19 +29,19 @@ const SPA_PACKAGES = [
 const PREMIUM_PACKAGES = [
   {
     name: "Paradise for Two",
-    price: "$500",
-    duration: "2.5 hrs",
-    desc: "Relax with that special someone bathing in warm mineral-rich water. Hydrate in our oversized whirlpool tubs and enjoy champagne and fresh fruit before luxurious 50-minute Image facials followed by a full-body 50-minute therapeutic massage. Price for two.",
+    price: "$375",
+    duration: "1.5 hrs",
+    desc: "Relax with that special someone bathing in warm mineral-rich water. Enjoy champagne and fresh fruit before a luxurious 50-minute therapeutic massage. Price for two.",
   },
   {
     name: "The Every Inch",
-    price: "$330",
-    duration: "3 hrs",
+    price: "$375",
+    duration: "2 hrs",
     desc: "Begin with a peaceful Canyon Clay Wrap to detoxify and purify, followed by a mind-calming therapeutic massage, then complete the experience with an exhilarating Vital-C facial for a perfect glow — plus scalp, neck, and foot massage.",
   },
   {
     name: "Romance Andreas Style",
-    price: "$350",
+    price: "$395",
     duration: "2 hrs",
     desc: "A mineral soak relaxes your muscles as you spend quality time together before experiencing our Canyon Clay Body Masque and a half-hour therapeutic massage. Price for two.",
   },
