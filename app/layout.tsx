@@ -50,9 +50,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
 
         {/* Our pill — the only visible trigger. Hover expands label; clicks Vapi's hidden launcher. */}
-        <div class="vapi-pill">
-          <span class="vapi-pill-dot" />
-          <span class="vapi-pill-label">Talk with Jessica</span>
+        <div className="vapi-pill">
+          <span className="vapi-pill-spinner"><i></i><i></i><i></i><i></i></span>
+          <span className="vapi-pill-text">Talk</span>
+          <span className="vapi-pill-toggle"><span className="vapi-pill-toggle-dot" /></span>
         </div>
 
         <style dangerouslySetInnerHTML={{ __html: `
@@ -95,25 +96,60 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             transform: scale(1.03);
           }
 
-          .vapi-pill-dot {
+          .vapi-pill-spinner {
+            position: relative;
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+          }
+          .vapi-pill-spinner i {
+            position: absolute;
+            top: 0; left: 50%;
+            width: 3px; height: 3px;
+            border-radius: 50%;
+            background: #c9a96e;
+            transform-origin: 50% 9px;
+            animation: vapi-spin 1.2s linear infinite;
+            opacity: 0.3;
+          }
+          .vapi-pill-spinner i:nth-child(2) { animation-delay: 0.3s; opacity: 0.5; }
+          .vapi-pill-spinner i:nth-child(3) { animation-delay: 0.6s; opacity: 0.75; }
+          .vapi-pill-spinner i:nth-child(4) { animation-delay: 0.9s; opacity: 1; }
+
+          @keyframes vapi-spin {
+            0%   { transform: rotate(0deg)   translateY(-8px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateY(-8px) rotate(-360deg); }
+          }
+
+          .vapi-pill-text {
+            color: #c9a96e;
+            font-size: 14px;
+            font-weight: 600;
+            user-select: none;
+          }
+
+          .vapi-pill-toggle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #c9a96e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+          }
+          .vapi-pill-toggle-dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
-            background: #c9a96e;
-            box-shadow: 0 0 8px #c9a96e;
-            flex-shrink: 0;
+            background: #f0d060;
+            box-shadow: 0 0 8px #f0d060, 0 0 20px rgba(240, 208, 96, 0.5);
+            transition: all 0.2s ease;
           }
-
-          .vapi-pill-label {
-            max-width: 0;
-            overflow: hidden;
-            white-space: nowrap;
-            transition: max-width 0.3s ease;
-            display: inline-block;
-          }
-
-          .vapi-pill:hover .vapi-pill-label {
-            max-width: 160px;
+          .vapi-pill:hover .vapi-pill-toggle {
+            border-color: #f0d060;
+            box-shadow: 0 0 12px rgba(240, 208, 96, 0.4);
           }
 
           body.vapi-chat-open .vapi-pill {
