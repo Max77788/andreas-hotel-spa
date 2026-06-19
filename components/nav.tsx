@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Offers", href: "/offers" },
   { label: "Amenities", href: "/#amenities" },
   { label: "Gallery", href: "/#gallery" },
+  { label: "Groups & Events", href: "/group-booking" },
   { label: "Contact", href: "/#contact" },
 ];
 
