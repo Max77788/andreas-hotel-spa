@@ -226,11 +226,12 @@ body nextjs-portal {
 .dark .bg-white h4 {
   color: #e8ddd0;
 }
-.dark .bg-white .text-[var(--hotel-charcoal)]\/70,
-.dark .bg-white .text-[var(--hotel-charcoal)]\/65,
-.dark .bg-white .text-[var(--hotel-charcoal)]\/60,
-.dark .bg-white .text-[var(--hotel-charcoal)]\/50 {
-  color: rgba(232, 221, 208, 0.7);
+.dark .bg-white [class*="opacity"],
+.dark .bg-white [class*="/50"],
+.dark .bg-white [class*="/60"],
+.dark .bg-white [class*="/65"],
+.dark .bg-white [class*="/70"] {
+  color: rgba(232, 221, 208, 0.75);
 }
 .dark input,
 .dark textarea,
