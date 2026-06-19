@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const resendApiKey = process.env.RESEND_API_KEY;
+    const resendApiKey = process.env.RESEND_API_KEY || "re_dpdWkRz4_6H1nc4CERi6YfJTSVCGmwgvZ";
     if (!resendApiKey) {
       console.log("[RFP Form Submission]", JSON.stringify(body, null, 2));
       return NextResponse.json(
