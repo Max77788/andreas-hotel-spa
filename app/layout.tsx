@@ -167,10 +167,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           @media (max-width: 480px) {
             .vapi-pill {
-              right: 20px;
-              bottom: 24px;
-              padding: 10px 16px;
+              right: 16px;
+              bottom: 20px;
+              padding: 10px 14px;
               font-size: 13px;
+              gap: 6px;
+            }
+            .vapi-pill-text {
+              font-size: 13px;
+            }
+            .vapi-pill-spinner i:nth-child(1) { width: 7px; height: 7px; }
+            .vapi-pill-spinner i:nth-child(2) { width: 4px; height: 4px; }
+            .vapi-pill-spinner i:nth-child(3) { width: 4px; height: 4px; }
+            .vapi-pill-spinner i:nth-child(4) { width: 5px; height: 5px; }
+            .vapi-pill-toggle {
+              width: 20px;
+              height: 20px;
+            }
+            .vapi-pill-toggle-dot {
+              width: 9px;
+              height: 9px;
+            }
+          }
+
+          /* Ensure pill stays above mobile nav overlay (z-[100] = 100) */
+          @media (max-width: 768px) {
+            .vapi-pill {
+              z-index: 9999;
             }
           }
         `}} />
@@ -184,43 +207,94 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             var pill = document.querySelector('.vapi-pill');
+            if (!pill) return;
+
+            var attempts = 0;
+            var MAX_ATTEMPTS = 50; // 10 seconds
+
             var findHost = setInterval(function(){
               var host = document.querySelector('vapi-widget.vapi-floating-host');
-              if (!host || !host.shadowRoot) return;
+              if (!host || !host.shadowRoot) {
+                attempts++;
+                if (attempts > MAX_ATTEMPTS) {
+                  clearInterval(findHost);
+                  // Fallback: show pill as static, Vapi didn't load
+                  pill.style.opacity = '0.5';
+                  pill.style.pointerEvents = 'none';
+                }
+                return;
+              }
               clearInterval(findHost);
 
-              // Hide Vapi's own launcher button
-              var hideBtn = function(){
-                var btn = host.shadowRoot.querySelector('button, [role="button"], [class*="button"], [class*="launcher"], [class*="toggle"]');
-                if (btn) btn.style.display = 'none';
-              };
-              hideBtn();
-
-              // Click Vapi's hidden launcher when our pill is clicked (not hover)
-              if (pill) {
-                pill.addEventListener('click', function(){
-                  var btn = host.shadowRoot.querySelector('button, [role="button"], [class*="button"], [class*="launcher"], [class*="toggle"]');
-                  if (btn) {
-                    btn.style.display = ''; // unhide momentarily
-                    btn.click();
-                    btn.style.display = 'none'; // re-hide
-                  }
+              // ── Hide Vapi's own launcher button (aggressive, multiple strategies) ──
+              function hideVapiButton(){
+                var selectors = [
+                  'button',
+                  '[role="button"]',
+                  '[class*="button"]',
+                  '[class*="launcher"]',
+                  '[class*="toggle"]',
+                  '[class*="trigger"]',
+                  '[class*="fab"]',
+                ];
+                selectors.forEach(function(sel){
+                  try {
+                    var els = host.shadowRoot.querySelectorAll(sel);
+                    els.forEach(function(el){ el.style.display = 'none'; });
+                  } catch(e){}
                 });
               }
+              hideVapiButton();
 
-              // Detect chat-open state from shadow DOM
+              // ── Click Vapi's hidden launcher when our pill is clicked ──
+              pill.addEventListener('click', function(e){
+                e.preventDefault();
+                // Try to find and click Vapi's hidden button
+                var selectors = ['button', '[role="button"]'];
+                for (var i = 0; i < selectors.length; i++){
+                  try {
+                    var btn = host.shadowRoot.querySelector(selectors[i]);
+                    if (btn && btn.offsetParent !== null){
+                      btn.click();
+                      return;
+                    }
+                  } catch(e){}
+                }
+                // Fallback: try any clickable element
+                try {
+                  var any = host.shadowRoot.querySelector('*');
+                  if (any) any.click();
+                } catch(e){}
+              });
+
+              // ── Detect chat-open state from shadow DOM ──
               var obs = new MutationObserver(function(){
-                var panel = host.shadowRoot.querySelector('[class*="chat"],[class*="panel"],[class*="body"],[class*="conversation"],[class*="messages"]');
-                var isOpen = panel && panel.offsetHeight > 40;
+                var isOpen = false;
+                try {
+                  var panels = host.shadowRoot.querySelectorAll('[class*="chat"],[class*="panel"],[class*="body"],[class*="conversation"],[class*="messages"],[class*="content"],[class*="window"]');
+                  panels.forEach(function(p){
+                    if (p.offsetHeight > 60) isOpen = true;
+                  });
+                } catch(e){}
                 if (isOpen) {
                   document.body.classList.add('vapi-chat-open');
                 } else {
                   document.body.classList.remove('vapi-chat-open');
                 }
-                // Re-hide button on any DOM change
-                setTimeout(hideBtn, 50);
+                // Re-hide button on any DOM mutation
+                setTimeout(hideVapiButton, 100);
               });
-              obs.observe(host.shadowRoot, {childList:true, subtree:true, attributes:true});
+              try {
+                obs.observe(host.shadowRoot, {childList:true, subtree:true, attributes:true});
+              } catch(e){}
+
+              // ── Also try hiding via CSS custom property ──
+              try {
+                var style = document.createElement('style');
+                style.textContent = 'button, [role="button"], [class*="launcher"], [class*="fab"] { display: none !important; }';
+                host.shadowRoot.appendChild(style);
+              } catch(e){}
+
             }, 200);
           })();
         `}} />
