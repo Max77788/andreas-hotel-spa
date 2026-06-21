@@ -1,48 +1,24 @@
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import { getPolicies } from "@/lib/cms/queries";
+import type { Policy } from "@/lib/cms/types";
 
-const policies = [
-  {
-    label: "Check-in / Check-out",
-    detail: "Check-in: 3 PM. Check-out: 11 AM.",
-  },
-  {
-    label: "Hotel Parking",
-    detail: "We offer complimentary parking for our guests.",
-  },
-  {
-    label: "Age Requirement",
-    detail: "Andreas Hotel & Spa is for adults 21 and over only. However, all ages are allowed on Easter weekend and the first Saturday of December for the annual Palm Springs light parade.",
-  },
-  {
-    label: "Smoking",
-    detail: "The Andreas Hotel is a non-smoking establishment. This includes, but is not limited to: cigars, e-cigarettes, vaping, and marijuana. Guests who do not comply will be charged a $300 smoking fee.",
-  },
-  {
-    label: "Pets",
-    detail: "Pets are not currently allowed at the Andreas.",
-  },
-  {
-    label: "Resort Fee",
-    detail: "A daily resort fee of $34.95 + tax per day will be added after check-in.",
-  },
-  {
-    label: "Extra Guests",
-    detail: "From $50/night (after 2 guests).",
-  },
-  {
-    label: "Security Deposit",
-    detail: "$100/night.",
-  },
-  {
-    label: "Rollaway Beds",
-    detail: "Rollaway beds are $45/room per night. Rollaways are only available for Executive and 2 Bedroom Suites. Maximum 2 rollaways per room.",
-  },
-  {
-    label: "Guarantee Policy",
-    detail: "A guaranteed reservation assures you of a room even if you check in very late (after 6:00 PM). All reservations made through this website must be guaranteed to a major credit card.",
-  },
+const fallbackPolicies: Policy[] = [
+  { id:"1", label:"Check-in / Check-out", detail:"Check-in: 3 PM. Check-out: 11 AM.", sort_order:0, is_highlighted:false },
+  { id:"2", label:"Hotel Parking", detail:"We offer complimentary parking for our guests.", sort_order:1, is_highlighted:false },
+  { id:"3", label:"Age Requirement", detail:"Andreas Hotel & Spa is for adults 21 and over only. However, all ages are allowed on Easter weekend and the first Saturday of December for the annual Palm Springs light parade.", sort_order:2, is_highlighted:false },
+  { id:"4", label:"Smoking", detail:"The Andreas Hotel is a non-smoking establishment. This includes, but is not limited to: cigars, e-cigarettes, vaping, and marijuana. Guests who do not comply will be charged a $300 smoking fee.", sort_order:3, is_highlighted:false },
+  { id:"5", label:"Pets", detail:"Pets are not currently allowed at the Andreas.", sort_order:4, is_highlighted:false },
+  { id:"6", label:"Resort Fee", detail:"A daily resort fee of $34.95 + tax per day will be added after check-in.", sort_order:5, is_highlighted:false },
+  { id:"7", label:"Extra Guests", detail:"From $50/night (after 2 guests).", sort_order:6, is_highlighted:false },
+  { id:"8", label:"Security Deposit", detail:"$100/night.", sort_order:7, is_highlighted:false },
+  { id:"9", label:"Rollaway Beds", detail:"Rollaway beds are $45/room per night. Rollaways are only available for Executive and 2 Bedroom Suites. Maximum 2 rollaways per room.", sort_order:8, is_highlighted:false },
+  { id:"10", label:"Guarantee Policy", detail:"A guaranteed reservation assures you of a room even if you check in very late (after 6:00 PM). All reservations made through this website must be guaranteed to a major credit card.", sort_order:9, is_highlighted:false },
 ];
+
+const fallbackCancellation: Policy = {
+  id:"11", label:"Cancellation Policy", detail:"Cancellations for a hotel room reservation must be received 14 days prior to arrival, not including the day of check-in. If cancellation of a guaranteed reservation is not received by the required date, you will be charged for half the stay or one night's accommodation — whichever is greater.", sort_order:10, is_highlighted:true,
+};
 
 export const metadata = {
   title: "Hotel Policies – The Andreas Hotel & Spa",
@@ -50,7 +26,18 @@ export const metadata = {
     "Review our hotel policies including cancellation policy, check-in/check-out times, resort fees, and more for The Andreas Hotel & Spa in Palm Springs.",
 };
 
-export default function PoliciesPage() {
+export default async function PoliciesPage() {
+  let policies: Policy[] = fallbackPolicies;
+  let cancellationPolicy: Policy = fallbackCancellation;
+  try {
+    const data = await getPolicies();
+    if (data?.length) {
+      policies = data.filter((p) => !p.is_highlighted);
+      const cp = data.find((p) => p.is_highlighted);
+      if (cp) cancellationPolicy = cp;
+    }
+  } catch {}
+
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">
       <Nav />
@@ -101,19 +88,13 @@ export default function PoliciesPage() {
             ))}
           </div>
 
-          {/* Cancellation Policy — highlighted */}
-          <div
-            className="p-8 md:p-12 border border-[var(--hotel-terracotta)]/30"
-            style={{ background: "rgba(201,169,110,0.06)" }}
-          >
+          {/* Cancellation Policy - highlighted */}
+          <div className="p-8 md:p-12 border border-[var(--hotel-terracotta)]/30" style={{ background: "rgba(201,169,110,0.06)" }}>
             <h2 className="font-body text-[10px] tracking-[0.35em] uppercase text-[var(--hotel-terracotta)] mb-3">
-              Cancellation Policy
+              {cancellationPolicy.label}
             </h2>
             <p className="font-body text-[var(--hotel-charcoal)] leading-relaxed text-lg">
-              Cancellations for a hotel room reservation must be received{" "}
-              <strong>14 days prior to arrival</strong>, not including the day of check-in.
-              If cancellation of a guaranteed reservation is not received by the required date,
-              you will be charged for half the stay or one night's accommodation &mdash; whichever is greater.
+              {cancellationPolicy.detail}
             </p>
           </div>
         </div>

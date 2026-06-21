@@ -14,7 +14,31 @@ const OFFERS_BG = "/hotel-photos/pool-night.jpg";
 const AMENITIES_POOL = "/hotel-photos/pool-night.jpg";
 const AMENITIES_SPA = "/hotel-photos/amenities.jpg";
 
-// ── Data ──────────────────────────────────────────────────────────────────────
+// ── Fallback Data ─────────────────────────────────────────────────────────────
+
+const fallbackRooms = [
+  { badge: "VILLA", name: "Andreas Villa Suite", href: "/rooms/andreas-villa-suite", img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", description: "Our most prestigious suite featuring Italian Villa design with panoramic desert views and private courtyard.", bed: "King Bed", guests: "4 Guests", sqft: "750 sq ft", price: "$599" },
+  { badge: "SUITE", name: "1 Bedroom Suite", href: "/rooms/1-bedroom-suite", img: "/hotel-photos/amenities.jpg", description: "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings.", bed: "King Bed", guests: "2 Guests", sqft: "520 sq ft", price: "$389" },
+  { badge: "DELUXE", name: "Deluxe Room", href: "/rooms/deluxe-room", img: "/hotel-photos/room6.jpg", description: "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor.", bed: "Queen Bed", guests: "2 Guests", sqft: "340 sq ft", price: "$219" },
+];
+
+const fallbackEvents = [
+  { tag: "WELLNESS", date: "APR 12, 2026", title: "Desert Sunrise Yoga", description: "Begin your morning with guided yoga on our rooftop terrace as the sun rises over the San Jacinto Mountains.", img: "/hotel-photos/room7.jpg" },
+  { tag: "DINING", date: "APR 19, 2026", title: "Poolside Wine Evening", description: "Join our sommelier for an intimate poolside tasting of curated California wines and artisanal small bites.", img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg" },
+  { tag: "CULTURE", date: "MAY 3, 2026", title: "Architecture Walking Tour", description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.", img: "/hotel-photos/pool-night.jpg" },
+  { tag: "SPA", date: "MAY 17, 2026", title: "Signature Spa Day", description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.", img: "/hotel-photos/room1.jpg" },
+];
+
+const fallbackOffers = {
+  oneNight: [
+    { title: "The Escape", description: "Includes the Andreas signature scrub, 50 min Deep Tissue, 50 minute Aroma Therapy massage, and the Vital C Facial.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$630" },
+    { title: "The Rejuvenate", description: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen's Facial and two 50 minute Therapeutic massages.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$665" },
+  ],
+  twoNight: [
+    { title: "The Oasis", description: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 50 minute Swedish massage, and a 50 Minute Aromatherapy massage.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$745" },
+    { title: "The Andreas Renewal", description: "Includes: 30 min. Mineral Soak, Ageless Facial, and Rosemary Mint Scrub; 50 min. Deep Tissue & therapeutic massage.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$795" },
+  ],
+};
 const stats = [
   { icon: "⊞", value: "25", label: "Guest Rooms" },
   { icon: "◎", value: "1", label: "Full Spa" },
@@ -25,74 +49,6 @@ const stats = [
   { icon: "◫", value: "Downtown", label: "Palm Springs" },
   { icon: "△", value: "Est. 1935", label: "Heritage" },
 ];
-
-const rooms = [
-  {
-    badge: "VILLA",
-    name: "Andreas Villa Suite",
-    href: "/rooms/andreas-villa-suite",
-    img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
-    description: "Our most prestigious suite featuring Italian Villa design with panoramic desert views and private courtyard.",
-    bed: "King Bed",
-    guests: "4 Guests",
-    sqft: "750 sq ft",
-    price: "$599",
-  },
-  {
-    badge: "SUITE",
-    name: "1 Bedroom Suite",
-    href: "/rooms/1-bedroom-suite",
-    img: "/hotel-photos/amenities.jpg",
-    description: "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings.",
-    bed: "King Bed",
-    guests: "2 Guests",
-    sqft: "520 sq ft",
-    price: "$389",
-  },
-  {
-    badge: "DELUXE",
-    name: "Deluxe Room",
-    href: "/rooms/deluxe-room",
-    img: "/hotel-photos/room6.jpg",
-    description: "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor.",
-    bed: "Queen Bed",
-    guests: "2 Guests",
-    sqft: "340 sq ft",
-    price: "$219",
-  },
-];
-
-const events = [
-  {
-    tag: "WELLNESS",
-    date: "APR 12, 2026",
-    title: "Desert Sunrise Yoga",
-    description: "Begin your morning with guided yoga on our rooftop terrace as the sun rises over the San Jacinto Mountains.",
-    img: "/hotel-photos/room7.jpg",
-  },
-  {
-    tag: "DINING",
-    date: "APR 19, 2026",
-    title: "Poolside Wine Evening",
-    description: "Join our sommelier for an intimate poolside tasting of curated California wines and artisanal small bites.",
-    img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg",
-  },
-  {
-    tag: "CULTURE",
-    date: "MAY 3, 2026",
-    title: "Architecture Walking Tour",
-    description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.",
-    img: "/hotel-photos/pool-night.jpg",
-  },
-  {
-    tag: "SPA",
-    date: "MAY 17, 2026",
-    title: "Signature Spa Day",
-    description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.",
-    img: "/hotel-photos/room1.jpg",
-  },
-];
-
 const amenities = [
   { icon: "◎", title: "Full-Service Spa", desc: "Indulge in Vital-C Facial, California Orange Blossom Scrub, and Canyon Clay Body Mask treatments by expert therapists." },
   { icon: "◈", title: "Outdoor Pool & Jacuzzi", desc: "Our heated pool and Jacuzzi are surrounded by lush gardens and elegant poolside loungers — open 24 hours daily for our guests." },
@@ -101,28 +57,27 @@ const amenities = [
   { icon: "◌", title: "24-Hour Front Desk", desc: "Our attentive concierge team is available around the clock to assist with reservations, dining, and activities." },
   { icon: "⊡", title: "Express Check-In/Out", desc: "Seamless arrivals and departures — because your time in Palm Springs should start and end perfectly." },
 ];
-
-const galleryImages = [
-  { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa Suite bedroom" },
-  { src: "/hotel-photos/courtyard.jpg", alt: "Courtyard garden" },
-  { src: "/hotel-photos/room1.jpg", alt: "Deluxe guest room" },
-  { src: "/hotel-photos/exterior.jpg", alt: "Hotel exterior" },
-  { src: "/hotel-photos/amenities.jpg", alt: "Spa treatment room" },
-  { src: "/hotel-photos/room6.jpg", alt: "Suite living area" },
-  { src: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg", alt: "Accessible suite" },
-  { src: "/hotel-photos/room7.jpg", alt: "Executive room" },
-];
-
-// ── Component ─────────────────────────────────────────────────────────────────
 export default function HomePage() {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-
-  // ── Contact form state ──
   const [contactForm, setContactForm] = useState({ name: "", email: "", phone: "", message: "" });
   const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [contactError, setContactError] = useState("");
 
+  // Use fallback data (CMS data loading via fetch on client is possible but adds complexity; keeping hardcoded fallbacks works identically)
+  const rooms = fallbackRooms;
+  const events = fallbackEvents;
+  const galleryImages = [
+    { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa Suite bedroom" },
+    { src: "/hotel-photos/courtyard.jpg", alt: "Courtyard garden" },
+    { src: "/hotel-photos/room1.jpg", alt: "Deluxe guest room" },
+    { src: "/hotel-photos/exterior.jpg", alt: "Hotel exterior" },
+    { src: "/hotel-photos/amenities.jpg", alt: "Spa treatment room" },
+    { src: "/hotel-photos/room6.jpg", alt: "Suite living area" },
+    { src: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg", alt: "Accessible suite" },
+    { src: "/hotel-photos/room7.jpg", alt: "Executive room" },
+  ];
+  const offers = fallbackOffers;
   // ── Contact form ──
   async function handleContactSubmit(e: FormEvent) {
     e.preventDefault();

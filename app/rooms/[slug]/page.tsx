@@ -2,342 +2,42 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import { getRoomBySlug } from "@/lib/cms/queries";
+import type { Room } from "@/lib/cms/types";
 
-interface RoomData {
-  name: string;
-  badge: string;
-  img: string;
-  description: string;
-  bed: string;
-  guests: string;
-  sqft: string;
-  price: string;
-  amenities: string[];
-  longDescription: string;
-  extras: { icon: string; label: string }[];
-  gallery: string[];
-}
-
-const rooms: Record<string, RoomData> = {
+const fallbackRooms: Record<string, Room> = {
   "andreas-villa-suite": {
-    name: "Andreas Villa Suite",
-    badge: "VILLA",
-    img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
-    description:
-      "Our most prestigious suite: Italian Villa design, fireplace, private courtyard, king bedroom, separate living area, and a private balcony with mountain views.",
-    bed: "King Bed",
-    guests: "4 Guests",
-    sqft: "750 sq ft",
-    price: "$599",
-    amenities: [
-      "Private Courtyard Entrance",
-      "Gas Fireplace",
-      "Separate Living Room",
-      "Marble Bathroom with Soaking Tub",
-      "Panoramic Desert Views",
-      "Luxury Linens & Robes",
-      "Microwave",
-      "Refrigerator",
-      "Keurig Coffee Maker",
-      "Sound Machine",
-      "Double-Paned Windows",
-    ],
-    longDescription:
-      "The Andreas Villa Suite is the crown jewel of our Palm Springs hotel. Inspired by the grand villas of the Italian countryside, this suite offers an unparalleled experience of space, elegance, and privacy. Enter through your private courtyard to discover a sanctuary of hand-selected furnishings, and a king bed dressed in the finest Italian linens. The separate living area with a gas fireplace invites you to unwind after a day exploring downtown Palm Springs, while the marble bathroom with a deep soaking tub completes the experience of refined relaxation.",
-    extras: [
-      { icon: "🛏", label: "King Bed" },
-      { icon: "🛋", label: "Separate Living Room" },
-      { icon: "🔥", label: "Gas Fireplace" },
-      { icon: "🛁", label: "Soaking Tub" },
-      { icon: "🏡", label: "Private Courtyard" },
-      { icon: "📺", label: "55\" Flat Screen TV" },
-      { icon: "🧊", label: "Refrigerator" },
-      { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "🍿", label: "Microwave" },
-      { icon: "🎵", label: "Sound Machine" },
-      { icon: "🪟", label: "Double-Paned Windows" },
-    ],
-    gallery: [
-      "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
-      "/hotel-photos/exterior.jpg",
-      "/hotel-photos/courtyard.jpg",
-    ],
-  },
-  "mobility-accessible-suite": {
-    name: "Mobility Accessible 2 Bed Suite",
-    badge: "ACCESSIBLE",
-    img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg",
-    description:
-      "Italian furnishings, fireplace, two bedrooms, two baths. Full accessibility with wide doorways, roll-in shower, and every comfort.",
-    bed: "2 Queen Beds",
-    guests: "4 Guests",
-    sqft: "680 sq ft",
-    price: "$449",
-    amenities: [
-      "Roll-in Shower",
-      "Wide Doorways (36\")",
-      "Grab Bars Throughout",
-      "Ground Floor Access",
-      "Two Full Bathrooms",
-      "Luxury Linens",
-      "Gas Fireplace",
-      "Microwave",
-      "Refrigerator",
-      "Keurig Coffee Maker",
-      "Sound Machine",
-      "Double-Paned Windows",
-    ],
-    longDescription:
-      "Designed with accessibility at its heart, this two-bedroom suite ensures every guest experiences the comfort and elegance of the Andreas without compromise. Wide doorways, roll-in showers, and strategically placed grab bars provide ease of movement, while the thoughtful layout offers privacy between the two bedrooms. Each room is furnished with queen beds and premium linens, and the two full bathrooms mean no waiting. Located on the ground floor for effortless access to the courtyard, pool, and spa.",
-    extras: [
-      { icon: "♿", label: "Full Accessibility" },
-      { icon: "🛏", label: "2 Queen Beds" },
-      { icon: "🚿", label: "Roll-in Shower" },
-      { icon: "🚪", label: "36\" Doorways" },
-      { icon: "🏠", label: "Ground Floor" },
-      { icon: "📺", label: "Flat Screen TV" },
-      { icon: "🧊", label: "Refrigerator" },
-      { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "🔥", label: "Gas Fireplace" },
-      { icon: "🍿", label: "Microwave" },
-      { icon: "🎵", label: "Sound Machine" },
-      { icon: "🪟", label: "Double-Paned Windows" },
-    ],
-    gallery: [
-      "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg",
-      "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs-room11.jpg",
-      "/hotel-photos/courtyard.jpg",
-    ],
-  },
-  "mobility-accessible-deluxe-room": {
-    name: "Mobility Accessible Deluxe Room",
-    badge: "ACCESSIBLE",
-    img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs-room11.jpg",
-    description:
-      "Italian furnishings, fireplace, full accessibility. All the elegance of our deluxe rooms with enhanced accessibility features throughout.",
-    bed: "Queen Bed",
-    guests: "2 Guests",
-    sqft: "360 sq ft",
-    price: "$219",
-    amenities: [
-      "Roll-in Shower",
-      "Wide Doorways (36\")",
-      "Grab Bars",
-      "Ground Floor Access",
-      "Marble Bathroom",
-      "Luxury Linens",
-      "Gas Fireplace",
-      "Microwave",
-      "Refrigerator",
-      "Keurig Coffee Maker",
-      "Sound Machine",
-      "Double-Paned Windows",
-    ],
-    longDescription:
-      "The Mobility Accessible Deluxe Room brings together accessibility and the classic Andreas aesthetic. A spacious layout with a queen bed, roll-in shower, and wide doorways ensures a comfortable stay without sacrificing style. Marble bathroom finishes and Italian-inspired furnishings create the same inviting atmosphere found in every Andreas room, with the added peace of mind of ground-floor access and barrier-free design throughout.",
-    extras: [
-      { icon: "♿", label: "Full Accessibility" },
-      { icon: "🛏", label: "Queen Bed" },
-      { icon: "🚿", label: "Roll-in Shower" },
-      { icon: "🚪", label: "36\" Doorways" },
-      { icon: "🏠", label: "Ground Floor" },
-      { icon: "📺", label: "Flat Screen TV" },
-      { icon: "🧊", label: "Refrigerator" },
-      { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "🔥", label: "Gas Fireplace" },
-      { icon: "🍿", label: "Microwave" },
-      { icon: "🎵", label: "Sound Machine" },
-      { icon: "🪟", label: "Double-Paned Windows" },
-    ],
-    gallery: [
-      "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs-room11.jpg",
-      "/hotel-photos/room6.jpg",
-      "/hotel-photos/courtyard.jpg",
-    ],
-  },
-  "2-bed-1-bath-suite": {
-    name: "2 Bed 1 Bath Suite",
-    badge: "SUITE",
-    img: "/hotel-photos/room7.jpg",
-    description:
-      "Italian furnishings, fireplace, two private bedrooms, cozy living space. Select suites have a balcony facing N. Indian Canyon for prime people-watching.",
-    bed: "2 Queen Beds",
-    guests: "4 Guests",
-    sqft: "580 sq ft",
-    price: "$379",
-    amenities: [
-      "Two Separate Bedrooms",
-      "Shared Full Bath",
-      "Cozy Sitting Area",
-      "Refrigerator",
-      "Garden View",
-      "Luxury Linens",
-      "Gas Fireplace",
-      "Microwave",
-      "Keurig Coffee Maker",
-      "Sound Machine",
-      "Double-Paned Windows",
-    ],
-    longDescription:
-      "Ideal for families or friends traveling together, the 2 Bed 1 Bath Suite balances togetherness with privacy. Select suites offer a balcony facing iconic N. Indian Canyon Drive — perfect for soaking in the Palm Springs energy. Two separate bedrooms, each with a queen bed, share a well-appointed full bathroom. A cozy sitting area between the rooms provides a gathering spot for morning coffee or evening conversation. Decorated in Italian-inspired touches, this suite feels like a home away from home — just steps from the pool, courtyard, and downtown Palm Springs.",
-    extras: [
-      { icon: "🛏", label: "2 Queen Beds" },
-      { icon: "🚪", label: "Two Bedrooms" },
-      { icon: "🛋", label: "Sitting Area" },
-      { icon: "🌿", label: "Garden View" },
-      { icon: "📺", label: "Flat Screen TV" },
-      { icon: "🧊", label: "Refrigerator" },
-      { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "👨‍👩‍👧", label: "Family Friendly" },
-      { icon: "🔥", label: "Gas Fireplace" },
-      { icon: "🍿", label: "Microwave" },
-      { icon: "🎵", label: "Sound Machine" },
-      { icon: "🪟", label: "Double-Paned Windows" },
-    ],
-    gallery: [
-      "/hotel-photos/room7.jpg",
-      "/hotel-photos/room1.jpg",
-      "/hotel-photos/courtyard.jpg",
-    ],
-  },
-  "1-bedroom-suite": {
-    name: "1 Bedroom Suite",
-    badge: "SUITE",
-    img: "/hotel-photos/amenities.jpg",
-    description:
-      "Spacious suite with pillow-topped king bed, fireplace, separate living area, luxurious Italian furnishings. Select suites feature a private balcony.",
-    bed: "King Bed",
-    guests: "2 Guests",
-    sqft: "520 sq ft",
-    price: "$389",
-    amenities: [
-      "Separate Living Room",
-      "King Bed",
-      "Courtyard View",
-      "Marble Bathroom",
-      "Luxury Linens & Robes",
-      "Work Desk",
-      "Gas Fireplace",
-      "Microwave",
-      "Refrigerator",
-      "Keurig Coffee Maker",
-      "Sound Machine",
-      "Double-Paned Windows",
-    ],
-    longDescription:
-      "The 1 Bedroom Suite offers the perfect blend of space and intimacy. Select suites feature a private balcony overlooking N. Indian Canyon Drive — ideal for people-watching over your morning Keurig coffee. A separate living area with a plush sofa and work desk gives you room to spread out, while the bedroom — anchored by a pillow-topped king bed — promises deep, restful sleep. Italian-inspired furnishings, and a marble bathroom make every moment feel elevated. Overlooking our manicured courtyard, this suite is a quiet retreat just minutes from the energy of downtown Palm Springs.",
-    extras: [
-      { icon: "🛏", label: "King Bed" },
-      { icon: "🛋", label: "Separate Living Room" },
-      { icon: "🏖", label: "Private Cabana Patio" },
-      { icon: "🌿", label: "Courtyard View" },
-      { icon: "🖊", label: "Work Desk" },
-      { icon: "📺", label: "Flat Screen TV" },
-      { icon: "🧊", label: "Refrigerator" },
-      { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "🛁", label: "Marble Bath" },
-      { icon: "🔥", label: "Gas Fireplace" },
-      { icon: "🍿", label: "Microwave" },
-      { icon: "🎵", label: "Sound Machine" },
-      { icon: "🪟", label: "Double-Paned Windows" },
-    ],
-    gallery: [
-      "/hotel-photos/amenities.jpg",
-      "/hotel-photos/room1.jpg",
-      "/hotel-photos/courtyard.jpg",
-    ],
+    id: "1", slug: "andreas-villa-suite", name: "Andreas Villa Suite", badge: "VILLA",
+    image_url: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg",
+    short_description: "Our most prestigious suite: Italian Villa design, fireplace, private courtyard, king bedroom, separate living area, and a private balcony with mountain views.",
+    bed: "King Bed", guests: "4 Guests", sqft: "750 sq ft", price: "$599",
+    amenities: ["Private Courtyard Entrance","Gas Fireplace","Separate Living Room","Marble Bathroom with Soaking Tub","Panoramic Desert Views","Luxury Linens & Robes","Microwave","Refrigerator","Keurig Coffee Maker","Sound Machine","Double-Paned Windows"],
+    long_description: "The Andreas Villa Suite is the crown jewel of our Palm Springs hotel. Inspired by the grand villas of the Italian countryside, this suite offers an unparalleled experience of space, elegance, and privacy. Enter through your private courtyard to discover a sanctuary of hand-selected furnishings, and a king bed dressed in the finest Italian linens. The separate living area with a gas fireplace invites you to unwind after a day exploring downtown Palm Springs, while the marble bathroom with a deep soaking tub completes the experience of refined relaxation.",
+    extras: [{ icon: "🛏", label: "King Bed" },{ icon: "🛋", label: "Separate Living Room" },{ icon: "🔥", label: "Gas Fireplace" },{ icon: "🛁", label: "Soaking Tub" },{ icon: "🏡", label: "Private Courtyard" },{ icon: "📺", label: "55\" Flat Screen TV" },{ icon: "🧊", label: "Refrigerator" },{ icon: "☕", label: "Keurig Coffee Maker" },{ icon: "🍿", label: "Microwave" },{ icon: "🎵", label: "Sound Machine" },{ icon: "🪟", label: "Double-Paned Windows" }],
+    gallery_urls: ["/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg","/hotel-photos/exterior.jpg","/hotel-photos/courtyard.jpg"],
+    sort_order: 0, is_published: true,
   },
   "executive-room": {
-    name: "Executive Room",
-    badge: "EXECUTIVE",
-    img: "/hotel-photos/room1.jpg",
-    description:
-      "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.",
-    bed: "King Bed",
-    guests: "2 Guests",
-    sqft: "380 sq ft",
-    price: "$289",
-    amenities: [
-      "Dedicated Work Desk",
-      "King Bed",
-      "Upgraded Linens",
-      "Courtyard View",
-      "Marble Bathroom",
-      "High-Speed WiFi",
-      "Gas Fireplace",
-      "Microwave",
-      "Refrigerator",
-      "Keurig Coffee Maker",
-      "Sound Machine",
-      "Double-Paned Windows",
-    ],
-    longDescription:
-      "Designed for the traveler who blends business with pleasure, the Executive Room offers more than just a place to sleep. A dedicated workspace with high-speed WiFi keeps you connected, while the king bed with upgraded linens ensures you recharge in style. Marble bathroom finishes and a courtyard view add a layer of refinement that turns a work trip into a pleasure. After hours, the pool, spa, and downtown Palm Springs are just steps away.",
-    extras: [
-      { icon: "🛏", label: "King Bed" },
-      { icon: "🖊", label: "Work Desk" },
-      { icon: "📶", label: "High-Speed WiFi" },
-      { icon: "🌿", label: "Courtyard View" },
-      { icon: "📺", label: "Flat Screen TV" },
-      { icon: "🧊", label: "Refrigerator" },
-      { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "🛁", label: "Marble Bath" },
-      { icon: "🔥", label: "Gas Fireplace" },
-      { icon: "🍿", label: "Microwave" },
-      { icon: "🎵", label: "Sound Machine" },
-      { icon: "🪟", label: "Double-Paned Windows" },
-    ],
-    gallery: [
-      "/hotel-photos/room1.jpg",
-      "/hotel-photos/room5.jpg",
-      "/hotel-photos/courtyard.jpg",
-    ],
+    id: "6", slug: "executive-room", name: "Executive Room", badge: "EXECUTIVE",
+    image_url: "/hotel-photos/room1.jpg",
+    short_description: "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.",
+    bed: "King Bed", guests: "2 Guests", sqft: "380 sq ft", price: "$289",
+    amenities: ["Dedicated Work Desk","King Bed","Upgraded Linens","Courtyard View","Marble Bathroom","High-Speed WiFi","Gas Fireplace","Microwave","Refrigerator","Keurig Coffee Maker","Sound Machine","Double-Paned Windows"],
+    long_description: "Designed for the traveler who blends business with pleasure, the Executive Room offers more than just a place to sleep. A dedicated workspace with high-speed WiFi keeps you connected, while the king bed with upgraded linens ensures you recharge in style.",
+    extras: [{ icon: "🛏", label: "King Bed" },{ icon: "🖊", label: "Work Desk" },{ icon: "📶", label: "High-Speed WiFi" },{ icon: "🌿", label: "Courtyard View" },{ icon: "📺", label: "Flat Screen TV" },{ icon: "🧊", label: "Refrigerator" },{ icon: "☕", label: "Keurig Coffee Maker" },{ icon: "🛁", label: "Marble Bath" },{ icon: "🔥", label: "Gas Fireplace" },{ icon: "🍿", label: "Microwave" },{ icon: "🎵", label: "Sound Machine" },{ icon: "🪟", label: "Double-Paned Windows" }],
+    gallery_urls: ["/hotel-photos/room1.jpg","/hotel-photos/room5.jpg","/hotel-photos/courtyard.jpg"],
+    sort_order: 5, is_published: true,
   },
   "deluxe-room": {
-    name: "Deluxe Room",
-    badge: "DELUXE",
-    img: "/hotel-photos/room6.jpg",
-    description:
-      "Italian furnishings, fireplace, marble bathroom. Refrigerator, microwave, Keurig, sound machine. The classic Andreas experience.",
-    bed: "Queen Bed",
-    guests: "2 Guests",
-    sqft: "340 sq ft",
-    price: "$219",
-    amenities: [
-      "Marble Bathroom",
-      "Queen Bed",
-      "Pool View",
-      "Luxury Linens",
-      "Italian-Inspired Furnishings",
-      "Plush Robes",
-      "Gas Fireplace",
-      "Microwave",
-      "Refrigerator",
-      "Keurig Coffee Maker",
-      "Sound Machine",
-      "Double-Paned Windows",
-    ],
-    longDescription:
-      "The Deluxe Room is where most guests fall in love with the Andreas. A beautifully appointed queen bed dressed in crisp Italian linens, a marble bathroom with premium amenities, and Italian-inspired furnishings that reflect the timeless elegance of our hotel. Overlooking the pool and courtyard, these rooms capture the essence of relaxed luxury. It's the perfect home base for exploring downtown, hiking the nearby trails, or simply doing nothing at all by the pool.",
-    extras: [
-      { icon: "🛏", label: "Queen Bed" },
-      { icon: "🏊", label: "Pool View" },
-      { icon: "🛁", label: "Marble Bath" },
-      { icon: "👘", label: "Plush Robes" },
-      { icon: "📺", label: "Flat Screen TV" },
-      { icon: "🧊", label: "Refrigerator" },
-      { icon: "☕", label: "Keurig Coffee Maker" },
-      { icon: "🛋", label: "Italian Furnishings" },
-      { icon: "🔥", label: "Gas Fireplace" },
-      { icon: "🍿", label: "Microwave" },
-      { icon: "🎵", label: "Sound Machine" },
-      { icon: "🪟", label: "Double-Paned Windows" },
-    ],
-    gallery: [
-      "/hotel-photos/room6.jpg",
-      "/hotel-photos/room7.jpg",
-      "/hotel-photos/pool-night.jpg",
-    ],
+    id: "7", slug: "deluxe-room", name: "Deluxe Room", badge: "DELUXE",
+    image_url: "/hotel-photos/room6.jpg",
+    short_description: "Italian furnishings, fireplace, marble bathroom. Refrigerator, microwave, Keurig, sound machine. The classic Andreas experience.",
+    bed: "Queen Bed", guests: "2 Guests", sqft: "340 sq ft", price: "$219",
+    amenities: ["Marble Bathroom","Queen Bed","Pool View","Luxury Linens","Italian-Inspired Furnishings","Plush Robes","Gas Fireplace","Microwave","Refrigerator","Keurig Coffee Maker","Sound Machine","Double-Paned Windows"],
+    long_description: "The Deluxe Room is where most guests fall in love with the Andreas. A beautifully appointed queen bed dressed in crisp Italian linens, a marble bathroom with premium amenities, and Italian-inspired furnishings that reflect the timeless elegance of our hotel.",
+    extras: [{ icon: "🛏", label: "Queen Bed" },{ icon: "🏊", label: "Pool View" },{ icon: "🛁", label: "Marble Bath" },{ icon: "👘", label: "Plush Robes" },{ icon: "📺", label: "Flat Screen TV" },{ icon: "🧊", label: "Refrigerator" },{ icon: "☕", label: "Keurig Coffee Maker" },{ icon: "🛋", label: "Italian Furnishings" },{ icon: "🔥", label: "Gas Fireplace" },{ icon: "🍿", label: "Microwave" },{ icon: "🎵", label: "Sound Machine" },{ icon: "🪟", label: "Double-Paned Windows" }],
+    gallery_urls: ["/hotel-photos/room6.jpg","/hotel-photos/room7.jpg","/hotel-photos/pool-night.jpg"],
+    sort_order: 6, is_published: true,
   },
 };
 
@@ -347,11 +47,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const room = rooms[slug];
-  if (!room) return { title: "Room Not Found – The Andreas Hotel & Spa" };
+  let room: Room | null = null;
+  try { room = await getRoomBySlug(slug); } catch {}
+  if (!room) room = fallbackRooms[slug] ?? null;
   return {
-    title: `${room.name} – The Andreas Hotel & Spa`,
-    description: room.description,
+    title: room ? `${room.name} – The Andreas Hotel & Spa` : "Room Not Found – The Andreas Hotel & Spa",
+    description: room?.short_description ?? "",
   };
 }
 
@@ -361,8 +62,9 @@ export default async function RoomDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const room = rooms[slug];
-
+  let room: Room | null = null;
+  try { room = await getRoomBySlug(slug); } catch {}
+  if (!room) room = fallbackRooms[slug] ?? null;
   if (!room) notFound();
 
   return (
@@ -373,7 +75,7 @@ export default async function RoomDetailPage({
       <section className="relative h-[50vh] md:h-[65vh] overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${room.img})` }}
+          style={{ backgroundImage: `url(${room.image_url})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
 
@@ -414,38 +116,46 @@ export default async function RoomDetailPage({
             {/* Main column */}
             <div>
               <p className="font-display text-[var(--hotel-charcoal)] text-xl md:text-2xl font-light leading-relaxed mb-8">
-                {room.description}
+                {room.short_description}
               </p>
               <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm leading-relaxed mb-10">
-                {room.longDescription}
+                {room.long_description}
               </p>
 
               {/* Amenities */}
-              <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-5">
-                Room Amenities
-              </h3>
-              <div className="grid grid-cols-2 gap-3 mb-10">
-                {room.amenities.map((a) => (
-                  <div key={a} className="flex items-center gap-3 text-[var(--hotel-charcoal)]/80">
-                    <span className="w-1 h-1 bg-[var(--hotel-terracotta)] rounded-full flex-shrink-0" />
-                    <span className="font-body text-xs">{a}</span>
+              {room.amenities?.length > 0 && (
+                <>
+                  <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-5">
+                    Room Amenities
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3 mb-10">
+                    {room.amenities.map((a) => (
+                      <div key={a} className="flex items-center gap-3 text-[var(--hotel-charcoal)]/80">
+                        <span className="w-1 h-1 bg-[var(--hotel-terracotta)] rounded-full flex-shrink-0" />
+                        <span className="font-body text-xs">{a}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </>
+              )}
 
               {/* Gallery */}
-              <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-5">
-                Gallery
-              </h3>
-              <div className="grid grid-cols-3 gap-3">
-                {room.gallery.map((img, i) => (
-                  <div
-                    key={i}
-                    className="aspect-[4/3] bg-cover bg-center rounded-sm"
-                    style={{ backgroundImage: `url(${img})` }}
-                  />
-                ))}
-              </div>
+              {room.gallery_urls?.length > 0 && (
+                <>
+                  <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-5">
+                    Gallery
+                  </h3>
+                  <div className="grid grid-cols-3 gap-3">
+                    {room.gallery_urls.map((img, i) => (
+                      <div
+                        key={i}
+                        className="aspect-[4/3] bg-cover bg-center rounded-sm"
+                        style={{ backgroundImage: `url(${img})` }}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Sidebar */}
@@ -470,26 +180,28 @@ export default async function RoomDetailPage({
                   Book This Room
                 </a>
 
-                <div className="border-t border-[var(--hotel-sand)] pt-5">
-                  <h4 className="font-display text-[var(--hotel-charcoal)] text-base font-light mb-4">
-                    Room Features
-                  </h4>
-                  <div className="grid grid-cols-2 gap-3">
-                    {room.extras.map((ex) => (
-                      <div key={ex.label} className="flex items-center gap-2 text-xs">
-                        <span>{ex.icon}</span>
-                        <span className="font-body text-[var(--hotel-charcoal)]/70">
-                          {ex.label}
-                        </span>
-                      </div>
-                    ))}
+                {room.extras?.length > 0 && (
+                  <div className="border-t border-[var(--hotel-sand)] pt-5">
+                    <h4 className="font-display text-[var(--hotel-charcoal)] text-base font-light mb-4">
+                      Room Features
+                    </h4>
+                    <div className="grid grid-cols-2 gap-3">
+                      {room.extras.map((ex) => (
+                        <div key={ex.label} className="flex items-center gap-2 text-xs">
+                          <span>{ex.icon}</span>
+                          <span className="font-body text-[var(--hotel-charcoal)]/70">
+                            {ex.label}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 <div className="border-t border-[var(--hotel-sand)] mt-5 pt-5">
                   <p className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 text-center">
                     Questions? Call{" "}
-                    <a href="tel:+17603275701" className="text-[var(--hotel-terracotta)] hover:underline">
+                    <a href="tel:+176****5701" className="text-[var(--hotel-terracotta)] hover:underline">
                       (760) 327-5701
                     </a>
                   </p>
