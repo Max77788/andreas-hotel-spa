@@ -51,8 +51,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* Our pill — the only visible trigger. Hover expands label; clicks Vapi's hidden launcher. */}
         <div className="vapi-pill">
-          <span className="vapi-pill-spinner"><i></i><i></i><i></i><i></i></span>
-          <span className="vapi-pill-text">Talk</span>
+          <span className="vapi-pill-dots"><i></i><i></i><i></i><i></i></span>
+          <span className="vapi-pill-text">Talk with Jessica</span>
           <span className="vapi-pill-toggle"><span className="vapi-pill-toggle-dot" /></span>
         </div>
 
@@ -96,22 +96,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             transform: scale(1.03);
           }
 
-          .vapi-pill-spinner {
+          .vapi-pill-dots {
             display: flex;
             align-items: center;
             gap: 3px;
             flex-shrink: 0;
             height: 18px;
           }
-          .vapi-pill-spinner i {
+          .vapi-pill-dots i {
             display: block;
             border-radius: 50%;
             flex-shrink: 0;
           }
-          .vapi-pill-spinner i:nth-child(1) { width: 8px; height: 8px; background: #a0a0a0; }
-          .vapi-pill-spinner i:nth-child(2) { width: 5px; height: 5px; background: #777; }
-          .vapi-pill-spinner i:nth-child(3) { width: 5px; height: 5px; background: #8b5e3c; }
-          .vapi-pill-spinner i:nth-child(4) { width: 6px; height: 6px; background: #8b6b4a; }
+          .vapi-pill-dots i:nth-child(1) { width: 8px; height: 8px; background: #a0a0a0; }
+          .vapi-pill-dots i:nth-child(2) { width: 5px; height: 5px; background: #777; }
+          .vapi-pill-dots i:nth-child(3) { width: 5px; height: 5px; background: #8b5e3c; }
+          .vapi-pill-dots i:nth-child(4) { width: 6px; height: 6px; background: #8b6b4a; }
 
           .vapi-pill-text {
             color: #fff;
@@ -176,10 +176,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             .vapi-pill-text {
               font-size: 13px;
             }
-            .vapi-pill-spinner i:nth-child(1) { width: 7px; height: 7px; }
-            .vapi-pill-spinner i:nth-child(2) { width: 4px; height: 4px; }
-            .vapi-pill-spinner i:nth-child(3) { width: 4px; height: 4px; }
-            .vapi-pill-spinner i:nth-child(4) { width: 5px; height: 5px; }
+            .vapi-pill-dots i:nth-child(1) { width: 7px; height: 7px; }
+            .vapi-pill-dots i:nth-child(2) { width: 4px; height: 4px; }
+            .vapi-pill-dots i:nth-child(3) { width: 4px; height: 4px; }
+            .vapi-pill-dots i:nth-child(4) { width: 5px; height: 5px; }
             .vapi-pill-toggle {
               width: 20px;
               height: 20px;

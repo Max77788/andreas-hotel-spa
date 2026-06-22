@@ -10,7 +10,7 @@ const SPA_PACKAGES = [
     name: "Couples Getaway",
     price: "$535",
     duration: null,
-    desc: "Two 60-minute therapeutic massages, side by side, in our couples suite with a fireplace, a bottle of champagne, and a 30-minute mineral soak in our whirlpool tub.",
+    desc: "Two 60-minute therapeutic massages, side by side, in our couples suite with a fireplace, a glass of champagne, and a 30-minute mineral soak in our whirlpool tub.",
   },
   {
     name: "Me Time",
@@ -185,7 +185,7 @@ export default function SpaPage() {
             Groups of 6 or more receive a <span className="text-[var(--hotel-gold)]">15% discount</span> off each 50-minute treatment.
           </p>
           <p className="font-body text-[var(--hotel-cream)]/70 text-sm mb-8">
-            Includes a bottle of champagne on arrival and a complimentary fruit and cheese platter.
+            Includes a glass of champagne on arrival and a complimentary fruit and cheese platter.
           </p>
           <a
             href="tel:+17603250900"

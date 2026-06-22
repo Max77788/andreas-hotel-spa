@@ -249,3 +249,51 @@ body nextjs-portal {
 .dark select:focus {
   border-color: var(--hotel-gold);
 }
+
+/* Additional dark mode fixes for text on colored backgrounds */
+.dark [class*="text-[var(--hotel-charcoal)]"] {
+  color: #e8ddd0;
+}
+.dark .card-lift {
+  color: #e8ddd0;
+}
+.dark .card-lift p,
+.dark .card-lift span,
+.dark .card-lift h3,
+.dark .card-lift h4 {
+  color: #e8ddd0;
+}
+.dark .card-lift [class*="opacity"],
+.dark .card-lift [class*="/50"],
+.dark .card-lift [class*="/60"],
+.dark .card-lift [class*="/65"],
+.dark .card-lift [class*="/70"],
+.dark .card-lift [class*="/90"] {
+  color: rgba(232, 221, 208, 0.8);
+}
+
+/* Dark mode: ensure section text is readable */
+.dark section[class*="bg-["] p,
+.dark section[class*="bg-["] h3,
+.dark section[class*="bg-["] span {
+  color: #e8ddd0;
+}
+.dark section[class*="bg-["] [class*="text-[var(--hotel-charcoal)]"] {
+  color: #e8ddd0;
+}
+
+/* Dark mode: border fixes */
+.dark .border-b[class*="border-[var(--hotel-sand)]"] {
+  border-color: rgba(232, 221, 208, 0.15);
+}
+
+/* Dark mode: nav/footer text */
+.dark nav a,
+.dark footer a,
+.dark footer p,
+.dark footer span {
+  color: #e8ddd0;
+}
+.dark footer [class*="opacity"] {
+  color: rgba(232, 221, 208, 0.7);
+}
