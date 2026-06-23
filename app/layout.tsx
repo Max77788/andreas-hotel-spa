@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Our pill — the only visible trigger. Hover expands label; clicks Vapi's hidden launcher. */}
         <div className="vapi-pill">
           <span className="vapi-pill-dots"><i></i><i></i><i></i><i></i></span>
-          <span className="vapi-pill-text">Talk with Jessica</span>
+          <span className="vapi-pill-text">Talk</span>
           <span className="vapi-pill-toggle"><span className="vapi-pill-toggle-dot" /></span>
         </div>
 
