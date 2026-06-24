@@ -198,7 +198,7 @@ export default function HomePage() {
               <div key={s.label} className="flex flex-col items-center text-center gap-1">
                 <span className="text-[var(--hotel-gold)] text-lg mb-1">{s.icon}</span>
                 <span className="font-display text-[var(--hotel-charcoal)] text-xl font-light">{s.value}</span>
-                <span className="font-body text-[var(--hotel-charcoal)]/50 text-[9px] tracking-[0.3em] uppercase">{s.label}</span>
+                <span className="font-body text-[var(--hotel-charcoal)]/90 text-[9px] tracking-[0.3em] uppercase">{s.label}</span>
               </div>
             ))}
           </div>
@@ -252,10 +252,10 @@ export default function HomePage() {
                 Meets the Desert
               </h2>
               <div className="w-8 h-px bg-[var(--hotel-gold)] my-6" />
-              <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-4">
+              <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
                 The Andreas Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
               </p>
-              <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-10">
+              <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-10">
                 Interiors include a full-service spa where guests can indulge in sumptuous treatments. Our 25 guest rooms are a reflection of Italian Villas in the hills of Italy. Outdoors, guests enjoy amenities including outdoor gas fireplaces, a swimming pool, and Jacuzzi, surrounded by a lovely manicured courtyard.
               </p>
 
@@ -268,7 +268,7 @@ export default function HomePage() {
                 ].map((s) => (
                   <div key={s.label}>
                     <div className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{s.num}</div>
-                    <div className="font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/50 mt-1">{s.label}</div>
+                    <div className="font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/90 mt-1">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -308,10 +308,10 @@ export default function HomePage() {
               <em className="italic">Art of Living Well</em>
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] my-5" />
-            <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-4">
+            <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
               At The Andreas, we believe that true luxury is found in the harmony of authentic experiences, thoughtful design, and genuine human connection. Every detail — from our organically sourced linens to our poolside lite menu — reflects our commitment to a life beautifully lived.
             </p>
-            <p className="font-body text-[var(--hotel-charcoal)]/65 text-sm leading-relaxed mb-10">
+            <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-10">
               Our Palm Springs sanctuary celebrates the natural world around us — the desert light, the bloom of bougainvillea, the stillness of warm evenings — inviting each guest to slow down, breathe deeply, and arrive fully.
             </p>
             <div className="grid grid-cols-3 gap-4 border-t border-[var(--hotel-sand)]/60 pt-8">
@@ -322,7 +322,7 @@ export default function HomePage() {
               ].map((s) => (
                 <div key={s.label} className="border-r border-[var(--hotel-charcoal)]/10 last:border-0 pr-4 last:pr-0">
                   <div className="font-display text-2xl text-[var(--hotel-charcoal)] font-light">{s.num}</div>
-                  <div className="font-body text-[8px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/50 mt-1 leading-tight">{s.label}</div>
+                  <div className="font-body text-[8px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90 mt-1 leading-tight">{s.label}</div>
                 </div>
               ))}
             </div>
@@ -428,7 +428,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/events"
-              className="hidden md:inline-block font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/60 hover:text-[var(--hotel-charcoal)] transition-colors border-b border-[var(--hotel-charcoal)]/30 pb-0.5"
+              className="hidden md:inline-block font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/90 hover:text-[var(--hotel-charcoal)] transition-colors border-b border-[var(--hotel-charcoal)]/30 pb-0.5"
             >
               View All Events →
             </Link>
@@ -448,9 +448,9 @@ export default function HomePage() {
                       {ev.tag}
                     </span>
                   </div>
-                  <p className="font-body text-[var(--hotel-charcoal)]/50 text-[9px] tracking-widest uppercase mb-1">{ev.date}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-[9px] tracking-widest uppercase mb-1">{ev.date}</p>
                   <h3 className="font-display text-[var(--hotel-charcoal)] text-lg font-light mb-2">{ev.title}</h3>
-                  <p className="font-body text-[var(--hotel-charcoal)]/60 text-xs leading-relaxed">{ev.description}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-xs leading-relaxed">{ev.description}</p>
                 </div>
               </div>
             ))}
@@ -559,7 +559,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <p className="font-body text-white/20 text-[10px] tracking-widest text-center uppercase mb-8">
+          <p className="font-body text-white/50 text-[10px] tracking-widest text-center uppercase mb-8">
             ✦ Call (760) 327-5701 for custom packages ✦
           </p>
 
@@ -773,7 +773,7 @@ export default function HomePage() {
               <h2 className="font-display text-white font-light mb-4" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
                 Your Desert Escape Awaits
               </h2>
-              <p className="font-body text-white/60 text-sm tracking-widest">
+              <p className="font-body text-white/90 text-sm tracking-widest">
                 We'd love to hear from you — our team is ready to help
               </p>
             </div>
@@ -859,7 +859,7 @@ export default function HomePage() {
                 >
                   Plan a Group Event → 
                 </a>
-                <p className="font-body text-[var(--hotel-charcoal)]/50 text-[11px] mt-3 text-center leading-relaxed">
+                <p className="font-body text-[var(--hotel-charcoal)]/90 text-[11px] mt-3 text-center leading-relaxed">
                   Weddings, corporate retreats, wellness getaways — our team crafts bespoke group experiences at Palm Springs' most intimate boutique hotel.
                 </p>
               </div>

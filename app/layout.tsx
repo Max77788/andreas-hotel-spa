@@ -49,10 +49,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           empty-chat-message="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
         />
 
-        {/* Custom AI chat pill — compact circle, extends on hover to reveal label */}
+        {/* Custom AI chat pill — shows 'Chat' always, extends to full label on hover */}
         <div className="vapi-pill">
           <span className="vapi-pill-dots"><i></i><i></i><i></i><i></i></span>
-          <span className="vapi-pill-text">Chat with Jessica</span>
+          <span className="vapi-pill-text-short">Chat</span>
+          <span className="vapi-pill-text-full"> with Jessica</span>
           <span className="vapi-pill-toggle"><span className="vapi-pill-toggle-dot" /></span>
         </div>
 
@@ -84,7 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               0 4px 16px rgba(0, 0, 0, 0.4);
             animation: vapi-pill-glow 2.5s ease-in-out infinite;
             cursor: pointer;
-            width: 58px;
+            width: 110px;
             overflow: hidden;
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1),
                         box-shadow 0.25s ease,
@@ -117,7 +118,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           .vapi-pill-dots i:nth-child(3) { width: 5px; height: 5px; background: #8b5e3c; }
           .vapi-pill-dots i:nth-child(4) { width: 6px; height: 6px; background: #8b6b4a; }
 
-          .vapi-pill-text {
+          .vapi-pill-text-short {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            user-select: none;
+            white-space: nowrap;
+          }
+          .vapi-pill-text-full {
             color: #fff;
             font-size: 14px;
             font-weight: 600;
@@ -125,9 +134,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             user-select: none;
             white-space: nowrap;
             opacity: 0;
-            transition: opacity 0.3s ease 0.05s;
+            transition: opacity 0.35s ease 0.12s;
           }
-          .vapi-pill:hover .vapi-pill-text {
+          .vapi-pill:hover .vapi-pill-text-full {
             opacity: 1;
             transition: opacity 0.35s ease 0.18s;
           }
@@ -183,12 +192,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               padding: 10px 10px;
               font-size: 13px;
               gap: 6px;
-              width: 50px;
+              width: 96px;
             }
             .vapi-pill:hover {
               width: 208px;
             }
-            .vapi-pill-text {
+            .vapi-pill-text-short {
+              font-size: 13px;
+            }
+            .vapi-pill-text-full {
               font-size: 13px;
             }
             .vapi-pill-dots i:nth-child(1) { width: 7px; height: 7px; }

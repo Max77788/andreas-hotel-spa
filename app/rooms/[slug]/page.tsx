@@ -166,7 +166,7 @@ export default async function RoomDetailPage({
                   <span className="font-display text-[var(--hotel-charcoal)] text-4xl font-light">
                     {room.price}
                   </span>
-                  <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 ml-1">
+                  <span className="font-body text-[10px] text-[var(--hotel-charcoal)]/90 ml-1">
                     / night
                   </span>
                 </div>
@@ -199,7 +199,7 @@ export default async function RoomDetailPage({
                 )}
 
                 <div className="border-t border-[var(--hotel-sand)] mt-5 pt-5">
-                  <p className="font-body text-[10px] text-[var(--hotel-charcoal)]/50 text-center">
+                  <p className="font-body text-[10px] text-[var(--hotel-charcoal)]/90 text-center">
                     Questions? Call{" "}
                     <a href="tel:+176****5701" className="text-[var(--hotel-terracotta)] hover:underline">
                       (760) 327-5701

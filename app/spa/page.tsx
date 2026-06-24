@@ -154,7 +154,7 @@ export default function SpaPage() {
                     Premium
                   </p>
                   {pkg.duration && (
-                    <span className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/50">
+                    <span className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90">
                       · {pkg.duration}
                     </span>
                   )}
@@ -216,7 +216,7 @@ export default function SpaPage() {
                     <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">{m.name}</h4>
                     <div className="flex gap-3 font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">
                       <span>50 min — {m.price50}</span>
-                      {m.price80 && <span className="text-[var(--hotel-charcoal)]/50">| 80 min — {m.price80}</span>}
+                      {m.price80 && <span className="text-[var(--hotel-charcoal)]/90">| 80 min — {m.price80}</span>}
                     </div>
                   </div>
                   <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{m.desc}</p>
@@ -297,7 +297,7 @@ export default function SpaPage() {
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">
                 Monday – Sunday<br />
                 9 a.m. – 7 p.m.<br />
-                <span className="text-[var(--hotel-charcoal)]/50 text-xs">By appointment only</span>
+                <span className="text-[var(--hotel-charcoal)]/90 text-xs">By appointment only</span>
               </p>
             </div>
             <div>
@@ -308,7 +308,7 @@ export default function SpaPage() {
                   (760) 325-0900
                 </a>
                 <br />
-                <span className="text-[var(--hotel-charcoal)]/50 text-xs">Dial 314 from your hotel room</span>
+                <span className="text-[var(--hotel-charcoal)]/90 text-xs">Dial 314 from your hotel room</span>
                 <br />
                 <a href="mailto:stay@andreashotel.com" className="hover:text-[var(--hotel-terracotta)] transition-colors">
                   stay@andreashotel.com

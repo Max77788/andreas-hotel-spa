@@ -143,7 +143,7 @@ export default async function RoomsPage() {
           <h2 className="font-display text-[var(--hotel-cream)] text-3xl md:text-4xl font-light mb-6">
             Let us find the perfect room for your stay
           </h2>
-          <p className="font-body text-white/60 text-sm max-w-lg mx-auto mb-8 leading-relaxed">
+          <p className="font-body text-white/90 text-sm max-w-lg mx-auto mb-8 leading-relaxed">
             Call our front desk for personalized recommendations, group bookings, or
             accessibility questions.
           </p>
