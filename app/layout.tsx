@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               accent-color="#c9a96e"
               button-base-color="#2a2118"
               button-accent-color="#c9a96e"
-              start-on-launch="false"
+              start-on-launch="true"
               empty-chat-message="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
             />
           </div>
