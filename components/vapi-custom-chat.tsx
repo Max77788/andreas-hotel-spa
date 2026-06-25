@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { fetchEventSource } from "@microsoft/fetch-event-source";
 
 interface Message {
   id: string;
@@ -59,7 +60,7 @@ async function streamVapiChat(
   if (sessionId) body.sessionId = sessionId;
 
   try {
-    const res = await fetch("https://api.vapi.ai/chat/web", {
+    await fetchEventSource("https://api.vapi.ai/chat/web", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${publicKey}`,
@@ -68,67 +69,44 @@ async function streamVapiChat(
       },
       body: JSON.stringify(body),
       signal,
-    });
 
-    if (!res.ok) {
-      const text = await res.text().catch(() => "Unknown error");
-      throw new Error(`Vapi error ${res.status}: ${text}`);
-    }
+      async onopen(response) {
+        if (!response.ok) {
+          const text = await response.text().catch(() => "Unknown error");
+          throw new Error(`Vapi error ${response.status}: ${text}`);
+        }
+      },
 
-    const reader = res.body?.getReader();
-    if (!reader) throw new Error("No response body");
-
-    const decoder = new TextDecoder();
-    let buffer = "";
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        // Process any remaining data in the buffer (last chunk without trailing newline)
-        if (buffer.trim().startsWith("data: ")) {
-          const data = buffer.slice(6).trim();
-          if (data !== "[DONE]") {
-            try {
-              const parsed = JSON.parse(data);
-              if (parsed.delta && parsed.path === "chat.output[0].content") {
-                onChunk(parsed.delta);
-              } else if (parsed.output) {
-                onChunk(parsed.output);
-              }
-              if (parsed.sessionId) {
-                onSessionId?.(parsed.sessionId);
-              }
-            } catch {}
+      onmessage(event) {
+        if (event.data === "[DONE]") return;
+        try {
+          const parsed = JSON.parse(event.data);
+          if (parsed.delta && parsed.path === "chat.output[0].content") {
+            onChunk(parsed.delta);
+          } else if (parsed.output) {
+            onChunk(parsed.output);
           }
+          if (parsed.sessionId) {
+            onSessionId?.(parsed.sessionId);
+          }
+        } catch {}
+      },
+
+      onclose() {
+        onComplete();
+      },
+
+      onerror(err) {
+        if (err instanceof Error && err.name === "AbortError") {
+          onComplete();
+          return; // stops retry
         }
-        break;
-      }
-
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split("\n");
-      buffer = lines.pop() || "";
-
-      for (const line of lines) {
-        if (line.startsWith("data: ")) {
-          const data = line.slice(6).trim();
-          if (data === "[DONE]") continue;
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.delta && parsed.path === "chat.output[0].content") {
-              onChunk(parsed.delta);
-            } else if (parsed.output) {
-              onChunk(parsed.output);
-            }
-            if (parsed.sessionId) {
-              onSessionId?.(parsed.sessionId);
-            }
-          } catch {}
-        }
-      }
-    }
-
-    onComplete();
-  } catch (err: unknown) {
+        onError(err instanceof Error ? err : new Error(String(err)));
+        // Returning non-undefined stops retries
+        return;
+      },
+    });
+  } catch (err) {
     if (err instanceof DOMException && err.name === "AbortError") {
       onComplete();
       return;
