@@ -1,3 +1,4 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import VapiCustomChat from "@/components/vapi-custom-chat";
