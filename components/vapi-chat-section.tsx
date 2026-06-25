@@ -54,12 +54,12 @@ export default function VapiChatSection() {
             mode="chat"
             theme="dark"
             size="compact"
-            radius="large"
-            base-color="#2a2118"
+            border-radius="large"
+            base-bg-color="#2a2118"
             accent-color="#c9a96e"
-            button-base-color="#2a2118"
-            button-accent-color="#c9a96e"
-            empty-chat-message="Hi, I'm Jessica, your concierge at Andreas Hotel & Spa. How can I help you today?"
+            cta-button-color="#2a2118"
+            cta-button-text-color="#c9a96e"
+            chat-first-message="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
             style={{ width: "100%", height: "100%", display: "block" }}
           />
         </div>
