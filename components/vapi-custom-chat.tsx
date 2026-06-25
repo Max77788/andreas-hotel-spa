@@ -83,7 +83,26 @@ async function streamVapiChat(
 
     while (true) {
       const { done, value } = await reader.read();
-      if (done) break;
+      if (done) {
+        // Process any remaining data in the buffer (last chunk without trailing newline)
+        if (buffer.trim().startsWith("data: ")) {
+          const data = buffer.slice(6).trim();
+          if (data !== "[DONE]") {
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.delta && parsed.path === "chat.output[0].content") {
+                onChunk(parsed.delta);
+              } else if (parsed.output) {
+                onChunk(parsed.output);
+              }
+              if (parsed.sessionId) {
+                onSessionId?.(parsed.sessionId);
+              }
+            } catch {}
+          }
+        }
+        break;
+      }
 
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split("\n");
