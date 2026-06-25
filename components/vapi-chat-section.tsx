@@ -1,18 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import VapiCustomChat from "@/components/vapi-custom-chat";
 
 export default function VapiChatSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // Ensure the script is loaded before trying to render the widget
-    const script = document.querySelector(
-      'script[src*="vapi-ai/client-sdk-react"]'
-    );
-    console.log("Vapi chat section mounted, script present:", !!script);
-  }, []);
-
   return (
     <section className="bg-[var(--hotel-charcoal)] py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
@@ -37,9 +27,8 @@ export default function VapiChatSection() {
           </a>
         </div>
 
-        {/* Widget container */}
+        {/* Custom chat widget */}
         <div
-          ref={containerRef}
           className="w-full overflow-hidden"
           style={{
             height: "min(600px, 80vh)",
@@ -47,20 +36,12 @@ export default function VapiChatSection() {
             border: "1px solid rgba(201,169,110,0.2)",
           }}
         >
-          {/* @ts-expect-error custom web component */}
-          <vapi-widget
-            public-key="a2166c04-eff0-4623-852e-93d4e7d54f7e"
-            assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
-            mode="chat"
-            theme="dark"
-            size="compact"
-            border-radius="large"
-            base-bg-color="#2a2118"
-            accent-color="#c9a96e"
-            cta-button-color="#2a2118"
-            cta-button-text-color="#c9a96e"
-            chat-first-message="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
-            style={{ width: "100%", height: "100%", display: "block" }}
+          <VapiCustomChat
+            publicKey="a2166c04-eff0-4623-852e-93d4e7d54f7e"
+            assistantId="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
+            firstMessage="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
+            placeholder="Ask about rooms, amenities, or bookings..."
+            className="h-full"
           />
         </div>
 

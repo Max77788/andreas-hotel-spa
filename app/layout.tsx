@@ -1,7 +1,6 @@
-import "./globals.css";
 import type { Metadata } from "next";
-import Script from "next/script";
 import { ThemeProvider } from "next-themes";
+import VapiCustomChat from "@/components/vapi-custom-chat";
 
 export const metadata: Metadata = {
   title: "The Andreas Hotel & Spa – Palm Springs, CA",
@@ -34,26 +33,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Vapi AI Agent — expands on hover */}
         <div className="vapi-hover-container">
           <div className="vapi-hover-trigger">
-            <svg class="vapi-dot-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg className="vapi-dot-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="12" cy="12" r="3" fill="currentColor"/>
               <path d="M12 9v3l2 2"/>
             </svg>
             <span className="vapi-dot-label">Chat with Jessica</span>
           </div>
           <div className="vapi-hover-panel">
-            {/* @ts-expect-error custom web component */}
-            <vapi-widget
-              public-key="a2166c04-eff0-4623-852e-93d4e7d54f7e"
-              assistant-id="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
-              mode="chat"
-              theme="dark"
-              size="compact"
-              border-radius="large"
-              base-bg-color="#2a2118"
-              accent-color="#c9a96e"
-              cta-button-color="#2a2118"
-              cta-button-text-color="#c9a96e"
-              chat-first-message="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
+            <VapiCustomChat
+              publicKey="a2166c04-eff0-4623-852e-93d4e7d54f7e"
+              assistantId="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
+              firstMessage="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
             />
           </div>
         </div>
@@ -145,10 +135,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             border: 1px solid rgba(201, 169, 110, 0.3);
           }
 
-          .vapi-hover-panel vapi-widget {
+          .vapi-hover-panel > div {
             width: 100%;
             height: 100%;
-            display: block;
+            border-radius: inherit;
           }
 
           /* On hover: dot → pill, panel expands */
@@ -247,11 +237,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
         `}} />
 
-        <Script
-          src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-          strategy="afterInteractive"
-        />
-
         {/* Mobile: click-to-toggle handler */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
@@ -266,7 +251,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               panel.classList.toggle('open', !isOpen);
               trigger.classList.toggle('expanded', !isOpen);
             });
-            // Close on click outside
             document.addEventListener('click', function(e) {
               if (!container.contains(e.target)) {
                 panel.classList.remove('open');
