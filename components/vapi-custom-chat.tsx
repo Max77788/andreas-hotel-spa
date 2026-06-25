@@ -16,6 +16,27 @@ interface VapiCustomChatProps {
   className?: string;
 }
 
+const STORAGE_PREFIX = "vapi_jessica_";
+
+function loadFromStorage(key: string): {
+  messages: Message[];
+  sessionId: string | undefined;
+} {
+  if (typeof window === "undefined") return { messages: [], sessionId: undefined };
+  try {
+    const raw = sessionStorage.getItem(STORAGE_PREFIX + key);
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return { messages: [], sessionId: undefined };
+}
+
+function saveToStorage(key: string, data: { messages: Message[]; sessionId?: string }) {
+  if (typeof window === "undefined") return;
+  try {
+    sessionStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(data));
+  } catch {}
+}
+
 // ── Vapi streaming client ──
 async function streamVapiChat(
   publicKey: string,
@@ -26,7 +47,8 @@ async function streamVapiChat(
   onChunk: (text: string) => void,
   onComplete: () => void,
   onError: (err: Error) => void,
-  signal: AbortSignal
+  signal: AbortSignal,
+  onSessionId?: (id: string) => void
 ): Promise<void> {
   const body: Record<string, unknown> = {
     input,
@@ -79,7 +101,7 @@ async function streamVapiChat(
               onChunk(parsed.output);
             }
             if (parsed.sessionId) {
-              // store sessionId if needed
+              onSessionId?.(parsed.sessionId);
             }
           } catch {}
         }
@@ -115,20 +137,55 @@ export default function VapiCustomChat({
   publicKey,
   className = "",
 }: VapiCustomChatProps) {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: "assistant-0",
-      role: "assistant",
-      content: firstMessage,
-    },
-  ]);
+  const storageKey = `${assistantId}-${publicKey.slice(0, 8)}`;
+
+  // Hydrate from sessionStorage on mount
+  const [messages, setMessages] = useState<Message[]>(() => {
+    const saved = loadFromStorage(storageKey);
+    if (saved.messages.length > 0) return saved.messages;
+    return [
+      {
+        id: "assistant-0",
+        role: "assistant",
+        content: firstMessage,
+      },
+    ];
+  });
+
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const sessionIdRef = useRef<string | undefined>(undefined);
+
+  // Hydrate sessionId from storage on mount
+  useEffect(() => {
+    const saved = loadFromStorage(storageKey);
+    if (saved.sessionId) {
+      sessionIdRef.current = saved.sessionId;
+    }
+  }, [storageKey]);
+  const hasHydrated = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
+
+  // Persist messages + sessionId to sessionStorage whenever they change
+  useEffect(() => {
+    if (!hasHydrated.current) {
+      hasHydrated.current = true;
+      return;
+    }
+    saveToStorage(storageKey, {
+      messages,
+      sessionId: sessionIdRef.current,
+    });
+  }, [messages, storageKey]);
+
+  const handleSessionId = useCallback((id: string) => {
+    sessionIdRef.current = id;
+  }, []);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -139,6 +196,25 @@ export default function VapiCustomChat({
   useEffect(() => {
     inputRef.current?.focus();
   }, []);
+
+  const newChat = useCallback(() => {
+    abortRef.current?.abort();
+    sessionIdRef.current = undefined;
+    const initial = [
+      {
+        id: "assistant-0",
+        role: "assistant" as const,
+        content: firstMessage,
+      },
+    ];
+    setMessages(initial);
+    setInput("");
+    setIsTyping(false);
+    setError(null);
+    try {
+      sessionStorage.removeItem(STORAGE_PREFIX + storageKey);
+    } catch {}
+  }, [firstMessage, storageKey]);
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
@@ -151,7 +227,8 @@ export default function VapiCustomChat({
       role: "user",
       content: text,
     };
-    setMessages((prev) => [...prev, userMsg]);
+    const msgsAfterUser = [...messagesRef.current, userMsg];
+    setMessages(msgsAfterUser);
     setIsTyping(true);
     setError(null);
 
@@ -161,7 +238,7 @@ export default function VapiCustomChat({
 
     // Build the input for the API
     let apiInput: string | { role: string; content: string }[];
-    const currentMessages = messages;
+    const currentMessages = messagesRef.current;
     if (
       currentMessages.length === 1 &&
       currentMessages[0].role === "assistant" &&
@@ -226,9 +303,10 @@ export default function VapiCustomChat({
         setError("Connection issue. Please try again.");
         setIsTyping(false);
       },
-      abortCtrl.signal
+      abortCtrl.signal,
+      handleSessionId
     );
-  }, [input, isTyping, messages, publicKey, assistantId, firstMessage]);
+  }, [input, isTyping, publicKey, assistantId, firstMessage, handleSessionId]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -280,10 +358,23 @@ export default function VapiCustomChat({
             {isTyping ? "Typing..." : "Online"}
           </span>
         </div>
+        {messages.length > 1 && (
+          <button
+            onClick={newChat}
+            className="text-[10px] px-2.5 py-1 rounded-full transition-colors"
+            style={{
+              color: "rgba(201,169,110,0.6)",
+              border: "1px solid rgba(201,169,110,0.2)",
+            }}
+            title="Start new chat"
+          >
+            + New
+          </button>
+        )}
       </div>
 
       {/* ── Messages ── */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 scrollbar-thin">
+      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         {messages.map((msg) => (
           <div
             key={msg.id}
