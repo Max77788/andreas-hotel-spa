@@ -474,7 +474,7 @@ export default function HomePage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
               Offers
             </p>
-            <h2 className="font-display text-[var(--hotel-cream)] font-light leading-tight mb-2" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
+            <h2 className="font-display text-white font-light leading-tight mb-2" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
               Seasonal Packages
             </h2>
             <div className="flex justify-center mb-4">
@@ -504,11 +504,11 @@ export default function HomePage() {
                 },
               ].map((offer) => (
                 <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
-                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
+                  <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
                   <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
                   <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
                   <div className="mt-auto flex items-end justify-between">
-                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
+                    <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a
                       href="/contact"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
@@ -542,11 +542,11 @@ export default function HomePage() {
                 },
               ].map((offer) => (
                 <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
-                  <h4 className="font-display text-[var(--hotel-cream)] text-2xl font-light mb-3">{offer.title}</h4>
+                  <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
                   <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
                   <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
                   <div className="mt-auto flex items-end justify-between">
-                    <span className="font-display text-[var(--hotel-cream)] text-3xl font-light">{offer.price}</span>
+                    <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a
                       href="/contact"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"

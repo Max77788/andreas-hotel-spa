@@ -44,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <VapiCustomChat
               publicKey="a2166c04-eff0-4623-852e-93d4e7d54f7e"
               assistantId="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
+              assistantName="Jessica"
               firstMessage="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
             />
           </div>
@@ -116,7 +117,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           /* Chat panel — collapsed by default */
           .vapi-hover-panel {
             position: absolute;
-            bottom: 50px;
+            bottom: 48px; /* sits flush against trigger (42px) with 6px overlap for mouse transition */
             right: 0;
             width: 380px;
             height: 620px;
@@ -176,6 +177,32 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             opacity: 1;
             transform: scale(1);
             pointer-events: auto;
+          }
+
+          /* Keep panel open when sticky (click-to-toggle) */
+          .vapi-hover-container[data-sticky] .vapi-hover-panel {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+          }
+          .vapi-hover-container[data-sticky] .vapi-hover-trigger {
+            width: auto;
+            height: 42px;
+            border-radius: 21px;
+            gap: 8px;
+            padding: 0 18px 0 14px;
+            border-color: rgba(201, 169, 110, 0.6);
+            box-shadow:
+              0 0 24px rgba(201, 169, 110, 0.4),
+              0 6px 20px rgba(0, 0, 0, 0.4);
+          }
+          .vapi-hover-container[data-sticky] .vapi-dot-label {
+            opacity: 1;
+            max-width: 150px;
+          }
+          .vapi-hover-container[data-sticky] .vapi-dot-icon {
+            animation: none;
+            transform: scale(1);
           }
 
           /* Mobile: click toggle */
@@ -238,24 +265,50 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }
         `}} />
 
-        {/* Mobile: click-to-toggle handler */}
+        {/* Click-to-toggle handler — all devices */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             var container = document.querySelector('.vapi-hover-container');
-            if (!container || matchMedia('(hover: hover)').matches) return;
+            if (!container) return;
             var trigger = container.querySelector('.vapi-hover-trigger');
             var panel = container.querySelector('.vapi-hover-panel');
             if (!trigger || !panel) return;
+
+            function open() {
+              panel.classList.add('open');
+              trigger.classList.add('expanded');
+              container.setAttribute('data-sticky', 'true');
+            }
+            function close() {
+              panel.classList.remove('open');
+              trigger.classList.remove('expanded');
+              container.removeAttribute('data-sticky');
+            }
+
             trigger.addEventListener('click', function(e) {
               e.stopPropagation();
-              var isOpen = panel.classList.contains('open');
-              panel.classList.toggle('open', !isOpen);
-              trigger.classList.toggle('expanded', !isOpen);
+              if (panel.classList.contains('open')) {
+                close();
+              } else {
+                open();
+              }
             });
+
             document.addEventListener('click', function(e) {
-              if (!container.contains(e.target)) {
-                panel.classList.remove('open');
-                trigger.classList.remove('expanded');
+              if (container.getAttribute('data-sticky') && !container.contains(e.target)) {
+                close();
+              }
+            });
+
+            /* Also open on hover — but don't close when sticky */
+            container.addEventListener('mouseenter', function() {
+              if (!container.getAttribute('data-sticky')) {
+                open();
+              }
+            });
+            container.addEventListener('mouseleave', function(e) {
+              if (!container.getAttribute('data-sticky')) {
+                close();
               }
             });
           })();

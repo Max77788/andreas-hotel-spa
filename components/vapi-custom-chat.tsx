@@ -14,26 +14,29 @@ interface VapiCustomChatProps {
   assistantId: string;
   publicKey: string;
   className?: string;
+  assistantName?: string;
 }
 
-const STORAGE_PREFIX = "vapi_jessica_";
+function storagePrefix(name: string): string {
+  return `vapi_${name.toLowerCase().replace(/[^a-z0-9]/g, "_")}_`;
+}
 
-function loadFromStorage(key: string): {
+function loadFromStorage(key: string, prefix: string): {
   messages: Message[];
   sessionId: string | undefined;
 } {
   if (typeof window === "undefined") return { messages: [], sessionId: undefined };
   try {
-    const raw = sessionStorage.getItem(STORAGE_PREFIX + key);
+    const raw = sessionStorage.getItem(prefix + key);
     if (raw) return JSON.parse(raw);
   } catch {}
   return { messages: [], sessionId: undefined };
 }
 
-function saveToStorage(key: string, data: { messages: Message[]; sessionId?: string }) {
+function saveToStorage(key: string, prefix: string, data: { messages: Message[]; sessionId?: string }) {
   if (typeof window === "undefined") return;
   try {
-    sessionStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(data));
+    sessionStorage.setItem(prefix + key, JSON.stringify(data));
   } catch {}
 }
 
@@ -182,12 +185,14 @@ export default function VapiCustomChat({
   assistantId,
   publicKey,
   className = "",
+  assistantName = "Jessica",
 }: VapiCustomChatProps) {
+  const prefix = storagePrefix(assistantName);
   const storageKey = `${assistantId}-${publicKey.slice(0, 8)}`;
 
   // Hydrate from sessionStorage on mount
   const [messages, setMessages] = useState<Message[]>(() => {
-    const saved = loadFromStorage(storageKey);
+    const saved = loadFromStorage(storageKey, prefix);
     if (saved.messages.length > 0) return saved.messages;
     return [
       {
@@ -205,7 +210,7 @@ export default function VapiCustomChat({
 
   // Hydrate sessionId from storage on mount
   useEffect(() => {
-    const saved = loadFromStorage(storageKey);
+    const saved = loadFromStorage(storageKey, prefix);
     if (saved.sessionId) {
       sessionIdRef.current = saved.sessionId;
     }
@@ -223,7 +228,7 @@ export default function VapiCustomChat({
       hasHydrated.current = true;
       return;
     }
-    saveToStorage(storageKey, {
+    saveToStorage(storageKey, prefix, {
       messages,
       sessionId: sessionIdRef.current,
     });
@@ -258,9 +263,9 @@ export default function VapiCustomChat({
     setIsTyping(false);
     setError(null);
     try {
-      sessionStorage.removeItem(STORAGE_PREFIX + storageKey);
+      sessionStorage.removeItem(prefix + storageKey);
     } catch {}
-  }, [firstMessage, storageKey]);
+  }, [firstMessage, storageKey, prefix]);
 
   const sendMessage = useCallback(async () => {
     const text = input.trim();
@@ -390,7 +395,7 @@ export default function VapiCustomChat({
               fontFamily: "ui-serif, Georgia, serif",
             }}
           >
-            Jessica
+            {assistantName}
           </span>
           <span
             className="text-[10px] px-2 py-0.5 rounded-full"

@@ -1,4 +1,5 @@
-import Link from "next/link";
+import Nav from "@/components/nav";
+import Footer from "@/components/footer";
 
 export const metadata = {
   title: "Spa & Wellness – The Andreas Hotel & Spa",
@@ -82,6 +83,7 @@ const ADDONS = [
 export default function SpaPage() {
   return (
     <main>
+      <Nav />
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[450px] flex items-center justify-center overflow-hidden">
         <div
@@ -329,6 +331,7 @@ export default function SpaPage() {
           </div>
         </div>
       </section>
+      <Footer />
     </main>
   );
 }
