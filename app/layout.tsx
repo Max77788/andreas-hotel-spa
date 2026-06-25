@@ -31,14 +31,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </ThemeProvider>
 
-        {/* Vapi AI Agent — tiny dot expands to full chat panel on hover */}
+        {/* Vapi AI Agent — expands on hover */}
         <div className="vapi-hover-container">
-          {/* Trigger dot — tiny, always visible */}
           <div className="vapi-hover-trigger">
-            <span className="vapi-hover-text">Chat with Jessica</span>
+            <svg class="vapi-dot-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3" fill="currentColor"/>
+              <path d="M12 9v3l2 2"/>
+            </svg>
+            <span className="vapi-dot-label">Chat with Jessica</span>
           </div>
-
-          {/* Chat panel — expands on hover */}
           <div className="vapi-hover-panel">
             {/* @ts-expect-error custom web component */}
             <vapi-widget
@@ -59,7 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
 
         <style dangerouslySetInnerHTML={{ __html: `
-          /* ── Hover-expand container ── */
+          /* ── Hover-expand widget ── */
           .vapi-hover-container {
             position: fixed;
             bottom: 28px;
@@ -70,15 +71,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             align-items: flex-end;
           }
 
-          /* Trigger dot — tiny, always visible */
+          /* Trigger — tiny dot by default, expands to pill on hover */
           .vapi-hover-trigger {
-            width: 14px;
-            height: 14px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            background: #c9a96e;
+            background: linear-gradient(135deg, #2a2118 0%, #3d3024 100%);
+            border: 1.5px solid rgba(201, 169, 110, 0.5);
             box-shadow:
-              0 0 12px rgba(201, 169, 110, 0.45),
-              0 2px 8px rgba(0, 0, 0, 0.3);
+              0 0 14px rgba(201, 169, 110, 0.3),
+              0 4px 12px rgba(0, 0, 0, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             position: relative;
             z-index: 2;
@@ -86,33 +91,42 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                         border-radius 0.3s ease,
                         box-shadow 0.3s ease,
-                        background 0.3s ease;
+                        gap 0.3s ease,
+                        padding 0.3s ease;
             flex-shrink: 0;
+            gap: 0;
+            padding: 0;
           }
 
-          .vapi-hover-text {
-            position: absolute;
+          .vapi-dot-icon {
+            width: 18px;
+            height: 18px;
+            color: #c9a96e;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+            animation: vapi-pulse 3s ease-in-out infinite;
+          }
+
+          @keyframes vapi-pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.08); }
+          }
+
+          .vapi-dot-label {
             white-space: nowrap;
-            right: calc(100% + 12px);
-            top: 50%;
-            transform: translateY(-50%);
             font-family: ui-serif, Georgia, serif;
-            font-size: 13px;
-            color: #fff;
-            background: rgba(42, 33, 24, 0.92);
-            backdrop-filter: blur(4px);
-            padding: 6px 14px;
-            border-radius: 20px;
-            border: 1px solid rgba(201, 169, 110, 0.3);
+            font-size: 14px;
+            color: #c9a96e;
             opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease, transform 0.25s ease;
+            max-width: 0;
+            overflow: hidden;
+            transition: opacity 0.25s ease, max-width 0.3s ease;
           }
 
-          /* Chat panel — collapsed by default, expands on hover */
+          /* Chat panel — collapsed by default */
           .vapi-hover-panel {
             position: absolute;
-            bottom: 26px;
+            bottom: 50px;
             right: 0;
             width: 380px;
             height: 620px;
@@ -138,20 +152,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             display: block;
           }
 
-          /* On container hover → expand the dot + text + panel */
+          /* On hover: dot → pill, panel expands */
           .vapi-hover-container:hover .vapi-hover-trigger {
-            width: 120px;
-            height: 32px;
-            border-radius: 16px;
-            background: #2a2118;
-            border: 1px solid rgba(201, 169, 110, 0.4);
+            width: auto;
+            height: 42px;
+            border-radius: 21px;
+            gap: 8px;
+            padding: 0 18px 0 14px;
+            border-color: rgba(201, 169, 110, 0.6);
             box-shadow:
-              0 0 20px rgba(201, 169, 110, 0.35),
-              0 4px 16px rgba(0, 0, 0, 0.4);
+              0 0 24px rgba(201, 169, 110, 0.4),
+              0 6px 20px rgba(0, 0, 0, 0.4);
           }
 
-          .vapi-hover-container:hover .vapi-hover-text {
+          .vapi-hover-container:hover .vapi-dot-icon {
+            animation: none;
+            transform: scale(1);
+          }
+
+          .vapi-hover-container:hover .vapi-dot-label {
             opacity: 1;
+            max-width: 150px;
           }
 
           .vapi-hover-container:hover .vapi-hover-panel {
@@ -160,14 +181,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             pointer-events: auto;
           }
 
-          /* Keep the chat panel open when hovering over the panel itself */
+          /* Keep panel open when hovering it */
           .vapi-hover-panel:hover {
             opacity: 1;
             transform: scale(1);
             pointer-events: auto;
           }
 
-          /* Mobile: click toggle + maintain text visible on expanded dot */
+          /* Mobile: click toggle */
           @media (pointer: coarse) {
             .vapi-hover-panel {
               transition: opacity 0.25s ease, transform 0.25s ease;
@@ -178,19 +199,25 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               pointer-events: auto;
             }
             .vapi-hover-trigger {
-              cursor: pointer;
               -webkit-tap-highlight-color: transparent;
             }
             .vapi-hover-trigger.expanded {
-              width: 120px;
-              height: 32px;
-              border-radius: 16px;
-              background: #2a2118;
-              border: 1px solid rgba(201, 169, 110, 0.4);
+              width: auto;
+              height: 42px;
+              border-radius: 21px;
+              gap: 8px;
+              padding: 0 18px 0 14px;
+              border-color: rgba(201, 169, 110, 0.6);
+              box-shadow:
+                0 0 24px rgba(201, 169, 110, 0.4),
+                0 6px 20px rgba(0, 0, 0, 0.4);
             }
-            .vapi-hover-trigger.expanded + .vapi-hover-text,
-            .vapi-hover-trigger.expanded .vapi-hover-text {
+            .vapi-hover-trigger.expanded .vapi-dot-label {
               opacity: 1;
+              max-width: 150px;
+            }
+            .vapi-hover-trigger.expanded .vapi-dot-icon {
+              animation: none;
             }
           }
 
@@ -200,14 +227,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               right: 16px;
             }
             .vapi-hover-trigger {
-              width: 12px;
-              height: 12px;
+              width: 36px;
+              height: 36px;
+            }
+            .vapi-dot-icon {
+              width: 15px;
+              height: 15px;
             }
             .vapi-hover-panel {
-              bottom: 22px;
+              bottom: 44px;
               width: calc(100vw - 32px);
               height: 60vh;
               border-radius: 12px;
+            }
+            .vapi-hover-container:hover .vapi-hover-trigger,
+            .vapi-hover-trigger.expanded {
+              height: 36px;
+              padding: 0 14px 0 10px;
             }
           }
         `}} />
