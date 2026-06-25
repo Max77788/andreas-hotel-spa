@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { fetchEventSource } from "@microsoft/fetch-event-source";
 
 interface Message {
   id: string;
@@ -38,7 +37,9 @@ function saveToStorage(key: string, data: { messages: Message[]; sessionId?: str
   } catch {}
 }
 
-// ── Vapi streaming client ──
+// ── Direct fetch + ReadableStream SSE parser ──
+// We use raw fetch instead of fetchEventSource because the library's onclose
+// doesn't reliably fire, causing the last SSE buffer chunk to be lost.
 async function streamVapiChat(
   publicKey: string,
   assistantId: string,
@@ -59,8 +60,21 @@ async function streamVapiChat(
   };
   if (sessionId) body.sessionId = sessionId;
 
+  let completed = false;
+  const completeOnce = () => {
+    if (completed) return;
+    completed = true;
+    onComplete();
+  };
+
+  const errorOnce = (err: Error) => {
+    if (completed) return;
+    completed = true;
+    onError(err);
+  };
+
   try {
-    await fetchEventSource("https://api.vapi.ai/chat/web", {
+    const response = await fetch("https://api.vapi.ai/chat/web", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${publicKey}`,
@@ -69,49 +83,84 @@ async function streamVapiChat(
       },
       body: JSON.stringify(body),
       signal,
-
-      async onopen(response) {
-        if (!response.ok) {
-          const text = await response.text().catch(() => "Unknown error");
-          throw new Error(`Vapi error ${response.status}: ${text}`);
-        }
-      },
-
-      onmessage(event) {
-        if (event.data === "[DONE]") return;
-        try {
-          const parsed = JSON.parse(event.data);
-          if (parsed.delta && parsed.path === "chat.output[0].content") {
-            onChunk(parsed.delta);
-          } else if (parsed.output) {
-            onChunk(parsed.output);
-          }
-          if (parsed.sessionId) {
-            onSessionId?.(parsed.sessionId);
-          }
-        } catch {}
-      },
-
-      onclose() {
-        onComplete();
-      },
-
-      onerror(err) {
-        if (err instanceof Error && err.name === "AbortError") {
-          onComplete();
-          return; // stops retry
-        }
-        onError(err instanceof Error ? err : new Error(String(err)));
-        // Returning non-undefined stops retries
-        return;
-      },
     });
-  } catch (err) {
-    if (err instanceof DOMException && err.name === "AbortError") {
-      onComplete();
+
+    if (!response.ok) {
+      const text = await response.text().catch(() => "Unknown error");
+      errorOnce(new Error(`Vapi error ${response.status}: ${text}`));
       return;
     }
-    onError(err instanceof Error ? err : new Error(String(err)));
+
+    const reader = response.body?.getReader();
+    if (!reader) {
+      completeOnce();
+      return;
+    }
+
+    const decoder = new TextDecoder();
+    let buffer = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      // Process complete SSE events (delimited by \n\n)
+      const parts = buffer.split("\n\n");
+      buffer = parts.pop() || ""; // keep incomplete part in buffer for next chunk
+
+      for (const part of parts) {
+        for (const line of part.split("\n")) {
+          if (line.startsWith("data: ")) {
+            const data = line.slice(6);
+            if (data === "[DONE]") continue;
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.delta && parsed.path === "chat.output[0].content") {
+                onChunk(parsed.delta);
+              } else if (parsed.output) {
+                onChunk(parsed.output);
+              }
+              if (parsed.sessionId) {
+                onSessionId?.(parsed.sessionId);
+              }
+            } catch {}
+          }
+        }
+      }
+    }
+
+    // ── Flush remaining buffer (critical!) ──
+    // When the stream ends, any data that wasn't followed by \n\n
+    // is still in the buffer. We process it here.
+    if (buffer.trim()) {
+      for (const line of buffer.split("\n")) {
+        if (line.startsWith("data: ")) {
+          const data = line.slice(6);
+          if (data === "[DONE]") continue;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.delta && parsed.path === "chat.output[0].content") {
+              onChunk(parsed.delta);
+            } else if (parsed.output) {
+              onChunk(parsed.output);
+            }
+            if (parsed.sessionId) {
+              onSessionId?.(parsed.sessionId);
+            }
+          } catch {}
+        }
+      }
+    }
+
+    completeOnce();
+  } catch (err) {
+    if (err instanceof DOMException && err.name === "AbortError") {
+      completeOnce();
+      return;
+    }
+    errorOnce(err instanceof Error ? err : new Error(String(err)));
   }
 }
 
