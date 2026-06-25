@@ -63,7 +63,7 @@ export default async function OffersPage() {
 
           <div className="grid md:grid-cols-2 gap-10">
             {allOffers.oneNight.map((offer) => (
-              <div key={offer.id} className="bg-white p-8 md:p-10 card-lift flex flex-col">
+              <div key={offer.id} className="bg-white dark:bg-[#2a2620] p-8 md:p-10 card-lift flex flex-col">
                 <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-4">{offer.title}</h3>
                 <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
                 {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 mb-6">{offer.duration}</p>}
@@ -85,7 +85,7 @@ export default async function OffersPage() {
 
           <div className="grid md:grid-cols-2 gap-10">
             {allOffers.twoNight.map((offer) => (
-              <div key={offer.id} className="bg-white p-8 md:p-10 card-lift flex flex-col">
+              <div key={offer.id} className="bg-white dark:bg-[#2a2620] p-8 md:p-10 card-lift flex flex-col">
                 <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-4">{offer.title}</h3>
                 <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
                 {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 mb-6">{offer.duration}</p>}
@@ -106,7 +106,7 @@ export default async function OffersPage() {
           <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl md:text-4xl font-light mb-16 text-center">Every Package Includes</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {inclusions.map((inc) => (
-              <div key={inc.id} className="bg-white p-6 text-center">
+              <div key={inc.id} className="bg-white dark:bg-[#2a2620] p-6 text-center">
                 <span className="text-3xl mb-3 block">{inc.icon}</span>
                 <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light mb-2">{inc.label}</h4>
                 {inc.detail && <p className="font-body text-xs text-[var(--hotel-charcoal)]/90 leading-relaxed">{inc.detail}</p>}
