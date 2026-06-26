@@ -44,8 +44,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <VapiCustomChat
               publicKey="a2166c04-eff0-4623-852e-93d4e7d54f7e"
               assistantId="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
-              assistantName="Jessica"
-              firstMessage="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
             />
           </div>
         </div>

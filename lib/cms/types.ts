@@ -74,4 +74,7 @@ export interface SiteSettings {
   hero_video_url: string;
   logo_dark_url: string | null;
   logo_light_url: string | null;
+  vapi_assistant_name: string;
+  vapi_first_message: string;
+  vapi_placeholder: string;
 }

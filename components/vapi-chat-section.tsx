@@ -39,8 +39,6 @@ export default function VapiChatSection() {
           <VapiCustomChat
             publicKey="a2166c04-eff0-4623-852e-93d4e7d54f7e"
             assistantId="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
-            firstMessage="Hi, I'm Jessica, your concierge at Andreas Hotel &amp; Spa. How can I help you today?"
-            placeholder="Ask about rooms, amenities, or bookings..."
             className="h-full"
           />
         </div>

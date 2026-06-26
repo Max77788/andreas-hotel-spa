@@ -21,6 +21,9 @@ export async function POST(req: NextRequest) {
     address: body.address, phone: body.phone, email: body.email,
     booking_url: body.booking_url, hero_video_url: body.hero_video_url,
     logo_dark_url: body.logo_dark_url, logo_light_url: body.logo_light_url,
+    vapi_assistant_name: body.vapi_assistant_name,
+    vapi_first_message: body.vapi_first_message,
+    vapi_placeholder: body.vapi_placeholder,
   };
   if (!clean.id) delete clean.id;
   const { data, error } = await supabase.from("site_settings").upsert(clean).select().single();

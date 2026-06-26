@@ -180,15 +180,38 @@ function formatText(text: string): string {
 }
 
 export default function VapiCustomChat({
-  firstMessage = "Hi, I'm Jessica, your concierge at Andreas Hotel & Spa. How can I help you today?",
-  placeholder = "Ask about rooms, amenities, or bookings...",
+  firstMessage: firstMessageProp,
+  placeholder: placeholderProp,
   assistantId,
   publicKey,
   className = "",
-  assistantName = "Jessica",
+  assistantName: assistantNameProp,
 }: VapiCustomChatProps) {
-  const prefix = storagePrefix(assistantName);
+  const prefix = storagePrefix(assistantNameProp || "assistant");
   const storageKey = `${assistantId}-${publicKey.slice(0, 8)}`;
+
+  // Resolve config: props > API > defaults
+  const [vapiConfig, setVapiConfig] = useState<{ name: string; greeting: string; placeholder: string } | null>(null);
+
+  useEffect(() => {
+    if (assistantNameProp && firstMessageProp && placeholderProp) return; // props provided, skip fetch
+    fetch("/api/vapi-config")
+      .then(r => r.json())
+      .then(d => {
+        if (d?.vapi_assistant_name || d?.vapi_first_message) {
+          setVapiConfig({
+            name: d.vapi_assistant_name || "Jessica",
+            greeting: d.vapi_first_message || "Hi, I'm Jessica, your concierge at Andreas Hotel & Spa. How can I help you today?",
+            placeholder: d.vapi_placeholder || "Ask about rooms, amenities, or bookings...",
+          });
+        }
+      })
+      .catch(() => {}); // silently fall back to defaults
+  }, [assistantNameProp, firstMessageProp, placeholderProp]);
+
+  const assistantName = assistantNameProp || vapiConfig?.name || "Jessica";
+  const firstMessage = firstMessageProp || vapiConfig?.greeting || "Hi, I'm Jessica, your concierge at Andreas Hotel & Spa. How can I help you today?";
+  const placeholder = placeholderProp || vapiConfig?.placeholder || "Ask about rooms, amenities, or bookings...";
 
   // Hydrate from sessionStorage on mount
   const [messages, setMessages] = useState<Message[]>(() => {
