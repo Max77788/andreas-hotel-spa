@@ -1,77 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/api-auth";
 
-function getConfig() {
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  return {
-    headers: {
-      apikey: key!,
-      Authorization: `Bearer ${key}`,
-      "Accept-Profile": "andreas_website",
-    },
-  };
-}
-
-const TABLES = {
-  policies: "policies",
-  offers: "offers",
-  offer_inclusions: "offer_inclusions",
-  settings: "site_settings",
-  events: "events",
-  gallery: "gallery",
-};
+const U = "https://phgogybfgovrlcdmifpv.supabase.co";
+const K = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBoZ29neWJmZ292cmxjZG1pZnB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc4MTI5NzIsImV4cCI6MjA2MzM4ODk3Mn0.9KhBINQnZRXKc_HysHYOwY31kPF1bqknU8wBPEkv9tM";
+const hdrs = () => ({ apikey: K, Authorization: `Bearer ${K}`, "Accept-Profile": "andreas_website" });
+const rest = (p: string) => `${U}/rest/v1/${p}`;
 
 export async function GET(req: NextRequest) {
-  const session = await requireAuth(req);
-  if (session instanceof NextResponse) return session;
-  const { headers } = getConfig();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-
-  const res = await fetch(`${url}/rest/v1/policies?select=*&order=sort_order`, { headers });
-  const data = await res.json();
-  return NextResponse.json(data ?? []);
+  const a = await requireAuth(req); if (a instanceof NextResponse) return a;
+  const res = await fetch(rest("policies?select=*&order=sort_order"), { headers: hdrs() });
+  return NextResponse.json((await res.json()) ?? []);
 }
 
 export async function POST(req: NextRequest) {
-  const session = await requireAuth(req);
-  if (session instanceof NextResponse) return session;
-  const body = await req.json();
-  const { headers } = getConfig();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-
-  const clean = {
-    id: body.id, label: body.label, detail: body.detail,
-    sort_order: body.sort_order, is_highlighted: body.is_highlighted,
-  };
-  if (!clean.id) delete clean.id;
-
-  const method = clean.id ? "PATCH" : "POST";
-  const endpoint = clean.id
-    ? `${url}/rest/v1/policies?id=eq.${clean.id}`
-    : `${url}/rest/v1/policies`;
-
-  const res = await fetch(endpoint, {
-    method,
-    headers: { ...headers, "Content-Type": "application/json", Prefer: "return=representation" },
-    body: JSON.stringify(clean),
-  });
-
-  if (!res.ok) {
-    const err = await res.text();
-    return NextResponse.json({ error: err }, { status: 400 });
-  }
-  const data = await res.json();
-  return NextResponse.json(Array.isArray(data) ? data[0] : data);
+  const a = await requireAuth(req); if (a instanceof NextResponse) return a;
+  const b = await req.json();
+  const c: any = { id: b.id, label: b.label, detail: b.detail, sort_order: b.sort_order, is_highlighted: b.is_highlighted };
+  if (!c.id) delete c.id;
+  const m = c.id ? "PATCH" : "POST";
+  const ep = c.id ? rest(`policies?id=eq.${c.id}`) : rest("policies");
+  const h = { ...hdrs(), "Content-Type": "application/json", Prefer: "return=representation" };
+  const res = await fetch(ep, { method: m, headers: h, body: JSON.stringify(c) });
+  if (!res.ok) return NextResponse.json({ error: await res.text() }, { status: 400 });
+  const d = await res.json();
+  return NextResponse.json(Array.isArray(d) ? d[0] : d);
 }
 
 export async function DELETE(req: NextRequest) {
-  const session = await requireAuth(req);
-  if (session instanceof NextResponse) return session;
+  const a = await requireAuth(req); if (a instanceof NextResponse) return a;
   const { id } = await req.json();
-  const { headers } = getConfig();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-
-  await fetch(`${url}/rest/v1/policies?id=eq.${id}`, { method: "DELETE", headers });
+  await fetch(rest(`policies?id=eq.${id}`), { method: "DELETE", headers: hdrs() });
   return NextResponse.json({ success: true });
 }
