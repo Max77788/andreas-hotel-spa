@@ -1,13 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase/server";
 import { requireAuth } from "@/lib/api-auth";
-import { revalidatePath } from "next/cache";
+
+function getConfig() {
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  return {
+    headers: {
+      apikey: key!,
+      Authorization: `Bearer ${key}`,
+      "Accept-Profile": "andreas_website",
+    },
+  };
+}
+
+const TABLES = {
+  policies: "policies",
+  offers: "offers",
+  offer_inclusions: "offer_inclusions",
+  settings: "site_settings",
+  events: "events",
+  gallery: "gallery",
+};
 
 export async function GET(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
-  const supabase = createServerClient();
-  const { data } = await supabase.from("policies").select("*").order("sort_order");
+  const { headers } = getConfig();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+
+  const res = await fetch(`${url}/rest/v1/policies?select=*&order=sort_order`, { headers });
+  const data = await res.json();
   return NextResponse.json(data ?? []);
 }
 
@@ -15,44 +37,41 @@ export async function POST(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
   const body = await req.json();
-  console.log("[policies POST] raw body:", JSON.stringify(body));
-  const supabase = createServerClient();
-  if (!body.id) delete body.id;
-  // Only allow known columns
+  const { headers } = getConfig();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+
   const clean = {
-    id: body.id,
-    label: body.label,
-    detail: body.detail,
-    sort_order: body.sort_order,
-    is_highlighted: body.is_highlighted,
+    id: body.id, label: body.label, detail: body.detail,
+    sort_order: body.sort_order, is_highlighted: body.is_highlighted,
   };
   if (!clean.id) delete clean.id;
-  const { data, error } = await supabase
-    .from("policies")
-    .upsert(clean)
-    .select()
-    .single();
-  if (error) {
-    console.error("[policies POST] raw error:", JSON.stringify(error));
-    console.error("[policies POST] body sent:", JSON.stringify(body));
-    return NextResponse.json({
-      error: error.message,
-      code: error.code,
-      details: error.details,
-      hint: error.hint,
-    }, { status: 400 });
+
+  const method = clean.id ? "PATCH" : "POST";
+  const endpoint = clean.id
+    ? `${url}/rest/v1/policies?id=eq.${clean.id}`
+    : `${url}/rest/v1/policies`;
+
+  const res = await fetch(endpoint, {
+    method,
+    headers: { ...headers, "Content-Type": "application/json", Prefer: "return=representation" },
+    body: JSON.stringify(clean),
+  });
+
+  if (!res.ok) {
+    const err = await res.text();
+    return NextResponse.json({ error: err }, { status: 400 });
   }
-  console.log("[policies POST] saved:", data?.id);
-  revalidatePath("/policies");
-  return NextResponse.json(data);
+  const data = await res.json();
+  return NextResponse.json(Array.isArray(data) ? data[0] : data);
 }
 
 export async function DELETE(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
   const { id } = await req.json();
-  const supabase = createServerClient();
-  await supabase.from("policies").delete().eq("id", id);
-  revalidatePath("/policies");
+  const { headers } = getConfig();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+
+  await fetch(`${url}/rest/v1/policies?id=eq.${id}`, { method: "DELETE", headers });
   return NextResponse.json({ success: true });
 }

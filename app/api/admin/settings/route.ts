@@ -1,21 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase/server";
 import { requireAuth } from "@/lib/api-auth";
-import { revalidatePath } from "next/cache";
+
+function headers() {
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  return {
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+    "Accept-Profile": "andreas_website",
+  };
+}
 
 export async function GET(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
-  const supabase = createServerClient();
-  const { data } = await supabase.from("site_settings").select("*").single();
-  return NextResponse.json(data ?? {});
+  const h = headers();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const res = await fetch(`${url}/rest/v1/site_settings?select=*&limit=1`, { headers: h });
+  const data = await res.json();
+  return NextResponse.json(Array.isArray(data) ? data[0] ?? {} : data ?? {});
 }
 
 export async function POST(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
   const body = await req.json();
-  const supabase = createServerClient();
+  const h = headers();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+
   const clean = {
     id: body.id, hotel_name: body.hotel_name, tagline: body.tagline,
     address: body.address, phone: body.phone, email: body.email,
@@ -26,8 +37,21 @@ export async function POST(req: NextRequest) {
     vapi_placeholder: body.vapi_placeholder,
   };
   if (!clean.id) delete clean.id;
-  const { data, error } = await supabase.from("site_settings").upsert(clean).select().single();
-  if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
-  revalidatePath("/");
-  return NextResponse.json(data);
+
+  const method = clean.id ? "PATCH" : "POST";
+  const endpoint = clean.id
+    ? `${url}/rest/v1/site_settings?id=eq.${clean.id}`
+    : `${url}/rest/v1/site_settings`;
+
+  const res = await fetch(endpoint, {
+    method,
+    headers: { ...h, "Content-Type": "application/json", Prefer: "return=representation" },
+    body: JSON.stringify(clean),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    return NextResponse.json({ error: err }, { status: 400 });
+  }
+  const data = await res.json();
+  return NextResponse.json(Array.isArray(data) ? data[0] : data);
 }

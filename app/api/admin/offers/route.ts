@@ -1,14 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createServerClient } from "@/lib/supabase/server";
 import { requireAuth } from "@/lib/api-auth";
-import { revalidatePath } from "next/cache";
+
+function headers() {
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  return {
+    apikey: key,
+    Authorization: `Bearer ${key}`,
+    "Accept-Profile": "andreas_website",
+  };
+}
 
 export async function GET(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
-  const supabase = createServerClient();
-  const { data: offers } = await supabase.from("offers").select("*").order("sort_order");
-  const { data: inclusions } = await supabase.from("offer_inclusions").select("*").order("sort_order");
+  const h = headers();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+
+  const [offRes, incRes] = await Promise.all([
+    fetch(`${url}/rest/v1/offers?select=*&order=sort_order`, { headers: h }),
+    fetch(`${url}/rest/v1/offer_inclusions?select=*&order=sort_order`, { headers: h }),
+  ]);
+  const [offers, inclusions] = await Promise.all([offRes.json(), incRes.json()]);
   return NextResponse.json({ offers: offers ?? [], inclusions: inclusions ?? [] });
 }
 
@@ -16,31 +28,45 @@ export async function POST(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
   const body = await req.json();
-  const supabase = createServerClient();
+  const h = headers();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+
   const table = body.type === "inclusion" ? "offer_inclusions" : "offers";
+
+  let clean: any;
   if (table === "offer_inclusions") {
-    const clean = { id: body.id, icon: body.icon, label: body.label, detail: body.detail, sort_order: body.sort_order };
-    if (!clean.id) delete clean.id;
-    const { data, error } = await supabase.from(table).upsert(clean).select().single();
-    if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
-    revalidatePath("/offers");
-    return NextResponse.json(data);
+    clean = { id: body.id, icon: body.icon, label: body.label, detail: body.detail, sort_order: body.sort_order };
+  } else {
+    clean = { id: body.id, title: body.title, description: body.description, duration: body.duration, price: body.price, category: body.category, sort_order: body.sort_order, is_published: body.is_published };
   }
-  const clean = { id: body.id, title: body.title, description: body.description, duration: body.duration, price: body.price, category: body.category, sort_order: body.sort_order, is_published: body.is_published };
   if (!clean.id) delete clean.id;
-  const { data, error } = await supabase.from(table).upsert(clean).select().single();
-  if (error) return NextResponse.json({ error: error.message, code: error.code, details: error.details, hint: error.hint }, { status: 400 });
-  revalidatePath("/offers");
-  return NextResponse.json(data);
+
+  const method = clean.id ? "PATCH" : "POST";
+  const endpoint = clean.id
+    ? `${url}/rest/v1/${table}?id=eq.${clean.id}`
+    : `${url}/rest/v1/${table}`;
+
+  const res = await fetch(endpoint, {
+    method,
+    headers: { ...h, "Content-Type": "application/json", Prefer: "return=representation" },
+    body: JSON.stringify(clean),
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    return NextResponse.json({ error: err }, { status: 400 });
+  }
+  const data = await res.json();
+  return NextResponse.json(Array.isArray(data) ? data[0] : data);
 }
 
 export async function DELETE(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
   const { id, type } = await req.json();
-  const supabase = createServerClient();
+  const h = headers();
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const table = type === "inclusion" ? "offer_inclusions" : "offers";
-  await supabase.from(table).delete().eq("id", id);
-  revalidatePath("/offers");
+
+  await fetch(`${url}/rest/v1/${table}?id=eq.${id}`, { method: "DELETE", headers: h });
   return NextResponse.json({ success: true });
 }

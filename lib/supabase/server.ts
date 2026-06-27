@@ -1,14 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
 export function createServerClient() {
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  // Use service_role key if available, fall back to anon key
-  const key = serviceRoleKey || anonKey;
+  // Use anon key for most operations (works with andreas_website schema).
+  // Service role key used as fallback for admin-only operations.
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   if (!key) {
-    console.error("[createServerClient] No Supabase key found! SUPABASE_SERVICE_ROLE_KEY and NEXT_PUBLIC_SUPABASE_ANON_KEY are both missing.");
+    console.error("[createServerClient] No Supabase key found!");
   }
 
   return createClient(
