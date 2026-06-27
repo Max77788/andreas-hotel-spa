@@ -54,3 +54,4 @@ next-env.d.ts
 .sudo_as_admin_successful
 .env.local
 .next
+.env.production
