@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/api-auth";
 
+export const maxDuration = 30;
+
 export async function GET(req: NextRequest) {
   try {
     const session = await requireAuth(req);
@@ -10,7 +12,7 @@ export async function GET(req: NextRequest) {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 
     if (!key || !url) {
-      return NextResponse.json({ error: "Missing Supabase config" }, { status: 500 });
+      return NextResponse.json({ error: `Missing config: key=${!!key} url=${!!url}` }, { status: 500 });
     }
 
     const res = await fetch(`${url}/rest/v1/rooms?select=*&order=sort_order`, {
@@ -19,11 +21,21 @@ export async function GET(req: NextRequest) {
         Authorization: `Bearer ${key}`,
         "Accept-Profile": "andreas_website",
       },
+      signal: AbortSignal.timeout(10000),
     });
 
-    const data = await res.json();
-    return NextResponse.json(data ?? []);
+    const text = await res.text();
+    try {
+      const data = JSON.parse(text);
+      return NextResponse.json(data);
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON from Supabase", raw: text.substring(0, 200) }, { status: 500 });
+    }
   } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+    return NextResponse.json({
+      error: e.message || "Unknown error",
+      cause: e.cause?.message || "",
+      code: e.cause?.code || "",
+    }, { status: 500 });
   }
 }
