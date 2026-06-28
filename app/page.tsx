@@ -174,7 +174,6 @@ export default function HomePage() {
             </Link>
             <a
               href="/book"
-              target="_blank"
               rel="noopener noreferrer"
               className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
@@ -228,7 +227,6 @@ export default function HomePage() {
           </div>
           <a
             href={checkIn && checkOut ? `/book?arrival=${checkIn}&departure=${checkOut}` : "/book"}
-            target="_blank"
             rel="noopener noreferrer"
             className="w-full md:w-auto flex-shrink-0 bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-8 py-3 text-center hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
@@ -614,7 +612,6 @@ export default function HomePage() {
                 </div>
                 <a
                   href="/book"
-                  target="_blank"
                   rel="noopener noreferrer"
                   className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-4 py-2 hover:bg-[var(--hotel-cream)] transition-colors duration-300"
                 >
@@ -913,7 +910,6 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mt-16">
             <a
               href="/book"
-              target="_blank"
               rel="noopener noreferrer"
               className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >

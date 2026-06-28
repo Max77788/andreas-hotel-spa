@@ -28,8 +28,13 @@ export default function SettingsEditor() {
 
   async function save() {
     if (!settings) return;
-    await fetch("/api/admin/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(settings) });
-    setSaved(true); setTimeout(() => setSaved(false), 2000);
+    const res = await fetch("/api/admin/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(settings) });
+    if (res.ok) {
+      setSaved(true); setTimeout(() => setSaved(false), 2000);
+    } else {
+      const err = await res.text();
+      alert("Save failed: " + err);
+    }
   }
 
   function update(field: keyof SiteSettings, value: string) { if (!settings) return; setSettings({ ...settings, [field]: value }); }

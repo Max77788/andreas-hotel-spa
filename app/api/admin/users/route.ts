@@ -7,6 +7,18 @@ import {
 } from "@/lib/admin-store";
 import { verifySessionToken } from "@/lib/auth";
 
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+const SCHEMA = "andreas_website";
+
+function supaHeaders() {
+  return {
+    apikey: SUPABASE_SERVICE_KEY,
+    Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+    "Accept-Profile": SCHEMA,
+  };
+}
+
 // Auth helper — rejects non-admins
 async function requireAdmin(req: NextRequest) {
   const token = req.cookies.get("admin_session")?.value;
@@ -24,8 +36,25 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const users = listUsers();
-    return NextResponse.json(users);
+    // Try local JSON store first (fast)
+    const local = listUsers();
+    if (local.length > 0) {
+      return NextResponse.json(local);
+    }
+    // Fallback: query Supabase (cold start, JSON wiped)
+    if (SUPABASE_SERVICE_KEY) {
+      const res = await fetch(
+        `${SUPABASE_URL}/rest/v1/admin_users?select=id,email,name,role`,
+        { headers: supaHeaders(), signal: AbortSignal.timeout(5000) }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        return NextResponse.json(
+          rows.map((r: any) => ({ _id: r.id, email: r.email, name: r.name, role: r.role }))
+        );
+      }
+    }
+    return NextResponse.json([]);
   } catch (err) {
     console.error("List users error:", err);
     return NextResponse.json(
