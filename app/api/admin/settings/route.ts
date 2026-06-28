@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
 
   const res = await fetch(endpoint, {
     method,
-    headers: { ...h, "Content-Type": "application/json", Prefer: "return=representation" },
+    headers: { ...headers(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" },
     body: JSON.stringify(clean),
   });
   if (!res.ok) {
