@@ -1,0 +1,13 @@
+/**
+ * Shared admin API helpers for Andreas Hotel CMS.
+ * Uses service_role key (bypasses RLS) with anon key fallback.
+ */
+
+export function supabaseHeaders() {
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  return { apikey: key, Authorization: `Bearer ${key}`, "Accept-Profile": "andreas_website" };
+}
+
+export function supabaseUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL!}/rest/v1/${path}`;
+}

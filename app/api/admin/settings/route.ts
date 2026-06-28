@@ -1,21 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/api-auth";
-
-function headers() {
-  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-  return {
-    apikey: key,
-    Authorization: `Bearer ${key}`,
-    "Accept-Profile": "andreas_website",
-  };
-}
+import { supabaseHeaders, supabaseUrl } from "@/lib/admin-api";
 
 export async function GET(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
-  const h = headers();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-  const res = await fetch(`${url}/rest/v1/site_settings?select=*&limit=1`, { headers: h });
+  const res = await fetch(supabaseUrl("site_settings?select=*&limit=1"), { headers: supabaseHeaders() });
   const data = await res.json();
   return NextResponse.json(Array.isArray(data) ? data[0] ?? {} : data ?? {});
 }
@@ -24,8 +14,6 @@ export async function POST(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
   const body = await req.json();
-  const h = headers();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 
   const clean = {
     id: body.id, hotel_name: body.hotel_name, tagline: body.tagline,
@@ -40,12 +28,12 @@ export async function POST(req: NextRequest) {
 
   const method = clean.id ? "PATCH" : "POST";
   const endpoint = clean.id
-    ? `${url}/rest/v1/site_settings?id=eq.${clean.id}`
-    : `${url}/rest/v1/site_settings`;
+    ? supabaseUrl(`site_settings?id=eq.${clean.id}`)
+    : supabaseUrl("site_settings");
 
   const res = await fetch(endpoint, {
     method,
-    headers: { ...headers(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" },
+    headers: { ...supabaseHeaders(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" },
     body: JSON.stringify(clean),
   });
   if (!res.ok) {
