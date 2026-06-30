@@ -253,10 +253,20 @@ export default function HomePage() {
               <div className="w-8 h-px bg-[var(--hotel-gold)] my-6" />
               <div className="flex justify-center mb-6">
                 <Suspense fallback={null}>
-                  <LogoVariantDisplay
-                    variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="h-8 md:h-10 w-auto" />}
-                    variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />}
-                  />
+                  {/* Light mode — dark logos on cream background */}
+                  <div className="dark:hidden">
+                    <LogoVariantDisplay
+                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="h-8 md:h-10 w-auto" />}
+                      variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />}
+                    />
+                  </div>
+                  {/* Dark mode — white logos on dark background */}
+                  <div className="hidden dark:block">
+                    <LogoVariantDisplay
+                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="h-8 md:h-10 w-auto" />}
+                      variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />}
+                    />
+                  </div>
                 </Suspense>
               </div>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
