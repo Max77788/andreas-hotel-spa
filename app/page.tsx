@@ -508,7 +508,7 @@ export default function HomePage() {
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a
-                      href="/contact"
+                      href="/#contact"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
                     >
                       Book Now
@@ -546,7 +546,7 @@ export default function HomePage() {
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a
-                      href="/contact"
+                      href="/#contact"
                       className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
                     >
                       Book Now
