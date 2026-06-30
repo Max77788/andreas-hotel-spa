@@ -156,9 +156,9 @@ export default function HomePage() {
           >
             {/* White logo (visible on dark backgrounds / dark mode) */}
             <img
-              src="/andreas_logo_white.png"
-              alt="The Andreas Hotel & Spa"
-              className="w-64 md:w-96 h-auto"
+              src="/andreas_a_white.png"
+              alt="A"
+              className="w-24 md:w-32 h-auto"
             />
             <div className="w-10 h-px bg-[var(--hotel-gold)] my-4" />
             <p className="font-body text-white/90 text-xs md:text-sm tracking-[0.4em] uppercase">
@@ -476,7 +476,7 @@ export default function HomePage() {
               Seasonal Packages
             </h2>
             <div className="flex justify-center mb-4">
-              <img src="/andreas_logo_no_subtitle_white.png" alt="Andreas" className="h-12 md:h-16 w-auto opacity-90" />
+              <img src="/andreas_wordmark.png" alt="Andreas" className="h-12 md:h-16 w-auto opacity-90" />
             </div>
             <div className="divider-gold" />
           </div>
