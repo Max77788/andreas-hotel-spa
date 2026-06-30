@@ -596,7 +596,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="mb-14">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-3">What We Offer</p>
-            <h2 className="font-display text-[var(--hotel-cream)] font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+            <h2 className="font-display text-white/90 font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
               Hotel Amenities
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
@@ -608,7 +608,7 @@ export default function HomePage() {
               {amenities.map((a) => (
                 <div key={a.title} className="border border-[var(--hotel-cream)]/10 p-6 hover:border-[var(--hotel-gold)]/40 transition-colors duration-300">
                   <span className="text-[var(--hotel-gold)] text-xl block mb-4">{a.icon}</span>
-                  <h3 className="font-display text-[var(--hotel-cream)] text-lg font-light mb-2">{a.title}</h3>
+                  <h3 className="font-display text-white/90 text-lg font-light mb-2">{a.title}</h3>
                   <p className="font-body text-white/80 text-xs leading-relaxed">{a.desc}</p>
                 </div>
               ))}
@@ -675,7 +675,7 @@ export default function HomePage() {
 
 
       {/* ── AWARDS & SOCIALS ────────────────────────────────────────────────── */}
-      <section className="bg-[var(--hotel-charcoal)] border-t border-[var(--hotel-gold)]/20">
+      <section className="bg-[#1a1a1a] border-t border-[var(--hotel-gold)]/20">
         <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-16">
           <div className="grid md:grid-cols-2 gap-12 items-center">
 
@@ -697,7 +697,7 @@ export default function HomePage() {
                     className="h-16 md:h-20 w-auto"
                   />
                 </a>
-                <span className="font-body text-[var(--hotel-cream)]/50 text-[9px] tracking-[0.3em] uppercase">
+                <span className="font-body text-white/50 text-[9px] tracking-[0.3em] uppercase">
                   Expedia · Booking.com · Yelp
                 </span>
               </div>
@@ -871,7 +871,7 @@ export default function HomePage() {
               <div className="mt-12 pt-10 border-t border-[var(--hotel-sand)]">
                 <a
                   href="/group-booking"
-                  className="block w-full text-center bg-[var(--hotel-terracotta)] text-white font-body text-[11px] tracking-[0.3em] uppercase py-4 px-8 hover:bg-[var(--hotel-charcoal)] transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="block w-full text-center bg-[var(--hotel-terracotta)] text-white font-body text-[11px] tracking-[0.3em] uppercase py-4 px-8 hover:bg-[#1a1a1a] transition-all duration-300 shadow-md hover:shadow-lg"
                 >
                   Plan a Group Event → 
                 </a>
@@ -936,7 +936,7 @@ export default function HomePage() {
             </a>
             <a
               href="tel:+176****0900"
-              className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-black hover:text-white transition-all duration-300"
+              className="bg-[#1a1a1a] text-white/90 font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-black hover:text-white transition-all duration-300"
             >
               Call Us
             </a>
