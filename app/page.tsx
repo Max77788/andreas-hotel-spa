@@ -476,7 +476,7 @@ export default function HomePage() {
               Seasonal Packages
             </h2>
             <div className="flex justify-center mb-4">
-              <img src="/andreas_logo_white.png" alt="The Andreas Hotel & Spa" className="h-12 md:h-16 w-auto opacity-90" />
+              <img src="/andreas_logo_no_subtitle_white.png" alt="Andreas" className="h-12 md:h-16 w-auto opacity-90" />
             </div>
             <div className="divider-gold" />
           </div>
