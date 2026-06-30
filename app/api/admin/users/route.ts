@@ -36,25 +36,29 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Try local JSON store first (fast)
-    const local = listUsers();
-    if (local.length > 0) {
-      return NextResponse.json(local);
-    }
-    // Fallback: query Supabase (cold start, JSON wiped)
+    // Query Supabase first (persistent across serverless instances)
     if (SUPABASE_SERVICE_KEY) {
-      const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/admin_users?select=id,email,name,role`,
-        { headers: supaHeaders(), signal: AbortSignal.timeout(5000) }
-      );
-      if (res.ok) {
-        const rows = await res.json();
-        return NextResponse.json(
-          rows.map((r: any) => ({ _id: r.id, email: r.email, name: r.name, role: r.role }))
+      try {
+        const res = await fetch(
+          `${SUPABASE_URL}/rest/v1/admin_users?select=id,email,name,role&order=name`,
+          { headers: supaHeaders(), signal: AbortSignal.timeout(5000) }
         );
+        if (res.ok) {
+          const rows = await res.json();
+          return NextResponse.json(
+            rows.map((r: any) => ({ _id: r.id, email: r.email, name: r.name, role: r.role }))
+          );
+        }
+      } catch (e) {
+        console.warn("Supabase list query failed, falling back to local store:", e);
       }
     }
-    return NextResponse.json([]);
+
+    // Fallback: local JSON store
+    const local = await listUsers();
+    return NextResponse.json(
+      local.map(({ passwordHash, resetToken, resetTokenExpiresAt, ...rest }) => rest)
+    );
   } catch (err) {
     console.error("List users error:", err);
     return NextResponse.json(
@@ -112,7 +116,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    const result = updateUser(userId, { name, role });
+    const result = await updateUser(userId, { name, role });
 
     if (result.error) {
       return NextResponse.json({ error: result.error }, { status: 404 });
@@ -152,7 +156,7 @@ export async function DELETE(req: NextRequest) {
       );
     }
 
-    const result = deleteUser(userId);
+    const result = await deleteUser(userId);
 
     if (result.error) {
       return NextResponse.json({ error: result.error }, { status: 404 });

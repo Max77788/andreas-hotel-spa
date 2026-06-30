@@ -21,7 +21,7 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const SCHEMA = "andreas_website";
 const TABLE = "admin_users";
 
-function supabaseHeaders() {
+function supaHeaders() {
   return {
     apikey: SUPABASE_SERVICE_KEY,
     Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
@@ -30,11 +30,11 @@ function supabaseHeaders() {
   };
 }
 
-function supabaseUrl(path: string) {
+function supaUrl(path: string) {
   return `${SUPABASE_URL}/rest/v1/${path}`;
 }
 
-// ── JSON file fallback (for before migration is run) ──
+// ── JSON file fallback (for local dev / before Supabase table exists) ──
 
 const SEED_PATH = path.join(process.cwd(), "data", "admin-users.json");
 const STORE_PATH = process.env.VERCEL
@@ -70,9 +70,13 @@ let _supaAvailable: boolean | null = null;
 
 async function checkSupabaseTable(): Promise<boolean> {
   if (_supaAvailable !== null) return _supaAvailable;
+  if (!SUPABASE_SERVICE_KEY) {
+    _supaAvailable = false;
+    return false;
+  }
   try {
-    const res = await fetch(supabaseUrl(`${TABLE}?limit=1`), {
-      headers: supabaseHeaders(),
+    const res = await fetch(supaUrl(`${TABLE}?limit=1`), {
+      headers: supaHeaders(),
       signal: AbortSignal.timeout(3000),
     });
     _supaAvailable = res.ok;
@@ -81,6 +85,10 @@ async function checkSupabaseTable(): Promise<boolean> {
     _supaAvailable = false;
     return false;
   }
+}
+
+function resetSupaCheck() {
+  _supaAvailable = null;
 }
 
 // ── Crypto helpers ───────────────────────────────────
@@ -121,18 +129,37 @@ function adminUserToDb(user: AdminUser): any {
   };
 }
 
-// ── Public API ───────────────────────────────────────
+// ── Public API (Supabase primary, JSON fallback) ──
 
-export async function findByEmail(email: string): Promise<AdminUser | null> {
+export async function listUsers(): Promise<AdminUser[]> {
+  // Try Supabase first
   if (await checkSupabaseTable()) {
     try {
       const res = await fetch(
-        supabaseUrl(`${TABLE}?email=eq.${encodeURIComponent(email.toLowerCase().trim())}&limit=1`),
-        { headers: supabaseHeaders() }
+        supaUrl(`${TABLE}?select=id,email,name,role,password_hash,reset_token,reset_token_expires_at&order=name`),
+        { headers: supaHeaders(), signal: AbortSignal.timeout(5000) }
       );
       if (res.ok) {
         const rows = await res.json();
-        return rows.length ? dbToAdminUser(rows[0]) : null;
+        return rows.map(dbToAdminUser);
+      }
+    } catch {}
+  }
+  // Fallback to JSON
+  return readJsonStore();
+}
+
+export async function findByEmail(email: string): Promise<AdminUser | null> {
+  // Try Supabase first
+  if (await checkSupabaseTable()) {
+    try {
+      const res = await fetch(
+        supaUrl(`${TABLE}?email=eq.${encodeURIComponent(email.toLowerCase().trim())}&limit=1`),
+        { headers: supaHeaders() }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        if (rows.length) return dbToAdminUser(rows[0]);
       }
     } catch {}
   }
@@ -151,15 +178,6 @@ export async function verifyLogin(
   return { user };
 }
 
-export function listUsers(): AdminUser[] {
-  // Always use JSON for listing (fast, cached)
-  const users = readJsonStore();
-  if (users.length > 0) {
-    return users.map(({ passwordHash, resetToken, resetTokenExpiresAt, ...rest }) => rest as AdminUser);
-  }
-  return [];
-}
-
 export async function createUser(args: {
   email: string;
   name: string;
@@ -170,12 +188,12 @@ export async function createUser(args: {
   const passwordHash = await hashPassword(args.password);
   const userId = randomUUID();
 
-  // Try Supabase first
+  // Try Supabase first (primary)
   if (await checkSupabaseTable()) {
     try {
-      const res = await fetch(supabaseUrl(TABLE), {
+      const res = await fetch(supaUrl(TABLE), {
         method: "POST",
-        headers: supabaseHeaders(),
+        headers: supaHeaders(),
         body: JSON.stringify({
           id: userId,
           email,
@@ -185,10 +203,14 @@ export async function createUser(args: {
         }),
       });
       if (res.ok) {
-        // Also add to JSON store for listUsers()
+        // Also sync to JSON store as fallback cache
         const jsonUsers = readJsonStore();
-        if (!jsonUsers.find((u) => u.email === email)) {
+        const existing = jsonUsers.findIndex((u) => u._id === userId);
+        if (existing === -1) {
           jsonUsers.push({ _id: userId, email, name: args.name, role: args.role, passwordHash });
+          writeJsonStore(jsonUsers);
+        } else {
+          jsonUsers[existing] = { _id: userId, email, name: args.name, role: args.role, passwordHash };
           writeJsonStore(jsonUsers);
         }
         return { userId };
@@ -197,7 +219,6 @@ export async function createUser(args: {
       if (res.status === 409) {
         return { userId: "", error: "A user with this email already exists" };
       }
-      // Fall through to JSON fallback
       console.warn("Supabase createUser failed, falling back to JSON:", errData);
     } catch (err) {
       console.warn("Supabase createUser error, falling back to JSON:", err);
@@ -214,75 +235,129 @@ export async function createUser(args: {
   return { userId };
 }
 
-export function updateUser(
+export async function updateUser(
   userId: string,
   updates: { name?: string; role?: "admin" | "editor" }
-): { error?: string } {
+): Promise<{ error?: string }> {
+  // Supabase primary
+  if (await checkSupabaseTable()) {
+    const payload: any = {};
+    if (updates.name !== undefined) payload.name = updates.name;
+    if (updates.role !== undefined) payload.role = updates.role;
+    try {
+      const res = await fetch(supaUrl(`${TABLE}?id=eq.${userId}`), {
+        method: "PATCH",
+        headers: supaHeaders(),
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        // Sync to JSON cache
+        const users = readJsonStore();
+        const idx = users.findIndex((u) => u._id === userId);
+        if (idx !== -1) {
+          if (updates.name !== undefined) users[idx].name = updates.name;
+          if (updates.role !== undefined) users[idx].role = updates.role;
+          writeJsonStore(users);
+        }
+        return {};
+      }
+      console.warn("Supabase updateUser failed, falling back to JSON");
+    } catch (err) {
+      console.warn("Supabase updateUser error, falling back to JSON:", err);
+    }
+  }
+
+  // JSON fallback
   const users = readJsonStore();
   const idx = users.findIndex((u) => u._id === userId);
   if (idx === -1) return { error: "User not found" };
   if (updates.name !== undefined) users[idx].name = updates.name;
   if (updates.role !== undefined) users[idx].role = updates.role;
   writeJsonStore(users);
-
-  // Also try Supabase (fire-and-forget)
-  if (_supaAvailable) {
-    const payload: any = {};
-    if (updates.name !== undefined) payload.name = updates.name;
-    if (updates.role !== undefined) payload.role = updates.role;
-    fetch(supabaseUrl(`${TABLE}?id=eq.${userId}`), {
-      method: "PATCH",
-      headers: supabaseHeaders(),
-      body: JSON.stringify(payload),
-    }).catch(() => {});
-  }
-
   return {};
 }
 
-export function deleteUser(userId: string): { error?: string } {
+export async function deleteUser(userId: string): Promise<{ error?: string }> {
+  // Supabase primary
+  if (await checkSupabaseTable()) {
+    try {
+      const res = await fetch(supaUrl(`${TABLE}?id=eq.${userId}`), {
+        method: "DELETE",
+        headers: supaHeaders(),
+      });
+      if (res.ok || res.status === 204) {
+        // Sync to JSON cache
+        const users = readJsonStore();
+        const idx = users.findIndex((u) => u._id === userId);
+        if (idx !== -1) {
+          users.splice(idx, 1);
+          writeJsonStore(users);
+        }
+        return {};
+      }
+      console.warn("Supabase deleteUser failed, falling back to JSON");
+    } catch (err) {
+      console.warn("Supabase deleteUser error, falling back to JSON:", err);
+    }
+  }
+
+  // JSON fallback
   const users = readJsonStore();
   const idx = users.findIndex((u) => u._id === userId);
   if (idx === -1) return { error: "User not found" };
   users.splice(idx, 1);
   writeJsonStore(users);
-
-  // Also try Supabase (fire-and-forget)
-  if (_supaAvailable) {
-    fetch(supabaseUrl(`${TABLE}?id=eq.${userId}`), {
-      method: "DELETE",
-      headers: supabaseHeaders(),
-    }).catch(() => {});
-  }
-
   return {};
 }
 
 export async function generateResetToken(
   email: string
 ): Promise<{ token: string; user: AdminUser } | null> {
+  const crypto = await import("crypto");
+  const token = crypto.randomBytes(32).toString("hex");
+  const expiresAt = Date.now() + 3600 * 1000;
+
+  // Supabase primary
+  if (await checkSupabaseTable()) {
+    try {
+      // First get the user from Supabase
+      const res = await fetch(
+        supaUrl(`${TABLE}?email=eq.${encodeURIComponent(email.toLowerCase().trim())}&limit=1`),
+        { headers: supaHeaders() }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        if (rows.length) {
+          const user = dbToAdminUser(rows[0]);
+          // Update the reset token in Supabase
+          await fetch(supaUrl(`${TABLE}?id=eq.${user._id}`), {
+            method: "PATCH",
+            headers: supaHeaders(),
+            body: JSON.stringify({ reset_token: token, reset_token_expires_at: expiresAt }),
+          });
+          // Sync to JSON cache
+          const jsonUsers = readJsonStore();
+          const idx = jsonUsers.findIndex((u) => u.email === email.toLowerCase().trim());
+          if (idx !== -1) {
+            jsonUsers[idx].resetToken = token;
+            jsonUsers[idx].resetTokenExpiresAt = expiresAt;
+            writeJsonStore(jsonUsers);
+          }
+          return { token, user };
+        }
+      }
+    } catch (err) {
+      console.warn("Supabase generateResetToken error, falling back to JSON:", err);
+    }
+  }
+
+  // JSON fallback
   const users = readJsonStore();
   const idx = users.findIndex((u) => u.email === email.toLowerCase().trim());
   if (idx === -1) return null;
-
-  const crypto = await import("crypto");
-  const token = crypto.randomBytes(32).toString("hex");
   users[idx].resetToken = token;
-  users[idx].resetTokenExpiresAt = Date.now() + 3600 * 1000;
+  users[idx].resetTokenExpiresAt = expiresAt;
   writeJsonStore(users);
-
-  // Also try Supabase
-  if (_supaAvailable) {
-    fetch(supabaseUrl(`${TABLE}?id=eq.${users[idx]._id}`), {
-      method: "PATCH",
-      headers: supabaseHeaders(),
-      body: JSON.stringify({
-        reset_token: token,
-        reset_token_expires_at: Date.now() + 3600 * 1000,
-      }),
-    }).catch(() => {});
-  }
-
   return { token, user: users[idx] };
 }
 
@@ -290,30 +365,57 @@ export async function resetPassword(
   token: string,
   password: string
 ): Promise<{ error?: string }> {
+  const passwordHash = await hashPassword(password);
+
+  // Supabase primary
+  if (await checkSupabaseTable()) {
+    try {
+      const res = await fetch(
+        supaUrl(`${TABLE}?reset_token=eq.${token}&select=id`),
+        { headers: supaHeaders() }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        if (rows.length) {
+          const userId = rows[0].id;
+          const updateRes = await fetch(supaUrl(`${TABLE}?id=eq.${userId}`), {
+            method: "PATCH",
+            headers: supaHeaders(),
+            body: JSON.stringify({
+              password_hash: passwordHash,
+              reset_token: null,
+              reset_token_expires_at: null,
+            }),
+          });
+          if (updateRes.ok) {
+            // Sync to JSON cache
+            const jsonUsers = readJsonStore();
+            const idx = jsonUsers.findIndex((u) => u._id === userId);
+            if (idx !== -1) {
+              jsonUsers[idx].passwordHash = passwordHash;
+              delete jsonUsers[idx].resetToken;
+              delete jsonUsers[idx].resetTokenExpiresAt;
+              writeJsonStore(jsonUsers);
+            }
+            return {};
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Supabase resetPassword error, falling back to JSON:", err);
+    }
+  }
+
+  // JSON fallback
   const users = readJsonStore();
   const idx = users.findIndex(
     (u) => u.resetToken === token && u.resetTokenExpiresAt && u.resetTokenExpiresAt > Date.now()
   );
   if (idx === -1) return { error: "Invalid or expired reset token" };
-
-  users[idx].passwordHash = await hashPassword(password);
+  users[idx].passwordHash = passwordHash;
   delete users[idx].resetToken;
   delete users[idx].resetTokenExpiresAt;
   writeJsonStore(users);
-
-  // Also try Supabase
-  if (_supaAvailable) {
-    fetch(supabaseUrl(`${TABLE}?id=eq.${users[idx]._id}`), {
-      method: "PATCH",
-      headers: supabaseHeaders(),
-      body: JSON.stringify({
-        password_hash: users[idx].passwordHash,
-        reset_token: null,
-        reset_token_expires_at: null,
-      }),
-    }).catch(() => {});
-  }
-
   return {};
 }
 
@@ -321,21 +423,36 @@ export async function setPassword(
   userId: string,
   password: string
 ): Promise<{ error?: string }> {
+  const passwordHash = await hashPassword(password);
+
+  // Supabase primary
+  if (await checkSupabaseTable()) {
+    try {
+      const res = await fetch(supaUrl(`${TABLE}?id=eq.${userId}`), {
+        method: "PATCH",
+        headers: supaHeaders(),
+        body: JSON.stringify({ password_hash: passwordHash }),
+      });
+      if (res.ok) {
+        // Sync to JSON cache
+        const jsonUsers = readJsonStore();
+        const idx = jsonUsers.findIndex((u) => u._id === userId);
+        if (idx !== -1) {
+          jsonUsers[idx].passwordHash = passwordHash;
+          writeJsonStore(jsonUsers);
+        }
+        return {};
+      }
+    } catch (err) {
+      console.warn("Supabase setPassword error, falling back to JSON:", err);
+    }
+  }
+
+  // JSON fallback
   const users = readJsonStore();
   const idx = users.findIndex((u) => u._id === userId);
   if (idx === -1) return { error: "User not found" };
-
-  users[idx].passwordHash = await hashPassword(password);
+  users[idx].passwordHash = passwordHash;
   writeJsonStore(users);
-
-  // Also try Supabase
-  if (_supaAvailable) {
-    fetch(supabaseUrl(`${TABLE}?id=eq.${userId}`), {
-      method: "PATCH",
-      headers: supabaseHeaders(),
-      body: JSON.stringify({ password_hash: users[idx].passwordHash }),
-    }).catch(() => {});
-  }
-
   return {};
 }
