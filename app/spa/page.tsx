@@ -1,5 +1,7 @@
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import LogoVariantDisplay from "@/components/logo-variant-display";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Spa & Wellness – The Andreas Hotel & Spa",
@@ -98,6 +100,14 @@ export default function SpaPage() {
           <h1 className="font-display text-white text-5xl md:text-7xl font-light tracking-wide mb-6">
             Spa at The Andreas
           </h1>
+          <div className="flex justify-center mb-6">
+            <Suspense fallback={null}>
+              <LogoVariantDisplay
+                variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="h-10 md:h-14 w-auto" />}
+                variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="h-10 md:h-14 w-auto opacity-90" />}
+              />
+            </Suspense>
+          </div>
           <p className="font-body text-white/70 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             Deluxe couple&apos;s treatment suites with oversized Jacuzzi tubs and fireplaces — a romantic escape in the heart of Palm Springs.
           </p>

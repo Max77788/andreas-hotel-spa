@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, Suspense, type FormEvent } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import LogoVariantDisplay from "@/components/logo-variant-display";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
@@ -154,12 +155,12 @@ export default function HomePage() {
               WebkitBackdropFilter: "blur(6px)",
             }}
           >
-            {/* White logo (visible on dark backgrounds / dark mode) */}
-            <img
-              src="/andreas_logo_white.png"
-              alt="The Andreas Hotel & Spa"
-              className="w-64 md:w-96 h-auto"
-            />
+            <Suspense fallback={null}>
+              <LogoVariantDisplay
+                variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="h-20 md:h-28 w-auto" />}
+                variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="w-64 md:w-96 h-auto opacity-90" />}
+              />
+            </Suspense>
             <div className="w-10 h-px bg-[var(--hotel-gold)] my-4" />
             <p className="font-body text-white/90 text-xs md:text-sm tracking-[0.4em] uppercase">
               A Sanctuary of Italian-Inspired Elegance
@@ -250,6 +251,14 @@ export default function HomePage() {
                 Meets the Desert
               </h2>
               <div className="w-8 h-px bg-[var(--hotel-gold)] my-6" />
+              <div className="flex justify-center mb-6">
+                <Suspense fallback={null}>
+                  <LogoVariantDisplay
+                    variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="h-8 md:h-10 w-auto" />}
+                    variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />}
+                  />
+                </Suspense>
+              </div>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
                 The Andreas Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
               </p>
