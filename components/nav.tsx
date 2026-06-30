@@ -30,9 +30,9 @@ export default function Nav() {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0">
             <img
-              src="/andreas_logo_white.png"
+              src="/andreas_a_white.png"
               alt="Andreas Hotel & Spa"
-              className="h-14 md:h-20 w-auto block"
+              className="h-10 md:h-14 w-auto block"
             />
           </Link>
 
