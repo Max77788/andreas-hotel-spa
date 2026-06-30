@@ -9,7 +9,7 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)]">
+    <footer className="bg-[#1a1a1a] text-[var(--hotel-cream)] dark:text-[#e8ddd0]">
       <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-10">
         {/* Top row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 pb-12 border-b border-[var(--hotel-cream)]/10">

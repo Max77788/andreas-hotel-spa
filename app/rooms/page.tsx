@@ -135,7 +135,7 @@ export default async function RoomsPage() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-20 bg-[var(--hotel-charcoal)]">
+      <section className="py-20 bg-[#1a1a1a]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
             Need Help Choosing?

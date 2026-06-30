@@ -298,7 +298,7 @@ export default function HomePage() {
                 style={{ backgroundImage: `url(${STORY_IMG})` }}
               />
               {/* Location badge */}
-              <div className="absolute bottom-6 left-6 bg-[var(--hotel-charcoal)]/90 backdrop-blur-sm px-5 py-3">
+              <div className="absolute bottom-6 left-6 bg-[#1a1a1a]/90 backdrop-blur-sm px-5 py-3">
                 <div className="font-display text-[var(--hotel-cream)] text-lg font-light">Palm Springs</div>
                 <div className="font-body text-[var(--hotel-gold)] text-[9px] tracking-widest uppercase mt-0.5">277 N. Indian Canyon Drive</div>
               </div>
@@ -422,7 +422,7 @@ export default function HomePage() {
           <div className="text-center mt-16">
             <Link
               href="/rooms"
-              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[#1a1a1a] text-white/90 px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
             >
               View All Rooms
             </Link>

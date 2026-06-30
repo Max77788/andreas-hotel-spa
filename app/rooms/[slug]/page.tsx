@@ -212,12 +212,12 @@ export default async function RoomDetailPage({
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-20 bg-[var(--hotel-charcoal)]">
+      <section className="py-20 bg-[#1a1a1a]">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
             Explore More
           </p>
-          <h2 className="font-display text-[var(--hotel-cream)] text-3xl md:text-4xl font-light mb-8">
+          <h2 className="font-display text-white/90 text-3xl md:text-4xl font-light mb-8">
             See all our rooms &amp; suites
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

@@ -46,7 +46,7 @@ function BookShell({ iframeSrc }: { iframeSrc: string }) {
   return (
     <div className="fixed inset-0 flex flex-col">
       {/* Branding header */}
-      <div className="bg-[var(--hotel-charcoal)] shrink-0 relative">
+      <div className="bg-[#1a1a1a] shrink-0 relative">
         {/* Back arrow — absolute positioned so logo stays centered */}
         <Link
           href="/"

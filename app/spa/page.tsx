@@ -187,16 +187,16 @@ export default function SpaPage() {
       </section>
 
       {/* Group Packages */}
-      <section className="py-20 md:py-28 bg-[var(--hotel-charcoal)]">
+      <section className="py-20 md:py-28 bg-[#1a1a1a]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.4em] uppercase mb-4">Group Events</p>
-          <h2 className="font-display text-[var(--hotel-cream)] text-3xl md:text-4xl font-light tracking-wide mb-6">
+          <h2 className="font-display text-white/90 text-3xl md:text-4xl font-light tracking-wide mb-6">
             Corporate · Bridal · Birthdays · Celebrations
           </h2>
-          <p className="font-body text-[var(--hotel-cream)]/90 text-base leading-relaxed max-w-2xl mx-auto mb-2">
+          <p className="font-body text-white/80 text-base leading-relaxed max-w-2xl mx-auto mb-2">
             Groups of 6 or more receive a <span className="text-[var(--hotel-gold)]">15% discount</span> off each 50-minute treatment.
           </p>
-          <p className="font-body text-[var(--hotel-cream)]/70 text-sm mb-8">
+          <p className="font-body text-white/60 text-sm mb-8">
             Includes a glass of champagne on arrival and a complimentary fruit and cheese platter.
           </p>
           <a
