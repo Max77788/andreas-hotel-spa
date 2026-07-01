@@ -253,10 +253,10 @@ export default function HomePage() {
               <div className="flex justify-center mb-6">
                 {/* Full logo — does NOT switch with URL param */}
                 <div className="dark:hidden">
-                  <img src="/andreas_logo.png" alt="Andreas Hotel & Spa" className="w-40 md:w-52 h-auto opacity-90" />
+                  <img src="/andreas_logo.png" alt="Andreas Hotel & Spa" className="w-28 md:w-36 h-auto opacity-90" />
                 </div>
                 <div className="hidden dark:block">
-                  <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="w-40 md:w-52 h-auto opacity-90" />
+                  <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="w-28 md:w-36 h-auto opacity-90" />
                 </div>
               </div>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
@@ -264,14 +264,14 @@ export default function HomePage() {
                   {/* Light mode — dark logos */}
                   <span className="dark:hidden">
                     <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
+                      variantA={<><img src="/andreas_logo_a.png" alt="A" className="inline-block align-middle h-[2.25em] w-auto" /><span className="font-body">ndreas</span></>}
                       variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
                   {/* Dark mode — white logos */}
                   <span className="hidden dark:inline">
                     <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
+                      variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block align-middle h-[2.25em] w-auto" /><span className="font-body text-white/90">ndreas</span></>}
                       variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
