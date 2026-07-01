@@ -260,18 +260,18 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
-                The <Suspense fallback={<span className="inline-block align-middle" style={{ width: 70, height: 14 }} />}>
+                <Suspense fallback={<span className="inline-block align-middle" style={{ width: 70, height: 14 }} />}>
                   {/* Light mode — dark logos */}
                   <span className="dark:hidden">
                     <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
+                      variantA={<><img src="/andreas_logo_a.png" alt="A" className="inline-block align-middle h-[2.25em] w-auto" /><span className="font-body">ndreas</span></>}
                       variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
                   {/* Dark mode — white logos */}
                   <span className="hidden dark:inline">
                     <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
+                      variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block align-middle h-[2.25em] w-auto" /><span className="font-body text-white/90">ndreas</span></>}
                       variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
