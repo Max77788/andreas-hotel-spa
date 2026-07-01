@@ -65,12 +65,12 @@ export default function OffersEditor() {
             <button onClick={addOffer} className="bg-amber-500 text-neutral-900 text-lg font-bold tracking-[0.15em] uppercase px-8 py-4 hover:bg-amber-600 transition-colors mb-4">+ New Package</button>
             <div className="space-y-4">
               {offers.map((item) => (
-                <div key={item.id} className="bg-white p-6 border-[3px] border-neutral-300 space-y-3">
-                  <input value={item.title} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, title: e.target.value } : o); setOffers(u); }} className="text-2xl font-bold w-full border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" />
-                  <textarea value={item.description || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, description: e.target.value } : o); setOffers(u); }} rows={2} className="text-lg font-medium w-full border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400" placeholder="Description" />
+                <div key={item.id} className="bg-white p-6 border-[3px] border-neutral-500 shadow-md shadow-black/10 space-y-3">
+                  <input value={item.title} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, title: e.target.value } : o); setOffers(u); }} className="text-2xl font-bold w-full border-[3px] border-neutral-400 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                  <textarea value={item.description || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, description: e.target.value } : o); setOffers(u); }} rows={2} className="text-lg font-medium w-full border-[3px] border-neutral-400 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400" placeholder="Description" />
                   <div className="flex gap-4">
-                    <input value={item.price || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, price: e.target.value } : o); setOffers(u); }} className="text-lg font-bold w-32 border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" placeholder="Price" />
-                    <select value={item.category} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, category: e.target.value as "one_night" | "two_night" } : o); setOffers(u); }} className="text-lg font-bold border-[3px] border-neutral-300 px-4 py-3">
+                    <input value={item.price || ""} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, price: e.target.value } : o); setOffers(u); }} className="text-lg font-bold w-32 border-[3px] border-neutral-400 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" placeholder="Price" />
+                    <select value={item.category} onChange={e => { const u = offers.map(o => o.id === item.id ? { ...o, category: e.target.value as "one_night" | "two_night" } : o); setOffers(u); }} className="text-lg font-bold border-[3px] border-neutral-400 px-4 py-3">
                       <option value="one_night">1 Night</option>
                       <option value="two_night">2 Night</option>
                     </select>
@@ -92,9 +92,9 @@ export default function OffersEditor() {
             <button onClick={addInclusion} className="bg-amber-500 text-neutral-900 text-lg font-bold tracking-[0.15em] uppercase px-8 py-4 hover:bg-amber-600 transition-colors mb-4">+ New Inclusion</button>
             <div className="space-y-3">
               {inclusions.map((item) => (
-                <div key={item.id} className="bg-white p-5 border-[3px] border-neutral-300 flex gap-3 items-center">
-                  <input value={item.icon} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, icon: e.target.value } : i); setInclusions(u); }} className="w-16 text-center border-[3px] border-neutral-300 px-3 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 text-xl font-bold" />
-                  <input value={item.label} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, label: e.target.value } : i); setInclusions(u); }} className="flex-1 text-lg font-bold border-[3px] border-neutral-300 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                <div key={item.id} className="bg-white p-5 border-[3px] border-neutral-500 shadow-md shadow-black/10 flex gap-3 items-center">
+                  <input value={item.icon} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, icon: e.target.value } : i); setInclusions(u); }} className="w-16 text-center border-[3px] border-neutral-400 px-3 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50 text-xl font-bold" />
+                  <input value={item.label} onChange={e => { const u = inclusions.map(i => i.id === item.id ? { ...i, label: e.target.value } : i); setInclusions(u); }} className="flex-1 text-lg font-bold border-[3px] border-neutral-400 px-4 py-3 focus:border-amber-500 focus:outline-none bg-neutral-50" />
                   <button onClick={() => removeInclusion(item.id)} className="text-2xl text-red-600 hover:underline font-bold">×</button>
                   <button onClick={() => saveInclusion(item.id)} className="bg-neutral-900 text-white text-lg font-bold px-5 py-3 hover:bg-black transition-colors">
                     {savedId === item.id ? "✓" : "Save"}

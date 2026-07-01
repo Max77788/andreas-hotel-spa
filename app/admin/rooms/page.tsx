@@ -55,17 +55,17 @@ export default function RoomsEditor() {
 
         <div className="space-y-4 mb-10">
           {rooms.map((room) => (
-            <div key={room.id} className="bg-white p-6 flex items-center justify-between border-[3px] border-neutral-300">
+            <div key={room.id} className="bg-white p-6 flex items-center justify-between border-[3px] border-neutral-500 shadow-md shadow-black/10">
               <div className="flex items-center gap-5">
                 {room.image_url && <img src={room.image_url} alt="" className="w-20 h-14 object-cover rounded border-2 border-neutral-300" />}
                 <div>
                   <p className="text-xl font-bold text-neutral-900">{room.name}</p>
-                  <p className="text-base font-medium text-neutral-500">{room.slug}</p>
+                  <p className="text-base font-medium text-neutral-700">{room.slug}</p>
                 </div>
               </div>
               <div className="flex gap-3">
-                <button onClick={() => setEditing(room)} className="text-lg font-bold text-neutral-700 hover:text-amber-600 px-5 py-3 border-[3px] border-neutral-400">Edit</button>
-                <button onClick={() => remove(room)} className="text-lg font-bold text-red-600 px-5 py-3 border-[3px] border-neutral-400 hover:bg-red-50">Delete</button>
+                <button onClick={() => setEditing(room)} className="text-lg font-bold text-neutral-700 hover:text-amber-600 px-5 py-3 border-[3px] border-neutral-500">Edit</button>
+                <button onClick={() => remove(room)} className="text-lg font-bold text-red-600 px-5 py-3 border-[3px] border-neutral-500 hover:bg-red-50">Delete</button>
               </div>
             </div>
           ))}

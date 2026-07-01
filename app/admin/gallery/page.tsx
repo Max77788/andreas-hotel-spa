@@ -52,11 +52,11 @@ export default function GalleryEditor() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
           {items.map((item) => (
-            <div key={item.id} className="bg-white overflow-hidden border-[3px] border-neutral-300">
+            <div key={item.id} className="bg-white overflow-hidden border-[3px] border-neutral-500 shadow-md shadow-black/10">
               <img src={item.image_url} alt={item.alt || ""} className="w-full aspect-[4/3] object-cover" />
               <div className="p-4 space-y-3">
-                <input value={item.alt || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, alt: e.target.value } : i); setItems(u); }} className="text-base font-bold w-full border-[3px] border-neutral-300 px-3 py-2.5 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400" placeholder="Alt text" />
-                <input value={item.image_url} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, image_url: e.target.value } : i); setItems(u); }} className="text-sm font-medium text-neutral-500 w-full truncate border-[3px] border-neutral-300 px-3 py-2.5 focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                <input value={item.alt || ""} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, alt: e.target.value } : i); setItems(u); }} className="text-base font-bold w-full border-[3px] border-neutral-400 px-3 py-2.5 focus:border-amber-500 focus:outline-none bg-neutral-50 placeholder:text-neutral-400" placeholder="Alt text" />
+                <input value={item.image_url} onChange={e => { const u = items.map(i => i.id === item.id ? { ...i, image_url: e.target.value } : i); setItems(u); }} className="text-sm font-medium text-neutral-500 w-full truncate border-[3px] border-neutral-400 px-3 py-2.5 focus:border-amber-500 focus:outline-none bg-neutral-50" />
                 <div className="flex items-center justify-between">
                   <button onClick={() => remove(item.id)} className="text-base text-red-600 hover:underline font-bold">Remove</button>
                   <button onClick={() => save(item.id)} className="bg-neutral-900 text-white text-base font-bold px-4 py-2 hover:bg-black transition-colors">

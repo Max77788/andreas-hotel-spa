@@ -169,7 +169,7 @@ export default function UsersPage() {
           <div className="flex gap-3">
             <a
               href="/admin/dashboard"
-              className="text-lg font-bold text-neutral-700 hover:text-amber-600 py-3 px-4 border-[3px] border-neutral-300 hover:border-amber-500 bg-white"
+              className="text-lg font-bold text-neutral-700 hover:text-amber-600 py-3 px-4 border-[3px] border-neutral-500 hover:border-amber-600 bg-white shadow-sm"
             >
               Dashboard
             </a>
@@ -198,7 +198,7 @@ export default function UsersPage() {
         <div className="bg-white border-[3px] border-neutral-300 overflow-hidden">
           <table className="w-full">
             <thead>
-              <tr className="bg-neutral-100 border-b-[3px] border-neutral-300">
+              <tr className="bg-amber-100 border-b-[3px] border-amber-400">
                 <th className="text-left px-6 py-4 text-lg font-bold text-neutral-700">
                   Name
                 </th>
@@ -227,7 +227,7 @@ export default function UsersPage() {
               {users.map((user) => (
                 <tr
                   key={user._id}
-                  className="border-b-[2px] border-neutral-200 hover:bg-neutral-50"
+                  className="border-b-[2px] border-neutral-300 hover:bg-amber-50/50"
                 >
                   <td className="px-6 py-4 text-lg font-bold text-neutral-900">
                     {user.name}
@@ -302,7 +302,7 @@ export default function UsersPage() {
                   type="text"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
-                  className="w-full border-[3px] border-neutral-400 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
+                  className="w-full border-[3px] border-neutral-500 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
                   placeholder="Full name"
                 />
 
@@ -314,7 +314,7 @@ export default function UsersPage() {
                   value={formEmail}
                   onChange={(e) => setFormEmail(e.target.value)}
                   disabled={!!editUser}
-                  className="w-full border-[3px] border-neutral-400 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full border-[3px] border-neutral-500 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed"
                   placeholder="email@example.com"
                 />
 
@@ -327,7 +327,7 @@ export default function UsersPage() {
                       type="password"
                       value={formPassword}
                       onChange={(e) => setFormPassword(e.target.value)}
-                      className="w-full border-[3px] border-neutral-400 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
+                      className="w-full border-[3px] border-neutral-500 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
                       placeholder="Min 8 characters"
                     />
                   </>
@@ -341,7 +341,7 @@ export default function UsersPage() {
                   onChange={(e) =>
                     setFormRole(e.target.value as "admin" | "editor")
                   }
-                  className="w-full border-[3px] border-neutral-400 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
+                  className="w-full border-[3px] border-neutral-500 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
                 >
                   <option value="admin">Admin (full access)</option>
                   <option value="editor">Editor (content only)</option>
@@ -357,7 +357,7 @@ export default function UsersPage() {
                   <button
                     type="button"
                     onClick={() => setShowModal(false)}
-                    className="flex-1 border-[3px] border-neutral-400 text-neutral-700 text-lg font-bold py-4 hover:bg-neutral-100"
+                    className="flex-1 border-[3px] border-neutral-500 text-neutral-700 text-lg font-bold py-4 hover:bg-neutral-100"
                   >
                     Cancel
                   </button>
@@ -388,7 +388,7 @@ export default function UsersPage() {
               <div className="flex gap-4">
                 <button
                   onClick={() => setDeleteTarget(null)}
-                  className="flex-1 border-[3px] border-neutral-400 text-neutral-700 text-lg font-bold py-4 hover:bg-neutral-100"
+                  className="flex-1 border-[3px] border-neutral-500 text-neutral-700 text-lg font-bold py-4 hover:bg-neutral-100"
                 >
                   Cancel
                 </button>
