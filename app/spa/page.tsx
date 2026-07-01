@@ -103,7 +103,7 @@ export default function SpaPage() {
           <div className="flex justify-center mb-6">
             <Suspense fallback={null}>
               <LogoVariantDisplay
-                variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-14 md:h-20 w-auto align-middle" /><span className="font-body text-white inline-block mt-2 md:mt-3 text-3xl md:text-4xl">ndreas</span></>}
+                variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-14 md:h-20 w-auto align-middle" /><span className="font-body text-white inline-block mt-5 md:mt-7 text-3xl md:text-4xl">ndreas</span></>}
                 variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="h-10 md:h-14 w-auto opacity-90" />}
               />
             </Suspense>
