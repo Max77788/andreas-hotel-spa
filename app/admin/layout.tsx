@@ -12,7 +12,7 @@ export default async function AdminLayout({
   const session = token ? await verifySessionToken(token) : null;
 
   return (
-    <div>
+    <div className="admin-layout light">
       <AdminNav session={session} />
       {children}
     </div>
