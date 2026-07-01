@@ -252,25 +252,31 @@ export default function HomePage() {
               </h2>
               <div className="w-8 h-px bg-[var(--hotel-gold)] my-6" />
               <div className="flex justify-center mb-6">
-                <Suspense fallback={null}>
-                  {/* Light mode — dark logos on cream background */}
-                  <div className="dark:hidden">
-                    <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="h-8 md:h-10 w-auto" />}
-                      variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />}
-                    />
-                  </div>
-                  {/* Dark mode — white logos on dark background */}
-                  <div className="hidden dark:block">
-                    <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="h-8 md:h-10 w-auto" />}
-                      variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />}
-                    />
-                  </div>
-                </Suspense>
+                {/* Stable full wordmark — does NOT switch with URL param */}
+                <div className="dark:hidden">
+                  <img src="/andreas_wordmark.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />
+                </div>
+                <div className="hidden dark:block">
+                  <img src="/andreas_wordmark_white.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />
+                </div>
               </div>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
-                The Andreas Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
+                The <Suspense fallback={<span className="inline-block align-middle" style={{ width: 70, height: 14 }} />}>
+                  {/* Light mode — dark logos */}
+                  <span className="dark:hidden">
+                    <LogoVariantDisplay
+                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto" />}
+                      variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto opacity-80" />}
+                    />
+                  </span>
+                  {/* Dark mode — white logos */}
+                  <span className="hidden dark:inline">
+                    <LogoVariantDisplay
+                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto" />}
+                      variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto opacity-80" />}
+                    />
+                  </span>
+                </Suspense> Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
               </p>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-10">
                 Interiors include a full-service spa where guests can indulge in sumptuous treatments. Our 25 guest rooms are a reflection of Italian Villas in the hills of Italy. Outdoors, guests enjoy amenities including outdoor gas fireplaces, a swimming pool, and Jacuzzi, surrounded by a lovely manicured courtyard.
