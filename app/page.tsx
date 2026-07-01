@@ -251,12 +251,12 @@ export default function HomePage() {
               </h2>
               <div className="w-8 h-px bg-[var(--hotel-gold)] my-6" />
               <div className="flex justify-center mb-6">
-                {/* Stable full wordmark — does NOT switch with URL param */}
+                {/* Full logo — does NOT switch with URL param */}
                 <div className="dark:hidden">
-                  <img src="/andreas_wordmark.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />
+                  <img src="/andreas_logo.png" alt="Andreas Hotel & Spa" className="w-40 md:w-52 h-auto opacity-90" />
                 </div>
                 <div className="hidden dark:block">
-                  <img src="/andreas_wordmark_white.png" alt="Andreas" className="h-8 md:h-10 w-auto opacity-80" />
+                  <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="w-40 md:w-52 h-auto opacity-90" />
                 </div>
               </div>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
