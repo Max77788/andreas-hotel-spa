@@ -156,10 +156,7 @@ export default function HomePage() {
             }}
           >
             <Suspense fallback={null}>
-              <LogoVariantDisplay
-                variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="h-20 md:h-28 w-auto" />}
-                variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="w-64 md:w-96 h-auto opacity-90" />}
-              />
+              <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="h-20 md:h-28 w-auto opacity-90" />
             </Suspense>
             <div className="w-10 h-px bg-[var(--hotel-gold)] my-4" />
             <p className="font-body text-white/90 text-xs md:text-sm tracking-[0.4em] uppercase">
@@ -501,7 +498,7 @@ export default function HomePage() {
               Seasonal Packages
             </h2>
             <div className="flex justify-center mb-4">
-              <img src="/andreas_wordmark_white.png" alt="Andreas" className="h-12 md:h-16 w-auto opacity-90" />
+              <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="h-12 md:h-16 w-auto opacity-90" />
             </div>
             <div className="divider-gold" />
           </div>
