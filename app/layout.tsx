@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import VapiCustomChat from "@/components/vapi-custom-chat";
+import VapiHoverTrigger from "@/components/vapi-hover-trigger";
 
 export const metadata: Metadata = {
   title: "The Andreas Hotel & Spa – Palm Springs, CA",
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <circle cx="12" cy="12" r="3" fill="currentColor"/>
               <path d="M12 9v3l2 2"/>
             </svg>
-            <span className="vapi-dot-label">Chat with Jessica</span>
+            <VapiHoverTrigger />
           </div>
           <div className="vapi-hover-panel">
             <VapiCustomChat

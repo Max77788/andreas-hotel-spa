@@ -1,6 +1,7 @@
 "use client";
 
 import VapiCustomChat from "@/components/vapi-custom-chat";
+import VapiHoverLabel from "@/components/vapi-hover-label";
 
 export default function VapiChatSection() {
   return (
@@ -13,7 +14,7 @@ export default function VapiChatSection() {
               Concierge
             </p>
             <h2 className="font-display text-[var(--hotel-cream)] text-4xl md:text-5xl font-light leading-tight">
-              Chat with Jessica
+              Chat with <VapiHoverLabel />
             </h2>
             <p className="font-body text-white/40 text-sm mt-3 max-w-sm leading-relaxed">
               Our AI concierge is available 24/7 to answer questions, help plan your stay, and assist with reservations.

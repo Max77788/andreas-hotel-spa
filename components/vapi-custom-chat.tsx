@@ -192,6 +192,7 @@ export default function VapiCustomChat({
 
   // Resolve config: props > API > defaults
   const [vapiConfig, setVapiConfig] = useState<{ name: string; greeting: string; placeholder: string } | null>(null);
+  const [configLoaded, setConfigLoaded] = useState(false);
 
   useEffect(() => {
     if (assistantNameProp && firstMessageProp && placeholderProp) return; // props provided, skip fetch
@@ -205,9 +206,26 @@ export default function VapiCustomChat({
             placeholder: d.vapi_placeholder || "Ask about rooms, amenities, or bookings...",
           });
         }
+        setConfigLoaded(true);
       })
-      .catch(() => {}); // silently fall back to defaults
+      .catch(() => setConfigLoaded(true)); // silently fall back to defaults
   }, [assistantNameProp, firstMessageProp, placeholderProp]);
+
+  // When Vapi config loads, update the initial assistant greeting in messages
+  // if the user hasn't sent any messages yet
+  useEffect(() => {
+    if (!configLoaded) return;
+    const computedGreeting = firstMessageProp || vapiConfig?.greeting || "Hi, I'm Jessica, your concierge at Andreas Hotel & Spa. How can I help you today?";
+    setMessages((prev) => {
+      // Only update if first message is still the default one and no user messages
+      if (prev.length === 1 && prev[0].role === "assistant" && prev[0].id === "assistant-0") {
+        const saved = loadFromStorage(storageKey, prefix);
+        if (saved.messages.length > 0) return prev; // don't override saved session
+        return [{ id: "assistant-0", role: "assistant", content: computedGreeting }];
+      }
+      return prev;
+    });
+  }, [configLoaded, vapiConfig]);
 
   const assistantName = assistantNameProp || vapiConfig?.name || "Jessica";
   const firstMessage = firstMessageProp || vapiConfig?.greeting || "Hi, I'm Jessica, your concierge at Andreas Hotel & Spa. How can I help you today?";
