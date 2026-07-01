@@ -271,7 +271,7 @@ export default function HomePage() {
                   {/* Dark mode — white logos */}
                   <span className="hidden dark:inline">
                     <LogoVariantDisplay
-                      variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block align-baseline h-[2.25em] w-auto" /><span className="font-body text-white/90">ndreas</span></>}
+                      variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block align-baseline h-[2.25em] w-auto" /><span className="font-body text-[var(--hotel-charcoal)]/90">ndreas</span></>}
                       variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
