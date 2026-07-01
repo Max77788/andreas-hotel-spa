@@ -265,15 +265,15 @@ export default function HomePage() {
                   {/* Light mode — dark logos */}
                   <span className="dark:hidden">
                     <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto" />}
-                      variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto opacity-80" />}
+                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
+                      variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
                   {/* Dark mode — white logos */}
                   <span className="hidden dark:inline">
                     <LogoVariantDisplay
-                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto" />}
-                      variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block align-middle h-[0.9em] w-auto opacity-80" />}
+                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
+                      variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
                 </Suspense> Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
