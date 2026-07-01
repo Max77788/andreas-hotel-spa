@@ -216,7 +216,7 @@ body nextjs-portal {
 /* ── Dark mode text readability fixes ── */
 .dark .bg-white {
   background-color: #2a2620;
-  color: #e8ddd0;
+  color: #ffffff;
 }
 .dark .bg-white p,
 .dark .bg-white span,
@@ -224,25 +224,25 @@ body nextjs-portal {
 .dark .bg-white h2,
 .dark .bg-white h3,
 .dark .bg-white h4 {
-  color: #e8ddd0;
+  color: #ffffff;
 }
 .dark .bg-white [class*="opacity"],
 .dark .bg-white [class*="/50"],
 .dark .bg-white [class*="/60"],
 .dark .bg-white [class*="/65"],
 .dark .bg-white [class*="/70"] {
-  color: rgba(232, 221, 208, 0.75);
+  color: rgba(255, 255, 255, 0.75);
 }
 .dark input,
 .dark textarea,
 .dark select {
   background-color: #2a2620;
-  color: #e8ddd0;
+  color: #ffffff;
   border-color: #3a3530;
 }
 .dark input::placeholder,
 .dark textarea::placeholder {
-  color: rgba(232, 221, 208, 0.3);
+  color: rgba(255, 255, 255, 0.3);
 }
 .dark input:focus,
 .dark textarea:focus,
@@ -255,13 +255,13 @@ body nextjs-portal {
   color: #e8ddd0;
 }
 .dark .card-lift {
-  color: #e8ddd0;
+  color: #ffffff;
 }
 .dark .card-lift p,
 .dark .card-lift span,
 .dark .card-lift h3,
 .dark .card-lift h4 {
-  color: #e8ddd0;
+  color: #ffffff;
 }
 .dark .card-lift [class*="opacity"],
 .dark .card-lift [class*="/50"],
@@ -269,7 +269,7 @@ body nextjs-portal {
 .dark .card-lift [class*="/65"],
 .dark .card-lift [class*="/70"],
 .dark .card-lift [class*="/90"] {
-  color: rgba(232, 221, 208, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Dark mode: ensure section text is readable */
