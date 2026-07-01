@@ -237,7 +237,7 @@ export default function HomePage() {
       </section>
 
       {/* ── OUR STORY ───────────────────────────────────────────────────────── */}
-      <section id="story" className="pt-12 md:pt-16 pb-24 md:pb-32">
+      <section id="story" className="pt-4 md:pt-10 pb-24 md:pb-32">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="grid md:grid-cols-2 gap-16 items-center">
             {/* Text */}
@@ -265,14 +265,14 @@ export default function HomePage() {
                   {/* Light mode — dark logos */}
                   <span className="dark:hidden">
                     <LogoVariantDisplay
-                      variantA={<><img src="/andreas_logo_a.png" alt="A" className="inline-block align-middle h-[2.25em] w-auto" /><span className="font-body text-[var(--hotel-charcoal)]/90 dark:text-white/90">ndreas</span></>}
+                      variantA={<img src="/andreas_logo_a.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
                       variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
                   {/* Dark mode — white logos */}
                   <span className="hidden dark:inline">
                     <LogoVariantDisplay
-                      variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block align-middle h-[2.25em] w-auto" /><span className="font-body text-[var(--hotel-charcoal)]/90 dark:text-white/90">ndreas</span></>}
+                      variantA={<img src="/andreas_logo_a_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto" />}
                       variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block align-middle h-[2.25em] w-auto opacity-80" />}
                     />
                   </span>
