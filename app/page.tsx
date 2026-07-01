@@ -156,7 +156,14 @@ export default function HomePage() {
             }}
           >
             <Suspense fallback={null}>
-              <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="h-20 md:h-28 w-auto opacity-90" />
+              <div className="flex flex-col items-center">
+                <span className="font-display text-white font-light italic leading-none" style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)" }}>
+                  Andreas
+                </span>
+                <span className="font-body text-white/80 text-[11px] md:text-sm tracking-[0.5em] uppercase mt-1">
+                  Hotel &amp; Spa
+                </span>
+              </div>
             </Suspense>
             <div className="w-10 h-px bg-[var(--hotel-gold)] my-4" />
             <p className="font-body text-white/90 text-xs md:text-sm tracking-[0.4em] uppercase">
@@ -497,8 +504,13 @@ export default function HomePage() {
             <h2 className="font-display text-white font-light leading-tight mb-2" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", textShadow: "0 2px 12px rgba(0,0,0,0.5)" }}>
               Seasonal Packages
             </h2>
-            <div className="flex justify-center mb-4">
-              <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="h-12 md:h-16 w-auto opacity-90" />
+            <div className="flex flex-col items-center mb-4">
+              <span className="font-display text-white font-light italic leading-none" style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)" }}>
+                Andreas
+              </span>
+              <span className="font-body text-white/70 text-[10px] md:text-xs tracking-[0.5em] uppercase mt-0.5">
+                Hotel &amp; Spa
+              </span>
             </div>
             <div className="divider-gold" />
           </div>
