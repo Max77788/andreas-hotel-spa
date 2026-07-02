@@ -118,7 +118,7 @@ export default async function RoomDetailPage({
               <p className="font-display text-[var(--hotel-charcoal)] text-xl md:text-2xl font-light leading-relaxed mb-8">
                 {room.short_description}
               </p>
-              <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm leading-relaxed mb-10">
+              <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-10">
                 {room.long_description}
               </p>
 
@@ -188,7 +188,7 @@ export default async function RoomDetailPage({
                       {room.extras.map((ex) => (
                         <div key={ex.label} className="flex items-center gap-2 text-xs">
                           <span>{ex.icon}</span>
-                          <span className="font-body text-[var(--hotel-charcoal)]/70">
+                          <span className="font-body text-[var(--hotel-charcoal)]/90">
                             {ex.label}
                           </span>
                         </div>
