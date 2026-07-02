@@ -65,7 +65,7 @@ export default async function OffersPage() {
             {allOffers.oneNight.map((offer) => (
               <div key={offer.id} className="bg-white dark:bg-[#2a2620] p-8 md:p-10 card-lift flex flex-col">
                 <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-4">{offer.title}</h3>
-                <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
+                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
                 {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 mb-6">{offer.duration}</p>}
                 <div className="flex items-center justify-between pt-6 border-t border-[var(--hotel-sand)]">
                   <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/90 ml-1">total</span></>}</div>
@@ -87,7 +87,7 @@ export default async function OffersPage() {
             {allOffers.twoNight.map((offer) => (
               <div key={offer.id} className="bg-white dark:bg-[#2a2620] p-8 md:p-10 card-lift flex flex-col">
                 <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-4">{offer.title}</h3>
-                <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
+                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
                 {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 mb-6">{offer.duration}</p>}
                 <div className="flex items-center justify-between pt-6 border-t border-[var(--hotel-sand)]">
                   <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/90 ml-1">total</span></>}</div>

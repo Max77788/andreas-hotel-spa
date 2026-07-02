@@ -427,7 +427,7 @@ export default function HomePage() {
           <div className="text-center mt-16">
             <Link
               href="/rooms"
-              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[#1a1a1a] text-white/90 px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[#1a1a1a] text-white/90 px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:bg-[var(--hotel-gold)] dark:text-[var(--hotel-charcoal)] dark:hover:bg-[#3a3530] dark:hover:text-white transition-all duration-300"
             >
               View All Rooms
             </Link>
@@ -588,7 +588,7 @@ export default function HomePage() {
           <div className="text-center">
             <Link
               href="/offers"
-              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] px-8 py-3 hover:bg-white transition-all duration-300"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] px-10 py-3 hover:bg-white dark:hover:bg-[#3a3530] transition-all duration-300"
             >
               View All Packages
             </Link>
@@ -637,7 +637,7 @@ export default function HomePage() {
                 <a
                   href="/book"
                   rel="noopener noreferrer"
-                  className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-4 py-2 hover:bg-[var(--hotel-cream)] transition-colors duration-300"
+                  className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-4 py-2 hover:bg-[var(--hotel-cream)] dark:hover:bg-[#3a3530] transition-colors duration-300"
                 >
                   Reserve Now
                 </a>
@@ -876,7 +876,7 @@ export default function HomePage() {
               <div className="mt-12 pt-10 border-t border-[var(--hotel-sand)]">
                 <a
                   href="/group-booking"
-                  className="block w-full text-center bg-[var(--hotel-terracotta)] text-white font-body text-[11px] tracking-[0.3em] uppercase py-4 px-8 hover:bg-[#1a1a1a] transition-all duration-300 shadow-md hover:shadow-lg"
+                  className="block w-full text-center bg-[var(--hotel-terracotta)] text-white font-body text-[11px] tracking-[0.3em] uppercase py-4 px-8 hover:bg-[#1a1a1a] dark:hover:bg-[#3a3530] transition-all duration-300 shadow-md hover:shadow-lg"
                 >
                   Plan a Group Event → 
                 </a>

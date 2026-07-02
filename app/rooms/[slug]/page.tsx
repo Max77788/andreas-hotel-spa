@@ -130,7 +130,7 @@ export default async function RoomDetailPage({
                   </h3>
                   <div className="grid grid-cols-2 gap-3 mb-10">
                     {room.amenities.map((a) => (
-                      <div key={a} className="flex items-center gap-3 text-[var(--hotel-charcoal)]/80">
+                      <div key={a} className="flex items-center gap-3 text-[var(--hotel-charcoal)]/90">
                         <span className="w-1 h-1 bg-[var(--hotel-terracotta)] rounded-full flex-shrink-0" />
                         <span className="font-body text-xs">{a}</span>
                       </div>
@@ -174,7 +174,7 @@ export default async function RoomDetailPage({
                 <a
                   href="/book"
                   rel="noopener noreferrer"
-                  className="block text-center font-body text-[10px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-6 py-3 hover:bg-[var(--hotel-charcoal)] transition-all duration-300 mb-5"
+                  className="block text-center font-body text-[10px] tracking-[0.3em] uppercase bg-[var(--hotel-terracotta)] text-white px-6 py-3 hover:bg-[#1a1a1a] dark:hover:bg-[#3a3530] transition-all duration-300 mb-5"
                 >
                   Book This Room
                 </a>

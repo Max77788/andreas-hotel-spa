@@ -187,7 +187,7 @@ export default function PrivacyPage() {
             </section>
 
             <div className="border-t border-[var(--hotel-sand)] pt-12 mt-12">
-              <p className="text-sm text-[var(--hotel-charcoal)]/70">
+              <p className="text-sm text-[var(--hotel-charcoal)]/90">
                 If you have questions about this Privacy Policy, please contact us at{" "}
                 <a href="mailto:stay@andreashotel.com" className="text-[var(--hotel-terracotta)] hover:underline">
                   stay@andreashotel.com

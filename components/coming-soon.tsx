@@ -25,13 +25,13 @@ export default function ComingSoon({ title, subtitle, description }: ComingSoonP
         <div className="flex flex-col sm:flex-row gap-4">
           <a
             href="/book"
-            className="bg-[var(--hotel-terracotta)] text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-charcoal)] transition-colors"
+            className="bg-[var(--hotel-terracotta)] text-white font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[#1a1a1a] dark:hover:bg-[#3a3530] transition-colors"
           >
             Book a Room
           </a>
           <Link
             href="/"
-            className="bg-[var(--hotel-charcoal)] text-[var(--hotel-cream)] font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:hover:text-black transition-colors"
+            className="bg-[#1a1a1a] text-white font-body text-xs tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:hover:text-black transition-colors"
           >
             Back to Home
           </Link>

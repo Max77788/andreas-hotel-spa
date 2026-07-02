@@ -5,7 +5,7 @@ import VapiHoverLabel from "@/components/vapi-hover-label";
 
 export default function VapiChatSection() {
   return (
-    <section className="bg-[var(--hotel-charcoal)] py-24 md:py-32">
+    <section className="bg-[#1a1a1a] py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
