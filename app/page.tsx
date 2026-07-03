@@ -4,7 +4,6 @@ import { useState, Suspense, type FormEvent } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
-import LogoVariantDisplay from "@/components/logo-variant-display";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
@@ -250,32 +249,8 @@ export default function HomePage() {
                 Meets the Desert
               </h2>
               <div className="w-8 h-px bg-[var(--hotel-gold)] my-6" />
-              <div className="flex justify-center mb-6">
-                {/* Full logo — does NOT switch with URL param */}
-                <div className="dark:hidden">
-                  <img src="/andreas_logo.png" alt="Andreas Hotel & Spa" className="w-28 md:w-36 h-auto opacity-90" />
-                </div>
-                <div className="hidden dark:block">
-                  <img src="/andreas_logo_white.png" alt="Andreas Hotel & Spa" className="w-28 md:w-36 h-auto opacity-90" />
-                </div>
-              </div>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-4">
-                <Suspense fallback={<span className="inline-block align-middle" style={{ width: 70, height: 14 }} />}>
-                  {/* Light mode — dark logos */}
-                  <span className="dark:hidden">
-                    <LogoVariantDisplay
-                      variantA={<><img src="/andreas_logo_a.png" alt="A" className="inline-block align-text-bottom h-[2.25em] w-auto" /><span className="font-body text-[var(--hotel-charcoal)]/90">ndreas</span></>}
-                      variantB={<img src="/andreas_wordmark.png" alt="Andreas" className="inline-block h-[2.25em] w-auto opacity-80" style={{ verticalAlign: '-0.35em' }} />}
-                    />
-                  </span>
-                  {/* Dark mode — white logos */}
-                  <span className="hidden dark:inline">
-                    <LogoVariantDisplay
-                      variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block align-text-bottom h-[2.25em] w-auto" /><span className="font-body text-[var(--hotel-charcoal)]/90">ndreas</span></>}
-                      variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="inline-block h-[2.25em] w-auto opacity-80" style={{ verticalAlign: '-0.35em' }} />}
-                    />
-                  </span>
-                </Suspense> Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
+                Andreas Hotel & Spa is located in the heart of historic downtown Palm Springs, a short stroll from the city's shopping, dining, gaming, and nightlife. Established in 1935, the boutique hotel upholds the timeless allure of its heritage while capturing contemporary features following a full renovation and re-opening.
               </p>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-10">
                 Interiors include a full-service spa where guests can indulge in sumptuous treatments. Our 25 guest rooms are a reflection of Italian Villas in the hills of Italy. Outdoors, guests enjoy amenities including outdoor gas fireplaces, a swimming pool, and Jacuzzi, surrounded by a lovely manicured courtyard.
@@ -601,8 +576,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="mb-14">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-3">What We Offer</p>
-            <h2 className="font-display text-white/90 font-light" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
-              Hotel Amenities
+            <h2 className="font-display text-white/90 font-light flex flex-wrap items-center gap-1" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+              Hotel <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1.1em] w-auto" />menities
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
           </div>
@@ -791,8 +766,8 @@ export default function HomePage() {
               }}
             >
               <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-4">Get in Touch</p>
-              <h2 className="font-display text-white font-light mb-4" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
-                Your Desert Escape Awaits
+              <h2 className="font-display text-white font-light mb-4 flex flex-wrap items-center gap-1" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
+                Your Desert Escape <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1em] w-auto" />waits
               </h2>
               <p className="font-body text-white/90 text-sm tracking-widest">
                 We'd love to hear from you — our team is ready to help
