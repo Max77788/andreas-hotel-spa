@@ -97,8 +97,8 @@ export default function SpaPage() {
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.4em] uppercase mb-4">
             Relax · Renew · Rejuvenate
           </p>
-          <h1 className="font-display text-white text-5xl md:text-7xl font-light tracking-wide mb-6 flex items-baseline justify-center gap-2">
-            Spa at The <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1.2em] w-auto" style={{ verticalAlign: 'middle' }} />ndreas
+          <h1 className="font-display text-white text-5xl md:text-7xl font-light tracking-wide mb-6 flex items-baseline justify-center gap-0">
+            Spa at The <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1.2em] w-auto align-text-bottom" />ndreas
           </h1>
           <div className="flex justify-center mb-6">
             <Suspense fallback={null}>
