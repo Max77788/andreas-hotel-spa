@@ -1,23 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { Room } from "@/lib/cms/types";
+import { useAutoSave } from "@/lib/use-auto-save";
 
 export default function RoomsEditor() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [editing, setEditing] = useState<Room | null>(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
 
   useEffect(() => { fetchRooms(); }, []);
 
   async function fetchRooms() { const res = await fetch("/api/admin/rooms"); setRooms(await res.json()); setLoading(false); }
-
-  async function save() {
-    if (!editing) return; setSaving(true);
-    await fetch("/api/admin/rooms", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
-    await fetchRooms(); setEditing(null); setSaving(false);
-  }
 
   async function remove(room: Room) {
     if (!confirm(`Delete ${room.name}?`)) return;
@@ -30,6 +24,15 @@ export default function RoomsEditor() {
   }
 
   function updateField(field: keyof Room, value: any) { if (!editing) return; setEditing({ ...editing, [field]: value }); }
+
+  const saveFn = useCallback(async () => {
+    if (!editing) return false;
+    const res = await fetch("/api/admin/rooms", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
+    if (res.ok) await fetchRooms();
+    return res.ok;
+  }, [editing]);
+
+  const status = useAutoSave(editing, saveFn, 1000);
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>, field: "image_url" | "gallery_urls") {
     const file = e.target.files?.[0]; if (!file) return;
@@ -125,10 +128,9 @@ export default function RoomsEditor() {
               </div>
 
               <div className="flex gap-5 mt-10">
-                <button onClick={save} disabled={saving} className="bg-amber-500 text-neutral-900 text-lg font-bold tracking-[0.15em] uppercase px-10 py-4 hover:bg-amber-600 transition-colors">
-                  {saving ? "Saving..." : "Save"}
-                </button>
-                <button onClick={() => setEditing(null)} className="text-lg font-bold text-neutral-600 px-6 py-4 border-[3px] border-neutral-400">Cancel</button>
+                {status === "saving" && <span className="text-lg text-neutral-500 font-bold px-4 py-4">Saving...</span>}
+                {status === "saved" && <span className="text-lg text-green-700 font-bold px-4 py-4">Saved ✓</span>}
+                <button onClick={() => setEditing(null)} className="text-lg font-bold text-neutral-600 px-6 py-4 border-[3px] border-neutral-400">Close</button>
               </div>
             </div>
           </div>

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import type { SiteSettings } from "@/lib/cms/types";
+import { useAutoSave } from "@/lib/use-auto-save";
 
 type Field = { key: keyof SiteSettings; label: string };
 
@@ -21,28 +22,25 @@ const CONCIERGE_FIELDS: Field[] = [
 
 export default function SettingsEditor() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => { fetch("/api/admin/settings").then(r => r.json()).then(d => { setSettings(d); setLoading(false); }); }, []);
 
-  async function save() {
-    if (!settings) return;
+  const save = useCallback(async () => {
+    if (!settings) return false;
     const res = await fetch("/api/admin/settings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(settings) });
-    if (res.ok) {
-      setSaved(true); setTimeout(() => setSaved(false), 2000);
-    } else {
+    if (!res.ok) {
       const err = await res.text();
       alert("Save failed: " + err);
     }
-  }
+    return res.ok;
+  }, [settings]);
+
+  const status = useAutoSave(settings, save);
 
   function update(field: keyof SiteSettings, value: string) { if (!settings) return; setSettings({ ...settings, [field]: value }); }
 
   if (loading) return <div className="min-h-screen bg-neutral-100 p-8"><p className="text-xl font-bold">Loading...</p></div>;
-
-  const fields = GENERAL_FIELDS;
-  const conciergeFields = CONCIERGE_FIELDS;
 
   return (
     <div className="min-h-screen bg-neutral-100 p-8">
@@ -51,10 +49,12 @@ export default function SettingsEditor() {
           <div>
             <a href="/admin/dashboard" className="text-lg text-neutral-600 hover:text-amber-600 font-bold">← Dashboard</a>
             <h1 className="text-4xl font-bold text-neutral-900 mt-1">Site Settings</h1>
+            <p className="text-base text-neutral-500 mt-1">Edits auto-save — changes are saved as you type.</p>
           </div>
-          <button onClick={save} className="bg-amber-500 text-neutral-900 text-lg font-bold tracking-[0.15em] uppercase px-10 py-4 hover:bg-amber-600 transition-colors">
-            {saved ? "✓ Saved" : "Save"}
-          </button>
+          <div className="flex items-center gap-3">
+            {status === "saving" && <span className="text-lg text-neutral-500 font-bold">Saving...</span>}
+            {status === "saved" && <span className="text-lg text-green-700 font-bold">Saved ✓</span>}
+          </div>
         </div>
 
         {settings && (
