@@ -357,7 +357,7 @@ export default function HomePage() {
               <div className="absolute bottom-6 left-6 bg-[#1a1a1a]/90 backdrop-blur-sm px-5 py-3">
                 <div className="font-display text-[var(--hotel-cream)] text-lg font-light">Palm Springs</div>
                 <div className="font-body text-[var(--hotel-gold)] text-[9px] tracking-widest uppercase mt-0.5">
-                  {cmsAddress || "277 N. Indian Canyon Drive"}
+                  {cmsAddress?.split(",")[0] || "Vasilkov"}
                 </div>
               </div>
             </div>
@@ -920,8 +920,7 @@ export default function HomePage() {
                   Address
                 </p>
                 <p className="font-body text-[var(--hotel-charcoal)]/90 leading-relaxed">
-                  {cmsAddress || "277 N. Indian Canyon Drive"}<br />
-                  Palm Springs, CA 92262
+                  {cmsAddress || "Vasilkov, Palm Springs, CA 92262"}
                 </p>
               </div>
               <div>
