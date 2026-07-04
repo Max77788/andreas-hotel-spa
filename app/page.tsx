@@ -83,11 +83,15 @@ export default function HomePage() {
   const [cmsEvents, setCmsEvents] = useState<CmsEvent[] | null>(null);
   const [cmsOffers, setCmsOffers] = useState<{ oneNight: CmsOffer[]; twoNight: CmsOffer[] } | null>(null);
   const [cmsGallery, setCmsGallery] = useState<{ src: string; alt: string }[] | null>(null);
+  const [cmsAddress, setCmsAddress] = useState("");
 
   useEffect(() => {
     fetch("/api/cms/homepage")
       .then((r) => r.json())
       .then((data) => {
+        if (data?.settings?.address) {
+          setCmsAddress(data.settings.address);
+        }
         if (data?.rooms?.length) {
           setCmsRooms(
             data.rooms.map((r: any) => ({
@@ -354,7 +358,9 @@ export default function HomePage() {
               {/* Location badge */}
               <div className="absolute bottom-6 left-6 bg-[#1a1a1a]/90 backdrop-blur-sm px-5 py-3">
                 <div className="font-display text-[var(--hotel-cream)] text-lg font-light">Palm Springs</div>
-                <div className="font-body text-[var(--hotel-gold)] text-[9px] tracking-widest uppercase mt-0.5">277 N. Indian Canyon Drive</div>
+                <div className="font-body text-[var(--hotel-gold)] text-[9px] tracking-widest uppercase mt-0.5">
+                  {cmsAddress || "277 N. Indian Canyon Drive"}
+                </div>
               </div>
             </div>
           </div>
@@ -916,7 +922,7 @@ export default function HomePage() {
                   Address
                 </p>
                 <p className="font-body text-[var(--hotel-charcoal)]/90 leading-relaxed">
-                  277 N. Indian Canyon Drive<br />
+                  {cmsAddress || "277 N. Indian Canyon Drive"}<br />
                   Palm Springs, CA 92262
                 </p>
               </div>
