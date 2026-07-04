@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import VapiCustomChat from "@/components/vapi-custom-chat";
 import VapiHoverTrigger from "@/components/vapi-hover-trigger";
+import { CmsProvider } from "@/lib/cms-context";
+import { createServerClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "The Andreas Hotel & Spa – Palm Springs, CA",
@@ -19,11 +21,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  let cmsAddress = "277 N. Indian Canyon Drive, Palm Springs, CA 92262";
+  try {
+    const supabase = createServerClient();
+    const { data } = await supabase.from("site_settings").select("address").single();
+    if (data?.address) {
+      cmsAddress = data.address;
+    }
+  } catch (err) {
+    console.error("Layout CMS fetch failed:", err);
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning={true}>
-        <ThemeProvider
+        <CmsProvider address={cmsAddress}>
+          <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
@@ -312,6 +326,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             });
           })();
         `}} />
+        </CmsProvider>
       </body>
     </html>
   );

@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense, type FormEvent } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import { useCms } from "@/lib/cms-context";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
@@ -83,15 +84,12 @@ export default function HomePage() {
   const [cmsEvents, setCmsEvents] = useState<CmsEvent[] | null>(null);
   const [cmsOffers, setCmsOffers] = useState<{ oneNight: CmsOffer[]; twoNight: CmsOffer[] } | null>(null);
   const [cmsGallery, setCmsGallery] = useState<{ src: string; alt: string }[] | null>(null);
-  const [cmsAddress, setCmsAddress] = useState("");
+  const cmsAddress = useCms().address;
 
   useEffect(() => {
     fetch("/api/cms/homepage")
       .then((r) => r.json())
       .then((data) => {
-        if (data?.settings?.address) {
-          setCmsAddress(data.settings.address);
-        }
         if (data?.rooms?.length) {
           setCmsRooms(
             data.rooms.map((r: any) => ({
