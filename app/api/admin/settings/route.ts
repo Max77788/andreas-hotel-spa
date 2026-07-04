@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { requireAuth } from "@/lib/api-auth";
 import { supabaseHeaders, supabaseUrl } from "@/lib/admin-api";
 
@@ -41,5 +42,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: err }, { status: 400 });
   }
   const data = await res.json();
+  revalidatePath("/");
   return NextResponse.json(Array.isArray(data) ? data[0] : data);
 }

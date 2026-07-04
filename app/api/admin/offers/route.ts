@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { requireAuth } from "@/lib/api-auth";
 import { supabaseHeaders, supabaseUrl } from "@/lib/admin-api";
 
@@ -24,6 +25,8 @@ export async function POST(req: NextRequest) {
   const r = await fetch(ep, { method: m, headers: { ...supabaseHeaders(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" }, body: JSON.stringify(c) });
   if (!r.ok) return NextResponse.json({ error: await r.text() }, { status: 400 });
   const d = await r.json();
+  revalidatePath("/");
+  revalidatePath("/offers");
   return NextResponse.json(Array.isArray(d) ? d[0] : d);
 }
 
@@ -32,5 +35,7 @@ export async function DELETE(req: NextRequest) {
   const { id, type } = await req.json();
   const t = type === "inclusion" ? "offer_inclusions" : "offers";
   await fetch(supabaseUrl(`${t}?id=eq.${id}`), { method: "DELETE", headers: supabaseHeaders() });
+  revalidatePath("/");
+  revalidatePath("/offers");
   return NextResponse.json({ success: true });
 }
