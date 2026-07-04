@@ -25,12 +25,18 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   let cmsAddress = "277 N. Indian Canyon Drive, Palm Springs, CA 92262";
+  let vapiName = "Andreas";
+  let vapiGreeting = "Hi, I'm Andreas, your receptionist at Andreas Hotel & Spa. How can I help you today?";
+  let vapiPlaceholder = "Ask about rooms, amenities, or bookings...";
   try {
     const supabase = createServerClient();
-    const { data } = await supabase.from("site_settings").select("address").single();
+    const { data } = await supabase.from("site_settings").select("address, vapi_assistant_name, vapi_first_message, vapi_placeholder").single();
     if (data?.address) {
       cmsAddress = data.address;
     }
+    if (data?.vapi_assistant_name) vapiName = data.vapi_assistant_name;
+    if (data?.vapi_first_message) vapiGreeting = data.vapi_first_message;
+    if (data?.vapi_placeholder) vapiPlaceholder = data.vapi_placeholder;
   } catch (err) {
     console.error("Layout CMS fetch failed:", err);
   }
@@ -55,12 +61,15 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <circle cx="12" cy="12" r="3" fill="currentColor"/>
               <path d="M12 9v3l2 2"/>
             </svg>
-            <VapiHoverTrigger />
+            <VapiHoverTrigger assistantName={vapiName} />
           </div>
           <div className="vapi-hover-panel">
             <VapiCustomChat
               publicKey="a2166c04-eff0-4623-852e-93d4e7d54f7e"
               assistantId="94338a77-21c7-49d4-b2c6-d3c23a9f6ee7"
+              assistantName={vapiName}
+              firstMessage={vapiGreeting}
+              placeholder={vapiPlaceholder}
             />
           </div>
         </div>
@@ -289,6 +298,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             var panel = container.querySelector('.vapi-hover-panel');
             if (!trigger || !panel) return;
 
+            var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
             function open() {
               panel.classList.add('open');
               trigger.classList.add('expanded');
@@ -315,17 +326,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               }
             });
 
-            /* Also open on hover — but don't close when sticky */
-            container.addEventListener('mouseenter', function() {
-              if (!container.getAttribute('data-sticky')) {
-                open();
-              }
-            });
-            container.addEventListener('mouseleave', function(e) {
-              if (!container.getAttribute('data-sticky')) {
-                close();
-              }
-            });
+            /* Only enable hover open/close on non-touch devices */
+            if (!isTouchDevice) {
+              container.addEventListener('mouseenter', function() {
+                if (!container.getAttribute('data-sticky')) {
+                  open();
+                }
+              });
+              container.addEventListener('mouseleave', function(e) {
+                if (!container.getAttribute('data-sticky')) {
+                  close();
+                }
+              });
+            }
           })();
         `}} />
         </CmsProvider>
