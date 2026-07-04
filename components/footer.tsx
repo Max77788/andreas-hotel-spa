@@ -9,27 +9,27 @@ const footerLinks = [
 ];
 
 export default async function Footer() {
-  let address = "277 N. Indian Canyon Drive";
-  let city = "Palm Springs, CA 92262";
+  let fullAddress = "277 N. Indian Canyon Drive, Palm Springs, CA 92262";
   let phone1 = "888-327-5701";
   let phone2 = "760-527-5701";
   let email = "stay@andreashotel.com";
 
   try {
     const supabase = createServerClient();
-    const { data } = await supabase.from("site_settings").select("*").single();
+    const { data } = await supabase.from("site_settings").select("address, phone, email").single();
     if (data) {
-      const fullAddr = data.address || "";
-      // Parse "277 N. Indian Canyon Drive, Palm Springs, CA" into street + city
-      const parts = fullAddr.split(",").map((s: string) => s.trim());
-      address = parts[0] || address;
-      city = parts.slice(1).join(", ") || city;
-      phone1 = data.phone || phone1;
-      email = data.email || email;
+      if (data.address) fullAddress = data.address;
+      if (data.phone) phone1 = data.phone;
+      if (data.email) email = data.email;
     }
   } catch (err) {
     console.error("Footer CMS fetch failed:", err);
   }
+
+  const addrParts = fullAddress.split(",").map((s: string) => s.trim());
+  const address = addrParts[0] || fullAddress;
+  const city = addrParts.length > 1 ? addrParts.slice(1).join(", ") : "";
+
   return (
     <footer className="bg-[#1a1a1a] text-[var(--hotel-cream)] dark:text-[#e8ddd0]">
       <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-10">
@@ -94,7 +94,7 @@ export default async function Footer() {
             </h4>
             <div className="space-y-3 font-body text-sm text-[var(--hotel-cream)]/80">
               <p>{address}</p>
-              <p>{city}</p>
+              {city && <p>{city}</p>}
               <a href={`tel:${phone1.replace(/\D/g, "")}`} className="block hover:text-[var(--hotel-gold)] transition-colors">
                 {phone1}
               </a>
