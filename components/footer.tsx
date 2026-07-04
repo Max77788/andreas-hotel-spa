@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { createServerClient } from "@/lib/supabase/server";
 
 const footerLinks = [
   { label: "Rooms & Suites", href: "/rooms" },
@@ -7,7 +8,28 @@ const footerLinks = [
   { label: "Seasonal Offers", href: "/offers" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  let address = "277 N. Indian Canyon Drive";
+  let city = "Palm Springs, CA 92262";
+  let phone1 = "888-327-5701";
+  let phone2 = "760-527-5701";
+  let email = "stay@andreashotel.com";
+
+  try {
+    const supabase = createServerClient();
+    const { data } = await supabase.from("site_settings").select("*").single();
+    if (data) {
+      const fullAddr = data.address || "";
+      // Parse "277 N. Indian Canyon Drive, Palm Springs, CA" into street + city
+      const parts = fullAddr.split(",").map((s: string) => s.trim());
+      address = parts[0] || address;
+      city = parts.slice(1).join(", ") || city;
+      phone1 = data.phone || phone1;
+      email = data.email || email;
+    }
+  } catch (err) {
+    console.error("Footer CMS fetch failed:", err);
+  }
   return (
     <footer className="bg-[#1a1a1a] text-[var(--hotel-cream)] dark:text-[#e8ddd0]">
       <div className="max-w-7xl mx-auto px-6 md:px-10 pt-16 pb-10">
@@ -71,19 +93,19 @@ export default function Footer() {
               Contact
             </h4>
             <div className="space-y-3 font-body text-sm text-[var(--hotel-cream)]/80">
-              <p>277 N. Indian Canyon Drive</p>
-              <p>Palm Springs, CA 92262</p>
-              <a href="tel:8883275701" className="block hover:text-[var(--hotel-gold)] transition-colors">
-                888-327-5701
+              <p>{address}</p>
+              <p>{city}</p>
+              <a href={`tel:${phone1.replace(/\D/g, "")}`} className="block hover:text-[var(--hotel-gold)] transition-colors">
+                {phone1}
               </a>
-              <a href="tel:7605275701" className="block hover:text-[var(--hotel-gold)] transition-colors">
-                760-527-5701
+              <a href={`tel:${phone2.replace(/\D/g, "")}`} className="block hover:text-[var(--hotel-gold)] transition-colors">
+                {phone2}
               </a>
               <a
-                href="mailto:stay@andreashotel.com"
+                href={`mailto:${email}`}
                 className="block hover:text-[var(--hotel-gold)] transition-colors"
               >
-                stay@andreashotel.com
+                {email}
               </a>
             </div>
           </div>

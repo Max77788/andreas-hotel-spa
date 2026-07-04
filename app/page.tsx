@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense, type FormEvent } from "react";
+import { useState, useEffect, Suspense, type FormEvent } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
@@ -14,29 +14,43 @@ const OFFERS_BG = "/hotel-photos/pool-night.jpg";
 const AMENITIES_POOL = "/hotel-photos/pool-night.jpg";
 const AMENITIES_SPA = "/hotel-photos/amenities.jpg";
 
+// ── Types ─────────────────────────────────────────────────────────────────────
+
+interface CmsRoom {
+  badge: string; name: string; href: string; img: string; description: string;
+  bed: string; guests: string; sqft: string; price: string;
+}
+interface CmsEvent {
+  tag: string; date: string; title: string; description: string; img: string;
+}
+interface CmsOffer {
+  title: string; description: string; note: string; price: string;
+}
+
 // ── Fallback Data ─────────────────────────────────────────────────────────────
 
-const fallbackRooms = [
+const fallbackRooms: CmsRoom[] = [
   { badge: "VILLA", name: "Andreas Villa Suite", href: "/rooms/andreas-villa-suite", img: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", description: "Our most prestigious suite featuring Italian Villa design with panoramic desert views and private courtyard.", bed: "King Bed", guests: "4 Guests", sqft: "750 sq ft", price: "$599" },
-  { badge: "SUITE", name: "1 Bedroom Suite", href: "/rooms/1-bedroom-suite", img: "/hotel-photos/amenities.jpg", description: "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings.", bed: "King Bed", guests: "2 Guests", sqft: "520 sq ft", price: "$389" },
+  { badge: "SUITE", name: "1 Bedroom Suite", href: "/rooms/1-bedroom-suite", img: "/hotel-photos/room3.jpg", description: "Spacious suite with pillow-topped king bed, separate living area, and luxurious Italian-inspired furnishings.", bed: "King Bed", guests: "3 Guests", sqft: "500 sq ft", price: "$389" },
   { badge: "DELUXE", name: "Deluxe Room", href: "/rooms/deluxe-room", img: "/hotel-photos/room6.jpg", description: "Beautifully appointed with marble bathrooms, luxury linens, and warm desert-inspired décor.", bed: "Queen Bed", guests: "2 Guests", sqft: "340 sq ft", price: "$219" },
+  { badge: "EXECUTIVE", name: "Executive Room", href: "/rooms/executive-room", img: "/hotel-photos/room1.jpg", description: "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.", bed: "King Bed", guests: "2 Guests", sqft: "420 sq ft", price: "$289" },
 ];
 
-const fallbackEvents = [
-  { tag: "WELLNESS", date: "APR 12, 2026", title: "Desert Sunrise Yoga", description: "Begin your morning with guided yoga on our rooftop terrace as the sun rises over the San Jacinto Mountains.", img: "/hotel-photos/room7.jpg" },
-  { tag: "DINING", date: "APR 19, 2026", title: "Poolside Wine Evening", description: "Join our sommelier for an intimate poolside tasting of curated California wines and artisanal small bites.", img: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg" },
-  { tag: "CULTURE", date: "MAY 3, 2026", title: "Architecture Walking Tour", description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.", img: "/hotel-photos/pool-night.jpg" },
-  { tag: "SPA", date: "MAY 17, 2026", title: "Signature Spa Day", description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.", img: "/hotel-photos/room1.jpg" },
+const fallbackEventsData: CmsEvent[] = [
+  { tag: "SPA", date: "May 17, 2026", title: "Signature Spa Day", description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.", img: "/hotel-photos/room1.jpg" },
+  { tag: "YOGA", date: "June 8, 2026", title: "Morning Yoga", description: "Start your day with a revitalizing yoga session in our serene courtyard, suitable for all levels.", img: "/hotel-photos/exterior.jpg" },
+  { tag: "WINE", date: "June 22, 2026", title: "Wine Evening", description: "An evening of fine California wines paired with artisan cheeses in our intimate courtyard setting.", img: "/hotel-photos/room1.jpg" },
+  { tag: "TOUR", date: "July 6, 2026", title: "Architecture Walking Tour", description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.", img: "/hotel-photos/room1.jpg" },
 ];
 
-const fallbackOffers = {
+const fallbackOffersData = {
   oneNight: [
-    { title: "The Escape", description: "Includes the Andreas signature scrub, 50 min Deep Tissue, 50 minute Aroma Therapy massage, and the Vital C Facial.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$630" },
-    { title: "The Rejuvenate", description: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen's Facial and two 50 minute Therapeutic massages.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$665" },
+    { title: "The Escape", description: "Includes the Andreas signature scrub, 50 min Deep Tissue, 50 minute Aroma Therapy massage, and the Vital C Facial.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid May 15 - October 15.", price: "$630" },
+    { title: "The Rejuvenate", description: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen's Facial and two 50 minute Therapeutic massages.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid May 15 - October 15.", price: "$665" },
   ],
   twoNight: [
-    { title: "The Oasis", description: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 50 minute Swedish massage, and a 50 Minute Aromatherapy massage.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$745" },
-    { title: "The Andreas Renewal", description: "Includes: 30 min. Mineral Soak, Ageless Facial, and Rosemary Mint Scrub; 50 min. Deep Tissue & therapeutic massage.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.", price: "$795" },
+    { title: "The Oasis", description: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 50 minute Swedish massage, and a 50 Minute Aromatherapy massage.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid May 15 - October 15.", price: "$745" },
+    { title: "The Andreas Renewal", description: "Includes: 30 min. Mineral Soak, Ageless Facial, and Rosemary Mint Scrub; 50 min. Deep Tissue & therapeutic massage.", note: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Valid May 15 - October 15.", price: "$795" },
   ],
 };
 const stats = [
@@ -64,10 +78,71 @@ export default function HomePage() {
   const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
   const [contactError, setContactError] = useState("");
 
-  // Use fallback data (CMS data loading via fetch on client is possible but adds complexity; keeping hardcoded fallbacks works identically)
-  const rooms = fallbackRooms;
-  const events = fallbackEvents;
-  const galleryImages = [
+  // ── CMS data fetching ─────────────────────────────────────────────────────
+  const [cmsRooms, setCmsRooms] = useState<CmsRoom[] | null>(null);
+  const [cmsEvents, setCmsEvents] = useState<CmsEvent[] | null>(null);
+  const [cmsOffers, setCmsOffers] = useState<{ oneNight: CmsOffer[]; twoNight: CmsOffer[] } | null>(null);
+  const [cmsGallery, setCmsGallery] = useState<{ src: string; alt: string }[] | null>(null);
+
+  useEffect(() => {
+    fetch("/api/cms/homepage")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.rooms?.length) {
+          setCmsRooms(
+            data.rooms.map((r: any) => ({
+              badge: (r.badge || "ROOM").toUpperCase(),
+              name: r.name,
+              href: `/rooms/${r.slug}`,
+              img: r.image_url || "/hotel-photos/room1.jpg",
+              description: r.short_description || r.long_description || "",
+              bed: r.bed || "",
+              guests: r.guests || "",
+              sqft: r.sqft || "",
+              price: r.price ? `$${r.price}` : "",
+            }))
+          );
+        }
+        if (data?.events?.length) {
+          setCmsEvents(
+            data.events.map((e: any) => ({
+              tag: (e.tag || "EVENT").toUpperCase(),
+              date: e.date_label || "",
+              title: e.title,
+              description: e.description || "",
+              img: e.image_url || "/hotel-photos/room1.jpg",
+            }))
+          );
+        }
+        if (data?.offers?.oneNight?.length || data?.offers?.twoNight?.length) {
+          const mapOffer = (o: any) => ({
+            title: o.title,
+            description: o.description || "",
+            note: o.duration || "",
+            price: o.price ? `$${o.price}` : "",
+          });
+          setCmsOffers({
+            oneNight: (data.offers.oneNight || []).map(mapOffer),
+            twoNight: (data.offers.twoNight || []).map(mapOffer),
+          });
+        }
+        if (data?.gallery?.length) {
+          setCmsGallery(
+            data.gallery.map((g: any) => ({
+              src: g.image_url,
+              alt: g.alt || "",
+            }))
+          );
+        }
+      })
+      .catch((err) => console.error("CMS fetch failed, using fallbacks:", err));
+  }, []);
+
+  // Use CMS data if loaded, fallback otherwise
+  const rooms = cmsRooms ?? fallbackRooms;
+  const events = cmsEvents ?? fallbackEventsData;
+  const offers = cmsOffers ?? fallbackOffersData;
+  const galleryImages = cmsGallery ?? [
     { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa Suite bedroom" },
     { src: "/hotel-photos/courtyard.jpg", alt: "Courtyard garden" },
     { src: "/hotel-photos/room1.jpg", alt: "Deluxe guest room" },
@@ -77,7 +152,6 @@ export default function HomePage() {
     { src: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg", alt: "Accessible suite" },
     { src: "/hotel-photos/room7.jpg", alt: "Executive room" },
   ];
-  const offers = fallbackOffers;
   // ── Contact form ──
   async function handleContactSubmit(e: FormEvent) {
     e.preventDefault();
@@ -486,24 +560,11 @@ export default function HomePage() {
               &ldquo;1 Night Stay&rdquo; Packages
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "The Escape",
-                  desc: "Includes the Andreas signature scrub, 50 min Deep Tissue, 50 minute Aroma Therapy massage, and the Vital C Facial.",
-                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
-                  price: "$630",
-                },
-                {
-                  title: "The Rejuvenate",
-                  desc: "Includes a 30 minute Mineral Soak, the Vital C Facial, Gentlemen&rsquo;s Facial and two 50 minute Therapeutic massages.",
-                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
-                  price: "$665",
-                },
-              ].map((offer) => (
+              {offers.oneNight.map((offer) => (
                 <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
                   <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
-                  <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
-                  <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
+                  <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.description}</p>
+                  <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.note}</p>
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a
@@ -524,24 +585,11 @@ export default function HomePage() {
               &ldquo;2 Night Stay&rdquo; Packages
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
-              {[
-                {
-                  title: "The Oasis",
-                  desc: "Includes: The Andreas Signature Scrub, the Canyon Clay Body Mask, a 50 minute Swedish massage, and a 50 Minute Aromatherapy massage.",
-                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
-                  price: "$745",
-                },
-                {
-                  title: "The Andreas Renewal",
-                  desc: "Includes: 30 min. Mineral Soak, Ageless Facial, and Rosemary Mint Scrub; 50 min. Deep Tissue &amp; therapeutic massage.",
-                  duration: "Includes a Deluxe Room Sunday-Thursday. Call for weekend rates. Mar 15 - Oct 15.",
-                  price: "$795",
-                },
-              ].map((offer) => (
+              {offers.twoNight.map((offer) => (
                 <div key={offer.title} className="border border-white/20 bg-black/75 px-8 py-8 hover:bg-black/85 hover:border-[var(--hotel-gold)]/40 transition-all duration-300 flex flex-col">
                   <h4 className="font-display text-white text-2xl font-light mb-3">{offer.title}</h4>
-                  <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.desc}</p>
-                  <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.duration}</p>
+                  <p className="font-body text-white/70 text-sm leading-relaxed mb-2">{offer.description}</p>
+                  <p className="font-body text-[var(--hotel-gold)]/80 text-xs italic mb-5">{offer.note}</p>
                   <div className="mt-auto flex items-end justify-between">
                     <span className="font-display text-white text-3xl font-light">{offer.price}</span>
                     <a

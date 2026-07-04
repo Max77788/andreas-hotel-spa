@@ -1,36 +1,15 @@
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import { createServerClient } from "@/lib/supabase/server";
 
-const EVENTS = [
-  {
-    tag: "SPA",
-    date: "May 17, 2026",
-    title: "Signature Spa Day",
-    description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.",
-    img: "/hotel-photos/room1.jpg",
-  },
-  {
-    tag: "YOGA",
-    date: "June 8, 2026",
-    title: "Morning Yoga",
-    description: "Start your day with a revitalizing yoga session in our serene courtyard, suitable for all levels.",
-    img: "/hotel-photos/exterior.jpg",
-  },
-  {
-    tag: "WINE",
-    date: "June 22, 2026",
-    title: "Wine Evening",
-    description: "An evening of fine California wines paired with artisan cheeses in our intimate courtyard setting.",
-    img: "/hotel-photos/room1.jpg",
-  },
-  {
-    tag: "TOUR",
-    date: "July 6, 2026",
-    title: "Architecture Walking Tour",
-    description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.",
-    img: "/hotel-photos/room1.jpg",
-  },
+// ── Fallback Data ─────────────────────────────────────────────────────────────
+
+const FALLBACK_EVENTS = [
+  { tag: "SPA", date: "May 17, 2026", title: "Signature Spa Day", description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.", img: "/hotel-photos/room1.jpg" },
+  { tag: "YOGA", date: "June 8, 2026", title: "Morning Yoga", description: "Start your day with a revitalizing yoga session in our serene courtyard, suitable for all levels.", img: "/hotel-photos/exterior.jpg" },
+  { tag: "WINE", date: "June 22, 2026", title: "Wine Evening", description: "An evening of fine California wines paired with artisan cheeses in our intimate courtyard setting.", img: "/hotel-photos/room1.jpg" },
+  { tag: "TOUR", date: "July 6, 2026", title: "Architecture Walking Tour", description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.", img: "/hotel-photos/room1.jpg" },
 ];
 
 export const metadata = {
@@ -38,7 +17,28 @@ export const metadata = {
   description: "Discover upcoming events at The Andreas Hotel & Spa — from wine evenings to architecture tours and spa days in Palm Springs.",
 };
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  // Fetch from CMS with fallback
+  let events = FALLBACK_EVENTS;
+  try {
+    const supabase = createServerClient();
+    const { data } = await supabase
+      .from("events")
+      .select("*")
+      .eq("is_published", true)
+      .order("sort_order");
+    if (data && data.length > 0) {
+      events = data.map((e: any) => ({
+        tag: (e.tag || "EVENT").toUpperCase(),
+        date: e.date_label || "",
+        title: e.title,
+        description: e.description || "",
+        img: e.image_url || "/hotel-photos/room1.jpg",
+      }));
+    }
+  } catch (err) {
+    console.error("CMS events fetch failed, using fallback:", err);
+  }
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">
       <Nav />
@@ -75,7 +75,7 @@ export default function EventsPage() {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-10">
-            {EVENTS.map((ev) => (
+            {events.map((ev) => (
               <div key={ev.title} className="bg-white card-lift dark:bg-[#2a2620] overflow-hidden group">
                 <div
                   className="h-56 bg-cover bg-center group-hover:scale-105 transition-transform duration-1000"

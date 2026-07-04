@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import ThemeToggle from "./theme-toggle";
 
@@ -17,6 +17,20 @@ const navLinks = [
 
 export default function Nav() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cmsAddress, setCmsAddress] = useState("");
+
+  useEffect(() => {
+    fetch("/api/cms/homepage")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.settings?.address) {
+          setCmsAddress(data.settings.address);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  const displayAddress = cmsAddress || "277 N. Indian Canyon Drive, Palm Springs, CA 92262";
 
   return (
     <>
@@ -138,7 +152,7 @@ export default function Nav() {
 
         <div className="pb-10 text-center">
           <p className="font-body text-white/50 text-xs tracking-widest">
-            277 N. Indian Canyon Drive, Palm Springs, CA 92262
+            {displayAddress}
           </p>
         </div>
       </div>
