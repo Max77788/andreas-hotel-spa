@@ -6,6 +6,8 @@ import VapiHoverTrigger from "@/components/vapi-hover-trigger";
 import { CmsProvider } from "@/lib/cms-context";
 import { createServerClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "The Andreas Hotel & Spa – Palm Springs, CA",
   description:
