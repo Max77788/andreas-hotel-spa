@@ -11,12 +11,12 @@ export default function ThemeToggle() {
   // Avoid hydration mismatch
   useEffect(() => setMounted(true), []);
 
+  const btn =
+    "relative flex items-center justify-center w-9 h-9 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-200 cursor-pointer";
+
   if (!mounted) {
     return (
-      <button
-        className="p-2 text-white/60 hover:text-white transition-colors"
-        aria-label="Toggle theme"
-      >
+      <button className={btn} aria-label="Toggle theme">
         <Sun className="w-4 h-4" />
       </button>
     );
@@ -27,7 +27,7 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="p-2 text-white/60 hover:text-white transition-colors"
+      className={btn}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
       {isDark ? (
