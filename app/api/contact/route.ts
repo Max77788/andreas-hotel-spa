@@ -16,6 +16,7 @@ export async function POST(request: Request) {
     }
 
     const resendApiKey = process.env.RESEND_API_KEY;
+    console.log("[Contact] RESEND_API_KEY present:", !!resendApiKey, "length:", resendApiKey?.length || 0);
     if (!resendApiKey) {
       // Log the submission for now - email not configured
       console.log("[Contact Form Submission]", { name, email, phone, message });
