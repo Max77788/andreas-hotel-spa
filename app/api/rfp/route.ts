@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const resendApiKey = process.env.RESEND_API_KEY || "re_dpdWkRz4_6H1nc4CERi6YfJTSVCGmwgvZ";
+    const resendApiKey = process.env.RESEND_API_KEY;
     if (!resendApiKey) {
       console.log("[RFP Form Submission]", JSON.stringify(body, null, 2));
       return NextResponse.json(
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     const resend = new Resend(resendApiKey);
 
     await resend.emails.send({
-      from: "Andreas Hotel <events@email.mom-ai-agency.site>",
+      from: "Andreas Hotel <stay@andreashotel.com>",
       to: RECIPIENT_EMAIL,
       subject: `New RFP: ${organization || contactName} — ${eventType || "Event Inquiry"}`,
       replyTo: email,
