@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Shield, Trash2, UserPlus, Pencil, X, KeyRound } from "lucide-react";
+import { Shield, Trash2, UserPlus, Pencil, X, KeyRound, Eye, EyeOff } from "lucide-react";
 
 interface AdminUser {
   _id: string;
@@ -23,6 +23,7 @@ export default function UsersPage() {
   const [formEmail, setFormEmail] = useState("");
   const [formName, setFormName] = useState("");
   const [formPassword, setFormPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [formRole, setFormRole] = useState<"admin" | "editor">("editor");
   const [formLoading, setFormLoading] = useState(false);
   const [formError, setFormError] = useState("");
@@ -54,6 +55,7 @@ export default function UsersPage() {
     setFormEmail("");
     setFormName("");
     setFormPassword("");
+    setShowPassword(false);
     setFormRole("editor");
     setFormError("");
     setShowModal(true);
@@ -64,6 +66,7 @@ export default function UsersPage() {
     setFormEmail(user.email);
     setFormName(user.name);
     setFormPassword("");
+    setShowPassword(false);
     setFormRole(user.role);
     setFormError("");
     setShowModal(true);
@@ -323,13 +326,23 @@ export default function UsersPage() {
                     <label className="block text-lg font-bold text-neutral-700 mb-2">
                       Password
                     </label>
-                    <input
-                      type="password"
-                      value={formPassword}
-                      onChange={(e) => setFormPassword(e.target.value)}
-                      className="w-full border-[3px] border-neutral-500 px-4 py-4 text-lg text-neutral-900 mb-5 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
-                      placeholder="Min 8 characters"
-                    />
+                    <div className="relative mb-5">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        value={formPassword}
+                        onChange={(e) => setFormPassword(e.target.value)}
+                        className="w-full border-[3px] border-neutral-500 px-4 py-4 pr-14 text-lg text-neutral-900 focus:outline-none focus:border-amber-500 font-medium bg-neutral-50"
+                        placeholder="Min 8 characters"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-800"
+                        tabIndex={-1}
+                      >
+                        {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
+                      </button>
+                    </div>
                   </>
                 )}
 
