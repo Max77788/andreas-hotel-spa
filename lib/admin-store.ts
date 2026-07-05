@@ -26,6 +26,7 @@ function supaHeaders() {
     apikey: SUPABASE_SERVICE_KEY,
     Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
     "Accept-Profile": SCHEMA,
+    "Content-Profile": SCHEMA,
     "Content-Type": "application/json",
   };
 }
@@ -141,7 +142,12 @@ export async function listUsers(): Promise<AdminUser[]> {
       );
       if (res.ok) {
         const rows = await res.json();
-        return rows.map(dbToAdminUser);
+        const users = rows.map(dbToAdminUser);
+        // Sync to JSON cache (repatriates on cold start)
+        if (users.length) {
+          try { writeJsonStore(users); } catch {}
+        }
+        return users;
       }
     } catch {}
   }
