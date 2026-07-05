@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       // Log the submission for now - email not configured
       console.log("[Contact Form Submission]", { name, email, phone, message });
       return NextResponse.json(
-        { success: true, note: "Email delivery not configured (missing RESEND_API_KEY). Check server logs." },
+        { success: true, note: "Email delivery not configured (missing RESEND_API_KEY). Check server logs.", debug: { hasKey: !!resendApiKey, keyLen: resendApiKey?.length || 0, allEnvKeys: Object.keys(process.env).filter(k => k.includes("RESEND")) } },
         { status: 200 }
       );
     }
