@@ -224,7 +224,7 @@ export default function SpaPage() {
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
               {MASSAGES.map((m) => (
                 <div key={m.name} className="border-b border-[var(--hotel-sand)] pb-4">
-                  <div className="flex items-baseline justify-between gap-4 mb-1">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 mb-1">
                     <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">{m.name}</h4>
                     <div className="flex gap-3 font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">
                       <span>50 min — {m.price50}</span>
@@ -252,7 +252,7 @@ export default function SpaPage() {
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
               {FACIALS.map((f) => (
                 <div key={f.name} className="border-b border-[var(--hotel-sand)] pb-4">
-                  <div className="flex items-baseline justify-between gap-4 mb-1">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 mb-1">
                     <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">{f.name}</h4>
                     <span className="font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">50 min — {f.price}</span>
                   </div>
@@ -270,7 +270,7 @@ export default function SpaPage() {
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-6 max-w-2xl mx-auto">
               {BODY_TREATMENTS.map((b) => (
                 <div key={b.name} className="border-b border-[var(--hotel-sand)] pb-4">
-                  <div className="flex items-baseline justify-between gap-4 mb-1">
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 mb-1">
                     <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">{b.name}</h4>
                     <span className="font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">50 min — {b.price}</span>
                   </div>

@@ -248,14 +248,14 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
               href="#rooms"
-              className="bg-black border border-black text-white font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-white hover:text-[var(--hotel-charcoal)] hover:border-white transition-all duration-300"
+              className="bg-black border border-black text-white font-body text-[10px] md:text-xs tracking-[0.3em] uppercase px-7 py-3.5 md:py-3 hover:bg-white hover:text-[var(--hotel-charcoal)] hover:border-white transition-all duration-300 text-center"
             >
               Explore Rooms
             </Link>
             <a
               href="/book"
               rel="noopener noreferrer"
-              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] tracking-[0.3em] uppercase px-7 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              className="bg-[var(--hotel-gold)] text-[var(--hotel-charcoal)] font-body text-[10px] md:text-xs tracking-[0.3em] uppercase px-7 py-3.5 md:py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300 text-center"
             >
               Book Now
             </a>
@@ -316,9 +316,9 @@ export default function HomePage() {
       </section>
 
       {/* ── OUR STORY ───────────────────────────────────────────────────────── */}
-      <section id="story" className="pt-4 md:pt-10 pb-24 md:pb-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-10">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+      <section id="story" className="pt-4 md:pt-10 pb-16 md:pb-32">
+        <div className="max-w-7xl mx-auto px-4 md:px-10">
+          <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
             {/* Text */}
             <div>
               <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-4">
@@ -378,7 +378,7 @@ export default function HomePage() {
           style={{ backgroundImage: `url(${PHILOSOPHY_IMG})` }}
         />
         {/* Content */}
-        <div className="bg-[var(--hotel-sand)] flex items-center px-10 md:px-16 py-16 md:py-24">
+        <div className="bg-[var(--hotel-sand)] flex items-center px-6 md:px-16 py-16 md:py-24">
           <div className="max-w-md">
             <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-4">
               Our Philosophy
@@ -421,7 +421,7 @@ export default function HomePage() {
             <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
           </div>
 
-          <div className="flex flex-col gap-20 md:gap-28">
+          <div className="flex flex-col gap-10 md:gap-28">
             {rooms.map((room, i) => {
               const isEven = i % 2 === 0;
               return (
@@ -669,7 +669,7 @@ export default function HomePage() {
                 <a
                   href="/book"
                   rel="noopener noreferrer"
-                  className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] tracking-[0.3em] uppercase px-4 py-2 hover:bg-[var(--hotel-cream)] dark:hover:bg-[#3a3530] transition-colors duration-300"
+                  className="flex-shrink-0 bg-white text-[var(--hotel-charcoal)] font-body text-[9px] md:text-[10px] tracking-[0.3em] uppercase px-5 py-3 md:px-4 md:py-2 hover:bg-[var(--hotel-cream)] dark:hover:bg-[#3a3530] transition-colors duration-300"
                 >
                   Reserve Now
                 </a>
@@ -770,10 +770,10 @@ export default function HomePage() {
                   href="https://www.instagram.com/andreashotelandspa/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--hotel-gold)] hover:text-white transition-colors"
+                  className="text-[var(--hotel-gold)] hover:text-white transition-colors p-2"
                   aria-label="Instagram"
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="md:w-[22px] md:h-[22px]">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
@@ -785,10 +785,10 @@ export default function HomePage() {
                   href="https://www.facebook.com/andreashotelandspa"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--hotel-gold)] hover:text-white transition-colors"
+                  className="text-[var(--hotel-gold)] hover:text-white transition-colors p-2"
                   aria-label="Facebook"
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="md:w-[22px] md:h-[22px]">
                     <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
                   </svg>
                 </a>
@@ -798,10 +798,10 @@ export default function HomePage() {
                   href="https://www.tripadvisor.com/Hotel_Review-g32847-d529370-Reviews-Andreas_Hotel_Spa-Palm_Springs_Greater_Palm_Springs_California.html"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--hotel-gold)] hover:text-white transition-colors"
+                  className="text-[var(--hotel-gold)] hover:text-white transition-colors p-2"
                   aria-label="TripAdvisor"
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="md:w-[22px] md:h-[22px]">
                     <circle cx="12" cy="12" r="10"/>
                     <ellipse cx="12" cy="12" rx="4" ry="10"/>
                     <line x1="2" y1="12" x2="22" y2="12"/>
@@ -813,10 +813,10 @@ export default function HomePage() {
                   href="https://www.yelp.com/biz/andreas-hotel-and-spa-palm-springs-4"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[var(--hotel-gold)] hover:text-white transition-colors"
+                  className="text-[var(--hotel-gold)] hover:text-white transition-colors p-2"
                   aria-label="Yelp"
                 >
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="md:w-[22px] md:h-[22px]">
                     <path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v-2.5c0-.55.45-1 1-1h1.5c4.69 0 8.5-3.81 8.5-8.5S17.69 2 13 2h-1.5z"/>
                     <path d="M7.5 13l1.5-4.5 1.5 4.5"/>
                     <path d="M9.6 11h2.8"/>

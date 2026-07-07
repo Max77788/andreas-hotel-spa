@@ -12,7 +12,7 @@ export default function ThemeToggle() {
   useEffect(() => setMounted(true), []);
 
   const btnBase =
-    "relative flex items-center justify-center w-9 h-9 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-200 cursor-pointer";
+    "relative flex items-center justify-center w-10 h-10 md:w-9 md:h-9 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all duration-200 cursor-pointer";
 
   if (!mounted) {
     return (

@@ -117,7 +117,7 @@ export default function Nav() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setMenuOpen(false)}
-                className="font-display text-white text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
+                className="font-display text-white text-3xl md:text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300 py-2 block"
               >
                 {link.label}
               </a>
@@ -126,7 +126,7 @@ export default function Nav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className="font-display text-white text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300"
+                className="font-display text-white text-3xl md:text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300 py-2 block"
               >
                 {link.label}
               </Link>
