@@ -38,7 +38,7 @@ export default function SettingsEditor() {
 
   const status = useAutoSave(settings, save);
 
-  function update(field: keyof SiteSettings, value: string) { if (!settings) return; setSettings({ ...settings, [field]: value }); }
+  function update(field: keyof SiteSettings, value: any) { if (!settings) return; setSettings({ ...settings, [field]: value }); }
 
   if (loading) return <div className="min-h-screen bg-neutral-100 p-8"><p className="text-xl font-bold">Loading...</p></div>;
 
@@ -67,7 +67,7 @@ export default function SettingsEditor() {
                   <label key={key} className="flex flex-col gap-2">
                     <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">{label}</span>
                     <input
-                      value={settings[key] || ""}
+                      value={String(settings[key] ?? "")}
                       onChange={e => update(key, e.target.value)}
                       className="border-[3px] border-neutral-400 px-5 py-4 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50"
                     />
@@ -88,20 +88,85 @@ export default function SettingsEditor() {
                     <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">{label}</span>
                     {key === "vapi_first_message" || key === "vapi_placeholder" ? (
                       <textarea
-                        value={settings[key] || ""}
+                        value={String(settings[key] ?? "")}
                         onChange={e => update(key, e.target.value)}
                         rows={key === "vapi_first_message" ? 3 : 2}
                         className="border-[3px] border-neutral-400 px-5 py-4 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50"
                       />
                     ) : (
                       <input
-                        value={settings[key] || ""}
+                        value={String(settings[key] ?? "")}
                         onChange={e => update(key, e.target.value)}
                         className="border-[3px] border-neutral-400 px-5 py-4 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50"
                       />
                     )}
                   </label>
                 ))}
+              </div>
+            </div>
+
+            {/* Awards */}
+            <div>
+              <h2 className="text-2xl font-bold text-neutral-800 mb-6 pb-2 border-b-[3px] border-neutral-300">Awards</h2>
+              <p className="text-lg text-neutral-600 font-medium mb-6">
+                Award badges shown on the homepage. Add image URLs (PNG preferred, ~80px height), optional link URLs, and alt text.
+              </p>
+              <div className="space-y-6">
+                {(() => {
+                  const awards = settings.awards || [];
+                  return [...Array(Math.max(4, awards.length + 1))].map((_, i) => {
+                    const award = awards[i] || { image_url: "", link_url: "", alt_text: "" };
+                    return (
+                      <div key={i} className="border-2 border-dashed border-neutral-300 p-4 rounded flex gap-4 items-start">
+                        <span className="text-sm font-bold text-neutral-500 mt-3 w-6">#{i + 1}</span>
+                        <div className="flex-1 grid grid-cols-3 gap-3">
+                          <label className="flex flex-col gap-1">
+                            <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Image URL</span>
+                            <input
+                              value={award.image_url || ""}
+                              onChange={e => {
+                                const arr = [...(settings.awards || [])];
+                                arr[i] = { ...arr[i], image_url: e.target.value, link_url: arr[i]?.link_url || "", alt_text: arr[i]?.alt_text || "" };
+                                update("awards", arr);
+                              }}
+                              placeholder="/hotel-photos/tripadvisor-award.png"
+                              className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-neutral-50"
+                            />
+                          </label>
+                          <label className="flex flex-col gap-1">
+                            <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Link URL</span>
+                            <input
+                              value={award.link_url || ""}
+                              onChange={e => {
+                                const arr = [...(settings.awards || [])];
+                                arr[i] = { ...arr[i], image_url: arr[i]?.image_url || "", link_url: e.target.value, alt_text: arr[i]?.alt_text || "" };
+                                update("awards", arr);
+                              }}
+                              placeholder="https://tripadvisor.com/..."
+                              className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-neutral-50"
+                            />
+                          </label>
+                          <label className="flex flex-col gap-1">
+                            <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Alt Text</span>
+                            <input
+                              value={award.alt_text || ""}
+                              onChange={e => {
+                                const arr = [...(settings.awards || [])];
+                                arr[i] = { ...arr[i], image_url: arr[i]?.image_url || "", link_url: arr[i]?.link_url || "", alt_text: e.target.value };
+                                update("awards", arr);
+                              }}
+                              placeholder="TripAdvisor Award"
+                              className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-neutral-50"
+                            />
+                          </label>
+                        </div>
+                        {award.image_url && (
+                          <img src={award.image_url} alt="" className="h-14 w-auto mt-1 flex-shrink-0 rounded border border-neutral-200" />
+                        )}
+                      </div>
+                    );
+                  });
+                })()}
               </div>
             </div>
           </div>

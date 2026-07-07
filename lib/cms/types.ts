@@ -77,4 +77,5 @@ export interface SiteSettings {
   vapi_assistant_name: string;
   vapi_first_message: string;
   vapi_placeholder: string;
+  awards: { image_url: string; link_url: string; alt_text: string }[];
 }

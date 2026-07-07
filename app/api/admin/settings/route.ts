@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
     vapi_assistant_name: body.vapi_assistant_name,
     vapi_first_message: body.vapi_first_message,
     vapi_placeholder: body.vapi_placeholder,
+    awards: body.awards,
   };
   if (!clean.id) delete clean.id;
 

@@ -84,6 +84,7 @@ export default function HomePage() {
   const [cmsEvents, setCmsEvents] = useState<CmsEvent[] | null>(null);
   const [cmsOffers, setCmsOffers] = useState<{ oneNight: CmsOffer[]; twoNight: CmsOffer[] } | null>(null);
   const [cmsGallery, setCmsGallery] = useState<{ src: string; alt: string }[] | null>(null);
+  const [cmsAwards, setCmsAwards] = useState<{ image_url: string; link_url: string; alt_text: string }[] | null>(null);
   const cmsAddress = useCms().address;
 
   useEffect(() => {
@@ -135,6 +136,10 @@ export default function HomePage() {
               alt: g.alt || "",
             }))
           );
+        }
+        // Load awards from CMS settings
+        if (data?.settings?.awards?.length) {
+          setCmsAwards(data.settings.awards);
         }
       })
       .catch((err) => console.error("CMS fetch failed, using fallbacks:", err));
@@ -717,21 +722,40 @@ export default function HomePage() {
                 Our Awards & Recognition
               </p>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-6">
-                <a
-                  href="https://www.tripadvisor.com/Hotel_Review-g32847-d529370-Reviews-Andreas_Hotel_Spa-Palm_Springs_Greater_Palm_Springs_California.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block hover:opacity-80 transition-opacity"
-                >
-                  <img
-                    src="/hotel-photos/tripadvisor-award.png"
-                    alt="TripAdvisor Award"
-                    className="h-16 md:h-20 w-auto"
-                  />
-                </a>
-                <span className="font-body text-white/50 text-[9px] tracking-[0.3em] uppercase">
-                  Expedia · Booking.com · Yelp
-                </span>
+                {((cmsAwards || []) as { image_url: string; link_url: string; alt_text: string }[]).length > 0 ? (cmsAwards as { image_url: string; link_url: string; alt_text: string }[]).map((award, i) => (
+                  <a
+                    key={i}
+                    href={award.link_url || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block hover:opacity-80 transition-opacity"
+                  >
+                    <img
+                      src={award.image_url}
+                      alt={award.alt_text || "Award"}
+                      className="h-16 md:h-20 w-auto"
+                    />
+                  </a>
+                )) : [
+                  <a
+                    key="fallback"
+                    href="https://www.tripadvisor.com/Hotel_Review-g32847-d529370-Reviews-Andreas_Hotel_Spa-Palm_Springs_Greater_Palm_Springs_California.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block hover:opacity-80 transition-opacity"
+                  >
+                    <img
+                      src="/hotel-photos/tripadvisor-award.png"
+                      alt="TripAdvisor Award"
+                      className="h-16 md:h-20 w-auto"
+                    />
+                  </a>,
+                ]}
+                {cmsAwards === null && (
+                  <span className="font-body text-white/50 text-[9px] tracking-[0.3em] uppercase">
+                    Expedia · Booking.com · Yelp
+                  </span>
+                )}
               </div>
             </div>
 
@@ -800,7 +824,6 @@ export default function HomePage() {
                 </a>
               </div>
             </div>
-
           </div>
         </div>
       </section>
