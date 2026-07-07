@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
-import { createServerClient } from "@/lib/supabase/server";
+import { useEffect, useState } from "react";
+import { createClient } from "@supabase/supabase-js";
 
 const footerLinks = [
   { label: "Rooms & Suites", href: "/rooms" },
@@ -8,23 +11,36 @@ const footerLinks = [
   { label: "Seasonal Offers", href: "/offers" },
 ];
 
-export default async function Footer() {
-  let fullAddress = "277 N. Indian Canyon Drive, Palm Springs, CA 92262";
-  let phone1 = "888-327-5701";
-  let phone2 = "760-527-5701";
-  let email = "stay@andreashotel.com";
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
 
-  try {
-    const supabase = createServerClient();
-    const { data } = await supabase.from("site_settings").select("address, phone, email").single();
-    if (data) {
-      if (data.address) fullAddress = data.address;
-      if (data.phone) phone1 = data.phone;
-      if (data.email) email = data.email;
-    }
-  } catch (err) {
-    console.error("Footer CMS fetch failed:", err);
-  }
+export default function Footer() {
+  const [fullAddress, setFullAddress] = useState(
+    "277 N. Indian Canyon Drive, Palm Springs, CA 92262"
+  );
+  const [phone1] = useState("888-327-5701");
+  const [phone2] = useState("760-527-5701");
+  const [email, setEmail] = useState("stay@andreashotel.com");
+
+  useEffect(() => {
+    const supabase = getSupabase();
+    if (!supabase) return;
+    supabase
+      .from("site_settings")
+      .select("address, phone, email")
+      .single()
+      .then(({ data }) => {
+        if (data) {
+          if (data.address) setFullAddress(data.address);
+          if (data.email) setEmail(data.email);
+        }
+      })
+      .catch((err) => console.error("Footer CMS fetch failed:", err));
+  }, []);
 
   const addrParts = fullAddress.split(",").map((s: string) => s.trim());
   const address = addrParts[0] || fullAddress;
@@ -65,23 +81,12 @@ export default async function Footer() {
             <ul className="space-y-3">
               {footerLinks.map((link) => (
                 <li key={link.href}>
-                  {link.external ? (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-body text-sm text-[var(--hotel-cream)]/80 hover:text-[var(--hotel-gold)] transition-colors tracking-wide"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link
+                  <Link
                       href={link.href}
                       className="font-body text-sm text-[var(--hotel-cream)]/80 hover:text-[var(--hotel-gold)] transition-colors tracking-wide"
                     >
                       {link.label}
                     </Link>
-                  )}
                 </li>
               ))}
             </ul>
@@ -114,7 +119,7 @@ export default async function Footer() {
         {/* Bottom row */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 gap-4">
           <p className="font-body text-xs text-[var(--hotel-cream)]/50 tracking-widest">
-            © {new Date().getFullYear()} The Andreas Hotel & Spa. All Rights Reserved.
+            &copy; {new Date().getFullYear()} The Andreas Hotel & Spa. All Rights Reserved.
           </p>
           <div className="flex gap-6">
             <Link href="/policies" className="font-body text-xs text-[var(--hotel-cream)]/50 hover:text-[var(--hotel-cream)]/80 transition-colors">
