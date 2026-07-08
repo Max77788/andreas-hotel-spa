@@ -69,27 +69,43 @@ function writeJsonStore(users: AdminUser[]) {
 
 let _supaAvailable: boolean | null = null;
 
+let _supaCheckInFlight: Promise<boolean> | null = null;
+
 async function checkSupabaseTable(): Promise<boolean> {
-  if (_supaAvailable !== null) return _supaAvailable;
+  // Return cached successful result immediately
+  if (_supaAvailable === true) return true;
+  // If a check is already in flight, wait for it (prevents thundering herd)
+  if (_supaCheckInFlight) return _supaCheckInFlight;
   if (!SUPABASE_SERVICE_KEY) {
     _supaAvailable = false;
     return false;
   }
-  try {
-    const res = await fetch(supaUrl(`${TABLE}?limit=1`), {
-      headers: supaHeaders(),
-      signal: AbortSignal.timeout(3000),
-    });
-    _supaAvailable = res.ok;
-    return _supaAvailable;
-  } catch {
-    _supaAvailable = false;
-    return false;
-  }
+
+  _supaCheckInFlight = (async () => {
+    try {
+      const res = await fetch(supaUrl(`${TABLE}?limit=1`), {
+        headers: supaHeaders(),
+        signal: AbortSignal.timeout(5000),
+      });
+      _supaAvailable = res.ok;
+      return _supaAvailable;
+    } catch {
+      // Do NOT cache failures — reset to null so the next call retries.
+      // Transient network issues on Vercel cold starts should not permanently
+      // disable Supabase access.
+      _supaAvailable = null;
+      return false;
+    } finally {
+      _supaCheckInFlight = null;
+    }
+  })();
+
+  return _supaCheckInFlight;
 }
 
 function resetSupaCheck() {
   _supaAvailable = null;
+  _supaCheckInFlight = null;
 }
 
 // ── Crypto helpers ───────────────────────────────────

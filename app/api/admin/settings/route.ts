@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
 
   const res = await fetch(endpoint, {
     method,
-    headers: { ...supabaseHeaders(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" },
+    headers: { ...supabaseHeaders(), Prefer: "return=representation" },
     body: JSON.stringify(clean),
   });
   if (!res.ok) {

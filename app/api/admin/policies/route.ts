@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   if (!c.id) delete c.id;
   const m = c.id ? "PATCH" : "POST";
   const ep = c.id ? supabaseUrl(`policies?id=eq.${c.id}`) : supabaseUrl("policies");
-  const h = { ...supabaseHeaders(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" };
+  const h = { ...supabaseHeaders(), Prefer: "return=representation" };
   const res = await fetch(ep, { method: m, headers: h, body: JSON.stringify(c) });
   if (!res.ok) return NextResponse.json({ error: await res.text() }, { status: 400 });
   const d = await res.json();

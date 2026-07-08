@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   try {
   const method = clean.id ? "PATCH" : "POST";
   const endpoint = clean.id ? supabaseUrl(`rooms?id=eq.${clean.id}`) : supabaseUrl("rooms");
-  const h = { ...supabaseHeaders(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" };
+  const h = { ...supabaseHeaders(), Prefer: "return=representation" };
     const res = await fetch(endpoint, { method, headers: h, body: JSON.stringify(clean) });
     if (!res.ok) { const err = await res.text(); return NextResponse.json({ error: err }, { status: 400 }); }
     const data = await res.json();

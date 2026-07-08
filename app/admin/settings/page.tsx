@@ -111,62 +111,79 @@ export default function SettingsEditor() {
               <p className="text-lg text-neutral-600 font-medium mb-6">
                 Award badges shown on the homepage. Add image URLs (PNG preferred, ~80px height), optional link URLs, and alt text.
               </p>
-              <div className="space-y-6">
-                {(() => {
-                  const awards = settings.awards || [];
-                  return [...Array(Math.max(4, awards.length + 1))].map((_, i) => {
-                    const award = awards[i] || { image_url: "", link_url: "", alt_text: "" };
-                    return (
-                      <div key={i} className="border-2 border-dashed border-neutral-300 p-4 rounded flex gap-4 items-start">
-                        <span className="text-sm font-bold text-neutral-500 mt-3 w-6">#{i + 1}</span>
-                        <div className="flex-1 grid grid-cols-3 gap-3">
-                          <label className="flex flex-col gap-1">
-                            <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Image URL</span>
-                            <input
-                              value={award.image_url || ""}
-                              onChange={e => {
-                                const arr = [...(settings.awards || [])];
-                                arr[i] = { ...arr[i], image_url: e.target.value, link_url: arr[i]?.link_url || "", alt_text: arr[i]?.alt_text || "" };
-                                update("awards", arr);
-                              }}
-                              placeholder="/hotel-photos/tripadvisor-award.png"
-                              className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-neutral-50"
-                            />
-                          </label>
-                          <label className="flex flex-col gap-1">
-                            <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Link URL</span>
-                            <input
-                              value={award.link_url || ""}
-                              onChange={e => {
-                                const arr = [...(settings.awards || [])];
-                                arr[i] = { ...arr[i], image_url: arr[i]?.image_url || "", link_url: e.target.value, alt_text: arr[i]?.alt_text || "" };
-                                update("awards", arr);
-                              }}
-                              placeholder="https://tripadvisor.com/..."
-                              className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-neutral-50"
-                            />
-                          </label>
-                          <label className="flex flex-col gap-1">
-                            <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Alt Text</span>
-                            <input
-                              value={award.alt_text || ""}
-                              onChange={e => {
-                                const arr = [...(settings.awards || [])];
-                                arr[i] = { ...arr[i], image_url: arr[i]?.image_url || "", link_url: arr[i]?.link_url || "", alt_text: e.target.value };
-                                update("awards", arr);
-                              }}
-                              placeholder="TripAdvisor Award"
-                              className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-neutral-50"
-                            />
-                          </label>
-                        </div>
-                        {award.image_url && (
-                          <img src={award.image_url} alt="" className="h-14 w-auto mt-1 flex-shrink-0 rounded border border-neutral-200" />
-                        )}
-                      </div>
-                    );
-                  });
-                })()}
+              <div className="space-y-4">
+                {(settings.awards || []).map((award, i) => (
+                  <div key={i} className="border-2 border-solid border-neutral-300 p-4 rounded flex gap-4 items-start bg-neutral-50">
+                    <span className="text-sm font-bold text-neutral-400 mt-3 w-6">{i + 1}.</span>
+                    <div className="flex-1 grid grid-cols-3 gap-3">
+                      <label className="flex flex-col gap-1">
+                        <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Image URL</span>
+                        <input
+                          value={award.image_url || ""}
+                          onChange={e => {
+                            const arr = [...(settings.awards || [])];
+                            arr[i] = { ...award, image_url: e.target.value };
+                            update("awards", arr);
+                          }}
+                          placeholder="/hotel-photos/tripadvisor-award.png"
+                          className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-white"
+                        />
+                      </label>
+                      <label className="flex flex-col gap-1">
+                        <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Link URL</span>
+                        <input
+                          value={award.link_url || ""}
+                          onChange={e => {
+                            const arr = [...(settings.awards || [])];
+                            arr[i] = { ...award, link_url: e.target.value };
+                            update("awards", arr);
+                          }}
+                          placeholder="https://tripadvisor.com/..."
+                          className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-white"
+                        />
+                      </label>
+                      <label className="flex flex-col gap-1">
+                        <span className="text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Alt Text</span>
+                        <input
+                          value={award.alt_text || ""}
+                          onChange={e => {
+                            const arr = [...(settings.awards || [])];
+                            arr[i] = { ...award, alt_text: e.target.value };
+                            update("awards", arr);
+                          }}
+                          placeholder="TripAdvisor Award"
+                          className="border-[2px] border-neutral-300 px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-white"
+                        />
+                      </label>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 min-w-[80px]">
+                      {award.image_url && (
+                        <img src={award.image_url} alt="" className="h-14 w-auto rounded border border-neutral-200" />
+                      )}
+                      <button
+                        onClick={() => {
+                          const arr = [...(settings.awards || [])];
+                          arr.splice(i, 1);
+                          update("awards", arr);
+                        }}
+                        className="text-xs font-bold text-red-500 hover:text-red-700 px-2 py-1"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                ))}
+
+                <button
+                  onClick={() => {
+                    const arr = [...(settings.awards || [])];
+                    arr.push({ image_url: "", link_url: "", alt_text: "" });
+                    update("awards", arr);
+                  }}
+                  className="w-full border-2 border-dashed border-amber-400 text-amber-600 hover:text-amber-800 hover:border-amber-600 font-bold text-sm py-3 rounded transition-colors"
+                >
+                  + Add New Award
+                </button>
               </div>
             </div>
           </div>

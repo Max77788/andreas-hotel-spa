@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
   if (!c.id) delete c.id;
   const m = c.id ? "PATCH" : "POST";
   const ep = c.id ? supabaseUrl(`${t}?id=eq.${c.id}`) : supabaseUrl(t);
-  const r = await fetch(ep, { method: m, headers: { ...supabaseHeaders(), "Content-Type": "application/json", "Content-Profile": "andreas_website", Prefer: "return=representation" }, body: JSON.stringify(c) });
+  const r = await fetch(ep, { method: m, headers: { ...supabaseHeaders(), Prefer: "return=representation" }, body: JSON.stringify(c) });
   if (!r.ok) return NextResponse.json({ error: await r.text() }, { status: 400 });
   const d = await r.json();
   revalidatePath("/");
