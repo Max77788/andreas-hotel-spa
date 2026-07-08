@@ -38,10 +38,30 @@ export async function POST(req: NextRequest) {
     headers: { ...supabaseHeaders(), Prefer: "return=representation" },
     body: JSON.stringify(clean),
   });
+
+  // If awards column doesn't exist yet, retry without it
   if (!res.ok) {
     const err = await res.text();
+    try {
+      const errJson = JSON.parse(err);
+      // PGRST204 = column not found in schema cache
+      if (errJson?.code === "PGRST204" && errJson?.message?.includes("awards")) {
+        const { awards: _awards, ...cleanWithoutAwards } = clean;
+        const retryRes = await fetch(endpoint, {
+          method,
+          headers: { ...supabaseHeaders(), Prefer: "return=representation" },
+          body: JSON.stringify(cleanWithoutAwards),
+        });
+        if (retryRes.ok) {
+          const data = await retryRes.json();
+          revalidatePath("/");
+          return NextResponse.json(Array.isArray(data) ? data[0] : data);
+        }
+      }
+    } catch {}
     return NextResponse.json({ error: err }, { status: 400 });
   }
+
   const data = await res.json();
   revalidatePath("/");
   return NextResponse.json(Array.isArray(data) ? data[0] : data);
