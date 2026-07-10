@@ -156,6 +156,12 @@ html {
   to   { width: 100%; }
 }
 
+/* Hero gallery Ken Burns (6s slow zoom + pan for hero transitions) */
+@keyframes heroKenBurns {
+  0%   { transform: scale(1.05) translate(0%, 0%); opacity: 0.85; }
+  100% { transform: scale(1.15) translate(-1.5%, -1%); opacity: 1; }
+}
+
 /* Card lift hover effect */
 .card-lift {
   transition: transform 0.3s ease, box-shadow 0.3s ease;

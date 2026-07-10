@@ -32,54 +32,81 @@ const SPA_PACKAGES = [
 const PREMIUM_PACKAGES = [
   {
     name: "Paradise for Two",
-    price: "$375",
-    duration: "1.5 hrs",
-    desc: "Relax with that special someone bathing in warm mineral-rich water. Enjoy champagne and fresh fruit before a luxurious 50-minute therapeutic massage. Price for two.",
+    price: "$550",
+    duration: "2.5 hrs",
+    desc: "Relax and spend some time with that special someone bathing in warm essential oil infused mineral enhanced water. Hydrate in our oversized whirlpool tubs and enjoy champagne and seasonal fruit while melting away stress to prepare you both for luxurious 60-minute facials followed by a full body 60-minute therapeutic massage. A real couple's spa day. Price for two.",
   },
   {
     name: "The Every Inch",
     price: "$375",
-    duration: "2 hrs",
-    desc: "Begin with a peaceful Canyon Clay Wrap to detoxify and purify, followed by a mind-calming therapeutic massage, then complete the experience with an exhilarating Vital-C facial for a perfect glow — plus scalp, neck, and foot massage.",
+    duration: "3 hrs",
+    desc: "Begin with a peaceful Canyon Clay Wrap that will detoxify and purify your inner body. Follow your wrap with a mind-calming therapeutic massage, then complete the experience with an exhilarating Vital-C facial that hydrates your skin to a perfect glow — plus scalp, neck, hand and foot massage.",
   },
   {
     name: "Romance Andreas Style",
     price: "$395",
     duration: "2 hrs",
-    desc: "A mineral soak relaxes your muscles as you spend quality time together before experiencing our Canyon Clay Body Masque and a half-hour therapeutic massage. Price for two.",
+    desc: "A mineral soak relaxes your muscles and opens your hearts as you spend quality time together before experiencing our Canyon Clay Body Mask and half-hour therapeutic massage. Price for two.",
+  },
+  {
+    name: "Lady's Day",
+    price: "$230",
+    duration: "2 hrs",
+    desc: "A one-hour stress reducing massage followed by a one-hour cleansing and hydrating facial — the best of both worlds.",
+  },
+  {
+    name: "A Man's Pairing",
+    price: "$230",
+    duration: "2 hrs",
+    desc: "A one-hour stress reducing massage followed by a one-hour cleansing and hydrating facial — the best of both worlds.",
   },
 ];
 
 const MASSAGES = [
-  { name: "Swedish Massage", desc: "The classic oiled massage using long strokes, kneading and friction techniques. Relaxes, improves circulation and mobility.", price50: "$115", price80: "$160" },
-  { name: "Aromatherapy Massage", desc: "A light rhythmic massage utilizing the power of essential oils to enhance and calm. Pure healing heaven.", price50: "$120", price80: "$165" },
-  { name: "Pre-natal Massage", desc: "Massage for pregnant women that reduces stress on weight-bearing joints, encourages blood and lymph circulation, and relaxes nervous tension.", price50: "$130", price80: null },
-  { name: "Therapeutic Massage", desc: "A combination of Swedish and Deep Tissue work, with other modalities tailored to your individual needs.", price50: "$125", price80: "$175" },
-  { name: "Deep Tissue", desc: "A slow and firm technique designed to work out tighter spots in the body.", price50: "$135", price80: "$195" },
-  { name: "Warm Stone Massage", desc: "Warm smooth river rocks are placed along the spine and used to dissolve knots and release tension.", price50: "$135", price80: null },
-  { name: "Head to Toe", desc: "A 25-minute pressure point reflexology session for hands and feet, followed by a 25-minute jojoba eucalyptus scalp massage.", price50: "$130", price80: null },
-  { name: "Lymphatic Massage", desc: "A very light touch massage designed to activate the lymphatic system to remove toxins from the body.", price50: "$130", price80: null },
+  { name: "Swedish Massage", desc: "The classic oiled massage using long strokes, kneading and friction techniques. Relaxes, improves circulation and mobility.", price50: "$125", price80: "$175" },
+  { name: "Aromatherapy Massage", desc: "A light rhythmic massage utilizing the power of essential oils to enhance and calm. Pure healing heaven.", price50: "$130", price80: "$180" },
+  { name: "Prenatal Massage", desc: "Massage for pregnant women that reduces stress on weight-bearing joints, encourages blood and lymph circulation, and relaxes nervous tension.", price50: "$145", price80: null },
+  { name: "Therapeutic Massage", desc: "A combination of Swedish and Deep Tissue work, with other modalities tailored to your individual constitution and needs.", price50: "$135", price80: "$190" },
+  { name: "Deep Tissue", desc: "A slow and firm technique designed to work out tighter spots in the body.", price50: "$145", price80: "$210" },
+  { name: "Warm Stone Massage", desc: "Warm smooth river rocks are placed along the spine and used to dissolve knots and release tension — a truly relaxing experience.", price50: "$155", price80: null },
+  { name: "Head to Toe", desc: "A 30-minute pressure point reflexology session for hands and feet, followed by a 30-minute jojoba eucalyptus scalp massage. Don't wash — let the oils soak in.", price50: "$150", price80: null },
+  { name: "Lymphatic Massage", desc: "A very light touch massage designed to activate the lymphatic system to remove toxins from the body.", price50: "$150", price80: null },
 ];
 
 const FACIALS = [
-  { name: "Vital-C", desc: "The ultimate hydration facial — an antioxidant-rich vitamin C emollient that gently renews and nourishes skin for a healthy, youthful glow.", price: "$115" },
-  { name: "Andreas Signature Ageless Facial", desc: "A results-driven treatment using plant stem cell technology with retinol and polypeptides to resurface, rejuvenate, and repair aging skin.", price: "$125" },
-  { name: "Gent's Facial", desc: "Especially for men — a deep pore cleanse with enzyme exfoliation and hydration to reduce signs of aging and increase cell turnover.", price: "$115" },
-  { name: "Oxygen Facial", desc: "An invigorating treatment that infuses oxygen, plant-derived stem cells, peptides, and enzymatic botanicals — leaving skin luminous and rejuvenated.", price: "$120" },
-  { name: "Clear Cell", desc: "An active clinical facial designed to treat all forms of acne by eliminating excess oil and adding essential antioxidants. Salicylic acid, enzymes, and retinol work synergistically.", price: "$120" },
-  { name: "Age Later Face Lift", desc: "A revolutionary peel in four layers — vitamin C, glycolic acid, enzymes, and a lightening treatment — to renew your complexion, leaving it silky smooth with a healthy glow.", price: "$130" },
+  { name: "Vital-C", desc: "The ultimate hydration facial — an antioxidant-rich vitamin C emollient formula that gently exfoliates, renews, and nourishes skin for a healthy, youthful glow and silky-smooth feel.", price: "$130" },
+  { name: "Andreas Signature Ageless Facial", desc: "A results-driven treatment using plant stem cell technology to preserve skin cells. With a highly concentrated blend of retinol and polypeptides — resurface, rejuvenate, and repair aging skin. AHA compounds strengthen collagen and increase cell turnover for visibly firmer, ageless skin.", price: "$155" },
+  { name: "Gent's Facial", desc: "Especially for men — a deep pore cleanse with enzyme exfoliation and hydration treatment that reduces signs of aging and increases cell turnover while toning to reveal a smoother, more balanced complexion.", price: "$135" },
+  { name: "Oxygen Facial", desc: "Exfoliate, illuminate, and oxygenate with this invigorating treatment. Luxurious oxygen, plant-derived stem cells, peptides, and enzymatic botanicals are infused into the skin — leaving it luminous, refreshed, and rejuvenated. Inhale … exhale … beautiful skin.", price: "$140" },
+  { name: "Desert Orange Blossom Buff", desc: "Citrus essence and oils blend with stone fruit exfoliants, jojoba, and lecithin to scrub away dead skin, refine, smooth, and hydrate.", price: "$125" },
+  { name: "Vitalizing Rosemary Mint Scrub", desc: "Sea salts blended with invigorating peppermint and rosemary essential oils transport you while your skin is buffed and polished for a clean, fresh complexion. Perfect for warm days.", price: "$135" },
+  { name: "The Facify Beauty Facial", desc: "The Facify Beauty Wand takes your skin to the next level with deep cleansing, toning, circulation-boosting, smoothing, firming, and lymphatic massage functions. Innovative multifunctional technology for your best skin yet.", price: "$185" },
+  { name: "Age Later Face Lift", desc: "A revolutionary peel in four layers — high-dose Vitamin C, glycolic acid with active enzymes, and a mega-lightening treatment with lactic acid and brightening agents — to renew your complexion, leaving it silky smooth with a noticeable healthy glow.", price: "$165" },
+  { name: "Back Facial", desc: "An exfoliating treatment for hard-to-reach trouble spots — deep pore cleansing, steam, mask, and a light shoulder massage refresh while restoring nutrients for smooth, touchable skin.", price: "$95" },
 ];
 
 const BODY_TREATMENTS = [
   { name: "Canyon Clay Wrap", desc: "A detoxifying wrap that purifies the body's outer surface while drawing out impurities. Leaves skin smooth and renewed.", price: "$120" },
+  { name: "Canyon Clay Body Mask", desc: "A cocoon of rich red earth from the southwest deserts blended with ginger, turmeric, and other aromatics to soothe sensitive skin, relieve fatigue, and improve circulation. Nourishes and warms with scalp and foot rub as you take it in.", price: "$135" },
   { name: "Salt Scrub", desc: "An invigorating full-body exfoliation that removes dead skin cells and stimulates circulation for soft, glowing skin.", price: "$115" },
+  { name: "Andreas Signature Scrub", desc: "With nourishing grape seed, jojoba, and shea butter oils plus supple fruit enzymes — this sensuous scrub is ideal for maintaining open pores and soft skin.", price: "$125" },
 ];
 
 const ADDONS = [
-  "Moisturizing Hand Treatment — $45",
-  "Scalp Massage Add-On — $30",
-  "Foot Scrub Add-On — $35",
-  "Eye Treatment Add-On — $25",
+  "Half Hour Massage Add-On — $75",
+  "Half Hour Facial Add-On — $75",
+  "Half Hour Mineral Soak — $50",
+  "Hot Stone Application — $50",
+  "Moisturizing Hand Treatment — $55",
+  "Romantic Soak for Two w/ Champagne & Chocolates — $100",
+  "Champagne — $60",
+  "Bottle of Wine (House) — $50",
+  "Waxing — $25–$185",
+  "Signature Cocktails — $15+",
+  "Fruit & Cheese Plate — $45 / $65",
+  "Chocolate Covered Strawberries (6) — $55",
+  "Chocolates — $35",
+  "A Dozen Roses — $50 & up",
 ];
 
 export default function SpaPage() {

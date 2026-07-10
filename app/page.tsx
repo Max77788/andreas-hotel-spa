@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense, type FormEvent } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import HeroGallery from "@/components/hero-gallery";
 import { useCms } from "@/lib/cms-context";
 
 // ── Images ────────────────────────────────────────────────────────────────────
@@ -65,7 +66,7 @@ const stats = [
   { icon: "△", value: "Est. 1935", label: "Heritage" },
 ];
 const amenities = [
-  { icon: "◎", title: "Full-Service Spa", desc: "Indulge in Vital-C Facial, California Orange Blossom Scrub, and Canyon Clay Body Mask treatments by expert therapists." },
+  { icon: "◎", title: "Full-Service Spa", desc: "Indulge in a Vital-C Facial, California Orange Blossom Scrub, and Canyon Clay Body Mask treatments by expert therapists." },
   { icon: "◈", title: "Outdoor Pool & Jacuzzi", desc: "Our heated pool and Jacuzzi are surrounded by lush gardens and elegant poolside loungers — open 24 hours daily for our guests." },
   { icon: "♨", title: "Finnish Sauna", desc: "Enjoy our traditional Finnish sauna — available as a dry sauna or a steam sauna for the ultimate relaxation experience." },
   { icon: "◐", title: "Outdoor Fireplaces", desc: "Gather around beautifully designed gas fireplaces set within our manicured courtyard every evening." },
@@ -185,45 +186,7 @@ export default function HomePage() {
       <Nav />
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <section className="relative h-screen overflow-hidden">
-        {/* Video background with poster fallback */}
-        <div
-          className="absolute inset-0 w-full h-full bg-cover bg-center"
-          style={{
-            backgroundImage: "url(/hotel-photos/exterior.jpg)",
-          }}
-        >
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/hotel-photos/exterior.jpg"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "100vw",
-              height: "56.25vw",
-              minHeight: "100vh",
-              minWidth: "177.77vh",
-              objectFit: "cover",
-              pointerEvents: "none",
-            }}
-          >
-            <source src="/hero-video.mp4" type="video/mp4" />
-          </video>
-        </div>
-
-        {/* Gradient overlay */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.15) 45%, rgba(0,0,0,0.6) 100%)",
-          }}
-        />
-
+      <HeroGallery images={galleryImages}>
         {/* Hero content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: "60px" }}>
           {/* Logo backdrop */}
@@ -267,7 +230,7 @@ export default function HomePage() {
           <span className="font-body text-[8px] tracking-[0.5em] uppercase">Scroll</span>
           <div className="w-px h-8 bg-white/20 animate-pulse" />
         </div>
-      </section>
+      </HeroGallery>
 
       {/* ── STATS STRIP ──────────────────────────────────────────────────────── */}
       <section className="bg-[var(--hotel-cream)] border-b border-[var(--hotel-sand)]">
