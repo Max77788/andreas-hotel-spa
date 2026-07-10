@@ -8,6 +8,7 @@ export default function RoomsEditor() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [editing, setEditing] = useState<Room | null>(null);
   const [loading, setLoading] = useState(true);
+  const [amenitiesRaw, setAmenitiesRaw] = useState("");
 
   useEffect(() => { fetchRooms(); }, []);
 
@@ -24,6 +25,13 @@ export default function RoomsEditor() {
   }
 
   function updateField(field: keyof Room, value: any) { if (!editing) return; setEditing({ ...editing, [field]: value }); }
+
+  // Sync raw amenities string when editing room changes
+  useEffect(() => {
+    if (editing) {
+      setAmenitiesRaw((editing.amenities || []).join(", "));
+    }
+  }, [editing?.id]);
 
   const saveFn = useCallback(async () => {
     if (!editing) return false;
@@ -104,7 +112,7 @@ export default function RoomsEditor() {
 
               <label className="flex flex-col gap-1.5 mt-5">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Amenities (comma-separated)</span>
-                <textarea value={(editing.amenities || []).join(", ")} onChange={e => updateField("amenities", e.target.value.split(",").map(s => s.trim()).filter(Boolean))} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                <textarea value={amenitiesRaw} onChange={e => setAmenitiesRaw(e.target.value)} onBlur={() => updateField("amenities", amenitiesRaw.split(",").map(s => s.trim()).filter(Boolean))} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
               </label>
 
               <div className="mt-5 space-y-2">
