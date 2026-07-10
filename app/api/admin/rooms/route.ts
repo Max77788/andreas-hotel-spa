@@ -24,6 +24,8 @@ export async function POST(req: NextRequest) {
   const h = { ...supabaseHeaders(), Prefer: "return=representation" };
     const res = await fetch(endpoint, { method, headers: h, body: JSON.stringify(clean) });
     if (!res.ok) { const err = await res.text(); return NextResponse.json({ error: err }, { status: 400 }); }
+    // PATCH returns 204 No Content — handle empty response
+    if (res.status === 204 || res.headers.get("content-length") === "0") return NextResponse.json({ success: true });
     const data = await res.json();
     revalidatePath("/");
     revalidatePath("/rooms");
