@@ -186,7 +186,7 @@ export default function HomePage() {
       <Nav />
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <HeroGallery images={galleryImages} videoUrl={cmsVideoUrl || undefined}>
+      <HeroGallery images={galleryImages} videoUrl={cmsVideoUrl || "/hero-video.mp4"}>
         {/* Hero content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: "60px" }}>
           {/* Logo backdrop */}
