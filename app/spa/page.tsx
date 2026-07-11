@@ -156,7 +156,7 @@ export default function SpaPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.4em] uppercase mb-3">Spa Packages</p>
-            <h2 className="font-display text-[var(--hotel-charcoal)] text-4xl md:text-5xl font-light tracking-wide">Starting at $160</h2>
+            <h2 className="font-display text-[var(--hotel-charcoal)] text-4xl md:text-5xl font-light tracking-wide">Starting at $99</h2>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-20">
