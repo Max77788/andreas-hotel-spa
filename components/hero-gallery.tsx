@@ -70,7 +70,7 @@ export default function HeroGallery({ images, children, videoUrl }: HeroGalleryP
         />
       )}
       {/* ── Image stack ─────────────────────────────────────────────────── */}
-      {images.map((img, i) => (
+      {!videoUrl && images.map((img, i) => (
         <div
           key={i}
           className="absolute inset-0 transition-opacity ease-in-out"
@@ -115,6 +115,7 @@ export default function HeroGallery({ images, children, videoUrl }: HeroGalleryP
       <div className="absolute inset-0 z-30">{children}</div>
 
       {/* ── Progress bar ────────────────────────────────────────────────── */}
+      {!videoUrl && (
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/10 z-30">
         <div
           key={`progress-${activeIndex}`}
@@ -122,9 +123,10 @@ export default function HeroGallery({ images, children, videoUrl }: HeroGalleryP
           style={{ animation: `heroProgress ${IMAGE_DURATION}ms linear` }}
         />
       </div>
+      )}
 
       {/* ── Dot indicators ──────────────────────────────────────────────── */}
-      {images.length > 1 && (
+      {!videoUrl && images.length > 1 && (
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
           {images.map((_, i) => (
             <button
