@@ -25,6 +25,7 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   let cmsAddress = "277 N. Indian Canyon Drive, Palm Springs, CA 92262";
+  let cmsVideoUrl = "";
   let vapiName = "Andreas";
   let vapiGreeting = "Hi, I'm Andreas, your receptionist at Andreas Hotel & Spa. How can I help you today?";
   let vapiPlaceholder = "Ask about rooms, amenities, or bookings...";
@@ -34,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     if (data?.address) {
       cmsAddress = data.address;
     }
-    const cmsVideoUrl = data?.hero_video_url || "";
+    cmsVideoUrl = data?.hero_video_url || "";
     if (data?.vapi_assistant_name) vapiName = data.vapi_assistant_name;
     if (data?.vapi_first_message) vapiGreeting = data.vapi_first_message;
     if (data?.vapi_placeholder) vapiPlaceholder = data.vapi_placeholder;
