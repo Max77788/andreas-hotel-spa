@@ -112,7 +112,7 @@ export default function HeroGallery({ images, children, videoUrl }: HeroGalleryP
       <div className="film-grain absolute inset-0 z-20" />
 
       {/* ── Hero content (logo, tagline, CTAs, scroll hint) ─────────────── */}
-      <div className="relative z-30">{children}</div>
+      <div className="absolute inset-0 z-30">{children}</div>
 
       {/* ── Progress bar ────────────────────────────────────────────────── */}
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/10 z-30">
