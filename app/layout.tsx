@@ -30,10 +30,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   let vapiPlaceholder = "Ask about rooms, amenities, or bookings...";
   try {
     const supabase = createServerClient();
-    const { data } = await supabase.from("site_settings").select("address, vapi_assistant_name, vapi_first_message, vapi_placeholder").single();
+    const { data } = await supabase.from("site_settings").select("address, hero_video_url, vapi_assistant_name, vapi_first_message, vapi_placeholder").single();
     if (data?.address) {
       cmsAddress = data.address;
     }
+    const cmsVideoUrl = data?.hero_video_url || "";
     if (data?.vapi_assistant_name) vapiName = data.vapi_assistant_name;
     if (data?.vapi_first_message) vapiGreeting = data.vapi_first_message;
     if (data?.vapi_placeholder) vapiPlaceholder = data.vapi_placeholder;
@@ -44,7 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning={true}>
-        <CmsProvider address={cmsAddress}>
+        <CmsProvider address={cmsAddress} heroVideoUrl={cmsVideoUrl}>
           <ThemeProvider
           attribute="class"
           defaultTheme="system"

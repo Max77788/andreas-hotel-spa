@@ -13,9 +13,10 @@ const CROSSFADE_DURATION = 2000; // ms transition
 interface HeroGalleryProps {
   images: HeroImage[];
   children: ReactNode;
+  videoUrl?: string;
 }
 
-export default function HeroGallery({ images, children }: HeroGalleryProps) {
+export default function HeroGallery({ images, children, videoUrl }: HeroGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -57,6 +58,17 @@ export default function HeroGallery({ images, children }: HeroGalleryProps) {
 
   return (
     <section className="relative h-screen overflow-hidden bg-[var(--hotel-charcoal)]">
+      {/* ── Hero video (if configured) ─────────────────────────────────── */}
+      {videoUrl && (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-[5]"
+          src={videoUrl}
+        />
+      )}
       {/* ── Image stack ─────────────────────────────────────────────────── */}
       {images.map((img, i) => (
         <div

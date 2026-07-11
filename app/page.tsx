@@ -86,7 +86,7 @@ export default function HomePage() {
   const [cmsOffers, setCmsOffers] = useState<{ oneNight: CmsOffer[]; twoNight: CmsOffer[] } | null>(null);
   const [cmsGallery, setCmsGallery] = useState<{ src: string; alt: string }[] | null>(null);
   const [cmsAwards, setCmsAwards] = useState<{ image_url: string; link_url: string; alt_text: string }[] | null>(null);
-  const cmsAddress = useCms().address;
+  const { address: cmsAddress, heroVideoUrl: cmsVideoUrl } = useCms();
 
   useEffect(() => {
     fetch("/api/cms/homepage")
@@ -186,7 +186,7 @@ export default function HomePage() {
       <Nav />
 
       {/* ── HERO ──────────────────────────────────────────────────────────── */}
-      <HeroGallery images={galleryImages}>
+      <HeroGallery images={galleryImages} videoUrl={cmsVideoUrl || undefined}>
         {/* Hero content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6" style={{ paddingTop: "60px" }}>
           {/* Logo backdrop */}
