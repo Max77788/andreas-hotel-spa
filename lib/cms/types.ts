@@ -63,6 +63,19 @@ export interface GalleryImage {
   sort_order: number;
 }
 
+export interface SpaItem {
+  id: string;
+  name: string;
+  category: "package" | "premium" | "massage" | "facial" | "body_treatment" | "addon";
+  description: string | null;
+  price: string | null;
+  price_50: string | null;
+  price_80: string | null;
+  duration: string | null;
+  sort_order: number;
+  is_published: boolean;
+}
+
 export interface SiteSettings {
   id: string;
   hotel_name: string;

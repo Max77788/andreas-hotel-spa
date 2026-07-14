@@ -2,114 +2,24 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import LogoVariantDisplay from "@/components/logo-variant-display";
 import { Suspense } from "react";
+import { getSpaItems } from "@/lib/cms/queries";
+import type { SpaItem } from "@/lib/cms/types";
 
 export const metadata = {
   title: "Spa & Wellness – The Andreas Hotel & Spa",
   description: "The Spa at Andreas offers skin care, massages, body treatments, and foot treatments. Deluxe couple's suites with Jacuzzi tubs and fireplaces in Palm Springs.",
 };
 
-const SPA_PACKAGES = [
-  {
-    name: "Couples Getaway",
-    price: "$535",
-    duration: null,
-    desc: "Two 60-minute therapeutic massages, side by side, in our couples suite with a fireplace, a glass of champagne, and a 30-minute mineral soak in our whirlpool tub.",
-  },
-  {
-    name: "Me Time",
-    price: "$99",
-    duration: null,
-    desc: "A 55-minute aromatherapy massage and a glass of champagne. The perfect solo escape.",
-  },
-  {
-    name: "Summer Delight",
-    price: "$205",
-    duration: null,
-    desc: "A 55-minute Swedish massage, a 55-minute Vital-C facial, and a glass of champagne.",
-  },
-];
+export default async function SpaPage() {
+  const items = await getSpaItems();
 
-const PREMIUM_PACKAGES = [
-  {
-    name: "Paradise for Two",
-    price: "$550",
-    duration: "2.5 hrs",
-    desc: "Relax and spend some time with that special someone bathing in warm essential oil infused mineral enhanced water. Hydrate in our oversized whirlpool tubs and enjoy champagne and seasonal fruit while melting away stress to prepare you both for luxurious 60-minute facials followed by a full body 60-minute therapeutic massage. A real couple's spa day. Price for two.",
-  },
-  {
-    name: "The Every Inch",
-    price: "$375",
-    duration: "3 hrs",
-    desc: "Begin with a peaceful Canyon Clay Wrap that will detoxify and purify your inner body. Follow your wrap with a mind-calming therapeutic massage, then complete the experience with an exhilarating Vital-C facial that hydrates your skin to a perfect glow — plus scalp, neck, hand and foot massage.",
-  },
-  {
-    name: "Romance Andreas Style",
-    price: "$395",
-    duration: "2 hrs",
-    desc: "A mineral soak relaxes your muscles and opens your hearts as you spend quality time together before experiencing our Canyon Clay Body Mask and half-hour therapeutic massage. Price for two.",
-  },
-  {
-    name: "Lady's Day",
-    price: "$230",
-    duration: "2 hrs",
-    desc: "A one-hour stress reducing massage followed by a one-hour cleansing and hydrating facial — the best of both worlds.",
-  },
-  {
-    name: "A Man's Pairing",
-    price: "$230",
-    duration: "2 hrs",
-    desc: "A one-hour stress reducing massage followed by a one-hour cleansing and hydrating facial — the best of both worlds.",
-  },
-];
+  const packages = items.filter(i => i.category === "package");
+  const premium = items.filter(i => i.category === "premium");
+  const massages = items.filter(i => i.category === "massage");
+  const facials = items.filter(i => i.category === "facial");
+  const bodyTreatments = items.filter(i => i.category === "body_treatment");
+  const addons = items.filter(i => i.category === "addon");
 
-const MASSAGES = [
-  { name: "Swedish Massage", desc: "The classic oiled massage using long strokes, kneading and friction techniques. Relaxes, improves circulation and mobility.", price50: "$125", price80: "$175" },
-  { name: "Aromatherapy Massage", desc: "A light rhythmic massage utilizing the power of essential oils to enhance and calm. Pure healing heaven.", price50: "$130", price80: "$180" },
-  { name: "Prenatal Massage", desc: "Massage for pregnant women that reduces stress on weight-bearing joints, encourages blood and lymph circulation, and relaxes nervous tension.", price50: "$145", price80: null },
-  { name: "Therapeutic Massage", desc: "A combination of Swedish and Deep Tissue work, with other modalities tailored to your individual constitution and needs.", price50: "$135", price80: "$190" },
-  { name: "Deep Tissue", desc: "A slow and firm technique designed to work out tighter spots in the body.", price50: "$145", price80: "$210" },
-  { name: "Warm Stone Massage", desc: "Warm smooth river rocks are placed along the spine and used to dissolve knots and release tension — a truly relaxing experience.", price50: "$155", price80: null },
-  { name: "Head to Toe", desc: "A 30-minute pressure point reflexology session for hands and feet, followed by a 30-minute jojoba eucalyptus scalp massage. Don't wash — let the oils soak in.", price50: "$150", price80: null },
-  { name: "Lymphatic Massage", desc: "A very light touch massage designed to activate the lymphatic system to remove toxins from the body.", price50: "$150", price80: null },
-];
-
-const FACIALS = [
-  { name: "Vital-C", desc: "The ultimate hydration facial — an antioxidant-rich vitamin C emollient formula that gently exfoliates, renews, and nourishes skin for a healthy, youthful glow and silky-smooth feel.", price: "$130" },
-  { name: "Andreas Signature Ageless Facial", desc: "A results-driven treatment using plant stem cell technology to preserve skin cells. With a highly concentrated blend of retinol and polypeptides — resurface, rejuvenate, and repair aging skin. AHA compounds strengthen collagen and increase cell turnover for visibly firmer, ageless skin.", price: "$155" },
-  { name: "Gent's Facial", desc: "Especially for men — a deep pore cleanse with enzyme exfoliation and hydration treatment that reduces signs of aging and increases cell turnover while toning to reveal a smoother, more balanced complexion.", price: "$135" },
-  { name: "Oxygen Facial", desc: "Exfoliate, illuminate, and oxygenate with this invigorating treatment. Luxurious oxygen, plant-derived stem cells, peptides, and enzymatic botanicals are infused into the skin — leaving it luminous, refreshed, and rejuvenated. Inhale … exhale … beautiful skin.", price: "$140" },
-  { name: "Desert Orange Blossom Buff", desc: "Citrus essence and oils blend with stone fruit exfoliants, jojoba, and lecithin to scrub away dead skin, refine, smooth, and hydrate.", price: "$125" },
-  { name: "Vitalizing Rosemary Mint Scrub", desc: "Sea salts blended with invigorating peppermint and rosemary essential oils transport you while your skin is buffed and polished for a clean, fresh complexion. Perfect for warm days.", price: "$135" },
-  { name: "The Facify Beauty Facial", desc: "The Facify Beauty Wand takes your skin to the next level with deep cleansing, toning, circulation-boosting, smoothing, firming, and lymphatic massage functions. Innovative multifunctional technology for your best skin yet.", price: "$185" },
-  { name: "Age Later Face Lift", desc: "A revolutionary peel in four layers — high-dose Vitamin C, glycolic acid with active enzymes, and a mega-lightening treatment with lactic acid and brightening agents — to renew your complexion, leaving it silky smooth with a noticeable healthy glow.", price: "$165" },
-  { name: "Back Facial", desc: "An exfoliating treatment for hard-to-reach trouble spots — deep pore cleansing, steam, mask, and a light shoulder massage refresh while restoring nutrients for smooth, touchable skin.", price: "$95" },
-];
-
-const BODY_TREATMENTS = [
-  { name: "Canyon Clay Wrap", desc: "A detoxifying wrap that purifies the body's outer surface while drawing out impurities. Leaves skin smooth and renewed.", price: "$120" },
-  { name: "Canyon Clay Body Mask", desc: "A cocoon of rich red earth from the southwest deserts blended with ginger, turmeric, and other aromatics to soothe sensitive skin, relieve fatigue, and improve circulation. Nourishes and warms with scalp and foot rub as you take it in.", price: "$135" },
-  { name: "Salt Scrub", desc: "An invigorating full-body exfoliation that removes dead skin cells and stimulates circulation for soft, glowing skin.", price: "$115" },
-  { name: "Andreas Signature Scrub", desc: "With nourishing grape seed, jojoba, and shea butter oils plus supple fruit enzymes — this sensuous scrub is ideal for maintaining open pores and soft skin.", price: "$125" },
-];
-
-const ADDONS = [
-  "Half Hour Massage Add-On — $75",
-  "Half Hour Facial Add-On — $75",
-  "Half Hour Mineral Soak — $50",
-  "Hot Stone Application — $50",
-  "Moisturizing Hand Treatment — $55",
-  "Romantic Soak for Two w/ Champagne & Chocolates — $100",
-  "Champagne — $60",
-  "Bottle of Wine (House) — $50",
-  "Waxing — $25–$185",
-  "Signature Cocktails — $15+",
-  "Fruit & Cheese Plate — $45 / $65",
-  "Chocolate Covered Strawberries (6) — $55",
-  "Chocolates — $35",
-  "A Dozen Roses — $50 & up",
-];
-
-export default function SpaPage() {
   return (
     <main>
       <Nav />
@@ -160,53 +70,29 @@ export default function SpaPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-20">
-            {SPA_PACKAGES.map((pkg) => (
-              <div
-                key={pkg.name}
-                className="card-lift dark:bg-[#2a2620] p-8 text-center group"
-              >
-                <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] mb-3">
-                  Package
-                </p>
-                <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-2">
-                  {pkg.name}
-                </h3>
-                <p className="font-display text-[var(--hotel-gold)] text-3xl font-light mb-4">
-                  {pkg.price}
-                </p>
-                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">
-                  {pkg.desc}
-                </p>
+            {packages.map((pkg) => (
+              <div key={pkg.id} className="card-lift dark:bg-[#2a2620] p-8 text-center group">
+                <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] mb-3">Package</p>
+                <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-2">{pkg.name}</h3>
+                <p className="font-display text-[var(--hotel-gold)] text-3xl font-light mb-4">{pkg.price}</p>
+                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{pkg.description}</p>
               </div>
             ))}
           </div>
 
           {/* Premium packages */}
           <div className="grid md:grid-cols-3 gap-8">
-            {PREMIUM_PACKAGES.map((pkg) => (
-              <div
-                key={pkg.name}
-                className="card-lift dark:bg-[#2a2620] p-8 text-center group"
-              >
+            {premium.map((pkg) => (
+              <div key={pkg.id} className="card-lift dark:bg-[#2a2620] p-8 text-center group">
                 <div className="flex items-center justify-center gap-3 mb-3">
-                  <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)]">
-                    Premium
-                  </p>
+                  <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)]">Premium</p>
                   {pkg.duration && (
-                    <span className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90">
-                      · {pkg.duration}
-                    </span>
+                    <span className="font-body text-[10px] tracking-[0.2em] uppercase text-[var(--hotel-charcoal)]/90">· {pkg.duration}</span>
                   )}
                 </div>
-                <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-2">
-                  {pkg.name}
-                </h3>
-                <p className="font-display text-[var(--hotel-gold)] text-3xl font-light mb-4">
-                  {pkg.price}
-                </p>
-                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">
-                  {pkg.desc}
-                </p>
+                <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-2">{pkg.name}</h3>
+                <p className="font-display text-[var(--hotel-gold)] text-3xl font-light mb-4">{pkg.price}</p>
+                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{pkg.description}</p>
               </div>
             ))}
           </div>
@@ -227,7 +113,7 @@ export default function SpaPage() {
             Includes a glass of champagne on arrival and a complimentary fruit and cheese platter.
           </p>
           <a
-            href="tel:+17603250900"
+            href="tel:+176****0900"
             className="inline-block bg-[var(--hotel-gold)] text-black font-body text-xs tracking-[0.3em] uppercase px-10 py-4 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
           >
             Call to Book Your Event
@@ -245,45 +131,34 @@ export default function SpaPage() {
 
           {/* Massages */}
           <div className="mb-16">
-            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-8 text-center">
-              Massages
-            </h3>
+            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-8 text-center">Massages</h3>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
-              {MASSAGES.map((m) => (
-                <div key={m.name} className="border-b border-[var(--hotel-sand)] pb-4">
+              {massages.map((m) => (
+                <div key={m.id} className="border-b border-[var(--hotel-sand)] pb-4">
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 mb-1">
                     <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">{m.name}</h4>
                     <div className="flex gap-3 font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">
-                      <span>50 min — {m.price50}</span>
-                      {m.price80 && <span className="text-[var(--hotel-charcoal)]/90">| 80 min — {m.price80}</span>}
+                      <span>50 min — {m.price_50}</span>
+                      {m.price_80 && <span className="text-[var(--hotel-charcoal)]/90">| 80 min — {m.price_80}</span>}
                     </div>
                   </div>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{m.desc}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{m.description}</p>
                 </div>
               ))}
-              <div className="border-b border-[var(--hotel-sand)] pb-4">
-                <div className="flex items-baseline justify-between gap-4 mb-1">
-                  <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">Moisturizing Hand Treatment</h4>
-                  <span className="font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">$45</span>
-                </div>
-                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">Can be added to any massage above.</p>
-              </div>
             </div>
           </div>
 
           {/* Facials */}
           <div className="mb-16">
-            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-8 text-center">
-              Facials
-            </h3>
+            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-8 text-center">Facials</h3>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
-              {FACIALS.map((f) => (
-                <div key={f.name} className="border-b border-[var(--hotel-sand)] pb-4">
+              {facials.map((f) => (
+                <div key={f.id} className="border-b border-[var(--hotel-sand)] pb-4">
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 mb-1">
                     <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">{f.name}</h4>
                     <span className="font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">50 min — {f.price}</span>
                   </div>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{f.desc}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{f.description}</p>
                 </div>
               ))}
             </div>
@@ -291,17 +166,15 @@ export default function SpaPage() {
 
           {/* Body Treatments */}
           <div>
-            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-8 text-center">
-              Body Treatments
-            </h3>
+            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-8 text-center">Body Treatments</h3>
             <div className="grid md:grid-cols-2 gap-x-12 gap-y-6 max-w-2xl mx-auto">
-              {BODY_TREATMENTS.map((b) => (
-                <div key={b.name} className="border-b border-[var(--hotel-sand)] pb-4">
+              {bodyTreatments.map((b) => (
+                <div key={b.id} className="border-b border-[var(--hotel-sand)] pb-4">
                   <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 mb-1">
                     <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light">{b.name}</h4>
                     <span className="font-body text-[var(--hotel-gold)] text-sm whitespace-nowrap">50 min — {b.price}</span>
                   </div>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{b.desc}</p>
+                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{b.description}</p>
                 </div>
               ))}
             </div>
@@ -309,14 +182,10 @@ export default function SpaPage() {
 
           {/* Add-ons */}
           <div className="mt-16 text-center">
-            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-6">
-              Add-Ons & Treats
-            </h3>
+            <h3 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-terracotta)] mb-6">Add-Ons & Treats</h3>
             <div className="flex flex-wrap justify-center gap-x-8 gap-y-2">
-              {ADDONS.map((a) => (
-                <span key={a} className="font-body text-[var(--hotel-charcoal)]/90 text-sm">
-                  {a}
-                </span>
+              {addons.map((a) => (
+                <span key={a.id} className="font-body text-[var(--hotel-charcoal)]/90 text-sm">{a.name}</span>
               ))}
             </div>
           </div>
@@ -327,9 +196,7 @@ export default function SpaPage() {
       <section className="py-20 md:py-28 bg-[var(--hotel-cream)]">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.4em] uppercase mb-4">Visit Us</p>
-          <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl md:text-4xl font-light tracking-wide mb-10">
-            Hours & Contact
-          </h2>
+          <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl md:text-4xl font-light tracking-wide mb-10">Hours & Contact</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] mb-2">Hours</p>
@@ -343,7 +210,7 @@ export default function SpaPage() {
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] mb-2">Contact</p>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">
                 Tel:{" "}
-                <a href="tel:+17603250900" className="hover:text-[var(--hotel-terracotta)] transition-colors">
+                <a href="tel:+176****0900" className="hover:text-[var(--hotel-terracotta)] transition-colors">
                   (760) 325-0900
                 </a>
                 <br />

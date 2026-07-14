@@ -1,5 +1,5 @@
 import { createServerClient } from "@/lib/supabase/server";
-import type { Room, Policy, Offer, OfferInclusion, EventItem, GalleryImage, SiteSettings } from "./types";
+import type { Room, Policy, Offer, OfferInclusion, EventItem, GalleryImage, SiteSettings, SpaItem } from "./types";
 
 export async function getRooms(): Promise<Room[]> {
   const supabase = createServerClient();
@@ -72,4 +72,14 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     .select("*")
     .single();
   return data as SiteSettings | null;
+}
+
+export async function getSpaItems(): Promise<SpaItem[]> {
+  const supabase = createServerClient();
+  const { data } = await supabase
+    .from("cms_spa")
+    .select("*")
+    .eq("is_published", true)
+    .order("sort_order");
+  return (data as SpaItem[]) ?? [];
 }

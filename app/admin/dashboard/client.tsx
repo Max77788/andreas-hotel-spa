@@ -5,6 +5,7 @@ const sections = [
   { name: "Rooms", href: "/admin/rooms", desc: "Edit room details, photos, amenities, pricing" },
   { name: "Policies", href: "/admin/policies", desc: "Manage hotel policies and cancellation" },
   { name: "Offers", href: "/admin/offers", desc: "Seasonal packages and inclusions" },
+  { name: "Spa", href: "/admin/spa", desc: "Spa packages, massages, facials, body treatments, add-ons" },
   { name: "Events", href: "/admin/events", desc: "Upcoming events and activities" },
   { name: "Gallery", href: "/admin/gallery", desc: "Upload and organize site photos" },
   { name: "Settings", href: "/admin/settings", desc: "Hotel name, phone, address, logos" },
