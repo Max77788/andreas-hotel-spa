@@ -15,7 +15,7 @@ function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   if (!url || !key) return null;
-  return createClient(url, key);
+  return createClient(url, key, { db: { schema: "andreas_website" } });
 }
 
 export default function Footer() {
@@ -65,10 +65,10 @@ export default function Footer() {
                 className="h-9 md:h-10 w-auto hidden dark:block"
               />
             </Link>
-            <div className="font-body text-[var(--hotel-cream)] text-[10px] tracking-[0.5em] uppercase mb-5">
+            <div className="font-body text-[var(--hotel-cream)] dark:text-[#e8ddd0] text-[10px] tracking-[0.5em] uppercase mb-5">
               Hotel & Spa · Palm Springs
             </div>
-            <p className="font-body text-sm text-[var(--hotel-cream)]/70 leading-relaxed max-w-xs">
+            <p className="font-body text-sm text-[var(--hotel-cream)]/70 dark:text-[#e8ddd0]/70 leading-relaxed max-w-xs">
               Originally built in 1935, the Andreas is a landmark hotel in the heart of downtown Palm Springs.
             </p>
           </div>
@@ -97,7 +97,7 @@ export default function Footer() {
             <h4 className="font-body text-[10px] tracking-[0.4em] uppercase text-[var(--hotel-gold)] mb-5">
               Contact
             </h4>
-            <div className="space-y-3 font-body text-sm text-[var(--hotel-cream)]/80">
+            <div className="space-y-3 font-body text-sm text-[var(--hotel-cream)]/80 dark:text-[#e8ddd0]/80">
               <p>{address}</p>
               {city && <p>{city}</p>}
               <a href={`tel:${phone1.replace(/\D/g, "")}`} className="block hover:text-[var(--hotel-gold)] transition-colors">
@@ -118,17 +118,17 @@ export default function Footer() {
 
         {/* Bottom row */}
         <div className="flex flex-col md:flex-row items-center justify-between pt-8 gap-4">
-          <p className="font-body text-xs text-[var(--hotel-cream)]/50 tracking-widest">
+          <p className="font-body text-xs text-[var(--hotel-cream)]/50 dark:text-[#e8ddd0]/50 tracking-widest">
             &copy; {new Date().getFullYear()} The Andreas Hotel & Spa. All Rights Reserved.
           </p>
           <div className="flex gap-6">
-            <Link href="/policies" className="font-body text-xs text-[var(--hotel-cream)]/50 hover:text-[var(--hotel-cream)]/80 transition-colors">
+            <Link href="/policies" className="font-body text-xs text-[var(--hotel-cream)]/50 dark:text-[#e8ddd0]/50 hover:text-[var(--hotel-cream)]/80 dark:hover:text-[#e8ddd0]/80 transition-colors">
               Hotel Policies
             </Link>
-            <Link href="/privacy" className="font-body text-xs text-[var(--hotel-cream)]/50 hover:text-[var(--hotel-cream)]/80 transition-colors">
+            <Link href="/privacy" className="font-body text-xs text-[var(--hotel-cream)]/50 dark:text-[#e8ddd0]/50 hover:text-[var(--hotel-cream)]/80 dark:hover:text-[#e8ddd0]/80 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="/terms" className="font-body text-xs text-[var(--hotel-cream)]/50 hover:text-[var(--hotel-cream)]/80 transition-colors">
+            <Link href="/terms" className="font-body text-xs text-[var(--hotel-cream)]/50 dark:text-[#e8ddd0]/50 hover:text-[var(--hotel-cream)]/80 dark:hover:text-[#e8ddd0]/80 transition-colors">
               Terms of Use
             </Link>
           </div>
