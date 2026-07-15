@@ -74,7 +74,12 @@ export default async function SpaPage() {
               <div key={pkg.id} className="card-lift dark:bg-[#2a2620] p-8 text-center group">
                 <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] mb-3">Package</p>
                 <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-2">{pkg.name}</h3>
-                <p className="font-display text-[var(--hotel-gold)] text-3xl font-light mb-4">{pkg.price}</p>
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  {pkg.promo_price && (
+                    <span className="font-display text-neutral-400 text-xl font-light line-through">{pkg.price}</span>
+                  )}
+                  <p className="font-display text-[var(--hotel-gold)] text-3xl font-light">{pkg.promo_price || pkg.price}</p>
+                </div>
                 <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{pkg.description}</p>
               </div>
             ))}
@@ -91,7 +96,12 @@ export default async function SpaPage() {
                   )}
                 </div>
                 <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-2">{pkg.name}</h3>
-                <p className="font-display text-[var(--hotel-gold)] text-3xl font-light mb-4">{pkg.price}</p>
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  {pkg.promo_price && (
+                    <span className="font-display text-neutral-400 text-xl font-light line-through">{pkg.price}</span>
+                  )}
+                  <p className="font-display text-[var(--hotel-gold)] text-3xl font-light">{pkg.promo_price || pkg.price}</p>
+                </div>
                 <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">{pkg.description}</p>
               </div>
             ))}

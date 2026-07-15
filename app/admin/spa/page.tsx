@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import type { SpaItem } from "@/lib/cms/types";
 import { useAutoSave } from "@/lib/use-auto-save";
 
@@ -80,6 +80,14 @@ function SpaCard({ item, onRemove }: { item: SpaItem; onRemove: (id: string) => 
             placeholder="Duration"
           />
         )}
+        {(local.category === "package" || local.category === "premium") && (
+          <input
+            value={local.promo_price || ""}
+            onChange={e => setLocal({ ...local, promo_price: e.target.value })}
+            className="w-32 text-sm font-bold border-[3px] border-amber-400 px-3 py-2 bg-amber-50"
+            placeholder="Promo Price"
+          />
+        )}
         <label className="flex items-center gap-2 text-sm font-bold">
           <input type="checkbox" checked={local.is_published} onChange={e => setLocal({ ...local, is_published: e.target.checked })} />
           Published
@@ -108,18 +116,34 @@ function SpaCard({ item, onRemove }: { item: SpaItem; onRemove: (id: string) => 
 export default function SpaEditor() {
   const [items, setItems] = useState<SpaItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filterCategory, setFilterCategory] = useState<string | null>(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newCat, setNewCat] = useState("massage");
+  const [newName, setNewName] = useState("");
+  const listRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("/api/admin/spa").then(r => r.json()).then(d => { setItems(d); setLoading(false); });
   }, []);
 
-  async function add(category: string) {
+  const filtered = filterCategory ? items.filter(i => i.category === filterCategory) : items;
+
+  async function add() {
+    if (!newName.trim()) return;
     const res = await fetch("/api/admin/spa", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: "New Item", category, sort_order: items.length, is_published: true }),
+      body: JSON.stringify({ name: newName.trim(), category: newCat, sort_order: items.length, is_published: true }),
     });
     const saved = await res.json();
     setItems([...items, saved]);
+    setShowAddForm(false);
+    setNewName("");
+    setFilterCategory(newCat);
+    // Scroll to the new item after render
+    setTimeout(() => {
+      const el = document.getElementById(`spa-${saved.id}`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
   }
 
   async function remove(id: string) {
@@ -139,18 +163,45 @@ export default function SpaEditor() {
             <h1 className="text-4xl font-bold text-neutral-900 mt-1">Spa Menu</h1>
             <p className="text-base text-neutral-500 mt-1">Edits auto-save as you type.</p>
           </div>
-          <div className="flex gap-2">
-            {["package", "premium", "massage", "facial", "body_treatment", "addon"].map(cat => (
-              <button key={cat} onClick={() => add(cat)} className="bg-amber-500 text-neutral-900 text-xs font-bold tracking-[0.1em] uppercase px-3 py-2 hover:bg-amber-600 transition-colors">
-                + {CATEGORY_LABELS[cat]}
-              </button>
-            ))}
+          <div className="flex flex-col gap-2 items-end">
+            {/* Category filter buttons */}
+            <div className="flex gap-1 flex-wrap justify-end">
+              <button onClick={() => setFilterCategory(null)}
+                className={`text-xs font-bold tracking-[0.1em] uppercase px-2.5 py-1.5 transition-colors ${!filterCategory ? "bg-amber-500 text-neutral-900" : "bg-neutral-200 text-neutral-600 hover:bg-neutral-300"}`}
+              >All</button>
+              {["package", "premium", "massage", "facial", "body_treatment", "addon"].map(cat => (
+                <button key={cat} onClick={() => setFilterCategory(filterCategory === cat ? null : cat)}
+                  className={`text-xs font-bold tracking-[0.1em] uppercase px-2.5 py-1.5 transition-colors ${filterCategory === cat ? "bg-amber-500 text-neutral-900" : "bg-neutral-200 text-neutral-600 hover:bg-neutral-300"}`}
+                >{CATEGORY_LABELS[cat]}</button>
+              ))}
+            </div>
+            {/* Add item button */}
+            {!showAddForm ? (
+              <button onClick={() => setShowAddForm(true)}
+                className="bg-neutral-900 text-white text-sm font-bold px-4 py-2 hover:bg-neutral-700 transition-colors"
+              >+ Add Item</button>
+            ) : (
+              <div className="flex items-center gap-2 bg-white p-2 border-[2px] border-amber-400 shadow-md">
+                <select value={newCat} onChange={e => setNewCat(e.target.value)}
+                  className="text-xs font-bold border-[2px] border-neutral-300 px-2 py-1.5 bg-neutral-50">
+                  {Object.entries(CATEGORY_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+                </select>
+                <input value={newName} onChange={e => setNewName(e.target.value)}
+                  onKeyDown={e => e.key === "Enter" && add()}
+                  className="text-sm border-[2px] border-neutral-300 px-3 py-1.5 w-40 focus:border-amber-400 focus:outline-none"
+                  placeholder="Item name" autoFocus />
+                <button onClick={add} className="bg-amber-500 text-neutral-900 text-xs font-bold px-3 py-1.5 hover:bg-amber-600">Add</button>
+                <button onClick={() => setShowAddForm(false)} className="text-xs text-neutral-500 hover:text-neutral-700 px-2">✕</button>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="space-y-5">
-          {items.map((item) => (
-            <SpaCard key={item.id} item={item} onRemove={remove} />
+        <div ref={listRef} className="space-y-5">
+          {filtered.map((item) => (
+            <div key={item.id} id={`spa-${item.id}`}>
+              <SpaCard item={item} onRemove={remove} />
+            </div>
           ))}
         </div>
       </div>

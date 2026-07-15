@@ -71,6 +71,7 @@ export interface SpaItem {
   price: string | null;
   price_50: string | null;
   price_80: string | null;
+  promo_price: string | null;
   duration: string | null;
   sort_order: number;
   is_published: boolean;

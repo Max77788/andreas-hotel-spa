@@ -129,17 +129,36 @@ export default function SettingsEditor() {
 
                       <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                         <label className="flex flex-col gap-1">
-                          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Image URL</span>
-                          <input
-                            value={award.image_url || ""}
-                            onChange={e => {
-                              const arr = [...(settings.awards || [])];
-                              arr[i] = { ...award, image_url: e.target.value };
-                              update("awards", arr);
-                            }}
-                            placeholder="/hotel-photos/tripadvisor-award.png"
-                            className="border-[2px] border-neutral-300 px-2.5 sm:px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-white rounded-sm"
-                          />
+                          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Image</span>
+                          <div className="flex gap-1">
+                            <input
+                              value={award.image_url || ""}
+                              onChange={e => {
+                                const arr = [...(settings.awards || [])];
+                                arr[i] = { ...award, image_url: e.target.value };
+                                update("awards", arr);
+                              }}
+                              placeholder="/hotel-photos/tripadvisor-award.png"
+                              className="flex-1 border-[2px] border-neutral-300 px-2.5 sm:px-3 py-2 text-sm focus:border-amber-500 focus:outline-none bg-white rounded-sm"
+                            />
+                            <label className="flex items-center justify-center w-9 h-9 border-[2px] border-dashed border-amber-400 rounded-sm cursor-pointer hover:bg-amber-50 flex-shrink-0" title="Upload image">
+                              <svg className="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                              <input type="file" accept="image/*" className="hidden"
+                                onChange={async e => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  const formData = new FormData();
+                                  formData.append("file", file);
+                                  const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
+                                  if (!res.ok) return;
+                                  const { url } = await res.json();
+                                  const arr = [...(settings.awards || [])];
+                                  arr[i] = { ...award, image_url: url };
+                                  update("awards", arr);
+                                }}
+                              />
+                            </label>
+                          </div>
                         </label>
                         <label className="flex flex-col gap-1">
                           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Link URL</span>

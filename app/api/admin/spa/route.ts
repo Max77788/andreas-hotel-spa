@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
     price: body.price || null,
     price_50: body.price_50 || null,
     price_80: body.price_80 || null,
+    promo_price: body.promo_price || null,
     duration: body.duration || null,
     sort_order: body.sort_order ?? 0,
     is_published: body.is_published ?? true,
