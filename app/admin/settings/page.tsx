@@ -122,8 +122,8 @@ export default function SettingsEditor() {
                       {/* Image preview + number on mobile */}
                       <div className="flex items-center gap-3 sm:hidden mb-1">
                         <span className="text-sm font-bold text-neutral-400">{i + 1}.</span>
-                        {award.image_url && (
-                          <img src={award.image_url} alt="" className="h-10 w-auto rounded border border-neutral-200" />
+                        {award.image_url?.trim() && (
+                          <img src={award.image_url.trim()} alt="" className="h-10 w-auto rounded border border-neutral-200" />
                         )}
                       </div>
 
@@ -190,8 +190,8 @@ export default function SettingsEditor() {
 
                       {/* Desktop: sidebar with image + remove */}
                       <div className="hidden sm:flex flex-col items-center gap-2 min-w-[80px] flex-shrink-0">
-                        {award.image_url && (
-                          <img src={award.image_url} alt="" className="h-14 w-auto rounded border border-neutral-200" />
+                        {award.image_url?.trim() && (
+                          <img src={award.image_url.trim()} alt="" className="h-14 w-auto rounded border border-neutral-200" />
                         )}
                         <button
                           onClick={() => {
