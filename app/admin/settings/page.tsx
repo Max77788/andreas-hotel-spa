@@ -109,7 +109,7 @@ export default function SettingsEditor() {
             <div>
               <h2 className="text-xl sm:text-2xl font-bold text-neutral-800 mb-4 sm:mb-6 pb-2 border-b-[3px] border-neutral-300">Awards</h2>
               <p className="text-sm sm:text-lg text-neutral-600 font-medium mb-4 sm:mb-6">
-                Award badges shown on the homepage. Add image URLs (PNG preferred, ~80px height), optional link URLs, and alt text.
+                Award badges shown on the homepage. Add a direct .png, .jpg, or .webp URL, not a webpage URL; use upload for old or unreliable third-party URLs. Add optional link URLs and alt text.
               </p>
               <div className="space-y-3 sm:space-y-4">
                 {(settings.awards || []).map((award, i) => (
@@ -129,7 +129,7 @@ export default function SettingsEditor() {
 
                       <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                         <label className="flex flex-col gap-1">
-                          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Image</span>
+                          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.1em] text-neutral-500">Image URL</span>
                           <div className="flex gap-1">
                             <input
                               value={award.image_url || ""}

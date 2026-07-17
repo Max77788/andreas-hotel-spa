@@ -160,6 +160,10 @@ export default function HomePage() {
     { src: "/hotel-photos/mobility-accessible-2bed-2bath-suite-andreas-hotel-palm-springs.jpg", alt: "Accessible suite" },
     { src: "/hotel-photos/room7.jpg", alt: "Executive room" },
   ];
+  const validCmsAwards = (cmsAwards ?? []).flatMap((award) => {
+    const image_url = award.image_url?.trim();
+    return image_url ? [{ ...award, image_url }] : [];
+  });
   // ── Contact form ──
   async function handleContactSubmit(e: FormEvent) {
     e.preventDefault();
@@ -685,7 +689,7 @@ export default function HomePage() {
                 Our Awards & Recognition
               </p>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-6">
-                {((cmsAwards || []) as { image_url: string; link_url: string; alt_text: string }[]).length > 0 ? (cmsAwards as { image_url: string; link_url: string; alt_text: string }[]).map((award, i) => (
+                {validCmsAwards.length > 0 ? validCmsAwards.map((award, i) => (
                   <a
                     key={i}
                     href={award.link_url || "#"}
