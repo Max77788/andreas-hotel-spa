@@ -1,6 +1,5 @@
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
-import LogoVariantDisplay from "@/components/logo-variant-display";
 import { Suspense } from "react";
 import { getSpaItems } from "@/lib/cms/queries";
 import type { SpaItem } from "@/lib/cms/types";
@@ -37,14 +36,6 @@ export default async function SpaPage() {
           <h1 className="font-display text-white text-5xl md:text-7xl font-light tracking-wide mb-6 flex items-baseline justify-center gap-0">
             Spa at The <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1.2em] w-auto align-text-bottom -mr-[0.05em]" />ndreas
           </h1>
-          <div className="flex justify-center mb-6">
-            <Suspense fallback={null}>
-              <LogoVariantDisplay
-                variantA={<><img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-14 md:h-20 w-auto align-middle" /><span className="font-body text-white inline-block mt-5 md:mt-7 text-3xl md:text-4xl">ndreas</span></>}
-                variantB={<img src="/andreas_wordmark_white.png" alt="Andreas" className="h-10 md:h-14 w-auto opacity-90" />}
-              />
-            </Suspense>
-          </div>
           <p className="font-body text-white/70 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             Deluxe couple&apos;s treatment suites with oversized Jacuzzi tubs and fireplaces — a romantic escape in the heart of Palm Springs.
           </p>
