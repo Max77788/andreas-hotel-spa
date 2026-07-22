@@ -35,10 +35,14 @@ describe("guest guide additions", () => {
     expect(statSync(join(root, "public/andreas-poolside-menu.pdf")).size).toBeGreaterThan(10_000);
   });
 
-  it("links both additions from the primary navigation", () => {
+  it("keeps Local Guide in primary nav and routes Poolside Menu through Amenities", () => {
     const nav = read("components/nav.tsx");
+    const home = read("app/page.tsx");
 
-    expect(nav).toContain('{ label: "Poolside Menu", href: "/poolside-menu" }');
+    expect(nav).not.toContain('{ label: "Poolside Menu", href: "/poolside-menu" }');
     expect(nav).toContain('{ label: "Local Guide", href: "/local-guide" }');
+    expect(nav).toContain('{ label: "Amenities", href: "/#amenities" }');
+    expect(home).toContain('title: "Poolside Menu"');
+    expect(home).toContain('href: "/poolside-menu"');
   });
 });

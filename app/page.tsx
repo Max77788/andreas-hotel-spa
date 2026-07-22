@@ -73,6 +73,12 @@ const amenities = [
   { icon: "◐", title: "Outdoor Fireplaces", desc: "Gather around beautifully designed gas fireplaces set within our manicured courtyard every evening." },
   { icon: "◌", title: "24-Hour Front Desk", desc: "Our attentive concierge team is available around the clock to assist with reservations, dining, and activities." },
   { icon: "⊡", title: "Express Check-In/Out", desc: "Seamless arrivals and departures — because your time in Palm Springs should start and end perfectly." },
+  {
+    icon: "☰",
+    title: "Poolside Menu",
+    desc: "Drinks, signature cocktails, and poolside bites served poolside. Browse the full menu online.",
+    href: "/poolside-menu",
+  },
 ];
 export default function HomePage() {
   const [checkIn, setCheckIn] = useState("");
@@ -609,13 +615,38 @@ export default function HomePage() {
           <div className="grid md:grid-cols-[1fr_1fr_380px] gap-8">
             {/* Amenity cards */}
             <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {amenities.map((a) => (
-                <div key={a.title} className="border border-[var(--hotel-cream)]/10 p-6 hover:border-[var(--hotel-gold)]/40 transition-colors duration-300">
-                  <span className="text-[var(--hotel-gold)] text-xl block mb-4">{a.icon}</span>
-                  <h3 className="font-display text-white/90 text-lg font-light mb-2">{a.title}</h3>
-                  <p className="font-body text-white/80 text-xs leading-relaxed">{a.desc}</p>
-                </div>
-              ))}
+              {amenities.map((a) => {
+                const cardClass =
+                  "border border-[var(--hotel-cream)]/10 p-6 hover:border-[var(--hotel-gold)]/40 transition-colors duration-300 h-full block";
+                const content = (
+                  <>
+                    <span className="text-[var(--hotel-gold)] text-xl block mb-4">{a.icon}</span>
+                    <h3 className="font-display text-white/90 text-lg font-light mb-2 flex items-center gap-2">
+                      {a.title}
+                      {"href" in a && a.href ? (
+                        <span className="font-body text-[9px] tracking-[0.25em] uppercase text-[var(--hotel-gold)]">
+                          View →
+                        </span>
+                      ) : null}
+                    </h3>
+                    <p className="font-body text-white/80 text-xs leading-relaxed">{a.desc}</p>
+                  </>
+                );
+
+                if ("href" in a && a.href) {
+                  return (
+                    <Link key={a.title} href={a.href} className={`${cardClass} group`}>
+                      {content}
+                    </Link>
+                  );
+                }
+
+                return (
+                  <div key={a.title} className={cardClass}>
+                    {content}
+                  </div>
+                );
+              })}
             </div>
 
             {/* Right stacked images + CTA */}

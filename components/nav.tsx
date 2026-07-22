@@ -11,7 +11,6 @@ const navLinks = [
   { label: "Spa", href: "/spa" },
   { label: "Offers", href: "/offers" },
   { label: "Amenities", href: "/#amenities" },
-  { label: "Poolside Menu", href: "/poolside-menu" },
   { label: "Local Guide", href: "/local-guide" },
   { label: "Groups & Events", href: "/group-booking" },
   { label: "Contact", href: "/#contact" },
