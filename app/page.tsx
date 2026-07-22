@@ -22,9 +22,6 @@ interface CmsRoom {
   badge: string; name: string; href: string; img: string; description: string;
   bed: string; guests: string; sqft: string; price: string;
 }
-interface CmsEvent {
-  tag: string; date: string; title: string; description: string; img: string;
-}
 interface CmsOffer {
   title: string; description: string; note: string; price: string;
 }
@@ -38,11 +35,15 @@ const fallbackRooms: CmsRoom[] = [
   { badge: "EXECUTIVE", name: "Executive Room", href: "/rooms/executive-room", img: "/hotel-photos/room1.jpg", description: "Italian furnishings, fireplace, dedicated workspace, refrigerator, microwave, Keurig — ideal for business travelers who expect more.", bed: "King Bed", guests: "2 Guests", sqft: "420 sq ft", price: "$289" },
 ];
 
-const fallbackEventsData: CmsEvent[] = [
-  { tag: "SPA", date: "May 17, 2026", title: "Signature Spa Day", description: "A full-day spa retreat featuring our Vital-C Facial, Canyon Clay Body Wrap, and poolside relaxation package.", img: "/hotel-photos/room1.jpg" },
-  { tag: "YOGA", date: "June 8, 2026", title: "Morning Yoga", description: "Start your day with a revitalizing yoga session in our serene courtyard, suitable for all levels.", img: "/hotel-photos/exterior.jpg" },
-  { tag: "WINE", date: "June 22, 2026", title: "Wine Evening", description: "An evening of fine California wines paired with artisan cheeses in our intimate courtyard setting.", img: "/hotel-photos/room1.jpg" },
-  { tag: "TOUR", date: "July 6, 2026", title: "Architecture Walking Tour", description: "A curated tour of Palm Springs' iconic mid-century modern architecture and vibrant local art galleries.", img: "/hotel-photos/room1.jpg" },
+const localGuideAttractions = [
+  { name: "Agua Caliente Casino Palm Springs", distance: "0.3 miles" },
+  { name: "Palm Springs Art Museum", distance: "0.5 miles" },
+  { name: "Palm Springs Convention Center", distance: "0.8 miles" },
+  { name: "Palm Springs Air Museum", distance: "4.5 miles" },
+  { name: "Palm Springs Aerial Tramway", distance: "5.9 miles" },
+  { name: "Mount San Jacinto State Park", distance: "6 miles" },
+  { name: "Indian Canyons", distance: "6.4 miles" },
+  { name: "Palm Canyon", distance: "7.4 miles" },
 ];
 
 const fallbackOffersData = {
@@ -82,7 +83,6 @@ export default function HomePage() {
 
   // ── CMS data fetching ─────────────────────────────────────────────────────
   const [cmsRooms, setCmsRooms] = useState<CmsRoom[] | null>(null);
-  const [cmsEvents, setCmsEvents] = useState<CmsEvent[] | null>(null);
   const [cmsOffers, setCmsOffers] = useState<{ oneNight: CmsOffer[]; twoNight: CmsOffer[] } | null>(null);
   const [cmsGallery, setCmsGallery] = useState<{ src: string; alt: string }[] | null>(null);
   const [cmsAwards, setCmsAwards] = useState<{ image_url: string; link_url: string; alt_text: string }[] | null>(null);
@@ -104,17 +104,6 @@ export default function HomePage() {
               guests: r.guests || "",
               sqft: r.sqft || "",
               price: r.price ? `$${r.price}` : "",
-            }))
-          );
-        }
-        if (data?.events?.length) {
-          setCmsEvents(
-            data.events.map((e: any) => ({
-              tag: (e.tag || "EVENT").toUpperCase(),
-              date: e.date_label || "",
-              title: e.title,
-              description: e.description || "",
-              img: e.image_url || "/hotel-photos/room1.jpg",
             }))
           );
         }
@@ -148,7 +137,6 @@ export default function HomePage() {
 
   // Use CMS data if loaded, fallback otherwise
   const rooms = cmsRooms ?? fallbackRooms;
-  const events = cmsEvents ?? fallbackEventsData;
   const offers = cmsOffers ?? fallbackOffersData;
   const galleryImages = cmsGallery ?? [
     { src: "/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", alt: "Villa Suite bedroom" },
@@ -460,47 +448,59 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── UPCOMING EVENTS ─────────────────────────────────────────────────── */}
+      {/* ── LOCAL GUIDE ──────────────────────────────────────────────────────── */}
       <section className="py-24 bg-[var(--hotel-sand)]">
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="flex items-end justify-between mb-12">
             <div>
               <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-3">
-                At The Andreas
+                In the Heart of Downtown
               </p>
               <h2 className="font-display text-[var(--hotel-charcoal)] font-light" style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)" }}>
-                Upcoming Events
+                Local Guide
               </h2>
               <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
+              <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm leading-relaxed mt-5 max-w-xl">
+                Art, architecture, desert landscapes, dining, and nightlife are all within easy reach of The Andreas.
+              </p>
             </div>
             <Link
-              href="/events"
+              href="/local-guide"
               className="hidden md:inline-block font-body text-[9px] tracking-[0.35em] uppercase text-[var(--hotel-charcoal)]/90 hover:text-[var(--hotel-charcoal)] transition-colors border-b border-[var(--hotel-charcoal)]/30 pb-0.5"
             >
-              View All Events →
+              Full Local Guide →
             </Link>
           </div>
 
-          {/* Horizontal scroll */}
-          <div className="scroll-x flex gap-6 pb-4">
-            {events.map((ev) => (
-              <div key={ev.title} className="flex-shrink-0 w-[260px] bg-white card-lift">
-                <div
-                  className="h-44 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${ev.img})` }}
-                />
-                <div className="p-5">
-                  <div className="mb-3">
-                    <span className="font-body text-[7px] tracking-[0.4em] uppercase bg-[var(--hotel-gold)]/20 text-[var(--hotel-terracotta)] px-2 py-0.5">
-                      {ev.tag}
-                    </span>
-                  </div>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-[9px] tracking-widest uppercase mb-1">{ev.date}</p>
-                  <h3 className="font-display text-[var(--hotel-charcoal)] text-lg font-light mb-2">{ev.title}</h3>
-                  <p className="font-body text-[var(--hotel-charcoal)]/90 text-xs leading-relaxed">{ev.description}</p>
-                </div>
-              </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--hotel-gold)]/20 border border-[var(--hotel-gold)]/20">
+            {localGuideAttractions.map((attraction) => (
+              <a
+                key={attraction.name}
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${attraction.name}, Palm Springs, CA`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col justify-between gap-4 bg-[var(--hotel-cream)] px-5 py-6 hover:bg-white transition-colors"
+              >
+                <span className="font-display text-[var(--hotel-charcoal)] text-xl font-light leading-tight group-hover:text-[var(--hotel-terracotta)] transition-colors">
+                  {attraction.name}
+                </span>
+                <span className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.2em] uppercase">
+                  {attraction.distance}
+                </span>
+              </a>
             ))}
+          </div>
+
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="font-body text-[var(--hotel-charcoal)]/60 text-xs">
+              Distances are approximate from The Andreas Hotel & Spa.
+            </p>
+            <Link
+              href="/local-guide"
+              className="font-body text-[10px] tracking-[0.35em] uppercase bg-[#1a1a1a] text-white/90 px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] dark:bg-[var(--hotel-gold)] dark:text-[var(--hotel-charcoal)] dark:hover:bg-[#3a3530] dark:hover:text-white transition-all duration-300"
+            >
+              Explore Palm Springs
+            </Link>
           </div>
         </div>
       </section>
