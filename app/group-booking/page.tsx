@@ -78,6 +78,36 @@ export default function GroupBookingPage() {
             </p>
           </div>
 
+          {/* Wedding & Events Gallery */}
+          <div className="mb-16">
+            <div className="text-center mb-8">
+              <p className="font-body text-[#b8743d] text-[10px] tracking-[0.5em] uppercase mb-3">
+                Real Events
+              </p>
+              <h2 className="font-display text-[#2a2118] dark:text-[#e8ddd0] text-2xl font-light">
+                Weddings & Celebrations at Andreas
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4">
+              {[
+                { src: "/hotel-photos/events/wedding1.jpg", alt: "Bride with white rose bouquet on the terrace at golden hour", span: "row-span-2" },
+                { src: "/hotel-photos/events/andreas-hotel-spa-special-events.jpg", alt: "Formal outdoor banquet setup with lanterns and floral centerpieces", span: "" },
+                { src: "/hotel-photos/events/Ceremony-2.jpg", alt: "Wedding ceremony setup at the Andreas Hotel courtyard", span: "" },
+              ].map((img) => (
+                <div
+                  key={img.src}
+                  className={`overflow-hidden ${img.span}`}
+                >
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="w-full h-full object-cover aspect-[4/3] hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* Package cards */}
           <div className="grid sm:grid-cols-2 gap-3 mb-14">
             {packageTypes.map((pkg) => (
