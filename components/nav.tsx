@@ -11,7 +11,8 @@ const navLinks = [
   { label: "Spa", href: "/spa" },
   { label: "Offers", href: "/offers" },
   { label: "Amenities", href: "/#amenities" },
-  { label: "Gallery", href: "/#gallery" },
+  { label: "Poolside Menu", href: "/poolside-menu" },
+  { label: "Local Guide", href: "/local-guide" },
   { label: "Groups & Events", href: "/group-booking" },
   { label: "Contact", href: "/#contact" },
 ];
@@ -41,28 +42,16 @@ export default function Nav() {
           </Link>
 
           {/* Desktop nav links */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) =>
-              link.external ? (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              )
-            )}
+          <nav className="hidden xl:flex items-center gap-5">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
 
           {/* Right: Book Now + theme toggle + mobile hamburger */}
@@ -70,14 +59,14 @@ export default function Nav() {
             <ThemeToggle />
             <Link
               href="/book"
-              className="hidden md:inline-block bg-[var(--hotel-gold)] text-black font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              className="hidden xl:inline-block bg-[var(--hotel-gold)] text-black font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
             </Link>
             {/* Mobile hamburger — solid dark button so lines are always visible */}
             <button
               onClick={() => setMenuOpen(true)}
-              className="md:hidden flex flex-col items-center justify-center w-10 h-10 bg-black/50 rounded-sm gap-[5px] cursor-pointer"
+              className="xl:hidden flex flex-col items-center justify-center w-10 h-10 bg-black/50 rounded-sm gap-[5px] cursor-pointer"
               aria-label="Open menu"
             >
               <span className="block w-5 h-[2px] bg-white transition-colors" />
@@ -108,30 +97,17 @@ export default function Nav() {
           </div>
         </div>
 
-        <nav className="flex-1 flex flex-col items-center justify-center gap-8">
-          {navLinks.map((link) =>
-            link.external ? (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMenuOpen(false)}
-                className="font-display text-white text-3xl md:text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300 py-2 block"
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="font-display text-white text-3xl md:text-4xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300 py-2 block"
-              >
-                {link.label}
-              </Link>
-            )
-          )}
+        <nav className="flex-1 flex flex-col items-center justify-center gap-3 sm:gap-5 overflow-y-auto py-4">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="font-display text-white text-2xl sm:text-3xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300 py-1 block"
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link
             href="/book"
             className="mt-4 bg-[var(--hotel-gold)] text-black font-body text-sm tracking-[0.3em] uppercase px-8 py-3 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
