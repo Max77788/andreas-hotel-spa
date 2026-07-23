@@ -7,7 +7,7 @@ import { createClient } from "@supabase/supabase-js";
 const footerLinks = [
   { label: "Rooms & Suites", href: "/rooms" },
   { label: "The Spa", href: "/spa" },
-  { label: "Special Events", href: "/events" },
+  { label: "Local Guide", href: "/local-guide" },
   { label: "Seasonal Offers", href: "/offers" },
 ];
 
