@@ -79,6 +79,12 @@ const amenities = [
     desc: "Drinks, signature cocktails, and poolside bites served poolside. Browse the full menu online.",
     href: "/poolside-menu",
   },
+  {
+    icon: "⌖",
+    title: "Local Guide",
+    desc: "Discover Palm Springs museums, dining, desert landscapes, and nearby experiences from The Andreas.",
+    href: "/local-guide",
+  },
 ];
 export default function HomePage() {
   const [checkIn, setCheckIn] = useState("");

@@ -204,15 +204,15 @@ export default function PoolsideMenuPage() {
       <Nav />
 
       <section
-        className="relative min-h-[520px] flex items-center justify-center bg-cover bg-center"
+        className="relative min-h-[440px] md:min-h-[520px] flex items-center justify-center bg-cover bg-center"
         style={{ backgroundImage: "url('/hotel-photos/pool-night.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 max-w-3xl px-6 pt-24 text-center">
+        <div className="relative z-10 max-w-3xl px-6 pt-20 pb-10 md:pt-24 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
             Sip · Savor · Unwind
           </p>
-          <h1 className="font-display text-white text-5xl md:text-7xl font-light tracking-wide">
+          <h1 className="font-display text-white text-4xl sm:text-5xl md:text-7xl font-light tracking-wide">
             Poolside Menu
           </h1>
           <p className="font-body text-white/80 text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-6">
@@ -230,14 +230,14 @@ export default function PoolsideMenuPage() {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 bg-[var(--hotel-sand)]">
+      <section className="py-14 md:py-32 bg-[var(--hotel-sand)]">
         <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-16">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.4em] uppercase mb-3">
               Food & Drinks
             </p>
-            <h2 className="font-display text-[var(--hotel-charcoal)] text-4xl md:text-5xl font-light tracking-wide">
-              Available Poolside
+            <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light tracking-wide flex items-center justify-center gap-1">
+              <img src="/andreas_logo_a.png" alt="A" className="inline-block h-[1.05em] w-auto" />vailable Poolside
             </h2>
             <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm max-w-2xl mx-auto mt-5 leading-relaxed">
               Dial extension <span className="text-[var(--hotel-charcoal)]">0</span> or{" "}

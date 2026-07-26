@@ -27,15 +27,15 @@ export default function LocalGuidePage() {
       <Nav />
 
       <section
-        className="relative min-h-[520px] flex items-center justify-center bg-cover bg-center"
+        className="relative min-h-[440px] md:min-h-[520px] flex items-center justify-center bg-cover bg-center"
         style={{ backgroundImage: "url('/hotel-photos/exterior.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/60" />
-        <div className="relative z-10 max-w-3xl px-6 pt-24 text-center">
+        <div className="relative z-10 max-w-3xl px-6 pt-20 pb-10 md:pt-24 text-center">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-4">
             In the Heart of Downtown
           </p>
-          <h1 className="font-display text-white text-5xl md:text-7xl font-light tracking-wide">
+          <h1 className="font-display text-white text-4xl sm:text-5xl md:text-7xl font-light tracking-wide">
             Explore Palm Springs
           </h1>
           <p className="font-body text-white/80 text-sm md:text-base leading-relaxed max-w-xl mx-auto mt-6">
@@ -44,14 +44,14 @@ export default function LocalGuidePage() {
         </div>
       </section>
 
-      <section className="py-20 md:py-28">
+      <section className="py-14 md:py-28">
         <div className="max-w-5xl mx-auto px-6 md:px-10">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10 md:mb-14">
             <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-3">
               Points of Interest
             </p>
-            <h2 className="font-display text-[var(--hotel-charcoal)] text-4xl md:text-5xl font-light">
-              Near The Andreas
+            <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light flex flex-wrap items-center justify-center gap-2">
+              Near The <img src="/andreas_logo_a.png" alt="Andreas" className="inline-block h-[1.05em] w-auto" />ndreas
             </h2>
             <div className="divider-gold mt-5" />
           </div>
@@ -63,9 +63,9 @@ export default function LocalGuidePage() {
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${attraction.name}, Palm Springs, CA`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between gap-5 bg-[var(--hotel-cream)] px-6 py-6 hover:bg-[var(--hotel-sand)] transition-colors"
+                className="group flex items-center justify-between gap-4 bg-[var(--hotel-cream)] px-5 py-5 md:px-6 md:py-6 hover:bg-[var(--hotel-sand)] transition-colors"
               >
-                <span className="font-display text-[var(--hotel-charcoal)] text-xl font-light group-hover:text-[var(--hotel-terracotta)] transition-colors">
+                <span className="font-display text-[var(--hotel-charcoal)] text-lg sm:text-xl font-light group-hover:text-[var(--hotel-terracotta)] transition-colors">
                   {attraction.name}
                 </span>
                 <span className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.2em] uppercase whitespace-nowrap">
