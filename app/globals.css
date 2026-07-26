@@ -90,6 +90,11 @@
 .bg-hotel-charcoal { background-color: var(--hotel-charcoal); }
 .bg-hotel-terracotta { background-color: var(--hotel-terracotta); }
 
+/* Keep the standalone Logo A legible as the page palette changes. */
+.theme-aware-logo-a-dark { display: none; }
+.dark .theme-aware-logo-a-light { display: none; }
+.dark .theme-aware-logo-a-dark { display: inline-block; }
+
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;

@@ -1,7 +1,3 @@
-"use client";
-
-import { useTheme } from "next-themes";
-
 type ThemeAwareLogoAProps = {
   alt?: string;
   className?: string;
@@ -12,8 +8,20 @@ export function ThemeAwareLogoA({
   alt = "A",
   className = "h-[1em] w-auto",
 }: ThemeAwareLogoAProps) {
-  const { resolvedTheme } = useTheme();
-  const src = resolvedTheme === "dark" ? "/andreas_logo_a_white.png" : "/andreas_logo_a.png";
-
-  return <img src={src} alt={alt} className={className} />;
+  return (
+    <span className="theme-aware-logo-a inline-flex" aria-label={alt}>
+      <img
+        src="/andreas_logo_a.png"
+        alt=""
+        aria-hidden="true"
+        className={`theme-aware-logo-a-light ${className}`}
+      />
+      <img
+        src="/andreas_logo_a_white.png"
+        alt=""
+        aria-hidden="true"
+        className={`theme-aware-logo-a-dark ${className}`}
+      />
+    </span>
+  );
 }
