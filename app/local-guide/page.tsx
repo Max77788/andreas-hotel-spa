@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import { ThemeAwareLogoA } from "@/components/theme-aware-logo-a";
 
 export const metadata = {
   title: "Palm Springs Local Guide - The Andreas Hotel & Spa",
@@ -51,7 +52,7 @@ export default function LocalGuidePage() {
               Points of Interest
             </p>
             <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light flex flex-wrap items-center justify-center gap-2">
-              Near The <img src="/andreas_logo_a.png" alt="Andreas" className="inline-block h-[1.05em] w-auto" />ndreas
+              Near The <ThemeAwareLogoA alt="A" className="inline-block h-[1.05em] w-auto" />ndreas
             </h2>
             <div className="divider-gold mt-5" />
           </div>

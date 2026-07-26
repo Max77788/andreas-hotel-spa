@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import { ThemeAwareLogoA } from "@/components/theme-aware-logo-a";
 
 export const metadata = {
   title: "Poolside Menu - The Andreas Hotel & Spa",
@@ -237,7 +238,7 @@ export default function PoolsideMenuPage() {
               Food & Drinks
             </p>
             <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light tracking-wide flex items-center justify-center gap-1">
-              <img src="/andreas_logo_a.png" alt="A" className="inline-block h-[1.05em] w-auto" />vailable Poolside
+              <ThemeAwareLogoA className="inline-block h-[1.05em] w-auto" />vailable Poolside
             </h2>
             <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm max-w-2xl mx-auto mt-5 leading-relaxed">
               Dial extension <span className="text-[var(--hotel-charcoal)]">0</span> or{" "}
