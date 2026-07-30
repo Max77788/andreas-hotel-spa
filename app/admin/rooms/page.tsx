@@ -57,17 +57,27 @@ export default function RoomsEditor() {
   saveFnRef.current = saveFn;
   const { status, pause: pauseAutoSave, resume: resumeAutoSave } = useAutoSave(editing, saveFn, 1000);
 
-  /** Upload a single file and return its public URL, or null on failure. */
-  async function uploadOne(file: File): Promise<string | null> {
+  /** Upload a single file and preserve the API's useful failure message for staff. */
+  async function uploadOne(file: File): Promise<{ url: string | null; error: string | null }> {
     const fd = new FormData();
     fd.append("file", file);
     try {
       const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      if (!res.ok) return null;
-      const data = await res.json().catch(() => null);
-      return data?.url || null;
-    } catch {
-      return null;
+      const text = await res.text();
+      let data: { url?: string; error?: string } | null = null;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        // Non-JSON error bodies are still useful to show to the editor.
+      }
+      if (!res.ok) {
+        return { url: null, error: data?.error || text || `Upload failed (HTTP ${res.status}).` };
+      }
+      return data?.url
+        ? { url: data.url, error: null }
+        : { url: null, error: "Upload completed without returning an image URL." };
+    } catch (err) {
+      return { url: null, error: err instanceof Error ? err.message : "Network error while uploading." };
     }
   }
 
@@ -83,9 +93,9 @@ export default function RoomsEditor() {
     setUploading(true);
     setUploadError(null);
     try {
-      const url = await uploadOne(file);
+      const { url, error } = await uploadOne(file);
       if (!url) {
-        setUploadError("Failed to upload main image. Please try again.");
+        setUploadError(`Failed to upload main image: ${error || "Unknown upload error."}`);
         return;
       }
       const updated: Room = { ...editing!, image_url: url };
@@ -129,14 +139,14 @@ export default function RoomsEditor() {
 
       for (let i = 0; i < files.length; i++) {
         try {
-          const url = await uploadOne(files[i]);
+          const { url, error } = await uploadOne(files[i]);
           if (url) {
             newUrls.push(url);
           } else {
-            failed.push(files[i].name);
+            failed.push(`${files[i].name}: ${error || "Unknown upload error."}`);
           }
-        } catch {
-          failed.push(files[i].name);
+        } catch (err) {
+          failed.push(`${files[i].name}: ${err instanceof Error ? err.message : "Network error while uploading."}`);
         }
         setUploadProgress({ done: i + 1, total: files.length });
       }

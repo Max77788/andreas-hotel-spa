@@ -52,7 +52,7 @@ let mockFetch: ReturnType<typeof vi.fn>;
 let uploadCallCount: number;
 
 // Default behaviours that tests can override per-case
-let uploadResponses: Array<{ ok: boolean; url?: string; throwError?: boolean; delay?: number }>;
+let uploadResponses: Array<{ ok: boolean; url?: string; error?: string; throwError?: boolean; delay?: number }>;
 
 beforeEach(() => {
   mockFetch = vi.fn();
@@ -88,7 +88,10 @@ beforeEach(() => {
 
       if (resp.throwError) throw new Error("Network failure");
       if (!resp.ok) {
-        return new Response("Upload failed", { status: 400 });
+        return new Response(JSON.stringify({ error: resp.error || "Upload failed" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
       }
       return new Response(JSON.stringify({ url: resp.url }), {
         status: 200,
@@ -229,10 +232,10 @@ describe("rooms bulk image upload (runtime behavior)", () => {
   // -----------------------------------------------------------------------
   // 3. Partial failure — retains successful URLs and reports error
   // -----------------------------------------------------------------------
-  it("partial failure retains successful URLs and reports error", async () => {
+  it("partial failure retains successful URLs and displays the API error", async () => {
     uploadResponses = [
       { ok: true, url: "https://example.com/ok-1.jpg" },
-      { ok: false },
+      { ok: false, error: "Storage request timed out" },
       { ok: true, url: "https://example.com/ok-2.jpg" },
     ];
 
@@ -254,6 +257,7 @@ describe("rooms bulk image upload (runtime behavior)", () => {
 
     // Error message should mention the failure
     expect(screen.getByText(/1 file\(s\) failed/)).toBeInTheDocument();
+    expect(screen.getByText(/bad\.jpg: Storage request timed out/)).toBeInTheDocument();
 
     // Successful URLs should be appended
     const posts = persistPostCalls();
