@@ -44,6 +44,7 @@ const localGuideAttractions = [
   { name: "Mount San Jacinto State Park", distance: "6 miles" },
   { name: "Indian Canyons", distance: "6.4 miles" },
   { name: "Palm Canyon", distance: "7.4 miles" },
+  { name: "Joshua Tree National Park", distance: "67 miles" },
 ];
 
 const fallbackOffersData = {

@@ -20,6 +20,7 @@ const attractions = [
   { name: "Palm Canyon", distance: "7.4 miles" },
   { name: "Agua Caliente Casino Rancho Mirage", distance: "8.8 miles" },
   { name: "Marriott's Shadow Ridge Golf Club", distance: "13.4 miles" },
+  { name: "Joshua Tree National Park", distance: "67 miles" },
 ];
 
 export default function LocalGuidePage() {
