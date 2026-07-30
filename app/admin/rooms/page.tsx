@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import type { Room } from "@/lib/cms/types";
 import { useAutoSave } from "@/lib/use-auto-save";
 
@@ -9,6 +9,10 @@ export default function RoomsEditor() {
   const [editing, setEditing] = useState<Room | null>(null);
   const [loading, setLoading] = useState(true);
   const [amenitiesRaw, setAmenitiesRaw] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
+  const saveFnRef = useRef<() => Promise<boolean>>(() => Promise.resolve(false));
 
   useEffect(() => { fetchRooms(); }, []);
 
@@ -24,7 +28,11 @@ export default function RoomsEditor() {
     setEditing({ id: "", slug: "", name: "", badge: "", short_description: "", long_description: "", bed: "", guests: "", sqft: "", price: "", amenities: [], extras: [], image_url: "", gallery_urls: [], sort_order: rooms.length, is_published: true } as Room);
   }
 
-  function updateField(field: keyof Room, value: any) { if (!editing) return; setEditing({ ...editing, [field]: value }); }
+  function updateField(field: keyof Room, value: any) {
+    if (!editing) return;
+    setUploadError(null);
+    setEditing({ ...editing, [field]: value });
+  }
 
   // Sync raw amenities string when editing room changes
   useEffect(() => {
@@ -40,15 +48,121 @@ export default function RoomsEditor() {
     return res.ok;
   }, [editing]);
 
+  saveFnRef.current = saveFn;
   const status = useAutoSave(editing, saveFn, 1000);
 
-  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>, field: "image_url" | "gallery_urls") {
-    const file = e.target.files?.[0]; if (!file) return;
-    const fd = new FormData(); fd.append("file", file);
+  /** Immediately persist the current editing room state. Returns true on success. */
+  async function persistNow(): Promise<boolean> {
+    return saveFnRef.current();
+  }
+
+  /** Upload a single file and return its public URL, or null on failure. */
+  async function uploadOne(file: File): Promise<string | null> {
+    const fd = new FormData();
+    fd.append("file", file);
     const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-    const { url } = await res.json();
-    if (field === "image_url") updateField("image_url", url);
-    else updateField("gallery_urls", [...(editing?.gallery_urls || []), url]);
+    if (!res.ok) {
+      const errText = await res.text().catch(() => "Upload failed");
+      return null;
+    }
+    const data = await res.json().catch(() => null);
+    return data?.url || null;
+  }
+
+  /** Single main-image replacement upload — immediately persists the returned URL. */
+  async function handleMainImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please select an image file.");
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const url = await uploadOne(file);
+      if (!url) {
+        setUploadError("Failed to upload main image. Please try again.");
+        return;
+      }
+      const updated: Room = { ...editing!, image_url: url };
+      setEditing(updated);
+      // Immediately persist — do NOT rely on debounced autosave for uploads
+      await directPersist(updated);
+      await fetchRooms();
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  /** Bulk gallery upload — validates, uploads all files, appends to existing gallery, persists once. */
+  async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files || []);
+    if (files.length === 0) return;
+
+    // Validate client-side
+    const nonImage = files.filter(f => !f.type.startsWith("image/"));
+    if (nonImage.length > 0) {
+      setUploadError(`${nonImage.length} file(s) are not images. Only image files are accepted.`);
+      return;
+    }
+
+    setUploading(true);
+    setUploadError(null);
+    setUploadProgress({ done: 0, total: files.length });
+
+    const failed: string[] = [];
+    const newUrls: string[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const url = await uploadOne(files[i]);
+      if (url) {
+        newUrls.push(url);
+      } else {
+        failed.push(files[i].name);
+      }
+      setUploadProgress({ done: i + 1, total: files.length });
+    }
+
+    setUploadProgress(null);
+
+    if (failed.length > 0 && newUrls.length === 0) {
+      setUploadError(`Failed to upload all ${failed.length} image(s). Existing images unchanged.`);
+      setUploading(false);
+      return;
+    }
+
+    // Append successful URLs to existing gallery (in picker order preserved)
+    const existingUrls = editing?.gallery_urls || [];
+    const combined = [...existingUrls, ...newUrls];
+    const updated: Room = { ...editing!, gallery_urls: combined };
+    setEditing(updated);
+
+    // Immediately persist the completed room once after the batch
+    const ok = await directPersist(updated);
+    if (!ok) {
+      setUploadError("Failed to save room after upload. Gallery may not be persisted.");
+      setUploading(false);
+      return;
+    }
+    await fetchRooms();
+
+    if (failed.length > 0) {
+      setUploadError(
+        `Uploaded ${newUrls.length} image(s). ${failed.length} file(s) failed (${failed.join(", ")}). Existing images unchanged for failed files.`
+      );
+    }
+    setUploading(false);
+  }
+
+  /** Persists the given room state directly, bypassing autosave, using the current stable save function. */
+  async function directPersist(room: Room): Promise<boolean> {
+    const res = await fetch("/api/admin/rooms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(room),
+    });
+    return res.ok;
   }
 
   if (loading) return <div className="min-h-screen bg-neutral-100 p-8"><p className="text-xl font-bold">Loading...</p></div>;
@@ -75,7 +189,7 @@ export default function RoomsEditor() {
                 </div>
               </div>
               <div className="flex gap-3">
-                <button onClick={() => setEditing(room)} className="text-lg font-bold text-neutral-700 hover:text-amber-600 px-5 py-3 border-[3px] border-neutral-500">Edit</button>
+                <button onClick={() => { setEditing(room); setUploadError(null); }} className="text-lg font-bold text-neutral-700 hover:text-amber-600 px-5 py-3 border-[3px] border-neutral-500">Edit</button>
                 <button onClick={() => remove(room)} className="text-lg font-bold text-red-600 px-5 py-3 border-[3px] border-neutral-500 hover:bg-red-50">Delete</button>
               </div>
             </div>
@@ -91,54 +205,97 @@ export default function RoomsEditor() {
                 {[["Name","name"],["Slug","slug"],["Badge","badge"],["Price","price"],["Bed","bed"],["Guests","guests"],["Sq Ft","sqft"]].map(([label, field]) => (
                   <label key={field} className="flex flex-col gap-1.5">
                     <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">{label}</span>
-                    <input value={(editing as any)[field] || ""} onChange={e => updateField(field as keyof Room, e.target.value)} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                    <input value={(editing as any)[field] || ""} onChange={e => updateField(field as keyof Room, e.target.value)} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" disabled={uploading} />
                   </label>
                 ))}
                 <label className="flex flex-col gap-1.5">
                   <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Sort Order</span>
-                  <input type="number" value={editing.sort_order} onChange={e => updateField("sort_order", parseInt(e.target.value))} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                  <input type="number" value={editing.sort_order} onChange={e => updateField("sort_order", parseInt(e.target.value))} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" disabled={uploading} />
                 </label>
               </div>
 
               <label className="flex flex-col gap-1.5 mt-5">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Short Description</span>
-                <textarea value={editing.short_description || ""} onChange={e => updateField("short_description", e.target.value)} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                <textarea value={editing.short_description || ""} onChange={e => updateField("short_description", e.target.value)} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" disabled={uploading} />
               </label>
 
               <label className="flex flex-col gap-1.5 mt-5">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Long Description</span>
-                <textarea value={editing.long_description || ""} onChange={e => updateField("long_description", e.target.value)} rows={4} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                <textarea value={editing.long_description || ""} onChange={e => updateField("long_description", e.target.value)} rows={4} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" disabled={uploading} />
               </label>
 
               <label className="flex flex-col gap-1.5 mt-5">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Amenities (comma-separated)</span>
-                <textarea value={amenitiesRaw} onChange={e => setAmenitiesRaw(e.target.value)} onBlur={() => updateField("amenities", amenitiesRaw.split(",").map(s => s.trim()).filter(Boolean))} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" />
+                <textarea value={amenitiesRaw} onChange={e => setAmenitiesRaw(e.target.value)} onBlur={() => updateField("amenities", amenitiesRaw.split(",").map(s => s.trim()).filter(Boolean))} rows={2} className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg font-medium focus:border-amber-500 focus:outline-none bg-neutral-50" disabled={uploading} />
               </label>
 
+              {/* Main Image — single file replacement */}
               <div className="mt-5 space-y-2">
                 <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Main Image</span>
-                <input type="file" accept="image/*" onChange={e => handleImageUpload(e, "image_url")} className="text-base font-medium" />
+                <input type="file" accept="image/*" onChange={handleMainImageUpload} className="text-base font-medium" disabled={uploading} />
                 {editing.image_url && <img src={editing.image_url} className="w-40 h-24 object-cover rounded border-2 border-neutral-300" />}
-                <input value={editing.image_url || ""} onChange={e => updateField("image_url", e.target.value)} placeholder="Or paste URL" className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg w-full mt-1 focus:border-amber-500 focus:outline-none font-medium bg-neutral-50" />
+                <input value={editing.image_url || ""} onChange={e => updateField("image_url", e.target.value)} placeholder="Or paste URL" className="border-[3px] border-neutral-400 px-4 py-3.5 text-lg w-full mt-1 focus:border-amber-500 focus:outline-none font-medium bg-neutral-50" disabled={uploading} />
               </div>
 
+              {/* Gallery Images — multiple file selection with bulk upload */}
               <div className="mt-5 space-y-2">
-                <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">Gallery Images</span>
-                <input type="file" accept="image/*" onChange={e => handleImageUpload(e, "gallery_urls")} className="text-base font-medium" />
+                <span className="text-sm font-bold uppercase tracking-[0.15em] text-neutral-600">
+                  Gallery Images
+                </span>
+                <p className="text-sm text-neutral-500">
+                  Select multiple images — you can choose any number of pictures for this room in one picker (30+ supported).
+                </p>
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleGalleryUpload}
+                  className="text-base font-medium"
+                  disabled={uploading}
+                />
                 <div className="flex gap-3 flex-wrap">
                   {(editing.gallery_urls || []).map((url, i) => (
                     <div key={i} className="relative">
                       <img src={url} className="w-24 h-16 object-cover rounded border-2 border-neutral-300" />
-                      <button onClick={() => updateField("gallery_urls", editing.gallery_urls.filter((_, j) => j !== i))} className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-red-600 text-white text-sm rounded-full flex items-center justify-center font-bold">×</button>
+                      <button
+                        onClick={() => updateField("gallery_urls", editing.gallery_urls.filter((_, j) => j !== i))}
+                        className="absolute -top-1.5 -right-1.5 w-6 h-6 bg-red-600 text-white text-sm rounded-full flex items-center justify-center font-bold"
+                        disabled={uploading}
+                      >
+                        ×
+                      </button>
                     </div>
                   ))}
                 </div>
               </div>
 
+              {/* Upload progress indicator */}
+              {uploadProgress && (
+                <div className="mt-3 flex items-center gap-3">
+                  <div className="flex-1 h-2 bg-neutral-200 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-amber-500 rounded-full transition-all duration-300"
+                      style={{ width: `${(uploadProgress.done / uploadProgress.total) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-sm font-medium text-neutral-600">
+                    Uploading {uploadProgress.done} of {uploadProgress.total}
+                  </span>
+                </div>
+              )}
+
+              {/* Upload error display */}
+              {uploadError && (
+                <div className="mt-3 p-3 bg-red-50 border-2 border-red-400 rounded text-red-800 text-sm font-medium">
+                  {uploadError}
+                </div>
+              )}
+
               <div className="flex gap-5 mt-10">
-                {status === "saving" && <span className="text-lg text-neutral-500 font-bold px-4 py-4">Saving...</span>}
-                {status === "saved" && <span className="text-lg text-green-700 font-bold px-4 py-4">Saved ✓</span>}
-                <button onClick={() => setEditing(null)} className="text-lg font-bold text-neutral-600 px-6 py-4 border-[3px] border-neutral-400">Close</button>
+                {uploading && !uploadProgress && <span className="text-lg text-amber-600 font-bold px-4 py-4">Saving…</span>}
+                {status === "saving" && !uploading && <span className="text-lg text-neutral-500 font-bold px-4 py-4">Saving...</span>}
+                {status === "saved" && !uploading && <span className="text-lg text-green-700 font-bold px-4 py-4">Saved ✓</span>}
+                <button onClick={() => setEditing(null)} className="text-lg font-bold text-neutral-600 px-6 py-4 border-[3px] border-neutral-400" disabled={uploading}>Close</button>
               </div>
             </div>
           </div>
