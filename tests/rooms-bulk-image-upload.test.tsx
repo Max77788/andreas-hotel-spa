@@ -11,9 +11,11 @@
  *   5. Network throw produces visible error and re-enables controls
  *   6. Main image upload persists immediately
  *      (verified after waiting for autosave debounce window)
+ *   7. Slow batch upload (>1s per file) does not trigger mid-upload
+ *      autosave POST; exactly one persist POST at end
  */
 
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import { within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
@@ -50,7 +52,7 @@ let mockFetch: ReturnType<typeof vi.fn>;
 let uploadCallCount: number;
 
 // Default behaviours that tests can override per-case
-let uploadResponses: Array<{ ok: boolean; url?: string; throwError?: boolean }>;
+let uploadResponses: Array<{ ok: boolean; url?: string; throwError?: boolean; delay?: number }>;
 
 beforeEach(() => {
   mockFetch = vi.fn();
@@ -78,6 +80,12 @@ beforeEach(() => {
         ok: true,
         url: `https://example.com/uploaded-${idx}.jpg`,
       };
+
+      // Simulate network latency for slow-upload regression test
+      if (resp.delay) {
+        await new Promise((r) => setTimeout(r, resp.delay));
+      }
+
       if (resp.throwError) throw new Error("Network failure");
       if (!resp.ok) {
         return new Response("Upload failed", { status: 400 });
@@ -201,7 +209,9 @@ describe("rooms bulk image upload (runtime behavior)", () => {
 
     // Wait 1200ms for autosave debounce window to close
     // If autosave fires a duplicate POST, it will show up here
-    await delay(1200);
+    await act(async () => {
+      await delay(1200);
+    });
 
     // Assert exactly ONE POST to /api/admin/rooms with the combined URLs
     const posts = persistPostCalls();
@@ -352,7 +362,9 @@ describe("rooms bulk image upload (runtime behavior)", () => {
     });
 
     // Wait 1200ms for autosave debounce window to close
-    await delay(1200);
+    await act(async () => {
+      await delay(1200);
+    });
 
     // Exactly ONE persist POST should have been made with the new image_url
     const posts = persistPostCalls();
@@ -360,5 +372,80 @@ describe("rooms bulk image upload (runtime behavior)", () => {
     expect((posts[0].body as Record<string, unknown>).image_url).toBe(
       "https://example.com/new-main.jpg",
     );
+  });
+
+  // -----------------------------------------------------------------------
+  // 7. Slow batch upload: 500ms per-file latency, >2.5s total — autosave
+  //    debounce (1s) fires BEFORE upload completes if unprotected.
+  //    Regression: must prove ZERO autosave POSTs mid-upload and exactly
+  //    ONE persist POST when the batch finishes.
+  // -----------------------------------------------------------------------
+  it("slow batch upload (500ms per file, 2.5s total) never triggers mid-upload autosave; exactly one persist POST at end", async () => {
+    uploadResponses = [
+      { ok: true, url: "https://example.com/slow-1.jpg", delay: 500 },
+      { ok: true, url: "https://example.com/slow-2.jpg", delay: 500 },
+      { ok: true, url: "https://example.com/slow-3.jpg", delay: 500 },
+      { ok: true, url: "https://example.com/slow-4.jpg", delay: 500 },
+      { ok: true, url: "https://example.com/slow-5.jpg", delay: 500 },
+    ];
+
+    await openRoomEditor();
+    const user = userEvent.setup();
+
+    const gallerySection = screen.getByText("Gallery Images").closest("div")!;
+    const fileInputs = within(gallerySection).getAllByDisplayValue("");
+    const galleryInput = fileInputs.find(
+      (el) => el.getAttribute("type") === "file",
+    ) as HTMLInputElement;
+
+    const files = [
+      mockFile("s1.jpg"),
+      mockFile("s2.jpg"),
+      mockFile("s3.jpg"),
+      mockFile("s4.jpg"),
+      mockFile("s5.jpg"),
+    ];
+    await user.upload(galleryInput, files);
+
+    // Wait for upload to complete (total ~2.5s of async delays)
+    await waitFor(
+      () => {
+        expect(screen.queryByText(/Uploading/)).not.toBeInTheDocument();
+      },
+      { timeout: 8000 },
+    );
+
+    // Collect persist POSTs now (before waiting 1200ms more)
+    const midUploadPosts = persistPostCalls();
+
+    // Wait another 1200ms to let any post-upload autosave timers fire
+    await act(async () => {
+      await delay(1200);
+    });
+
+    const allPosts = persistPostCalls();
+
+    // If autosave fired mid-upload, we'd see 2 or more POSTs.
+    // With the fix (pause + suppressNextAutoSave), we expect exactly 1.
+    expect(
+      midUploadPosts.length,
+      "must have exactly one persist POST (from directPersist), no mid-upload autosave",
+    ).toBe(1);
+
+    // No additional POSTs should appear after waiting for debounce window
+    expect(allPosts).toHaveLength(1);
+
+    // Verify the body contains the combined URLs (original 2 + 5 new)
+    const urls = (allPosts[0].body as Record<string, unknown>).gallery_urls as string[];
+    expect(urls).toHaveLength(7);
+    expect(urls).toEqual([
+      "https://example.com/g1.jpg",
+      "https://example.com/g2.jpg",
+      "https://example.com/slow-1.jpg",
+      "https://example.com/slow-2.jpg",
+      "https://example.com/slow-3.jpg",
+      "https://example.com/slow-4.jpg",
+      "https://example.com/slow-5.jpg",
+    ]);
   });
 });

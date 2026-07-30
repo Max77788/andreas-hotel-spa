@@ -18,7 +18,7 @@ function GalleryCard({ item, onRemove }: {
     return res.ok;
   }, [local]);
 
-  const status = useAutoSave(local, save);
+  const { status } = useAutoSave(local, save);
 
   return (
     <div className="bg-white overflow-hidden border-[3px] border-neutral-500 shadow-md shadow-black/10">

@@ -55,7 +55,7 @@ export default function RoomsEditor() {
   }, [editing]);
 
   saveFnRef.current = saveFn;
-  const status = useAutoSave(editing, saveFn, 1000);
+  const { status, pause: pauseAutoSave, resume: resumeAutoSave } = useAutoSave(editing, saveFn, 1000);
 
   /** Upload a single file and return its public URL, or null on failure. */
   async function uploadOne(file: File): Promise<string | null> {
@@ -79,6 +79,7 @@ export default function RoomsEditor() {
       setUploadError("Please select an image file.");
       return;
     }
+    pauseAutoSave();
     setUploading(true);
     setUploadError(null);
     try {
@@ -101,6 +102,7 @@ export default function RoomsEditor() {
       setUploadError(err instanceof Error ? err.message : "Network error. Please try again.");
     } finally {
       setUploading(false);
+      resumeAutoSave();
     }
   }
 
@@ -116,63 +118,62 @@ export default function RoomsEditor() {
       return;
     }
 
+    pauseAutoSave();
     setUploading(true);
     setUploadError(null);
     setUploadProgress({ done: 0, total: files.length });
 
-    const failed: string[] = [];
-    const newUrls: string[] = [];
+    try {
+      const failed: string[] = [];
+      const newUrls: string[] = [];
 
-    for (let i = 0; i < files.length; i++) {
-      try {
-        const url = await uploadOne(files[i]);
-        if (url) {
-          newUrls.push(url);
-        } else {
+      for (let i = 0; i < files.length; i++) {
+        try {
+          const url = await uploadOne(files[i]);
+          if (url) {
+            newUrls.push(url);
+          } else {
+            failed.push(files[i].name);
+          }
+        } catch {
           failed.push(files[i].name);
         }
-      } catch {
-        failed.push(files[i].name);
+        setUploadProgress({ done: i + 1, total: files.length });
       }
-      setUploadProgress({ done: i + 1, total: files.length });
-    }
 
-    setUploadProgress(null);
+      setUploadProgress(null);
 
-    if (failed.length > 0 && newUrls.length === 0) {
-      setUploadError(`Failed to upload all ${failed.length} image(s). Existing images unchanged.`);
-      setUploading(false);
-      return;
-    }
+      if (failed.length > 0 && newUrls.length === 0) {
+        setUploadError(`Failed to upload all ${failed.length} image(s). Existing images unchanged.`);
+        return;
+      }
 
-    // Append successful URLs to existing gallery (in picker order preserved)
-    const existingUrls = editing?.gallery_urls || [];
-    const combined = [...existingUrls, ...newUrls];
-    const updated: Room = { ...editing!, gallery_urls: combined };
+      // Append successful URLs to existing gallery (in picker order preserved)
+      const existingUrls = editing?.gallery_urls || [];
+      const combined = [...existingUrls, ...newUrls];
+      const updated: Room = { ...editing!, gallery_urls: combined };
 
-    // Persist first — only update editing state after success
-    try {
+      // Persist first — only update editing state after success
       const ok = await directPersist(updated);
       if (!ok) {
         setUploadError("Failed to save room after upload. Gallery may not be persisted.");
-        setUploading(false);
         return;
       }
       suppressNextAutoSave.current = true;
       setEditing(updated);
       await fetchRooms();
+
+      if (failed.length > 0) {
+        setUploadError(
+          `Uploaded ${newUrls.length} image(s). ${failed.length} file(s) failed (${failed.join(", ")}). Existing images unchanged for failed files.`
+        );
+      }
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "Network error while saving. Gallery may not be persisted.");
+    } finally {
       setUploading(false);
-      return;
+      resumeAutoSave();
     }
-
-    if (failed.length > 0) {
-      setUploadError(
-        `Uploaded ${newUrls.length} image(s). ${failed.length} file(s) failed (${failed.join(", ")}). Existing images unchanged for failed files.`
-      );
-    }
-    setUploading(false);
   }
 
   /** Persists the given room state directly, bypassing autosave, using the current stable save function. */

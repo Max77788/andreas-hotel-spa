@@ -36,7 +36,7 @@ export default function SettingsEditor() {
     return res.ok;
   }, [settings]);
 
-  const status = useAutoSave(settings, save);
+  const { status } = useAutoSave(settings, save);
 
   function update(field: keyof SiteSettings, value: any) { if (!settings) return; setSettings({ ...settings, [field]: value }); }
 

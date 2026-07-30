@@ -30,7 +30,7 @@ function PolicyCard({ item, onUpdate, onRemove }: {
     return true;
   }, [local, item.id, onUpdate]);
 
-  const status = useAutoSave(local, save);
+  const { status } = useAutoSave(local, save);
 
   return (
     <div className="bg-white p-6 border-[3px] border-neutral-500 shadow-md shadow-black/10">

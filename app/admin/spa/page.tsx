@@ -25,7 +25,7 @@ function SpaCard({ item, onRemove }: { item: SpaItem; onRemove: (id: string) => 
     return true;
   }, [local]);
 
-  const status = useAutoSave(local, save);
+  const { status } = useAutoSave(local, save);
 
   return (
     <div className="bg-white p-5 border-[3px] border-neutral-500 shadow-md shadow-black/10 space-y-3">

@@ -18,7 +18,7 @@ function OfferCard({ item, onRemove }: {
     return res.ok;
   }, [local]);
 
-  const status = useAutoSave(local, save);
+  const { status } = useAutoSave(local, save);
 
   return (
     <div className="bg-white p-6 border-[3px] border-neutral-500 shadow-md shadow-black/10 space-y-3">
@@ -57,7 +57,7 @@ function InclusionItem({ item, onRemove }: {
     return res.ok;
   }, [local]);
 
-  const status = useAutoSave(local, save);
+  const { status } = useAutoSave(local, save);
 
   return (
     <div className="bg-white p-5 border-[3px] border-neutral-500 shadow-md shadow-black/10 flex gap-3 items-center">

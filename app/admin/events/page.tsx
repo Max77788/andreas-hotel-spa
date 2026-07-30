@@ -19,7 +19,7 @@ function EventCard({ item, onRemove }: {
     return true;
   }, [local]);
 
-  const status = useAutoSave(local, save);
+  const { status } = useAutoSave(local, save);
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; if (!file) return;
