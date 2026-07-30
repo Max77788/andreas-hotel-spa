@@ -14,6 +14,8 @@ export default function RoomsEditor() {
   const [uploadProgress, setUploadProgress] = useState<{ done: number; total: number } | null>(null);
   const saveFnRef = useRef<() => Promise<boolean>>(() => Promise.resolve(false));
 
+  const suppressNextAutoSave = useRef(false);
+
   useEffect(() => { fetchRooms(); }, []);
 
   async function fetchRooms() { const res = await fetch("/api/admin/rooms"); setRooms(await res.json()); setLoading(false); }
@@ -43,6 +45,10 @@ export default function RoomsEditor() {
 
   const saveFn = useCallback(async () => {
     if (!editing) return false;
+    if (suppressNextAutoSave.current) {
+      suppressNextAutoSave.current = false;
+      return true; // suppress — skip duplicate autosave after explicit persist
+    }
     const res = await fetch("/api/admin/rooms", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editing) });
     if (res.ok) await fetchRooms();
     return res.ok;
@@ -51,22 +57,18 @@ export default function RoomsEditor() {
   saveFnRef.current = saveFn;
   const status = useAutoSave(editing, saveFn, 1000);
 
-  /** Immediately persist the current editing room state. Returns true on success. */
-  async function persistNow(): Promise<boolean> {
-    return saveFnRef.current();
-  }
-
   /** Upload a single file and return its public URL, or null on failure. */
   async function uploadOne(file: File): Promise<string | null> {
     const fd = new FormData();
     fd.append("file", file);
-    const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-    if (!res.ok) {
-      const errText = await res.text().catch(() => "Upload failed");
+    try {
+      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+      if (!res.ok) return null;
+      const data = await res.json().catch(() => null);
+      return data?.url || null;
+    } catch {
       return null;
     }
-    const data = await res.json().catch(() => null);
-    return data?.url || null;
   }
 
   /** Single main-image replacement upload — immediately persists the returned URL. */
@@ -86,10 +88,17 @@ export default function RoomsEditor() {
         return;
       }
       const updated: Room = { ...editing!, image_url: url };
+      // Persist first — only update editing state after success
+      const ok = await directPersist(updated);
+      if (!ok) {
+        setUploadError("Failed to save main image. Please try again.");
+        return;
+      }
+      suppressNextAutoSave.current = true;
       setEditing(updated);
-      // Immediately persist — do NOT rely on debounced autosave for uploads
-      await directPersist(updated);
       await fetchRooms();
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Network error. Please try again.");
     } finally {
       setUploading(false);
     }
@@ -115,10 +124,14 @@ export default function RoomsEditor() {
     const newUrls: string[] = [];
 
     for (let i = 0; i < files.length; i++) {
-      const url = await uploadOne(files[i]);
-      if (url) {
-        newUrls.push(url);
-      } else {
+      try {
+        const url = await uploadOne(files[i]);
+        if (url) {
+          newUrls.push(url);
+        } else {
+          failed.push(files[i].name);
+        }
+      } catch {
         failed.push(files[i].name);
       }
       setUploadProgress({ done: i + 1, total: files.length });
@@ -136,16 +149,23 @@ export default function RoomsEditor() {
     const existingUrls = editing?.gallery_urls || [];
     const combined = [...existingUrls, ...newUrls];
     const updated: Room = { ...editing!, gallery_urls: combined };
-    setEditing(updated);
 
-    // Immediately persist the completed room once after the batch
-    const ok = await directPersist(updated);
-    if (!ok) {
-      setUploadError("Failed to save room after upload. Gallery may not be persisted.");
+    // Persist first — only update editing state after success
+    try {
+      const ok = await directPersist(updated);
+      if (!ok) {
+        setUploadError("Failed to save room after upload. Gallery may not be persisted.");
+        setUploading(false);
+        return;
+      }
+      suppressNextAutoSave.current = true;
+      setEditing(updated);
+      await fetchRooms();
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "Network error while saving. Gallery may not be persisted.");
       setUploading(false);
       return;
     }
-    await fetchRooms();
 
     if (failed.length > 0) {
       setUploadError(
