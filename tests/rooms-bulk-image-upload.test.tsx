@@ -271,12 +271,12 @@ describe("rooms bulk image upload (runtime behavior)", () => {
   });
 
   // -----------------------------------------------------------------------
-  // 4. Total upload failure keeps original gallery
+  // 4. Total upload failure keeps original gallery and reports per-file errors
   // -----------------------------------------------------------------------
-  it("total upload failure keeps original gallery and reports error", async () => {
+  it("total upload failure shows every filename with the API error message, does not POST, and preserves original gallery", async () => {
     uploadResponses = [
-      { ok: false },
-      { ok: false },
+      { ok: false, error: "Storage request timed out" },
+      { ok: false, error: "Storage request timed out" },
     ];
 
     await openRoomEditor();
@@ -291,9 +291,17 @@ describe("rooms bulk image upload (runtime behavior)", () => {
     const files = [mockFile("fail1.jpg"), mockFile("fail2.jpg")];
     await user.upload(galleryInput, files);
 
+    // Wait for the summary error banner to appear
     await waitFor(() => {
-      expect(screen.getByText(/Failed to upload all/)).toBeInTheDocument();
+      expect(screen.getByText(/Failed to upload all 2 image\(s\)/)).toBeInTheDocument();
     });
+
+    // Error banner must contain each filename and the exact API error message
+    const errorBanner = screen.getByText(/Failed to upload all/);
+    const errorText = errorBanner.textContent || "";
+    expect(errorText).toContain("fail1.jpg");
+    expect(errorText).toContain("fail2.jpg");
+    expect(errorText).toContain("Storage request timed out");
 
     // No persist POST should have been made (the component returns early)
     const posts = persistPostCalls();

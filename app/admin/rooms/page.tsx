@@ -154,7 +154,10 @@ export default function RoomsEditor() {
       setUploadProgress(null);
 
       if (failed.length > 0 && newUrls.length === 0) {
-        setUploadError(`Failed to upload all ${failed.length} image(s). Existing images unchanged.`);
+        const detailLines = failed.map((f) => `  • ${f}`).join("\n");
+        setUploadError(
+          `Failed to upload all ${failed.length} image(s). Existing images unchanged.\n${detailLines}`,
+        );
         return;
       }
 
