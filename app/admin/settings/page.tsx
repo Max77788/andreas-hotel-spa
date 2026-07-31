@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import type { SiteSettings } from "@/lib/cms/types";
 import { useAutoSave } from "@/lib/use-auto-save";
+import { uploadAdminImage } from "@/lib/admin-image-upload";
 
 type Field = { key: keyof SiteSettings; label: string };
 
@@ -147,11 +148,8 @@ export default function SettingsEditor() {
                                 onChange={async e => {
                                   const file = e.target.files?.[0];
                                   if (!file) return;
-                                  const formData = new FormData();
-                                  formData.append("file", file);
-                                  const res = await fetch("/api/admin/upload", { method: "POST", body: formData });
-                                  if (!res.ok) return;
-                                  const { url } = await res.json();
+                                  const { url } = await uploadAdminImage(file);
+                                  if (!url) return;
                                   const arr = [...(settings.awards || [])];
                                   arr[i] = { ...award, image_url: url };
                                   update("awards", arr);

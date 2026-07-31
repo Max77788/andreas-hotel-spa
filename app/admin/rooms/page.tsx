@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import type { Room } from "@/lib/cms/types";
 import { useAutoSave } from "@/lib/use-auto-save";
+import { uploadAdminImage } from "@/lib/admin-image-upload";
 
 export default function RoomsEditor() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -57,28 +58,9 @@ export default function RoomsEditor() {
   saveFnRef.current = saveFn;
   const { status, pause: pauseAutoSave, resume: resumeAutoSave } = useAutoSave(editing, saveFn, 1000);
 
-  /** Upload a single file and preserve the API's useful failure message for staff. */
+  /** Upload directly to Supabase Storage via a short-lived, authenticated signed URL. */
   async function uploadOne(file: File): Promise<{ url: string | null; error: string | null }> {
-    const fd = new FormData();
-    fd.append("file", file);
-    try {
-      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const text = await res.text();
-      let data: { url?: string; error?: string } | null = null;
-      try {
-        data = text ? JSON.parse(text) : null;
-      } catch {
-        // Non-JSON error bodies are still useful to show to the editor.
-      }
-      if (!res.ok) {
-        return { url: null, error: data?.error || text || `Upload failed (HTTP ${res.status}).` };
-      }
-      return data?.url
-        ? { url: data.url, error: null }
-        : { url: null, error: "Upload completed without returning an image URL." };
-    } catch (err) {
-      return { url: null, error: err instanceof Error ? err.message : "Network error while uploading." };
-    }
+    return uploadAdminImage(file);
   }
 
   /** Single main-image replacement upload — immediately persists the returned URL. */

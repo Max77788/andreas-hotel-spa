@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import type { EventItem } from "@/lib/cms/types";
 import { useAutoSave } from "@/lib/use-auto-save";
+import { uploadAdminImage } from "@/lib/admin-image-upload";
 
 function EventCard({ item, onRemove }: {
   item: EventItem;
@@ -23,9 +24,7 @@ function EventCard({ item, onRemove }: {
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; if (!file) return;
-    const fd = new FormData(); fd.append("file", file);
-    const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-    const { url } = await res.json();
+    const { url } = await uploadAdminImage(file);
     if (url) setLocal({ ...local, image_url: url });
   }
 

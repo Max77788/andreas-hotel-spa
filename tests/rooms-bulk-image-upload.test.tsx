@@ -19,6 +19,10 @@ import { render, screen, waitFor, act } from "@testing-library/react";
 import { within } from "@testing-library/dom";
 import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+
+const { mockUploadAdminImage } = vi.hoisted(() => ({ mockUploadAdminImage: vi.fn() }));
+vi.mock("@/lib/admin-image-upload", () => ({ uploadAdminImage: mockUploadAdminImage }));
+
 import RoomsEditor from "@/app/admin/rooms/page";
 
 // ---------------------------------------------------------------------------
@@ -59,6 +63,18 @@ beforeEach(() => {
   globalThis.fetch = mockFetch as unknown as typeof fetch;
   uploadCallCount = 0;
   uploadResponses = [];
+  mockUploadAdminImage.mockImplementation(async () => {
+    const idx = uploadCallCount++;
+    const resp = uploadResponses[idx] ?? {
+      ok: true,
+      url: `https://example.com/uploaded-${idx}.jpg`,
+    };
+    if (resp.delay) await new Promise((resolve) => setTimeout(resolve, resp.delay));
+    if (resp.throwError) throw new Error("Network failure");
+    return resp.ok
+      ? { url: resp.url ?? null, error: null }
+      : { url: null, error: resp.error || "Upload failed" };
+  });
 
   // Default mock: each call checks the requests and returns appropriate responses
   mockFetch.mockImplementation(async (_url: string, init?: RequestInit) => {

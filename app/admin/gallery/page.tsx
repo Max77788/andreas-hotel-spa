@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import type { GalleryImage } from "@/lib/cms/types";
 import { useAutoSave } from "@/lib/use-auto-save";
+import { uploadAdminImage } from "@/lib/admin-image-upload";
 
 function GalleryCard({ item, onRemove }: {
   item: GalleryImage;
@@ -47,9 +48,11 @@ export default function GalleryEditor() {
     const files = e.target.files; if (!files) return;
     setUploading(true);
     for (const file of Array.from(files)) {
-      const fd = new FormData(); fd.append("file", file);
-      const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
-      const { url } = await res.json();
+      const { url, error } = await uploadAdminImage(file);
+      if (!url) {
+        alert(`Failed to upload ${file.name}: ${error || "Unknown error"}`);
+        continue;
+      }
       await fetch("/api/admin/gallery", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ image_url: url, alt: file.name.split(".")[0], category: "general", sort_order: items.length }) });
     }
     const refreshed = await fetch("/api/admin/gallery").then(r => r.json());
