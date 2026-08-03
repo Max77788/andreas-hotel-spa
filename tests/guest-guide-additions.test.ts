@@ -13,7 +13,7 @@ describe("guest guide additions", () => {
     expect(page).toContain("Palm Springs Aerial Tramway");
     expect(page).toContain("Indian Canyons");
     expect(page).toContain("Marriott's Shadow Ridge Golf Club");
-    expect(page.match(/distance:/g)).toHaveLength(10);
+    expect(page.match(/distance:/g)).toHaveLength(11);
   });
 
   it("publishes a readable HTML poolside menu with downloadable PDF", () => {

@@ -5,6 +5,9 @@ import Link from "next/link";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import HeroGallery from "@/components/hero-gallery";
+import GalleryLightbox from "@/components/gallery-lightbox";
+import AndreasInitial from "@/components/andreas-initial";
+import { formatNightlyPrice } from "@/lib/format-price";
 import { useCms } from "@/lib/cms-context";
 
 // ── Images ────────────────────────────────────────────────────────────────────
@@ -116,7 +119,7 @@ export default function HomePage() {
               bed: r.bed || "",
               guests: r.guests || "",
               sqft: r.sqft || "",
-              price: r.price ? `$${r.price}` : "",
+              price: formatNightlyPrice(r.price),
             }))
           );
         }
@@ -125,7 +128,7 @@ export default function HomePage() {
             title: o.title,
             description: o.description || "",
             note: o.duration || "",
-            price: o.price ? `$${o.price}` : "",
+            price: formatNightlyPrice(o.price),
           });
           setCmsOffers({
             oneNight: (data.offers.oneNight || []).map(mapOffer),
@@ -613,8 +616,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-6 md:px-10">
           <div className="mb-14">
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-3">What We Offer</p>
-            <h2 className="font-display text-white/90 font-light flex flex-wrap items-center gap-1" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
-              Hotel <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1.1em] w-auto" />menities
+            <h2 className="font-display text-white/90 font-light leading-tight" style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)" }}>
+              Hotel{" "}<AndreasInitial suffix="menities" />
             </h2>
             <div className="w-8 h-px bg-[var(--hotel-gold)] mt-4" />
           </div>
@@ -695,22 +698,7 @@ export default function HomePage() {
             <div className="divider-gold" />
           </div>
 
-          <div className="masonry-grid">
-            {galleryImages.map((img, i) => (
-              <div
-                key={img.src}
-                className="overflow-hidden group cursor-pointer"
-                style={{ borderRadius: 0 }}
-              >
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="w-full h-auto block transition-transform duration-700 group-hover:scale-105"
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
+          <GalleryLightbox images={galleryImages} previewCount={6} />
         </div>
       </section>
 
@@ -846,8 +834,8 @@ export default function HomePage() {
               }}
             >
               <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.6em] uppercase mb-4">Get in Touch</p>
-              <h2 className="font-display text-white font-light mb-4 flex flex-wrap items-center gap-1" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
-                Your Desert Escape <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1em] w-auto" />waits
+              <h2 className="font-display text-white font-light leading-tight mb-4" style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}>
+                Your Desert Escape{" "}<AndreasInitial suffix="waits" />
               </h2>
               <p className="font-body text-white/90 text-sm tracking-widest">
                 We'd love to hear from you — our team is ready to help

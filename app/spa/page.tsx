@@ -3,6 +3,7 @@ import Footer from "@/components/footer";
 import { Suspense } from "react";
 import { getSpaItems } from "@/lib/cms/queries";
 import type { SpaItem } from "@/lib/cms/types";
+import AndreasInitial from "@/components/andreas-initial";
 
 export const metadata = {
   title: "Spa & Wellness – The Andreas Hotel & Spa",
@@ -33,8 +34,9 @@ export default async function SpaPage() {
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.4em] uppercase mb-4">
             Relax · Renew · Rejuvenate
           </p>
-          <h1 className="font-display text-white text-5xl md:text-7xl font-light tracking-wide mb-6 flex items-baseline justify-center gap-0">
-            Spa at The <img src="/andreas_logo_a_white.png" alt="A" className="inline-block h-[1.2em] w-auto align-text-bottom -mr-[0.05em]" />ndreas
+          <h1 className="font-display text-white text-5xl md:text-7xl font-light leading-tight tracking-wide mb-6">
+            <span className="whitespace-nowrap">Spa at The</span>{" "}
+            <AndreasInitial suffix="ndreas" imageClassName="h-[1.12em]" />
           </h1>
           <p className="font-body text-white/70 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             Deluxe couple&apos;s treatment suites with oversized Jacuzzi tubs and fireplaces — a romantic escape in the heart of Palm Springs.
