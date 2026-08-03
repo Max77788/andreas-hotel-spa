@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Nav from "@/components/nav";
 import Footer from "@/components/footer";
+import RoomImageLightbox from "@/components/room-image-lightbox";
 import { getRoomBySlug } from "@/lib/cms/queries";
 import type { Room } from "@/lib/cms/types";
 
@@ -117,11 +118,12 @@ export default async function RoomDetailPage({
 
       {/* Hero image */}
       <section className="relative h-[50vh] md:h-[65vh] overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${room.image_url})` }}
+        <RoomImageLightbox
+          src={room.image_url || ""}
+          alt={`${room.name} main image`}
+          triggerClassName="absolute inset-0 bg-cover bg-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
 
         {/* Badge + back link */}
         <div className="absolute top-24 left-6 md:left-10 z-10 flex items-center gap-4">
@@ -191,10 +193,11 @@ export default async function RoomDetailPage({
                   </h3>
                   <div className="grid grid-cols-3 gap-3">
                     {room.gallery_urls.map((img, i) => (
-                      <div
-                        key={i}
-                        className="aspect-[4/3] bg-cover bg-center rounded-sm"
-                        style={{ backgroundImage: `url(${img})` }}
+                      <RoomImageLightbox
+                        key={`${img}-${i}`}
+                        src={img}
+                        alt={`${room.name} gallery image ${i + 1}`}
+                        triggerClassName="relative aspect-[4/3] w-full rounded-sm bg-cover bg-center"
                       />
                     ))}
                   </div>
