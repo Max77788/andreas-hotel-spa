@@ -52,8 +52,8 @@ export default function LocalGuidePage() {
             <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-3">
               Points of Interest
             </p>
-            <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light flex flex-wrap items-center justify-center gap-2">
-              Near The <ThemeAwareLogoA alt="A" className="inline-block h-[1.05em] w-auto" />ndreas
+            <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light text-center">
+              Near The{" "}<span className="inline-flex items-baseline whitespace-nowrap"><ThemeAwareLogoA alt="A" className="h-[1.05em] w-auto" />ndreas</span>
             </h2>
             <div className="divider-gold mt-5" />
           </div>

@@ -237,8 +237,8 @@ export default function PoolsideMenuPage() {
             <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.4em] uppercase mb-3">
               Food & Drinks
             </p>
-            <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light tracking-wide flex items-center justify-center gap-1">
-              <ThemeAwareLogoA className="inline-block h-[1.05em] w-auto" />vailable Poolside
+            <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light tracking-wide text-center">
+              <span className="inline-flex items-baseline whitespace-nowrap"><ThemeAwareLogoA className="h-[1.05em] w-auto" />vailable</span>{" "}Poolside
             </h2>
             <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm max-w-2xl mx-auto mt-5 leading-relaxed">
               Dial extension <span className="text-[var(--hotel-charcoal)]">0</span> or{" "}

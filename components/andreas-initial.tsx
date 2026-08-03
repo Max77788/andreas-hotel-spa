@@ -16,7 +16,7 @@ export default function AndreasInitial({
       <img
         src="/andreas_logo_a_white.png"
         alt="A"
-        className={`inline-block h-[1em] w-auto shrink-0 align-text-bottom -mr-[0.04em] ${imageClassName}`}
+        className={`inline-block h-[1em] w-auto shrink-0 align-text-bottom -mr-[0.12em] ${imageClassName}`}
       />
       <span aria-hidden="true">{suffix}</span>
     </span>

@@ -9,7 +9,7 @@ export function ThemeAwareLogoA({
   className = "h-[1em] w-auto",
 }: ThemeAwareLogoAProps) {
   return (
-    <span className="theme-aware-logo-a inline-flex" aria-label={alt}>
+    <span className="theme-aware-logo-a inline-flex -mr-[0.12em]" aria-label={alt}>
       <img
         src="/andreas_logo_a.png"
         alt=""
