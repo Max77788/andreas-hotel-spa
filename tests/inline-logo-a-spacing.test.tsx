@@ -4,13 +4,15 @@ import AndreasInitial from "@/components/andreas-initial";
 import { ThemeAwareLogoA } from "@/components/theme-aware-logo-a";
 
 describe("inline logo A spacing", () => {
-  it("uses a tight negative right margin before the word suffix", () => {
+  it("crops transparent export padding and keeps the mark joined to its suffix", () => {
     render(<AndreasInitial suffix="ndreas" />);
-    expect(screen.getByRole("img", { name: "A" })).toHaveClass("-mr-[0.12em]");
+    expect(screen.getByLabelText("Andreas")).toHaveClass("whitespace-nowrap");
+    expect(document.querySelector(".andreas-initial-mark")).toBeTruthy();
+    expect(document.querySelector("img[alt='A']")).toHaveClass("andreas-initial-art");
   });
 
-  it("uses the same tight spacing for theme-aware A marks", () => {
+  it("uses the same cropped mark for theme-aware A treatments", () => {
     render(<ThemeAwareLogoA />);
-    expect(screen.getByLabelText("A")).toHaveClass("-mr-[0.12em]");
+    expect(screen.getByLabelText("A")).toHaveClass("andreas-initial-mark");
   });
 });

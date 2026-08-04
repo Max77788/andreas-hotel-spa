@@ -36,7 +36,7 @@ export default async function SpaPage() {
           </p>
           <h1 className="font-display text-white text-5xl md:text-7xl font-light leading-tight tracking-wide mb-6">
             <span className="whitespace-nowrap">Spa at The</span>{" "}
-            <AndreasInitial suffix="ndreas" imageClassName="h-[1.12em]" />
+            <AndreasInitial suffix="ndreas" />
           </h1>
           <p className="font-body text-white/70 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
             Deluxe couple&apos;s treatment suites with oversized Jacuzzi tubs and fireplaces — a romantic escape in the heart of Palm Springs.

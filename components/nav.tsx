@@ -46,7 +46,7 @@ export default function Nav() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-body text-[10px] tracking-[0.25em] uppercase transition-colors duration-200 text-white/80 hover:text-white"
+                className="font-display text-[13px] font-medium tracking-[0.12em] uppercase transition-colors duration-200 text-white/85 hover:text-white"
               >
                 {link.label}
               </Link>
@@ -58,7 +58,7 @@ export default function Nav() {
             <ThemeToggle />
             <Link
               href="/book"
-              className="hidden xl:inline-block bg-[var(--hotel-gold)] text-black font-body text-[10px] tracking-[0.25em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
+              className="hidden xl:inline-block bg-[var(--hotel-gold)] text-black font-display text-[12px] font-medium tracking-[0.14em] uppercase px-5 py-2 hover:bg-[var(--hotel-terracotta)] hover:text-white transition-all duration-300"
             >
               Book Now
             </Link>
@@ -102,7 +102,7 @@ export default function Nav() {
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="font-display text-white text-2xl sm:text-3xl font-light tracking-wider hover:text-[var(--hotel-gold)] transition-colors duration-300 py-1 block"
+              className="font-display text-white text-2xl sm:text-3xl font-medium tracking-[0.08em] hover:text-[var(--hotel-gold)] transition-colors duration-300 py-1 block"
             >
               {link.label}
             </Link>

@@ -95,6 +95,33 @@
 .dark .theme-aware-logo-a-light { display: none; }
 .dark .theme-aware-logo-a-dark { display: inline-block; }
 
+/*
+ * Logo A files include transparent export padding. Crop it once here, rather
+ * than compensating differently in every heading. The mark now behaves as a
+ * single, tightly connected first letter at every viewport width.
+ */
+.andreas-initial-mark {
+  position: relative;
+  display: inline-block;
+  width: 1.12em;
+  height: 1em;
+  flex: 0 0 1.12em;
+  overflow: hidden;
+  vertical-align: -0.09em;
+  margin-right: -0.04em;
+}
+.andreas-initial-art {
+  display: block;
+  height: 1em;
+  width: auto;
+  max-width: none;
+  transform: translateX(-0.13em);
+}
+.theme-aware-logo-a .andreas-initial-art {
+  position: absolute;
+  inset: 0 auto auto 0;
+}
+
 /* Smooth scroll */
 html {
   scroll-behavior: smooth;

@@ -7,7 +7,7 @@ describe("AndreasInitial", () => {
     render(<AndreasInitial suffix="menities" />);
 
     expect(screen.getByLabelText("Amenities")).toHaveClass("whitespace-nowrap");
-    expect(screen.getByRole("img", { name: "A" })).toHaveAttribute(
+    expect(document.querySelector("img[alt='A']")).toHaveAttribute(
       "src",
       "/andreas_logo_a_white.png",
     );
