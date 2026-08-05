@@ -18,6 +18,13 @@ describe("inline logo A spacing", () => {
     expect(screen.getByLabelText("A")).toHaveClass("andreas-initial-mark");
   });
 
+  it("keeps the article before the inline Andreas logo lowercase", () => {
+    const page = readFileSync(resolve(process.cwd(), "app/local-guide/page.tsx"), "utf8");
+
+    expect(page).toContain('Near the{\" \"}<span className="inline-flex items-baseline whitespace-nowrap"><ThemeAwareLogoA');
+    expect(page).not.toContain('Near The{\" \"}<span className="inline-flex items-baseline whitespace-nowrap"><ThemeAwareLogoA');
+  });
+
   it("lowers every shared logo A treatment by the requested 0.07em so its dash meets the suffix", () => {
     const css = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
 

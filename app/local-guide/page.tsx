@@ -53,7 +53,7 @@ export default function LocalGuidePage() {
               Points of Interest
             </p>
             <h2 className="font-display text-[var(--hotel-charcoal)] text-3xl sm:text-4xl md:text-5xl font-light text-center">
-              Near The{" "}<span className="inline-flex items-baseline whitespace-nowrap"><ThemeAwareLogoA alt="A" className="h-[1.05em] w-auto" />ndreas</span>
+              Near the{" "}<span className="inline-flex items-baseline whitespace-nowrap"><ThemeAwareLogoA alt="A" className="h-[1.05em] w-auto" />ndreas</span>
             </h2>
             <div className="divider-gold mt-5" />
           </div>
