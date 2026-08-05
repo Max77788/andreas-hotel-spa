@@ -98,7 +98,8 @@
 /*
  * Logo A files include transparent export padding. Crop it once here, rather
  * than compensating differently in every heading. The mark now behaves as a
- * single, tightly connected first letter at every viewport width.
+ * single, tightly connected first letter at every viewport width. The logo's
+ * horizontal dash must meet the following glyph rather than leave a visible gap.
  */
 .andreas-initial-mark {
   position: relative;
@@ -108,7 +109,9 @@
   flex: 0 0 1.12em;
   overflow: hidden;
   vertical-align: -0.09em;
-  margin-right: -0.04em;
+  /* The dash ends at 1.03em after the crop/translation. Start the suffix at
+     1.02em so it physically meets the logo without colliding with its stem. */
+  margin-right: -0.10em;
 }
 .andreas-initial-art {
   display: block;
