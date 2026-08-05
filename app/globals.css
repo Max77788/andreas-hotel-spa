@@ -118,7 +118,9 @@
   height: 1em;
   width: auto;
   max-width: none;
-  transform: translateX(-0.13em);
+  /* Lower the asset inside its cropped frame so the logo's dash meets the
+     following lowercase glyph, rather than sitting just above it. */
+  transform: translate(-0.13em, 0.05em);
 }
 .theme-aware-logo-a .andreas-initial-art {
   position: absolute;

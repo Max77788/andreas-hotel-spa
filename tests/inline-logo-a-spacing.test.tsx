@@ -22,5 +22,6 @@ describe("inline logo A spacing", () => {
     const css = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
 
     expect(css).toMatch(/\.andreas-initial-mark\s*\{[\s\S]*?margin-right:\s*-0\.10em;/);
+    expect(css).toMatch(/\.andreas-initial-art\s*\{[\s\S]*?transform:\s*translate\(-0\.13em,\s*0\.05em\);/);
   });
 });
