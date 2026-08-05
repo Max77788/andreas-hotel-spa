@@ -25,6 +25,17 @@ describe("inline logo A spacing", () => {
     expect(page).not.toContain('Near The{\" \"}<span className="inline-flex items-baseline whitespace-nowrap"><ThemeAwareLogoA');
   });
 
+  it("uses the dark logo A asset for light mode and reserves the white asset for dark mode", () => {
+    const component = readFileSync(resolve(process.cwd(), "components/theme-aware-logo-a.tsx"), "utf8");
+    const css = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
+
+    expect(component).toContain('src="/andreas_logo_a.png"');
+    expect(component).toContain('src="/andreas_logo_a_white.png"');
+    expect(css).toContain('.theme-aware-logo-a-dark { display: none; }');
+    expect(css).toContain('.dark .theme-aware-logo-a-light { display: none; }');
+    expect(css).toContain('.dark .theme-aware-logo-a-dark { display: inline-block; }');
+  });
+
   it("lowers every shared logo A treatment by the requested 0.07em so its dash meets the suffix", () => {
     const css = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
 
