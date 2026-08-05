@@ -351,7 +351,7 @@ export default function HomePage() {
         {/* Content */}
         <div className="bg-[var(--hotel-sand)] flex items-center px-6 md:px-16 py-16 md:py-24">
           <div className="max-w-md">
-            <p className="font-body text-[var(--hotel-terracotta)] text-[10px] tracking-[0.5em] uppercase mb-4">
+            <p className="font-display text-[var(--hotel-terracotta)] text-[13px] font-medium tracking-[0.12em] uppercase mb-4">
               Our Philosophy
             </p>
             <h2 className="font-display text-[var(--hotel-charcoal)] font-light leading-tight mb-2" style={{ fontSize: "clamp(2rem, 4vw, 3rem)" }}>
