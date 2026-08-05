@@ -35,7 +35,9 @@ export default async function SpaPage() {
             Relax · Renew · Rejuvenate
           </p>
           <h1 className="font-display text-white text-5xl md:text-7xl font-light leading-tight tracking-wide mb-6">
-            <span className="whitespace-nowrap">Spa at The</span>{" "}
+            <span className="whitespace-nowrap">
+              Spa at <span className="inline-block text-[0.62em] align-[0.08em]">T</span>he
+            </span>{" "}
             <AndreasInitial suffix="ndreas" />
           </h1>
           <p className="font-body text-white/70 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
