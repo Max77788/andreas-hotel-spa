@@ -18,10 +18,10 @@ describe("inline logo A spacing", () => {
     expect(screen.getByLabelText("A")).toHaveClass("andreas-initial-mark");
   });
 
-  it("overlaps every shared logo A treatment enough for its dash to meet the suffix", () => {
+  it("lowers every shared logo A treatment by the requested 0.07em so its dash meets the suffix", () => {
     const css = readFileSync(resolve(process.cwd(), "app/globals.css"), "utf8");
 
     expect(css).toMatch(/\.andreas-initial-mark\s*\{[\s\S]*?margin-right:\s*-0\.10em;/);
-    expect(css).toMatch(/\.andreas-initial-art\s*\{[\s\S]*?transform:\s*translate\(-0\.13em,\s*0\.05em\);/);
+    expect(css).toMatch(/\.andreas-initial-art\s*\{[\s\S]*?transform:\s*translate\(-0\.13em,\s*0\.12em\);/);
   });
 });

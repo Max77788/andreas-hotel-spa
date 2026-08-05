@@ -118,9 +118,10 @@
   height: 1em;
   width: auto;
   max-width: none;
-  /* Lower the asset inside its cropped frame so the logo's dash meets the
-     following lowercase glyph, rather than sitting just above it. */
-  transform: translate(-0.13em, 0.05em);
+  /* Lower the asset inside its cropped frame so the logo's dash touches the
+     following lowercase glyph. This shared 0.07em adjustment applies to every
+     inline Logo A treatment across the site. */
+  transform: translate(-0.13em, 0.12em);
 }
 .theme-aware-logo-a .andreas-initial-art {
   position: absolute;
