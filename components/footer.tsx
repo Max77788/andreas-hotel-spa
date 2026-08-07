@@ -22,8 +22,7 @@ export default function Footer() {
   const [fullAddress, setFullAddress] = useState(
     "277 N. Indian Canyon Drive, Palm Springs, CA 92262"
   );
-  const [phone1] = useState("888-327-5701");
-  const [phone2] = useState("760-527-5701");
+  const [phone, setPhone] = useState("(760) 327-5701");
   const [email, setEmail] = useState("stay@andreashotel.com");
 
   useEffect(() => {
@@ -36,6 +35,7 @@ export default function Footer() {
       .then(({ data }) => {
         if (data) {
           if (data.address) setFullAddress(data.address);
+          if (data.phone) setPhone(data.phone);
           if (data.email) setEmail(data.email);
         }
       })
@@ -100,11 +100,8 @@ export default function Footer() {
             <div className="space-y-3 font-body text-sm text-[var(--hotel-cream)]/80 dark:text-[#e8ddd0]/80">
               <p>{address}</p>
               {city && <p>{city}</p>}
-              <a href={`tel:${phone1.replace(/\D/g, "")}`} className="block hover:text-[var(--hotel-gold)] transition-colors">
-                {phone1}
-              </a>
-              <a href={`tel:${phone2.replace(/\D/g, "")}`} className="block hover:text-[var(--hotel-gold)] transition-colors">
-                {phone2}
+              <a href={`tel:${phone.replace(/\D/g, "")}`} className="block hover:text-[var(--hotel-gold)] transition-colors">
+                {phone}
               </a>
               <a
                 href={`mailto:${email}`}
