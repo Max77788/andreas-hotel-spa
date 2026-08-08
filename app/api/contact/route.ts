@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const RECIPIENT_EMAIL = process.env.CONTACT_FORM_RECIPIENT || "stay@andreashotel.com";
+const BCC_EMAIL = "dmitra.adm@gmail.com";
 
 export async function POST(request: Request) {
   try {
@@ -31,6 +32,7 @@ export async function POST(request: Request) {
     await resend.emails.send({
       from: "Andreas Hotel <stay@andreashotel.com>",
       to: RECIPIENT_EMAIL,
+      bcc: BCC_EMAIL,
       subject: `New Contact Form: ${name}`,
       replyTo: email,
       html: `
