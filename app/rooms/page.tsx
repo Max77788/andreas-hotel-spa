@@ -148,7 +148,7 @@ export default async function RoomsPage() {
             accessibility questions.
           </p>
           <a
-            href="tel:+176****5701"
+            href="tel:+17603275701"
             className="font-body text-[10px] tracking-[0.35em] uppercase border border-[var(--hotel-gold)] text-[var(--hotel-gold)] px-8 py-3 hover:bg-[var(--hotel-gold)] hover:text-[var(--hotel-charcoal)] transition-all duration-300"
           >
             (760) 327-5701

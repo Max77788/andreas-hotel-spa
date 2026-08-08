@@ -213,8 +213,8 @@ export default async function SpaPage() {
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] mb-2">Contact</p>
               <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed">
                 Tel:{" "}
-                <a href="tel:+176****0900" className="hover:text-[var(--hotel-terracotta)] transition-colors">
-                  (760) 325-0900
+                <a href="tel:+17603275701" className="hover:text-[var(--hotel-terracotta)] transition-colors">
+                  (760) 327-5701
                 </a>
                 <br />
                 <span className="text-[var(--hotel-charcoal)]/90 text-xs">Dial 314 from your hotel room</span>

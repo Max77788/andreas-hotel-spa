@@ -247,7 +247,7 @@ export default async function RoomDetailPage({
                 <div className="border-t border-[var(--hotel-sand)] mt-5 pt-5">
                   <p className="font-body text-[10px] text-[var(--hotel-charcoal)]/90 text-center">
                     Questions? Call{" "}
-                    <a href="tel:+176****5701" className="text-[var(--hotel-terracotta)] hover:underline">
+                    <a href="tel:+17603275701" className="text-[var(--hotel-terracotta)] hover:underline">
                       (760) 327-5701
                     </a>
                   </p>

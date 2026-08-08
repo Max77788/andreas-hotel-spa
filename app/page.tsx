@@ -944,10 +944,10 @@ export default function HomePage() {
                   Phone
                 </p>
                 <a
-                  href="tel:+17603250900"
+                  href="tel:+17603275701"
                   className="font-body text-[var(--hotel-charcoal)]/90 hover:text-[var(--hotel-terracotta)] transition-colors"
                 >
-                  (760) 325-0900
+                  (760) 327-5701
                 </a>
               </div>
               <div>
@@ -982,7 +982,7 @@ export default function HomePage() {
               Book Your Stay
             </a>
             <a
-              href="tel:+176****0900"
+              href="tel:+17603275701"
               className="bg-[#1a1a1a] text-white/90 font-body text-[10px] tracking-[0.35em] uppercase px-10 py-3 hover:bg-black hover:text-white transition-all duration-300"
             >
               Call Us

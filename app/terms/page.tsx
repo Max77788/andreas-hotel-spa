@@ -188,8 +188,8 @@ export default function TermsPage() {
                   stay@andreashotel.com
                 </a>{" "}
                 or call{" "}
-                <a href="tel:8883275701" className="text-[var(--hotel-terracotta)] hover:underline">
-                  888-327-5701
+                <a href="tel:7603275701" className="text-[var(--hotel-terracotta)] hover:underline">
+                  (760) 327-5701
                 </a>.
               </p>
             </div>

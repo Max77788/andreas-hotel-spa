@@ -67,7 +67,7 @@ export default async function PoliciesPage() {
         <div className="max-w-3xl mx-auto px-6 md:px-10">
           <p className="font-body text-[var(--hotel-charcoal)] leading-relaxed mb-16">
             Please review the following policies before your stay. If you have any questions, contact us at{" "}
-            <a href="tel:8883275701" className="text-[var(--hotel-terracotta)] hover:underline">888-327-5701</a>{" "}
+            <a href="tel:7603275701" className="text-[var(--hotel-terracotta)] hover:underline">(760) 327-5701</a>{" "}
             or{" "}
             <a href="mailto:stay@andreashotel.com" className="text-[var(--hotel-terracotta)] hover:underline">
               stay@andreashotel.com
