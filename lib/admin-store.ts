@@ -16,7 +16,7 @@ export interface AdminUser {
 
 // ── Supabase config ───────────────────────────────────
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://phgogybfgovrlcdmifpv.supabase.co";
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://supabase.mom-ai-agency.site";
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const SCHEMA = "andreas_website";
 const TABLE = "admin_users";
