@@ -9,6 +9,7 @@ import GalleryLightbox from "@/components/gallery-lightbox";
 import AndreasInitial from "@/components/andreas-initial";
 import { formatNightlyPrice } from "@/lib/format-price";
 import { useCms } from "@/lib/cms-context";
+import { resolveCmsImageUrl, resolveRoomImageUrl } from "@/lib/cms/image-url";
 
 // ── Images ────────────────────────────────────────────────────────────────────
 
@@ -114,7 +115,7 @@ export default function HomePage() {
               badge: (r.badge || "ROOM").toUpperCase(),
               name: r.name,
               href: `/rooms/${r.slug}`,
-              img: r.image_url || "/hotel-photos/room1.jpg",
+              img: resolveRoomImageUrl(r.slug, r.image_url),
               description: r.short_description || r.long_description || "",
               bed: r.bed || "",
               guests: r.guests || "",
@@ -138,7 +139,7 @@ export default function HomePage() {
         if (data?.gallery?.length) {
           setCmsGallery(
             data.gallery.map((g: any) => ({
-              src: g.image_url,
+              src: resolveCmsImageUrl(g.image_url),
               alt: g.alt || "",
             }))
           );
@@ -165,7 +166,7 @@ export default function HomePage() {
     { src: "/hotel-photos/room7.jpg", alt: "Executive room" },
   ];
   const validCmsAwards = (cmsAwards ?? []).flatMap((award) => {
-    const image_url = award.image_url?.trim();
+    const image_url = resolveCmsImageUrl(award.image_url?.trim());
     return image_url ? [{ ...award, image_url }] : [];
   });
   // ── Contact form ──

@@ -5,6 +5,7 @@ import Footer from "@/components/footer";
 import RoomImageLightbox from "@/components/room-image-lightbox";
 import { getRoomBySlug } from "@/lib/cms/queries";
 import type { Room } from "@/lib/cms/types";
+import { resolveRoomImageUrl, resolveCmsImageUrl } from "@/lib/cms/image-url";
 
 const fallbackRooms: Record<string, Room> = {
   "andreas-villa-suite": {
@@ -111,6 +112,11 @@ export default async function RoomDetailPage({
   try { room = await getRoomBySlug(slug); } catch {}
   if (!room) room = fallbackRooms[slug] ?? null;
   if (!room) notFound();
+  room = {
+    ...room,
+    image_url: resolveRoomImageUrl(slug, room.image_url),
+    gallery_urls: (room.gallery_urls || []).map((url) => resolveCmsImageUrl(url)),
+  };
 
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">

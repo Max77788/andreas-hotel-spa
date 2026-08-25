@@ -3,6 +3,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import { getRooms } from "@/lib/cms/queries";
 import type { Room } from "@/lib/cms/types";
+import { resolveRoomImageUrl } from "@/lib/cms/image-url";
 
 const fallbackRooms: Room[] = [
   { id:"1", slug:"andreas-villa-suite", name:"Andreas Villa Suite", badge:"VILLA", image_url:"/hotel-photos/andreas-villa-suite-andreas-hotel-palm-springs-bedroom1-1.jpg", short_description:"Our most prestigious suite: Italian Villa design, fireplace, private courtyard, king bedroom, separate living area.", bed:"King Bed", guests:"4 Guests", sqft:"750 sq ft", price:"$599", amenities:["Fireplace","Refrigerator","Microwave","Keurig","Sound Machine"], extras:[], gallery_urls:[], sort_order:0, is_published:true, long_description:null },
@@ -19,6 +20,7 @@ export const metadata = {
 export default async function RoomsPage() {
   let rooms: Room[] = fallbackRooms;
   try { const data = await getRooms(); if (data?.length) rooms = data; } catch {}
+  rooms = rooms.map((room) => ({ ...room, image_url: resolveRoomImageUrl(room.slug, room.image_url) }));
 
   return (
     <main className="min-h-screen bg-[var(--hotel-cream)]">

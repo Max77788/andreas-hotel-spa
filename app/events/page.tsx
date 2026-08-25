@@ -2,6 +2,7 @@ import Nav from "@/components/nav";
 import Footer from "@/components/footer";
 import Link from "next/link";
 import { createServerClient } from "@/lib/supabase/server";
+import { resolveCmsImageUrl } from "@/lib/cms/image-url";
 
 // ── Fallback Data ─────────────────────────────────────────────────────────────
 
@@ -33,7 +34,7 @@ export default async function EventsPage() {
         date: e.date_label || "",
         title: e.title,
         description: e.description || "",
-        img: e.image_url || "/hotel-photos/room1.jpg",
+        img: resolveCmsImageUrl(e.image_url),
       }));
     }
   } catch (err) {
