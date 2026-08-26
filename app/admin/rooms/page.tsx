@@ -19,7 +19,25 @@ export default function RoomsEditor() {
 
   useEffect(() => { fetchRooms(); }, []);
 
-  async function fetchRooms() { const res = await fetch("/api/admin/rooms"); setRooms(await res.json()); setLoading(false); }
+  async function fetchRooms() {
+    try {
+      const res = await fetch("/api/admin/rooms");
+      const data = await res.json();
+      if (res.status === 401 || res.status === 403) {
+        window.location.replace("/admin");
+        return;
+      }
+      if (!res.ok || !Array.isArray(data)) {
+        throw new Error(data?.error || "Failed to load rooms");
+      }
+      setRooms(data);
+    } catch (error) {
+      console.error("Failed to load rooms", error);
+      setRooms([]);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   async function remove(room: Room) {
     if (!confirm(`Delete ${room.name}?`)) return;
