@@ -64,7 +64,26 @@ export default function PoliciesEditor() {
   itemsRef.current = items;
 
   useEffect(() => {
-    fetch("/api/admin/policies").then(r => r.json()).then(d => { setItems(d); setLoading(false); });
+    fetch("/api/admin/policies")
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.status === 401 || res.status === 403) {
+          window.location.replace("/admin");
+          return null;
+        }
+        if (!res.ok || !Array.isArray(data)) {
+          throw new Error(data?.error || "Failed to load policies");
+        }
+        return data;
+      })
+      .then((data) => {
+        if (data) setItems(data);
+      })
+      .catch((error) => {
+        console.error("Failed to load policies", error);
+        setItems([]);
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const handleUpdate = useCallback((id: string, patch: Partial<Policy>) => {
