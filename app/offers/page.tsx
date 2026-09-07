@@ -64,11 +64,11 @@ export default async function OffersPage() {
           <div className="grid md:grid-cols-2 gap-10">
             {allOffers.oneNight.map((offer) => (
               <div key={offer.id} className="bg-white dark:bg-[#2a2620] p-8 md:p-10 card-lift flex flex-col">
-                <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-4">{offer.title}</h3>
-                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
-                {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 mb-6">{offer.duration}</p>}
+                <h3 className="font-display text-[var(--hotel-charcoal)] dark:text-[#e8ddd0] text-2xl font-light mb-4">{offer.title}</h3>
+                <p className="font-body text-[var(--hotel-charcoal)]/90 dark:text-[#e8ddd0]/90 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
+                {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 dark:text-[#e8ddd0]/90 mb-6">{offer.duration}</p>}
                 <div className="flex items-center justify-between pt-6 border-t border-[var(--hotel-sand)]">
-                  <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/90 ml-1">total</span></>}</div>
+                  <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] dark:text-[#e8ddd0] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/90 dark:text-[#e8ddd0]/90 ml-1">total</span></>}</div>
                   <a href="/book" className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] border-b border-[var(--hotel-terracotta)]/30 pb-0.5 hover:text-[var(--hotel-charcoal)] hover:border-[var(--hotel-charcoal)] transition-colors">Book Now →</a>
                 </div>
               </div>
@@ -86,11 +86,11 @@ export default async function OffersPage() {
           <div className="grid md:grid-cols-2 gap-10">
             {allOffers.twoNight.map((offer) => (
               <div key={offer.id} className="bg-white dark:bg-[#2a2620] p-8 md:p-10 card-lift flex flex-col">
-                <h3 className="font-display text-[var(--hotel-charcoal)] text-2xl font-light mb-4">{offer.title}</h3>
-                <p className="font-body text-[var(--hotel-charcoal)]/90 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
-                {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 mb-6">{offer.duration}</p>}
+                <h3 className="font-display text-[var(--hotel-charcoal)] dark:text-[#e8ddd0] text-2xl font-light mb-4">{offer.title}</h3>
+                <p className="font-body text-[var(--hotel-charcoal)]/90 dark:text-[#e8ddd0]/90 text-sm leading-relaxed mb-6 flex-1">{offer.description}</p>
+                {offer.duration && <p className="font-body text-[11px] text-[var(--hotel-charcoal)]/90 dark:text-[#e8ddd0]/90 mb-6">{offer.duration}</p>}
                 <div className="flex items-center justify-between pt-6 border-t border-[var(--hotel-sand)]">
-                  <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/90 ml-1">total</span></>}</div>
+                  <div>{offer.price && <><span className="font-display text-3xl text-[var(--hotel-charcoal)] dark:text-[#e8ddd0] font-light">{offer.price}</span><span className="font-body text-xs text-[var(--hotel-charcoal)]/90 dark:text-[#e8ddd0]/90 ml-1">total</span></>}</div>
                   <a href="/book" className="font-body text-[10px] tracking-[0.3em] uppercase text-[var(--hotel-terracotta)] border-b border-[var(--hotel-terracotta)]/30 pb-0.5 hover:text-[var(--hotel-charcoal)] hover:border-[var(--hotel-charcoal)] transition-colors">Book Now →</a>
                 </div>
               </div>
@@ -108,8 +108,8 @@ export default async function OffersPage() {
             {inclusions.map((inc) => (
               <div key={inc.id} className="bg-white dark:bg-[#2a2620] p-6 text-center">
                 <span className="text-3xl mb-3 block">{inc.icon}</span>
-                <h4 className="font-display text-[var(--hotel-charcoal)] text-lg font-light mb-2">{inc.label}</h4>
-                {inc.detail && <p className="font-body text-xs text-[var(--hotel-charcoal)]/90 leading-relaxed">{inc.detail}</p>}
+                <h4 className="font-display text-[var(--hotel-charcoal)] dark:text-[#e8ddd0] text-lg font-light mb-2">{inc.label}</h4>
+                {inc.detail && <p className="font-body text-xs text-[var(--hotel-charcoal)]/90 dark:text-[#e8ddd0]/90 leading-relaxed">{inc.detail}</p>}
               </div>
             ))}
           </div>
