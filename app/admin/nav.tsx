@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Shield, LogOut, Users } from "lucide-react";
+import { Shield, LogOut, Users, BarChart3, Megaphone } from "lucide-react";
 
 interface Session {
   name: string;
@@ -33,6 +33,8 @@ export default function AdminNav({ session }: { session: Session | null }) {
           >
             Dashboard
           </a>
+          <a href="/admin/analytics" className="flex items-center gap-1 text-lg font-bold text-neutral-400 hover:text-white transition-colors"><BarChart3 size={18} /> Analytics</a>
+          <a href="/admin/marketing" className="flex items-center gap-1 text-lg font-bold text-neutral-400 hover:text-white transition-colors"><Megaphone size={18} /> Marketing</a>
           {session.role === "admin" && (
             <a
               href="/admin/users"

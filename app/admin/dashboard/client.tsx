@@ -9,6 +9,8 @@ const sections = [
   { name: "Events", href: "/admin/events", desc: "Upcoming events and activities" },
   { name: "Gallery", href: "/admin/gallery", desc: "Upload and organize site photos" },
   { name: "Settings", href: "/admin/settings", desc: "Hotel name, phone, address, logos" },
+  { name: "Analytics", href: "/admin/analytics", desc: "Anonymous traffic and conversion activity" },
+  { name: "Marketing", href: "/admin/marketing", desc: "Plan campaigns, audiences, offers, and channels" },
 ];
 
 export default function DashboardClient({ role }: { role: string | null }) {

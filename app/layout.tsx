@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import VapiCustomChat from "@/components/vapi-custom-chat";
 import VapiHoverTrigger from "@/components/vapi-hover-trigger";
+import AnalyticsTracker from "@/components/analytics-tracker";
 import { CmsProvider } from "@/lib/cms-context";
 import { createServerClient } from "@/lib/supabase/server";
 
@@ -47,6 +48,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning={true}>
         <CmsProvider address={cmsAddress} heroVideoUrl={cmsVideoUrl}>
+          <AnalyticsTracker />
           <ThemeProvider
           attribute="class"
           defaultTheme="system"
