@@ -28,6 +28,21 @@ export async function GET(req: NextRequest) {
   const events = data || [];
   const byEvent: Record<string, number> = {};
   const byPage: Record<string, number> = {};
-  for (const event of events) { byEvent[event.event_name] = (byEvent[event.event_name] || 0) + 1; byPage[event.page_path] = (byPage[event.page_path] || 0) + 1; }
-  return NextResponse.json({ days, total: events.length, byEvent, topPages: Object.entries(byPage).sort((a, b) => b[1] - a[1]).slice(0, 10), recent: events.slice(0, 20) });
+  const daily = new Map<string, { date: string; total: number; pageViews: number; bookingClicks: number; chatStarts: number }>();
+  for (let offset = days - 1; offset >= 0; offset -= 1) {
+    const date = new Date(Date.now() - offset * 86400000).toISOString().slice(0, 10);
+    daily.set(date, { date, total: 0, pageViews: 0, bookingClicks: 0, chatStarts: 0 });
+  }
+  for (const event of events) {
+    byEvent[event.event_name] = (byEvent[event.event_name] || 0) + 1;
+    byPage[event.page_path] = (byPage[event.page_path] || 0) + 1;
+    const date = event.created_at.slice(0, 10);
+    const point = daily.get(date);
+    if (!point) continue;
+    point.total += 1;
+    if (event.event_name === "page_view") point.pageViews += 1;
+    if (event.event_name === "booking_click") point.bookingClicks += 1;
+    if (event.event_name === "chat_started") point.chatStarts += 1;
+  }
+  return NextResponse.json({ days, total: events.length, byEvent, topPages: Object.entries(byPage).sort((a, b) => b[1] - a[1]).slice(0, 10), daily: Array.from(daily.values()), recent: events.slice(0, 20) });
 }
