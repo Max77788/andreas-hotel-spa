@@ -28,4 +28,13 @@ CREATE TABLE IF NOT EXISTS andreas_website.marketing_campaigns (
 
 ALTER TABLE andreas_website.analytics_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE andreas_website.marketing_campaigns ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "public_insert_analytics" ON andreas_website.analytics_events FOR INSERT WITH CHECK (true);
+
+GRANT USAGE ON SCHEMA andreas_website TO anon, authenticated, service_role;
+GRANT INSERT ON andreas_website.analytics_events TO anon;
+GRANT SELECT ON andreas_website.analytics_events TO authenticated, service_role;
+GRANT ALL ON andreas_website.marketing_campaigns TO authenticated, service_role;
+
+DROP POLICY IF EXISTS "public_insert_analytics" ON andreas_website.analytics_events;
+CREATE POLICY "public_insert_analytics" ON andreas_website.analytics_events FOR INSERT TO anon, authenticated WITH CHECK (true);
+
+NOTIFY pgrst, 'reload schema';
