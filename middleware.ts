@@ -72,6 +72,8 @@ export async function middleware(req: NextRequest) {
   const arrival = url.searchParams.get("arrival");
   const departure = url.searchParams.get("departure");
   const adults = url.searchParams.get("adults") || "2";
+  const selectedRoom = url.searchParams.get("room");
+  const selectedRate = url.searchParams.get("rate");
 
   // Static Kube params (always set)
   kube.searchParams.set("channelId", "ibe");
@@ -90,10 +92,12 @@ export async function middleware(req: NextRequest) {
   if (arrival) kube.searchParams.set("checkin", arrival);
   if (departure) kube.searchParams.set("checkout", departure);
   kube.searchParams.set("adult_room1", adults);
+  if (selectedRoom) kube.searchParams.set("offerRoom", selectedRoom);
+  if (selectedRate) kube.searchParams.set("offerRate", selectedRate);
 
   // Also forward any Kube-native params if passed directly
   for (const [key, value] of url.searchParams) {
-    if (["arrival", "departure", "adults", "room"].includes(key)) continue;
+    if (["arrival", "departure", "adults", "room", "rate"].includes(key)) continue;
     if (!kube.searchParams.has(key)) {
       kube.searchParams.set(key, value);
     }

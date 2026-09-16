@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const ROOM_NAMES: Record<string, string> = {
-  DLX: "Deluxe Room", EXEC: "Executive Room", STE: "1 Bedroom Suite",
-  "2BED": "2 Bed 1 Bath Suite", "2B2B": "Andreas Villa Suite",
-  ADA: "Mobility Accessible Deluxe Room", ADA2: "Mobility Accessible 2 Bed Suite",
-};
+import { buildBookingEngineUrl, fetchBookingSnapshot, getBookableRate } from "@/lib/booking-engine";
 
 const ROOM_SLUGS: Record<string, string> = {
   DLX: "deluxe-room", EXEC: "executive-room", STE: "1-bedroom-suite",
@@ -12,80 +7,71 @@ const ROOM_SLUGS: Record<string, string> = {
   ADA: "mobility-accessible-deluxe-room", ADA2: "mobility-accessible-suite",
 };
 
-async function getParams(req: NextRequest) {
-  let code = "";
-  let arrival = "";
-  let departure = "";
-  let adults = "2";
-
+function getParams(req: NextRequest) {
   const sp = req.nextUrl.searchParams;
-  code = sp.get("room") || "";
-  arrival = sp.get("arrival") || "";
-  departure = sp.get("departure") || "";
-  if (sp.get("adults")) adults = sp.get("adults")!;
+  return {
+    code: (sp.get("room") || "").toUpperCase(),
+    arrival: sp.get("arrival") || "",
+    departure: sp.get("departure") || "",
+    adults: Math.max(1, Number.parseInt(sp.get("adults") || "2", 10) || 2),
+  };
+}
 
-  if (!code) {
+export async function GET(req: NextRequest) { return respond(getParams(req)); }
+export async function POST(req: NextRequest) {
+  const input = getParams(req);
+  if (!input.code || !input.arrival || !input.departure) {
     try {
       const body = await req.json();
-      code = body.room || body.code || "";
-      arrival = body.arrival || arrival;
-      departure = body.departure || departure;
-      if (body.adults) adults = String(body.adults);
-    } catch { /* ignore */ }
+      input.code = String(body.room || body.code || input.code).toUpperCase();
+      input.arrival = body.arrival || input.arrival;
+      input.departure = body.departure || input.departure;
+      input.adults = Math.max(1, Number.parseInt(String(body.adults || input.adults), 10) || 2);
+    } catch { /* query parameters are handled below */ }
   }
-
-  return { code: code.toUpperCase(), arrival, departure, adults };
+  return respond(input);
 }
 
-export async function GET(req: NextRequest) {
-  const { code, arrival, departure, adults } = await getParams(req);
-  return respond(code, arrival, departure, adults);
-}
-
-export async function POST(req: NextRequest) {
-  const { code, arrival, departure, adults } = await getParams(req);
-  return respond(code, arrival, departure, adults);
-}
-
-function respond(code: string, arrival: string, departure: string, adults: string) {
+async function respond({ code, arrival, departure, adults }: ReturnType<typeof getParams>) {
   if (!code || !arrival || !departure) {
-    return NextResponse.json(
-      { error: "room, arrival, and departure are required" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "room, arrival, and departure are required" }, { status: 400 });
+  }
+  if (!ROOM_SLUGS[code]) {
+    return NextResponse.json({ error: `Unknown room code: ${code}. Valid: ${Object.keys(ROOM_SLUGS).join(", ")}` }, { status: 400 });
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(arrival) || !/^\d{4}-\d{2}-\d{2}$/.test(departure) || departure <= arrival) {
+    return NextResponse.json({ error: "Valid arrival and departure dates required (YYYY-MM-DD), with departure after arrival" }, { status: 400 });
   }
 
-  const roomName = ROOM_NAMES[code];
-  if (!roomName) {
-    return NextResponse.json(
-      { error: `Unknown room code: ${code}. Valid: ${Object.keys(ROOM_NAMES).join(", ")}` },
-      { status: 400 }
-    );
+  try {
+    const snapshot = await fetchBookingSnapshot({ arrival, departure, adults });
+    const room = snapshot.roomOffers.find((offer) => offer.code === code);
+    const rate = room ? getBookableRate(room) : null;
+    if (!room || !rate) {
+      return NextResponse.json({ error: `${code} is not available for ${arrival} to ${departure}` }, { status: 409 });
+    }
+
+    const bookingUrl = new URL("https://andreashotel.com/book");
+    bookingUrl.searchParams.set("arrival", arrival);
+    bookingUrl.searchParams.set("departure", departure);
+    bookingUrl.searchParams.set("adults", String(adults));
+    bookingUrl.searchParams.set("room", code);
+    bookingUrl.searchParams.set("rate", rate.code);
+
+    return NextResponse.json({
+      room: room.metadata?.title?.replace(/\s*\([^)]*\)$/, "") || code,
+      code,
+      rate_code: rate.code,
+      arrival,
+      departure,
+      adults,
+      booking_url: bookingUrl.toString(),
+      booking_engine_url: buildBookingEngineUrl({ arrival, departure, adults, room: code, rate: rate.code }).toString(),
+      room_details_url: `https://andreashotel.com/rooms/${ROOM_SLUGS[code]}`,
+      message: `Click the booking link to reserve your ${room.metadata?.title || code} for ${arrival} to ${departure}, ${adults} adult(s).`,
+    });
+  } catch (err) {
+    console.error("Booking link creation failed:", err);
+    return NextResponse.json({ error: "The booking engine could not be reached. Please try again." }, { status: 502 });
   }
-
-  const kubeUrl = new URL("https://s005948.officialbookings.com/");
-  kubeUrl.searchParams.set("channelId", "ibe");
-  kubeUrl.searchParams.set("checkin", arrival);
-  kubeUrl.searchParams.set("checkout", departure);
-  kubeUrl.searchParams.set("totalRooms", "1");
-  kubeUrl.searchParams.set("language", "en");
-  kubeUrl.searchParams.set("currencyCode", "USD");
-  kubeUrl.searchParams.set("propertyCode", "S005948");
-  kubeUrl.searchParams.set("widgetId", "BOOKINGWIDGET");
-  kubeUrl.searchParams.set("widgetSection", "searchbar");
-  kubeUrl.searchParams.set("activeBookingEngine", "KBE");
-  kubeUrl.searchParams.set("adult_room1", adults);
-  kubeUrl.searchParams.set("priceType", "withInformativeTaxesAndFees");
-  kubeUrl.searchParams.set("priceTimeBase", "stay");
-  kubeUrl.searchParams.set("coupon", "");
-
-  const bookingUrl = `https://stayatandreas.com/book?arrival=${arrival}&departure=${departure}&adults=${adults}`;
-  const roomPageUrl = `https://stayatandreas.com/rooms/${ROOM_SLUGS[code]}`;
-
-  return NextResponse.json({
-    room: roomName, code, arrival, departure, adults,
-    booking_url: bookingUrl,
-    room_details_url: roomPageUrl,
-    message: `Click the booking link to reserve your ${roomName} for ${arrival} to ${departure}, ${adults} adult(s).`,
-  });
 }

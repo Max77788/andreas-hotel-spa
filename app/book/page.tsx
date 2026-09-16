@@ -38,6 +38,7 @@ async function AsyncBookPage({
   if (sp.departure) params.set("departure", String(sp.departure));
   if (sp.adults) params.set("adults", String(sp.adults));
   if (sp.room) params.set("room", String(sp.room));
+  if (sp.rate) params.set("rate", String(sp.rate));
   const iframeSrc = `/api/book-proxy${params.toString() ? `?${params.toString()}` : ""}`;
   return <BookShell iframeSrc={iframeSrc} />;
 }

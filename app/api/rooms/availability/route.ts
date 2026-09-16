@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { fetchBookingSnapshot, getBookableRate } from "@/lib/booking-engine";
 
 const ROOMS: Record<string, {
   code: string; name: string; slug: string;
@@ -111,114 +112,24 @@ async function getParams(req: NextRequest): Promise<
   return { arrival: fmt(ad), departure: fmt(dd), adults };
 }
 
-/**
- * Query the Kube booking engine to check real availability.
- */
-async function checkKubeAvailability(arrival: string, departure: string, adults: number): Promise<{
-  available: string[];
-  fully_booked: boolean;
-  suggestedCheckIn: string | null;
-  suggestedCheckOut: string | null;
-  kube_unreachable: boolean;
-}> {
-  const params = new URLSearchParams({
-    channelId: "ibe",
-    checkin: arrival,
-    checkout: departure,
-    totalRooms: "1",
-    language: "en",
-    currencyCode: "USD",
-    propertyCode: "S005948",
-    adult_room1: String(adults),
-    activeBookingEngine: "KBE",
-    priceType: "withInformativeTaxesAndFees",
-    priceTimeBase: "stay",
-  });
-
+async function checkKubeAvailability(arrival: string, departure: string, adults: number) {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
-
-    const res = await fetch(
-      `https://s005948.officialbookings.com/?${params.toString()}`,
-      { signal: controller.signal }
-    );
+    const timeout = setTimeout(() => controller.abort(), 10000);
+    const snapshot = await fetchBookingSnapshot({ arrival, departure, adults, signal: controller.signal });
     clearTimeout(timeout);
-
-    if (!res.ok) {
-      return { available: [], fully_booked: false, suggestedCheckIn: null, suggestedCheckOut: null, kube_unreachable: true };
-    }
-
-    const html = await res.text();
-
-    // Check if fully booked
-    const fullyBooked = html.includes("fully-booked");
-
-    // Extract room codes without rates from the Next.js state
-    const roomMatch = html.match(/"roomCodesWithoutRates":\[(.*?)\]/);
-    let unavailableCodes: string[] = [];
-    if (roomMatch) {
-      unavailableCodes = (roomMatch[1].match(/"([A-Z0-9]+)"/g) || [])
-        .map((s) => s.replace(/"/g, ""));
-    }
-
-    const hasAvailableRates = html.includes('"hasAvailableRate":true');
-    const hasRoomsWithoutRates = html.includes('"hasRoomsWithoutRates":true');
-
-    // Extract suggested dates from noAvailableReasons
-    const suggestedMatch = html.match(/"suggestedCheckIn":"([^"]+)","suggestedCheckOut":"([^"]+)"/);
-    let suggestedCheckIn: string | null = null;
-    let suggestedCheckOut: string | null = null;
-    if (suggestedMatch) {
-      suggestedCheckIn = suggestedMatch[1];
-      suggestedCheckOut = suggestedMatch[2];
-    }
-
-    const allRoomCodes = Object.keys(ROOMS);
-
-    // Only trust Kube when it has real data (some rooms have rates)
-    // If all rooms are unavailable AND no room has available rates, Kube might be misconfigured
-    if (!hasAvailableRates && hasRoomsWithoutRates && unavailableCodes.length === allRoomCodes.length) {
-      // All rooms unavailable - but also check if Kube has ANY bookable data
-      // If cutoff is in the past, Kube may just not be accepting bookings
-      const cutoffMatch = html.match(/"cutoff":"([^"]+)"/);
-      if (cutoffMatch) {
-        // Fall back to showing all rooms - Kube isn't reliable for availability
-        return {
-          available: allRoomCodes,
-          fully_booked: false,
-          suggestedCheckIn: null,
-          suggestedCheckOut: null,
-          kube_unreachable: false,
-        };
-      }
-    }
-
-    let available = allRoomCodes;
-    if (hasRoomsWithoutRates && unavailableCodes.length > 0) {
-      available = allRoomCodes.filter((c) => !unavailableCodes.includes(c));
-    }
-
-    if (fullyBooked || available.length === 0) {
-      available = [];
-    }
-
+    const bookable = snapshot.roomOffers.filter((room) => getBookableRate(room));
     return {
-      available,
-      fully_booked: fullyBooked || available.length === 0,
-      suggestedCheckIn,
-      suggestedCheckOut,
+      available: bookable.map((room) => room.code),
+      roomOffers: bookable,
+      fully_booked: bookable.length === 0,
+      suggestedCheckIn: snapshot.suggestedCheckIn ?? null,
+      suggestedCheckOut: snapshot.suggestedCheckOut ?? null,
       kube_unreachable: false,
     };
   } catch (err) {
-    console.error("Kube availability check failed:", err);
-    return {
-      available: Object.keys(ROOMS),
-      fully_booked: false,
-      suggestedCheckIn: null,
-      suggestedCheckOut: null,
-      kube_unreachable: true,
-    };
+    console.error("Booking engine availability check failed:", err);
+    return { available: [], roomOffers: [], fully_booked: false, suggestedCheckIn: null, suggestedCheckOut: null, kube_unreachable: true };
   }
 }
 
@@ -246,6 +157,16 @@ async function respond({ arrival, departure, adults }: { arrival: string; depart
     (new Date(departure).getTime() - new Date(arrival).getTime()) / (1000 * 60 * 60 * 24)
   ));
 
+  // Never represent an upstream failure as sold-out or as made-up availability.
+  if (kube.kube_unreachable) {
+    return NextResponse.json({
+      error: "The booking engine could not be reached. Availability was not confirmed.",
+      arrival,
+      departure,
+      adults,
+    }, { status: 502 });
+  }
+
   if (kube.fully_booked) {
     return NextResponse.json({
       hotel: "Andreas Hotel & Spa",
@@ -270,21 +191,29 @@ async function respond({ arrival, departure, adults }: { arrival: string; depart
 
   const rooms = Object.values(ROOMS)
     .filter((r) => kube.available.includes(r.code))
+    .map((r) => {
+      const live = kube.roomOffers.find((offer) => offer.code === r.code);
+      const rate = live ? getBookableRate(live) : null;
+      const total = rate?.total ?? rate?.price ?? 0;
+      const maxGuests = live?.metadata?.specs?.maxOccupancy ?? parseInt(r.guests, 10);
+      const liveName = live?.metadata?.title?.replace(/\s*\([^)]*\)$/, "") || r.name;
+      return {
+        code: r.code,
+        name: liveName,
+        badge: r.badge,
+        bed: r.bed,
+        guests: `${maxGuests} Guests`,
+        sqft: live?.metadata?.specs?.size ? `${live.metadata.specs.size} sq ft` : r.sqft,
+        price_per_night: `$${(total / nights).toFixed(2)}`,
+        total_for_stay: `$${total.toFixed(2)}`,
+        nights,
+        description: live?.metadata?.description || r.description,
+        key_amenities: r.amenities.slice(0, 5),
+        accessible: r.code.startsWith("ADA"),
+        rate_code: rate?.code,
+      };
+    })
     .filter((r) => adults <= parseInt(r.guests, 10))
-    .map((r) => ({
-      code: r.code,
-      name: r.name,
-      badge: r.badge,
-      bed: r.bed,
-      guests: r.guests,
-      sqft: r.sqft,
-      price_per_night: r.price,
-      total_for_stay: `$${r.price_numeric * nights}`,
-      nights,
-      description: r.description,
-      key_amenities: r.amenities.slice(0, 5),
-      accessible: r.code.startsWith("ADA"),
-    }))
     .sort((a, b) => (a.accessible === b.accessible ? 0 : a.accessible ? 1 : -1));
 
   return NextResponse.json({
