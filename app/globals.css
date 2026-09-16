@@ -39,6 +39,21 @@
     --hotel-forest-light: #3a5f50;
     --font-display: 'Cormorant Garamond', serif;
     --font-body: 'DM Sans', sans-serif;
+
+    /* Theme-aware tokens used by the inline Vapi chat */
+    --chat-bg: #faf8f4;
+    --chat-header: #fffdf9;
+    --chat-gold-soft: rgba(169, 120, 50, 0.16);
+    --chat-gold-border: rgba(169, 120, 50, 0.28);
+    --chat-muted: #8a6b43;
+    --chat-user-bubble: rgba(169, 120, 50, 0.14);
+    --chat-user-text: #3b2d20;
+    --chat-assistant-bubble: rgba(42, 33, 24, 0.06);
+    --chat-assistant-border: rgba(42, 33, 24, 0.12);
+    --chat-assistant-text: #4a4036;
+    --chat-input-bg: #fffdf9;
+    --chat-input-text: #2a2118;
+    --chat-footer-muted: #8d8378;
   }
 
   /* Dark mode overrides — flips the palette */
@@ -51,6 +66,19 @@
     --hotel-olive: #9a9a7a;          /* lighter olive */
     --hotel-forest: #4a6a5e;         /* lighter forest */
     --hotel-forest-light: #5a7a6e;   /* lighter forest-light */
+    --chat-bg: #1a1511;
+    --chat-header: #2a2118;
+    --chat-gold-soft: rgba(201, 169, 110, 0.15);
+    --chat-gold-border: rgba(201, 169, 110, 0.2);
+    --chat-muted: rgba(201, 169, 110, 0.6);
+    --chat-user-bubble: rgba(201, 169, 110, 0.15);
+    --chat-user-text: #e8ddd0;
+    --chat-assistant-bubble: rgba(255, 255, 255, 0.06);
+    --chat-assistant-border: rgba(255, 255, 255, 0.08);
+    --chat-assistant-text: #d4cdc4;
+    --chat-input-bg: rgba(255, 255, 255, 0.05);
+    --chat-input-text: #e8ddd0;
+    --chat-footer-muted: rgba(255, 255, 255, 0.15);
   }
 }
 

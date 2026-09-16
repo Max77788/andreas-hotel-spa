@@ -174,7 +174,7 @@ function formatText(text: string): string {
     .replace(/\*(.+?)\*/g, "<em>$1</em>")
     .replace(
       /\[(.+?)\]\((.+?)\)/g,
-      '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:#c9a96e;text-decoration:underline">$1</a>'
+      '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:var(--hotel-gold);text-decoration:underline">$1</a>'
     )
     .replace(/\n/g, "<br />");
 }
@@ -409,9 +409,9 @@ export default function VapiCustomChat({
 
   return (
     <div
-      className={`flex flex-col ${className}`}
+      className={`vapi-custom-chat flex flex-col ${className}`}
       style={{
-        backgroundColor: "#1a1511",
+        backgroundColor: "var(--chat-bg)",
         borderRadius: "inherit",
         overflow: "hidden",
       }}
@@ -420,19 +420,19 @@ export default function VapiCustomChat({
       <div
         className="flex items-center justify-between px-4 py-3 shrink-0"
         style={{
-          borderBottom: "1px solid rgba(201,169,110,0.15)",
-          background: "linear-gradient(135deg, #2a2118 0%, #1a1511 100%)",
+          borderBottom: "1px solid var(--chat-gold-border)",
+          background: "linear-gradient(135deg, var(--chat-header) 0%, var(--chat-bg) 100%)",
         }}
       >
         <div className="flex items-center gap-2.5">
           <div
             className="w-2 h-2 rounded-full"
-            style={{ backgroundColor: "#c9a96e" }}
+            style={{ backgroundColor: "var(--hotel-gold)" }}
           />
           <span
             className="text-sm font-medium"
             style={{
-              color: "#c9a96e",
+              color: "var(--hotel-gold)",
               fontFamily: "ui-serif, Georgia, serif",
             }}
           >
@@ -442,9 +442,9 @@ export default function VapiCustomChat({
             className="text-[10px] px-2 py-0.5 rounded-full"
             style={{
               backgroundColor: isTyping
-                ? "rgba(201,169,110,0.15)"
+                ? "var(--chat-gold-border)"
                 : "rgba(34,197,94,0.15)",
-              color: isTyping ? "#c9a96e" : "#22c55e",
+              color: isTyping ? "var(--hotel-gold)" : "#22c55e",
             }}
           >
             {isTyping ? "Typing..." : "Online"}
@@ -455,8 +455,8 @@ export default function VapiCustomChat({
             onClick={newChat}
             className="text-[10px] px-2.5 py-1 rounded-full transition-colors"
             style={{
-              color: "rgba(201,169,110,0.6)",
-              border: "1px solid rgba(201,169,110,0.2)",
+              color: "var(--chat-muted)",
+              border: "1px solid var(--chat-gold-border)",
             }}
             title="Start new chat"
           >
@@ -484,13 +484,13 @@ export default function VapiCustomChat({
                     : "16px 16px 16px 4px",
                 backgroundColor:
                   msg.role === "user"
-                    ? "rgba(201,169,110,0.15)"
-                    : "rgba(255,255,255,0.06)",
-                color: msg.role === "user" ? "#e8ddd0" : "#d4cdc4",
+                    ? "var(--chat-gold-border)"
+                    : "var(--chat-assistant-bubble)",
+                color: msg.role === "user" ? "var(--chat-user-text)" : "var(--chat-assistant-text)",
                 border: `1px solid ${
                   msg.role === "user"
-                    ? "rgba(201,169,110,0.2)"
-                    : "rgba(255,255,255,0.08)"
+                    ? "var(--chat-gold-border)"
+                    : "var(--chat-assistant-border)"
                 }`,
               }}
             >
@@ -509,14 +509,14 @@ export default function VapiCustomChat({
               className="flex items-center gap-1 px-3.5 py-3"
               style={{
                 borderRadius: "16px 16px 16px 4px",
-                backgroundColor: "rgba(255,255,255,0.06)",
-                border: "1px solid rgba(255,255,255,0.08)",
+                backgroundColor: "var(--chat-assistant-bubble)",
+                border: "1px solid var(--chat-assistant-border)",
               }}
             >
               <span
                 className="w-1.5 h-1.5 rounded-full animate-bounce"
                 style={{
-                  backgroundColor: "#c9a96e",
+                  backgroundColor: "var(--hotel-gold)",
                   animationDelay: "0ms",
                   opacity: 0.6,
                 }}
@@ -524,7 +524,7 @@ export default function VapiCustomChat({
               <span
                 className="w-1.5 h-1.5 rounded-full animate-bounce"
                 style={{
-                  backgroundColor: "#c9a96e",
+                  backgroundColor: "var(--hotel-gold)",
                   animationDelay: "150ms",
                   opacity: 0.8,
                 }}
@@ -532,7 +532,7 @@ export default function VapiCustomChat({
               <span
                 className="w-1.5 h-1.5 rounded-full animate-bounce"
                 style={{
-                  backgroundColor: "#c9a96e",
+                  backgroundColor: "var(--hotel-gold)",
                   animationDelay: "300ms",
                   opacity: 1,
                 }}
@@ -560,13 +560,13 @@ export default function VapiCustomChat({
       {/* ── Input ── */}
       <div
         className="shrink-0 px-3 py-3"
-        style={{ borderTop: "1px solid rgba(201,169,110,0.1)" }}
+        style={{ borderTop: "1px solid var(--chat-gold-border)" }}
       >
         <div
           className="flex items-center gap-2 rounded-xl px-3.5"
           style={{
-            backgroundColor: "rgba(255,255,255,0.05)",
-            border: "1px solid rgba(201,169,110,0.15)",
+            backgroundColor: "var(--chat-input-bg)",
+            border: "1px solid var(--chat-gold-border)",
           }}
         >
           <input
@@ -578,7 +578,7 @@ export default function VapiCustomChat({
             placeholder={placeholder}
             disabled={isTyping}
             className="flex-1 bg-transparent py-2.5 text-sm outline-none"
-            style={{ color: "#e8ddd0" }}
+            style={{ color: "var(--chat-input-text)" }}
             autoFocus
           />
           <button
@@ -586,8 +586,8 @@ export default function VapiCustomChat({
             disabled={!input.trim() || isTyping}
             className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200"
             style={{
-              backgroundColor: input.trim() && !isTyping ? "#c9a96e" : "rgba(201,169,110,0.2)",
-              color: input.trim() && !isTyping ? "#1a1511" : "rgba(201,169,110,0.4)",
+              backgroundColor: input.trim() && !isTyping ? "var(--hotel-gold)" : "var(--chat-gold-border)",
+              color: input.trim() && !isTyping ? "var(--chat-bg)" : "var(--chat-muted)",
               cursor: input.trim() && !isTyping ? "pointer" : "default",
             }}
           >
@@ -599,7 +599,7 @@ export default function VapiCustomChat({
         </div>
         <p
           className="text-[10px] mt-1.5 text-center"
-          style={{ color: "rgba(255,255,255,0.15)" }}
+          style={{ color: "var(--chat-footer-muted)" }}
         >
           Powered by AI · Andreas Hotel Concierge
         </p>

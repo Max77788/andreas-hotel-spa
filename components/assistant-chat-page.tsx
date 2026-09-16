@@ -19,22 +19,22 @@ export default function AssistantChatPage({ assistantName, firstMessage, placeho
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#1a1a1a] text-[var(--hotel-cream)] pt-28 md:pt-36">
+    <main className="min-h-screen bg-[var(--hotel-cream)] text-[var(--hotel-charcoal)] pt-28 md:pt-36 transition-colors">
       <div className="max-w-5xl mx-auto px-5 md:px-10 pb-16 md:pb-24">
         <div className="text-center mb-8 md:mb-10">
           <p className="font-body text-[var(--hotel-gold)] text-[10px] tracking-[0.5em] uppercase mb-3">
             Andreas Concierge
           </p>
-          <h1 className="font-display text-[var(--hotel-cream)] text-4xl md:text-6xl font-light leading-tight">
+          <h1 className="font-display text-[var(--hotel-charcoal)] text-4xl md:text-6xl font-light leading-tight">
             {`Chat with ${assistantName}`}
           </h1>
-          <p className="font-body text-white/65 text-sm md:text-base mt-4 max-w-xl mx-auto leading-relaxed">
+          <p className="font-body text-[var(--hotel-charcoal)]/70 text-sm md:text-base mt-4 max-w-xl mx-auto leading-relaxed">
             Ask about rooms, spa services, amenities, Palm Springs, or your reservation.
             Our concierge is available 24 hours a day.
           </p>
         </div>
 
-        <div className="h-[min(680px,72vh)] min-h-[500px] w-full overflow-hidden border border-[rgba(201,169,110,0.28)] bg-[#211c17] shadow-[0_12px_50px_rgba(0,0,0,0.28)]">
+        <div className="h-[min(680px,72vh)] min-h-[500px] w-full overflow-hidden border border-[var(--chat-gold-border)] bg-[var(--chat-bg)] shadow-[0_12px_50px_rgba(0,0,0,0.18)]">
           <VapiCustomChat
             publicKey={PUBLIC_KEY}
             assistantId={ASSISTANT_ID}
@@ -45,7 +45,7 @@ export default function AssistantChatPage({ assistantName, firstMessage, placeho
           />
         </div>
 
-        <p className="font-body text-white/35 text-[10px] tracking-[0.25em] text-center mt-5 uppercase">
+        <p className="font-body text-[var(--hotel-charcoal)]/50 text-[10px] tracking-[0.25em] text-center mt-5 uppercase">
           Private concierge chat · Available 24/7
         </p>
       </div>
