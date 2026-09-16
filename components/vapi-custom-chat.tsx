@@ -53,8 +53,7 @@ async function streamVapiChat(
   onComplete: () => void,
   onError: (err: Error) => void,
   signal: AbortSignal,
-  onSessionId?: (id: string) => void,
-  assistantOverrides?: { variableValues?: Record<string, string> }
+  onSessionId?: (id: string) => void
 ): Promise<void> {
   const body: Record<string, unknown> = {
     input,
@@ -63,7 +62,6 @@ async function streamVapiChat(
     sessionEnd,
   };
   if (sessionId) body.sessionId = sessionId;
-  if (assistantOverrides) body.assistantOverrides = assistantOverrides;
 
   let completed = false;
   const completeOnce = () => {
@@ -398,8 +396,7 @@ export default function VapiCustomChat({
         setIsTyping(false);
       },
       abortCtrl.signal,
-      handleSessionId,
-      { variableValues: { assistant_name: assistantName, first_message: firstMessage } }
+      handleSessionId
     );
   }, [input, isTyping, publicKey, assistantId, firstMessage, assistantName, handleSessionId]);
 

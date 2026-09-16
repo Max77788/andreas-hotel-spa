@@ -6,7 +6,13 @@ import VapiCustomChat from "@/components/vapi-custom-chat";
 const PUBLIC_KEY = "a2166c04-eff0-4623-852e-93d4e7d54f7e";
 const ASSISTANT_ID = "94338a77-21c7-49d4-b2c6-d3c23a9f6ee7";
 
-export default function AssistantChatPage() {
+interface AssistantChatPageProps {
+  assistantName: string;
+  firstMessage: string;
+  placeholder: string;
+}
+
+export default function AssistantChatPage({ assistantName, firstMessage, placeholder }: AssistantChatPageProps) {
   useEffect(() => {
     document.body.classList.add("assistant-chat-route");
     return () => document.body.classList.remove("assistant-chat-route");
@@ -20,7 +26,7 @@ export default function AssistantChatPage() {
             Andreas Concierge
           </p>
           <h1 className="font-display text-[var(--hotel-cream)] text-4xl md:text-6xl font-light leading-tight">
-            Chat with Andreas
+            {`Chat with ${assistantName}`}
           </h1>
           <p className="font-body text-white/65 text-sm md:text-base mt-4 max-w-xl mx-auto leading-relaxed">
             Ask about rooms, spa services, amenities, Palm Springs, or your reservation.
@@ -32,9 +38,9 @@ export default function AssistantChatPage() {
           <VapiCustomChat
             publicKey={PUBLIC_KEY}
             assistantId={ASSISTANT_ID}
-            assistantName="Andreas"
-            firstMessage="Hi, I'm Andreas, your receptionist at Andreas Hotel & Spa. How can I help you today?"
-            placeholder="Ask about rooms, amenities, or bookings..."
+            assistantName={assistantName}
+            firstMessage={firstMessage}
+            placeholder={placeholder}
             className="h-full"
           />
         </div>
