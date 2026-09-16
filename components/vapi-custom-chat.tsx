@@ -258,7 +258,6 @@ export default function VapiCustomChat({
   }, [storageKey]);
   const hasHydrated = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
-  const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
@@ -278,11 +277,6 @@ export default function VapiCustomChat({
   const handleSessionId = useCallback((id: string) => {
     sessionIdRef.current = id;
   }, []);
-
-  // Auto-scroll to bottom
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
 
   // Focus input on mount
   useEffect(() => {
@@ -554,7 +548,6 @@ export default function VapiCustomChat({
           </div>
         )}
 
-        <div ref={endRef} />
       </div>
 
       {/* ── Input ── */}
