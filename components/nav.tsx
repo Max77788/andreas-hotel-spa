@@ -7,6 +7,7 @@ import { useCms } from "@/lib/cms-context";
 
 const navLinks = [
   { label: "Home", href: "/" },
+  { label: "Concierge", href: "/chat" },
   { label: "Rooms", href: "/rooms" },
   { label: "Spa", href: "/spa" },
   { label: "Offers", href: "/offers" },
