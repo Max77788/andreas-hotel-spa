@@ -1,6 +1,43 @@
 export const BOOKING_ENGINE_BASE = "https://s005948.officialbookings.com";
 export const PROPERTY_CODE = "S005948";
 
+export const ADD_ONS: Record<string, { title: string; price: number }> = {
+  BOTTLE_OF1: { title: "Bottle of Sparkling Cider", price: 39 },
+  ROLLAWAY_B: { title: "Rollaway Bed", price: 45 },
+  "10CT_FOIL_": { title: "10ct Foil Wrapped Chocolates", price: 50 },
+  "50_GIFT_CA": { title: "$50 Gift Card", price: 50 },
+};
+
+export type BookingAddOnInput = { code?: string; name?: string; label?: string; quantity?: number };
+export type NormalizedBookingAddOn = BookingAddOnInput & { code: string; quantity: number; title: string; price: number };
+export type GuestDetails = { firstName: string; lastName: string; email: string; phone?: string; address?: string; city?: string; state?: string; country?: string; postalCode?: string; company?: string; birthDate?: string };
+
+export function normalizeBookingAddOns(items: BookingAddOnInput[] = []): NormalizedBookingAddOn[] {
+  return items.map((item) => {
+    const requested = String(item.code || item.name || item.label || "").trim();
+    const aliases: Record<string, string> = {
+      "BOTTLE OF SPARKLING CIDER": "BOTTLE_OF1",
+      "ROLLAWAY BED": "ROLLAWAY_B",
+      "10CT FOIL WRAPPED CHOCOLATES": "10CT_FOIL_",
+      "$50 GIFT CARD": "50_GIFT_CA",
+    };
+    const code = (aliases[requested.toUpperCase()] || requested).toUpperCase();
+    const addOn = ADD_ONS[code];
+    const quantity = Number(item.quantity ?? 1);
+    if (!addOn) throw new Error(`Unknown add-on code: ${item.code}`);
+    if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) throw new Error(`Invalid quantity for add-on ${code}`);
+    return { code, quantity, title: addOn.title, price: addOn.price };
+  });
+}
+
+export function validateGuestDetails(guest: Partial<GuestDetails>): string[] {
+  const errors: string[] = [];
+  if (!String(guest.firstName || "").trim()) errors.push("firstName is required");
+  if (!String(guest.lastName || "").trim()) errors.push("lastName is required");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(guest.email || "").trim())) errors.push("email must be valid");
+  return errors;
+}
+
 export type BookingRate = {
   code: string;
   title?: string;
@@ -34,6 +71,7 @@ export function buildBookingEngineUrl(args: {
   adults: number | string;
   room?: string;
   rate?: string;
+  addOns?: BookingAddOnInput[];
 }) {
   const url = new URL("/", BOOKING_ENGINE_BASE);
   for (const [key, value] of Object.entries({
@@ -53,6 +91,9 @@ export function buildBookingEngineUrl(args: {
     ...(args.room ? { offerRoom: args.room } : {}),
     ...(args.rate ? { offerRate: args.rate } : {}),
   })) url.searchParams.set(key, value);
+  for (const addOn of normalizeBookingAddOns(args.addOns)) {
+    for (let i = 0; i < addOn.quantity; i++) url.searchParams.append("skd-preselected-services", addOn.code);
+  }
   return url;
 }
 

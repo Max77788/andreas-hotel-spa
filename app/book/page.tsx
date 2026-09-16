@@ -39,6 +39,10 @@ async function AsyncBookPage({
   if (sp.adults) params.set("adults", String(sp.adults));
   if (sp.room) params.set("room", String(sp.room));
   if (sp.rate) params.set("rate", String(sp.rate));
+  const services = sp["skd-preselected-services"];
+  for (const service of Array.isArray(services) ? services : services ? [services] : []) {
+    params.append("skd-preselected-services", service);
+  }
   const iframeSrc = `/api/book-proxy${params.toString() ? `?${params.toString()}` : ""}`;
   return <BookShell iframeSrc={iframeSrc} />;
 }
