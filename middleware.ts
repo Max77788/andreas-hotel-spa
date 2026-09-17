@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
 const BOOKING_BASE = "https://s005948.officialbookings.com";
+const BOOKING_API_BASE = "https://hbe-api.seekda.com";
 
 const SECRET = new TextEncoder().encode(
   process.env.ADMIN_JWT_SECRET || "fallback-dev-secret-change-in-prod"
@@ -63,10 +64,16 @@ export async function middleware(req: NextRequest) {
   }
 
   // ── Kube booking proxy ────────────────────────────
-  const path = pathname.replace("/api/book-proxy", "") || "/";
+  const isBookingApi = pathname.startsWith("/api/book-proxy-api");
+  const proxyPrefix = isBookingApi ? "/api/book-proxy-api" : "/api/book-proxy";
+  const path = pathname.replace(proxyPrefix, "") || "/";
 
   // Build Kube URL with correct param mapping
-  const kube = new URL(`${BOOKING_BASE}${path}`);
+  const kube = new URL(`${isBookingApi ? BOOKING_API_BASE : BOOKING_BASE}${path}`);
+
+  if (isBookingApi) {
+    for (const [key, value] of url.searchParams) kube.searchParams.append(key, value);
+  }
 
   // Map Vercel params → Kube params
   const arrival = url.searchParams.get("arrival");
@@ -129,6 +136,7 @@ export async function middleware(req: NextRequest) {
       html = html.replace(/<meta[^>]*http-equiv=["']X-Frame-Options["'][^>]*>/gi, "");
       html = html.replace("<head>", `<head><base href="${BOOKING_BASE}/">`);
       html = html.split(BOOKING_BASE).join("/api/book-proxy");
+      html = html.split(BOOKING_API_BASE).join("/api/book-proxy-api");
 
       const resp = new NextResponse(html, { status: upstream.status });
       copyHeaders(upstream, resp);
@@ -161,5 +169,5 @@ function copyHeaders(from: Response, to: NextResponse) {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/api/book-proxy/:path*"],
+  matcher: ["/admin/:path*", "/api/book-proxy/:path*", "/api/book-proxy-api/:path*"],
 };
