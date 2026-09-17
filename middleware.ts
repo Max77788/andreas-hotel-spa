@@ -5,6 +5,7 @@ import { jwtVerify } from "jose";
 const BOOKING_BASE = "https://s005948.officialbookings.com";
 const BOOKING_API_BASE = "https://hbe-api.seekda.com";
 const BOOKING_ASSET_BASE = "https://d2jtzd336hs8un.cloudfront.net";
+const BOOKING_PROXY_ASSET_VERSION = "3";
 
 const SECRET = new TextEncoder().encode(
   process.env.ADMIN_JWT_SECRET || "fallback-dev-secret-change-in-prod"
@@ -140,6 +141,7 @@ export async function middleware(req: NextRequest) {
       script = script.split(BOOKING_API_BASE).join("/api/book-proxy-api");
       const resp = new NextResponse(script, { status: upstream.status });
       copyHeaders(upstream, resp, true);
+      resp.headers.set("Cache-Control", "no-store, max-age=0");
       resp.headers.set("X-Frame-Options", "ALLOWALL");
       return resp;
     }
@@ -151,9 +153,13 @@ export async function middleware(req: NextRequest) {
       html = html.split(BOOKING_BASE).join("/api/book-proxy");
       html = html.split(BOOKING_API_BASE).join("/api/book-proxy-api");
       html = html.split(BOOKING_ASSET_BASE).join("/api/book-proxy");
+      html = html.replace(/(<script[^>]+src=["']\/api\/book-proxy[^"']*)/gi, (_, src) =>
+        `${src}${src.includes("?") ? "&" : "?"}proxy-version=${BOOKING_PROXY_ASSET_VERSION}`
+      );
 
       const resp = new NextResponse(html, { status: upstream.status });
       copyHeaders(upstream, resp);
+      resp.headers.set("Cache-Control", "no-store, max-age=0");
       resp.headers.set("X-Frame-Options", "ALLOWALL");
       return resp;
     }
