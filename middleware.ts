@@ -4,6 +4,7 @@ import { jwtVerify } from "jose";
 
 const BOOKING_BASE = "https://s005948.officialbookings.com";
 const BOOKING_API_BASE = "https://hbe-api.seekda.com";
+const BOOKING_ASSET_BASE = "https://d2jtzd336hs8un.cloudfront.net";
 
 const SECRET = new TextEncoder().encode(
   process.env.ADMIN_JWT_SECRET || "fallback-dev-secret-change-in-prod"
@@ -131,12 +132,25 @@ export async function middleware(req: NextRequest) {
 
     const contentType = upstream.headers.get("content-type") || "";
 
+    // The booking engine's HTML can be rewritten, but its JavaScript chunks
+    // also contain the absolute provider API base URL. Rewrite those chunks
+    // too, otherwise iframe requests bypass this proxy and fail in-browser.
+    if (contentType.includes("javascript") || contentType.includes("ecmascript")) {
+      let script = await upstream.text();
+      script = script.split(BOOKING_API_BASE).join("/api/book-proxy-api");
+      const resp = new NextResponse(script, { status: upstream.status });
+      copyHeaders(upstream, resp, true);
+      resp.headers.set("X-Frame-Options", "ALLOWALL");
+      return resp;
+    }
+
     if (contentType.includes("text/html")) {
       let html = await upstream.text();
       html = html.replace(/<meta[^>]*http-equiv=["']X-Frame-Options["'][^>]*>/gi, "");
       html = html.replace("<head>", `<head><base href="${BOOKING_BASE}/">`);
       html = html.split(BOOKING_BASE).join("/api/book-proxy");
       html = html.split(BOOKING_API_BASE).join("/api/book-proxy-api");
+      html = html.split(BOOKING_ASSET_BASE).join("/api/book-proxy");
 
       const resp = new NextResponse(html, { status: upstream.status });
       copyHeaders(upstream, resp);
@@ -154,13 +168,14 @@ export async function middleware(req: NextRequest) {
   }
 }
 
-function copyHeaders(from: Response, to: NextResponse) {
+function copyHeaders(from: Response, to: NextResponse, rewritten = false) {
   from.headers.forEach((value, key) => {
     const lower = key.toLowerCase();
     if (
       lower === "x-frame-options" ||
       lower === "content-security-policy" ||
-      lower === "content-security-policy-report-only"
+      lower === "content-security-policy-report-only" ||
+      (rewritten && (lower === "content-length" || lower === "content-encoding"))
     ) {
       return;
     }
