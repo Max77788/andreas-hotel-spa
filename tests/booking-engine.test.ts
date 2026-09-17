@@ -17,7 +17,7 @@ describe("booking engine checkout inputs", () => {
       addOns: [{ code: "BOTTLE_OF1", quantity: 1 }],
     });
 
-    expect(url.searchParams.getAll("skd-preselected-services")).toEqual(["BOTTLE_OF1"]);
+    expect(url.searchParams.get("skd-preselected-services")).toBe("BOTTLE_OF1");
     expect(url.toString()).not.toContain("firstName");
     expect(url.toString()).not.toContain("lastName");
   });

@@ -78,7 +78,8 @@ async function respond({ code, arrival, departure, adults, addOns, guest }: Book
     bookingUrl.searchParams.set("adults", String(adults));
     bookingUrl.searchParams.set("room", code);
     bookingUrl.searchParams.set("rate", rate.code);
-    for (const addOn of normalizedAddOns) for (let i = 0; i < addOn.quantity; i++) bookingUrl.searchParams.append("skd-preselected-services", addOn.code);
+    const serviceCodes = normalizedAddOns.flatMap((addOn) => Array(addOn.quantity).fill(addOn.code));
+    if (serviceCodes.length) bookingUrl.searchParams.set("skd-preselected-services", serviceCodes.join(","));
 
     return NextResponse.json({
       room: room.metadata?.title?.replace(/\s*\([^)]*\)$/, "") || code,

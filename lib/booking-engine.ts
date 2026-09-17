@@ -91,9 +91,8 @@ export function buildBookingEngineUrl(args: {
     ...(args.room ? { offerRoom: args.room } : {}),
     ...(args.rate ? { offerRate: args.rate } : {}),
   })) url.searchParams.set(key, value);
-  for (const addOn of normalizeBookingAddOns(args.addOns)) {
-    for (let i = 0; i < addOn.quantity; i++) url.searchParams.append("skd-preselected-services", addOn.code);
-  }
+  const services = normalizeBookingAddOns(args.addOns).flatMap((addOn) => Array(addOn.quantity).fill(addOn.code));
+  if (services.length) url.searchParams.set("skd-preselected-services", services.join(","));
   return url;
 }
 

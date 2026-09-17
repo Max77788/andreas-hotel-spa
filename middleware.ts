@@ -74,7 +74,11 @@ export async function middleware(req: NextRequest) {
   const adults = url.searchParams.get("adults") || "2";
   const selectedRoom = url.searchParams.get("room");
   const selectedRate = url.searchParams.get("rate");
-  const selectedServices = url.searchParams.getAll("skd-preselected-services");
+  const selectedServices = url.searchParams.get("skd-preselected-services")
+    ?.split(",")
+    .map((service) => service.trim())
+    .filter(Boolean) ?? [];
+
 
   // Static Kube params (always set)
   kube.searchParams.set("channelId", "ibe");
@@ -95,7 +99,7 @@ export async function middleware(req: NextRequest) {
   kube.searchParams.set("adult_room1", adults);
   if (selectedRoom) kube.searchParams.set("offerRoom", selectedRoom);
   if (selectedRate) kube.searchParams.set("offerRate", selectedRate);
-  for (const service of selectedServices) kube.searchParams.append("skd-preselected-services", service);
+  if (selectedServices.length) kube.searchParams.set("skd-preselected-services", selectedServices.join(","));
 
   // Also forward any Kube-native params if passed directly
   for (const [key, value] of url.searchParams) {
