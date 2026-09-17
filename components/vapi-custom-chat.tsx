@@ -259,8 +259,16 @@ export default function VapiCustomChat({
   const hasHydrated = useRef(false);
   const abortRef = useRef<AbortController | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
+
+  // Keep the chat panel at the newest message without moving the page/window.
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   // Persist messages + sessionId to sessionStorage whenever they change
   useEffect(() => {
@@ -460,7 +468,7 @@ export default function VapiCustomChat({
       </div>
 
       {/* ── Messages ── */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-4 py-3 space-y-3">
         {messages.map((msg) => (
           <div
             key={msg.id}
