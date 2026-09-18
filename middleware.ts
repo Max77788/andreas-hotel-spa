@@ -161,6 +161,21 @@ export async function middleware(req: NextRequest) {
           `<head><script>document.cookie=${JSON.stringify(`shoppingCartGuid=${cartId}; Path=/; Max-Age=1800; Secure; SameSite=Lax`)};</script>`,
         );
       }
+      if (path.includes("/checkout")) {
+        const encodedPrefill = req.cookies.get("bookingGuestPrefill")?.value;
+        if (encodedPrefill) {
+          try {
+            const prefill = JSON.parse(decodeURIComponent(encodedPrefill));
+            const payload = JSON.stringify(prefill).replace(/</g, "\\u003c");
+            html = html.replace(
+              "<head>",
+              `<head><script>(function(){var v=${payload};function f(){for(var k in v){var e=document.querySelector('input[name="'+k+'"],textarea[name="'+k+'"],select[name="'+k+'"]');if(!e)continue;var p=Object.getPrototypeOf(e),d=Object.getOwnPropertyDescriptor(p,'value');if(d&&d.set)d.set.call(e,v[k]);else e.value=v[k];e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}))}if(document.querySelector('input[name="firstName"]')||document.querySelector('input[name="email"]')){clearInterval(x)}}var x=setInterval(f,100);f();setTimeout(function(){clearInterval(x)},15000)})()</script>`,
+            );
+          } catch {
+            // Ignore malformed or expired prefill data.
+          }
+        }
+      }
       html = html.replace(/(<script[^>]+src=["']\/api\/book-proxy[^"']*)/gi, (_, src) =>
         `${src}${src.includes("?") ? "&" : "?"}proxy-version=${BOOKING_PROXY_ASSET_VERSION}`
       );

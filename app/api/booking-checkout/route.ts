@@ -18,11 +18,17 @@ type CheckoutInput = {
   departure: string;
   adults: number;
   addOns: BookingAddOnInput[];
+  guest: Record<string, string>;
 };
 
 function readInput(req: NextRequest): CheckoutInput {
   const sp = req.nextUrl.searchParams;
   const services = sp.getAll("skd-preselected-services").flatMap((value) => value.split(","));
+  const guest: Record<string, string> = {};
+  for (const key of ["title", "firstName", "lastName", "phoneNumber", "email", "country", "address", "zipCode", "city", "company"]) {
+    const value = sp.get(key)?.trim();
+    if (value) guest[key] = value;
+  }
   return {
     room: (sp.get("room") || "").toUpperCase(),
     rate: sp.get("rate") || "",
@@ -30,6 +36,7 @@ function readInput(req: NextRequest): CheckoutInput {
     departure: sp.get("departure") || "",
     adults: Math.max(1, Number.parseInt(sp.get("adults") || "2", 10) || 2),
     addOns: services.filter(Boolean).map((code) => ({ code, quantity: 1 })),
+    guest,
   };
 }
 
@@ -143,6 +150,15 @@ export async function GET(req: NextRequest) {
       path: "/",
       maxAge: 1800,
     });
+    if (Object.keys(input.guest).length) {
+      response.cookies.set("bookingGuestPrefill", encodeURIComponent(JSON.stringify(input.guest)), {
+        httpOnly: true,
+        secure: true,
+        sameSite: "lax",
+        path: "/",
+        maxAge: 1800,
+      });
+    }
     return response;
   } catch (error) {
     console.error("Booking checkout bootstrap failed:", error);

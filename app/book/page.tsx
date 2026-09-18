@@ -39,6 +39,9 @@ async function AsyncBookPage({
   if (sp.adults) params.set("adults", String(sp.adults));
   if (sp.room) params.set("room", String(sp.room));
   if (sp.rate) params.set("rate", String(sp.rate));
+  for (const key of ["title", "firstName", "lastName", "phoneNumber", "email", "country", "address", "zipCode", "city", "company"]) {
+    if (sp[key]) params.set(key, String(sp[key]));
+  }
   const services = sp["skd-preselected-services"];
   for (const service of Array.isArray(services) ? services : services ? [services] : []) {
     params.append("skd-preselected-services", service);
