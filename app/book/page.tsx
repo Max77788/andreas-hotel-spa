@@ -43,7 +43,8 @@ async function AsyncBookPage({
   for (const service of Array.isArray(services) ? services : services ? [services] : []) {
     params.append("skd-preselected-services", service);
   }
-  const iframeSrc = `/api/booking-checkout${params.toString() ? `?${params.toString()}` : ""}`;
+  params.set("checkout-flow", "direct-v2");
+  const iframeSrc = `/api/booking-checkout?${params.toString()}`;
   return <BookShell iframeSrc={iframeSrc} />;
 }
 
