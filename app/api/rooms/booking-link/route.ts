@@ -78,6 +78,22 @@ async function respond({ code, arrival, departure, adults, addOns, guest }: Book
     bookingUrl.searchParams.set("adults", String(adults));
     bookingUrl.searchParams.set("room", code);
     bookingUrl.searchParams.set("rate", rate.code);
+    if (guest) {
+      const guestParams: Record<string, string | undefined> = {
+        firstName: guest.firstName,
+        lastName: guest.lastName,
+        email: guest.email,
+        phoneNumber: guest.phone,
+        address: guest.address,
+        city: guest.city,
+        country: guest.country,
+        zipCode: guest.postalCode,
+        company: guest.company,
+      };
+      for (const [key, value] of Object.entries(guestParams)) {
+        if (value) bookingUrl.searchParams.set(key, value);
+      }
+    }
     const serviceCodes = normalizedAddOns.flatMap((addOn) => Array(addOn.quantity).fill(addOn.code));
     if (serviceCodes.length) bookingUrl.searchParams.set("skd-preselected-services", serviceCodes.join(","));
 
@@ -88,10 +104,10 @@ async function respond({ code, arrival, departure, adults, addOns, guest }: Book
       booking_engine_url: buildBookingEngineUrl({ arrival, departure, adults, room: code, rate: rate.code, addOns: normalizedAddOns }).toString(),
       add_ons: normalizedAddOns,
       guest_details: guest
-        ? { accepted: true, fields: Object.keys(guest), provider_prefill: "not_supported_by_booking_engine" }
+        ? { accepted: true, fields: Object.keys(guest), provider_prefill: "supported_via_checkout_api" }
         : { accepted: false, provider_prefill: "not_requested" },
       room_details_url: `https://andreashotel.com/rooms/${ROOM_SLUGS[code]}`,
-      message: `Click the booking link to reserve your ${room.metadata?.title || code} for ${arrival} to ${departure}, ${adults} adult(s). Add-ons are preselected. The booking engine still requires purchaser details to be completed in checkout.`,
+      message: `Click the booking link to reserve your ${room.metadata?.title || code} for ${arrival} to ${departure}, ${adults} adult(s). Add-ons are preselected and supplied guest details will be filled in at checkout.`,
     });
   } catch (err) {
     console.error("Booking link creation failed:", err);
