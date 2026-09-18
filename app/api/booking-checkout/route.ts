@@ -127,7 +127,14 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const response = NextResponse.redirect(new URL(checkoutUrl(input), req.url), 307);
+    const destination = checkoutUrl(input);
+    const response = new NextResponse(
+      `<!doctype html><html><head><meta charset="utf-8"><title>Preparing checkout</title></head><body><p>Preparing your checkout...</p><script>
+        document.cookie = ${JSON.stringify(`shoppingCartGuid=${cart.guid}; Path=/; Max-Age=1800; Secure; SameSite=Lax`)};
+        window.location.replace(${JSON.stringify(destination)});
+      </script></body></html>`,
+      { status: 200, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store, max-age=0" } },
+    );
     response.cookies.set("shoppingCartGuid", cart.guid, {
       httpOnly: false,
       secure: true,
