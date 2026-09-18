@@ -37,8 +37,10 @@ async function AsyncBookPage({
   if (sp.arrival) params.set("arrival", String(sp.arrival));
   if (sp.departure) params.set("departure", String(sp.departure));
   if (sp.adults) params.set("adults", String(sp.adults));
-  if (sp.room) params.set("room", String(sp.room));
-  if (sp.rate) params.set("rate", String(sp.rate));
+  // The provider accepts room/rate in the initial search URL, but its client
+  // hydration then attempts a second automatic cart add and returns HTTP 400.
+  // Keep those values in the outer URL for attribution, but let the provider
+  // perform its normal room-selection flow inside the iframe.
   const services = sp["skd-preselected-services"];
   for (const service of Array.isArray(services) ? services : services ? [services] : []) {
     params.append("skd-preselected-services", service);
