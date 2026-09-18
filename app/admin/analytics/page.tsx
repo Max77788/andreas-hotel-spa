@@ -6,6 +6,12 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Too
 type Analytics = { days: number; total: number; byEvent: Record<string, number>; topPages: [string, number][]; daily: { date: string; total: number; pageViews: number; bookingClicks: number; chatStarts: number }[]; recent: { event_name: string; page_path: string; created_at: string }[] };
 
 const chartColors = { total: "#292524", pageViews: "#b45309", bookingClicks: "#0f766e", chatStarts: "#7c3aed" };
+const RANGE_OPTIONS = [
+  { days: 30, label: "30 days" },
+  { days: 90, label: "90 days" },
+  { days: 180, label: "6 months" },
+  { days: 365, label: "12 months" },
+];
 
 function shortDate(value: string) {
   return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(`${value}T12:00:00`));
@@ -18,11 +24,21 @@ function ChartTooltip({ active, payload, label }: { active?: boolean; payload?: 
 
 export default function AnalyticsPage() {
   const [data, setData] = useState<Analytics | null>(null);
+  const [days, setDays] = useState(90);
   const [error, setError] = useState("");
-  useEffect(() => { fetch("/api/analytics?days=30").then(async (r) => { const d = await r.json(); if (!r.ok) throw new Error(d.error || "Unable to load analytics"); return d; }).then(setData).catch((e) => setError(e.message)); }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    setData(null);
+    setError("");
+    fetch(`/api/analytics?days=${days}`, { signal: controller.signal })
+      .then(async (r) => { const d = await r.json(); if (!r.ok) throw new Error(d.error || "Unable to load analytics"); return d; })
+      .then(setData)
+      .catch((e) => { if (e.name !== "AbortError") setError(e.message); });
+    return () => controller.abort();
+  }, [days]);
   return <div className="min-h-screen bg-neutral-100 p-8"><div className="max-w-5xl mx-auto">
     <a href="/admin/dashboard" className="text-lg text-neutral-600 hover:text-amber-600 font-bold">← Dashboard</a>
-    <div className="flex items-end justify-between mt-2 mb-8"><div><h1 className="text-4xl font-bold text-neutral-900">Analytics</h1><p className="text-lg text-neutral-600 font-medium">Anonymous website activity from the last 30 days</p></div><span className="text-sm text-neutral-500">No visitor identity stored</span></div>
+    <div className="flex flex-wrap items-end justify-between gap-4 mt-2 mb-8"><div><h1 className="text-4xl font-bold text-neutral-900">Analytics</h1><p className="text-lg text-neutral-600 font-medium">Anonymous website activity from the last {data?.days ?? days} days</p></div><div className="flex items-center gap-4"><label className="text-sm font-bold text-neutral-700" htmlFor="analytics-range">Range</label><select id="analytics-range" value={days} onChange={(event) => setDays(Number(event.target.value))} className="border-[2px] border-neutral-400 bg-white px-3 py-2 font-bold text-neutral-900">{RANGE_OPTIONS.map((option) => <option key={option.days} value={option.days}>{option.label}</option>)}</select><span className="text-sm text-neutral-500">No visitor identity stored</span></div></div>
     {error && <div className="bg-red-100 border-2 border-red-400 p-4 mb-5 font-bold">{error}</div>}
     {!data ? <p className="text-xl font-bold">Loading...</p> : <><div className="grid md:grid-cols-4 gap-4 mb-8">{[["Total events", data.total], ["Booking clicks", data.byEvent.booking_click || 0], ["Chat starts", data.byEvent.chat_started || 0], ["Page views", data.byEvent.page_view || 0]].map(([label, value]) => <div key={String(label)} className="bg-white border-[3px] border-neutral-300 p-6"><p className="text-sm uppercase tracking-widest text-neutral-500 font-bold">{label}</p><p className="text-4xl font-bold mt-2 text-neutral-900">{value}</p></div>)}</div>
     <div className="grid gap-5 mb-5"><section className="bg-white border-[3px] border-neutral-300 p-6"><div className="flex flex-wrap items-baseline justify-between gap-2 mb-4"><div><h2 className="text-2xl font-bold">Activity over time</h2><p className="text-sm text-neutral-500">Daily events for the last {data.days} days</p></div><div className="flex flex-wrap gap-3 text-xs font-bold text-neutral-600"><span><i className="mr-1 inline-block h-2 w-2 rounded-full" style={{ background: chartColors.total }} />All events</span><span><i className="mr-1 inline-block h-2 w-2 rounded-full" style={{ background: chartColors.pageViews }} />Page views</span><span><i className="mr-1 inline-block h-2 w-2 rounded-full" style={{ background: chartColors.bookingClicks }} />Bookings</span><span><i className="mr-1 inline-block h-2 w-2 rounded-full" style={{ background: chartColors.chatStarts }} />Chats</span></div></div><div className="h-[300px] w-full"><ResponsiveContainer width="100%" height="100%"><LineChart data={data.daily} margin={{ top: 8, right: 12, left: -18, bottom: 4 }}><CartesianGrid strokeDasharray="3 3" stroke="#e7e5e4" /><XAxis dataKey="date" tickFormatter={shortDate} minTickGap={28} tick={{ fontSize: 11, fill: "#78716c" }} axisLine={{ stroke: "#d6d3d1" }} tickLine={false} /><YAxis allowDecimals={false} width={34} tick={{ fontSize: 11, fill: "#78716c" }} axisLine={false} tickLine={false} /><Tooltip content={<ChartTooltip />} labelFormatter={shortDate} /><Line type="monotone" dataKey="total" name="All events" stroke={chartColors.total} strokeWidth={3} dot={false} /><Line type="monotone" dataKey="pageViews" name="Page views" stroke={chartColors.pageViews} strokeWidth={2} dot={false} /><Line type="monotone" dataKey="bookingClicks" name="Bookings" stroke={chartColors.bookingClicks} strokeWidth={2} dot={false} /><Line type="monotone" dataKey="chatStarts" name="Chats" stroke={chartColors.chatStarts} strokeWidth={2} dot={false} /></LineChart></ResponsiveContainer></div></section></div>

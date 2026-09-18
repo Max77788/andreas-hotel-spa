@@ -20,7 +20,9 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
-  const days = Math.min(Math.max(Number(req.nextUrl.searchParams.get("days") || 30), 1), 90);
+  // Keep the range bounded so a very large request cannot overload the admin view,
+  // while still supporting meaningful quarter/year-to-date trend analysis.
+  const days = Math.min(Math.max(Number(req.nextUrl.searchParams.get("days") || 90), 1), 365);
   const since = new Date(Date.now() - days * 86400000).toISOString();
   const supabase = createServerClient();
   const { data, error } = await supabase.from("analytics_events").select("event_name,page_path,created_at").gte("created_at", since).order("created_at", { ascending: false }).limit(10000);
