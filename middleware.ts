@@ -138,7 +138,8 @@ export async function middleware(req: NextRequest) {
     // too, otherwise iframe requests bypass this proxy and fail in-browser.
     if (contentType.includes("javascript") || contentType.includes("ecmascript")) {
       let script = await upstream.text();
-      script = script.split(BOOKING_API_BASE).join("/api/book-proxy-api");
+      script = script.split(`baseURL:"${BOOKING_API_BASE}"`).join('baseURL:"/api/book-proxy-api"');
+      script = script.split(BOOKING_API_BASE).join("");
       const resp = new NextResponse(script, { status: upstream.status });
       copyHeaders(upstream, resp, true);
       resp.headers.set("Cache-Control", "no-store, max-age=0");
