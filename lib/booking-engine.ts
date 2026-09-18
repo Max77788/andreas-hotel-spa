@@ -43,6 +43,7 @@ export type BookingRate = {
   title?: string;
   price?: number;
   total?: number;
+  shoppingCartPrice?: number;
   quantity?: number;
 };
 
