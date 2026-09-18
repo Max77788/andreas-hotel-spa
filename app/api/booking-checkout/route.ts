@@ -55,7 +55,7 @@ async function providerPost(path: string, body: unknown) {
   return data;
 }
 
-function checkoutUrl(input: CheckoutInput) {
+function checkoutUrl(input: CheckoutInput, cartId: string) {
   const url = new URL(BOOKING_PROXY_PATH, "https://andreashotel.com");
   for (const [key, value] of Object.entries({
     channelId: CHANNEL_ID,
@@ -65,6 +65,7 @@ function checkoutUrl(input: CheckoutInput) {
     adult_room1: String(input.adults),
     language: "en",
     currencyCode: "USD",
+    cartId,
   })) {
     url.searchParams.set(key, value);
   }
@@ -127,7 +128,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const destination = checkoutUrl(input);
+    const destination = checkoutUrl(input, cart.guid);
     const response = new NextResponse(
       `<!doctype html><html><head><meta charset="utf-8"><title>Preparing checkout</title></head><body><p>Preparing your checkout...</p><script>
         document.cookie = ${JSON.stringify(`shoppingCartGuid=${cart.guid}; Path=/; Max-Age=1800; Secure; SameSite=Lax`)};

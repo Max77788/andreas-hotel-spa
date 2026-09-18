@@ -112,7 +112,7 @@ export async function middleware(req: NextRequest) {
 
   // Also forward any Kube-native params if passed directly
   for (const [key, value] of url.searchParams) {
-    if (["arrival", "departure", "adults", "room", "rate", "skd-preselected-services"].includes(key)) continue;
+    if (["arrival", "departure", "adults", "room", "rate", "skd-preselected-services", "cartId", "checkout-flow"].includes(key)) continue;
     if (!kube.searchParams.has(key)) {
       kube.searchParams.set(key, value);
     }
@@ -153,6 +153,13 @@ export async function middleware(req: NextRequest) {
       html = html.split(BOOKING_BASE).join("/api/book-proxy");
       html = html.split(BOOKING_API_BASE).join("/api/book-proxy-api");
       html = html.split(BOOKING_ASSET_BASE).join("/api/book-proxy");
+      const cartId = url.searchParams.get("cartId");
+      if (cartId && path.includes("/checkout")) {
+        html = html.replace(
+          "<head>",
+          `<head><script>document.cookie=${JSON.stringify(`shoppingCartGuid=${cartId}; Path=/; Max-Age=1800; Secure; SameSite=Lax`)};</script>`,
+        );
+      }
       html = html.replace(/(<script[^>]+src=["']\/api\/book-proxy[^"']*)/gi, (_, src) =>
         `${src}${src.includes("?") ? "&" : "?"}proxy-version=${BOOKING_PROXY_ASSET_VERSION}`
       );
