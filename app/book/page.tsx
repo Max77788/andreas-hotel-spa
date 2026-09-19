@@ -33,6 +33,14 @@ async function AsyncBookPage({
   searchParamsPromise: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const sp = await searchParamsPromise;
+
+  // `/book` without search params is the normal booking/search page. The
+  // direct checkout flow is only valid after a room, rate, and stay have
+  // been selected and passed in the URL.
+  if (Object.keys(sp).length === 0) {
+    return <BookShell iframeSrc="/api/book-proxy" />;
+  }
+
   const params = new URLSearchParams();
   if (sp.arrival) params.set("arrival", String(sp.arrival));
   if (sp.departure) params.set("departure", String(sp.departure));
