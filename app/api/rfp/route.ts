@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { recordLeadSubmission } from "@/lib/lead-analytics";
 
 const RECIPIENT_EMAIL = process.env.CONTACT_FORM_RECIPIENT || "stay@andreashotel.com";
 const BCC_EMAIL = "dmitra.adm@gmail.com";
@@ -29,6 +30,7 @@ export async function POST(request: Request) {
     const resendApiKey = process.env.RESEND_API_KEY;
     if (!resendApiKey) {
       console.log("[RFP Form Submission]", JSON.stringify(body, null, 2));
+      await recordLeadSubmission("rfp_submission");
       return NextResponse.json(
         { success: true, note: "Email delivery not configured (missing RESEND_API_KEY). Check server logs." },
         { status: 200 }
@@ -70,6 +72,7 @@ export async function POST(request: Request) {
       `,
     });
 
+    await recordLeadSubmission("rfp_submission");
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[RFP Form Error]", error);
