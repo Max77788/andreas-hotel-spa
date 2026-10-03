@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { requireAuth } from "@/lib/api-auth";
+import { fetchGa4Analytics, Ga4AnalyticsError } from "@/lib/google-analytics";
 
 const ALLOWED_EVENTS = new Set(["page_view", "booking_click", "phone_click", "email_click", "chat_started", "offer_view", "room_view"]);
 
@@ -20,9 +21,20 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const session = await requireAuth(req);
   if (session instanceof NextResponse) return session;
-  // Keep the range bounded so a very large request cannot overload the admin view,
-  // while still supporting meaningful quarter/year-to-date trend analysis.
+  // Keep the range bounded so a very large request cannot overload the admin view.
   const days = Math.min(Math.max(Number(req.nextUrl.searchParams.get("days") || 90), 1), 365);
+  if (req.nextUrl.searchParams.get("source") === "ga4") {
+    try {
+      return NextResponse.json(await fetchGa4Analytics(days), {
+        headers: { "Cache-Control": "private, no-store" },
+      });
+    } catch (error) {
+      const message = error instanceof Ga4AnalyticsError
+        ? error.message
+        : "Google Analytics could not be reached. Check the server configuration and try again.";
+      return NextResponse.json({ error: message }, { status: 503, headers: { "Cache-Control": "private, no-store" } });
+    }
+  }
   const since = new Date(Date.now() - days * 86400000).toISOString();
   const supabase = createServerClient();
   const { data, error } = await supabase.from("analytics_events").select("event_name,page_path,created_at").gte("created_at", since).order("created_at", { ascending: false }).limit(10000);
