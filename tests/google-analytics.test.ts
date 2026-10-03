@@ -9,6 +9,13 @@ function jsonResponse(body: unknown) {
 describe("Google Analytics reporting", () => {
   it("requires a numeric GA4 property ID and server-side service account credentials", () => {
     expect(() => getGoogleAnalyticsConfig({})).toThrow("Set GA4_PROPERTY_ID");
+    const validConfig = {
+      GA4_PROPERTY_ID: "557162533",
+      GA4_CLIENT_EMAIL: "analytics@example.iam.gserviceaccount.com",
+      GA4_PRIVATE_KEY: "private-key",
+    };
+    expect(getGoogleAnalyticsConfig(validConfig)).toMatchObject({ propertyId: "557162533" });
+
     expect(() => getGoogleAnalyticsConfig({
       GA4_PROPERTY_ID: "G-KBM3RSK6HB",
       GA4_CLIENT_EMAIL: "analytics@example.iam.gserviceaccount.com",

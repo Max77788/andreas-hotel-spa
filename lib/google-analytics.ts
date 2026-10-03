@@ -31,7 +31,7 @@ export function getGoogleAnalyticsConfig(env: Record<string, string | undefined>
   if (!propertyId || !clientEmail || !privateKey) {
     throw new Ga4AnalyticsError("Google Analytics reporting is not configured. Set GA4_PROPERTY_ID, GA4_CLIENT_EMAIL, and GA4_PRIVATE_KEY on the server.");
   }
-  if (!/^\\d+$/.test(propertyId)) throw new Ga4AnalyticsError("GA4_PROPERTY_ID must be the numeric Google Analytics 4 property ID, not the G- measurement ID.");
+  if (!/^\d+$/.test(propertyId)) throw new Ga4AnalyticsError("GA4_PROPERTY_ID must be the numeric Google Analytics 4 property ID, not the G- measurement ID.");
   return { propertyId, clientEmail, privateKey };
 }
 
