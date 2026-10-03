@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { ThemeProvider } from "next-themes";
 import VapiCustomChat from "@/components/vapi-custom-chat";
 import VapiHoverTrigger from "@/components/vapi-hover-trigger";
@@ -49,6 +50,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body suppressHydrationWarning={true}>
         <CmsProvider address={cmsAddress} heroVideoUrl={cmsVideoUrl}>
           <AnalyticsTracker />
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-KBM3RSK6HB"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`window.dataLayer = window.dataLayer || [];
+function gtag(){window.dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-KBM3RSK6HB');`}
+          </Script>
           <ThemeProvider
           attribute="class"
           defaultTheme="system"
