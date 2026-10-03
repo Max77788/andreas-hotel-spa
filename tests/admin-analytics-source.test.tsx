@@ -45,5 +45,6 @@ describe("admin analytics source", () => {
     expect(await screen.findByText(/Property 557162533/)).toBeTruthy();
     expect(screen.getByText("18")).toBeTruthy();
     expect(screen.getByRole("tab", { name: "Google Analytics 4" }).getAttribute("aria-selected")).toBe("true");
+    expect(screen.queryByRole("tab", { name: "Site events" })).toBeNull();
   });
 });
